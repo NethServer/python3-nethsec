@@ -38,5 +38,6 @@ python3 -m pydoc nextsec.utilities
 Execute:
 ```
 python3 -m pip install --upgrade build
+python3 -m pip install wheel
 python3 -m build
 ```
