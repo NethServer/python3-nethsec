@@ -15,7 +15,7 @@ The `nextsec` library is composed by the following sub-packages:
 - firewall
 
 Usage example:
-```
+```python
 from euci import EUci
 from nextsec import firewall
 
@@ -28,7 +28,7 @@ firewall.apply(u)
 ## Documentation
 
 Execute:
-```
+```bash
 python3 -m pydoc nextsec.firewall
 python3 -m pydoc nextsec.utilities
 ```
@@ -36,7 +36,7 @@ python3 -m pydoc nextsec.utilities
 ## Build
 
 Execute:
-```
+```bash
 python3 -m pip install --upgrade build
 python3 -m pip install wheel
 python3 -m build
