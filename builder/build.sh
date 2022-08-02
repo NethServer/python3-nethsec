@@ -45,18 +45,15 @@ buildah run ${container} /bin/bash -c "git clone git://git.openwrt.org/project/u
 
 echo "Install packages needed for PyUci"
 buildah run ${container} /bin/bash -c "apt-get -y install --no-install-recommends \
-    python3-dev python3-setuptools python3-pip python3-pytest \
-    python3-pytest-cov lcov python3-venv \
-    && \
+    python3-dev python3-setuptools python3-pip lcov python3-venv && \
     apt-get clean"
 
-echo "Preparing venv"
-buildah config --workingdir /root ${container}
-buildah run ${container} /bin/bash -c "python3 -m venv venv && source venv/bin/activate && python3 -m pip install pyuci pytest"
+echo "Install packages with pip"
+buildah run ${container} /bin/bash -c "pip install pytest==7.1.2 pyuci"
 
 echo "Setup image"
-buildah add ${container} entrypoint.sh /entrypoint.sh
-buildah config --entrypoint='["/entrypoint.sh"]' --cmd='["python3", "-m", "pytest"]' ${container}
+buildah config --workingdir /root ${container}
+buildah config --cmd='["python3", "-m", "pytest"]' ${container}
 buildah commit ${container} "${repobase}/python3-nextsec-test"
 images+=("${repobase}/python3-nextsec-test")
 
