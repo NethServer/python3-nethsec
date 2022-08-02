@@ -60,6 +60,10 @@ def add_to_zone(uci, device, zone):
       uci -- Euci pointer
       device -- Device name
       zone -- Firewall zone name
+
+    Returns:
+      If the firewall zone exists, the name of the section where the device has been added.
+      None, otherwise.
     '''
     for section in uci.get("firewall"):
         s_type = uci.get("firewall", section)
@@ -67,12 +71,15 @@ def add_to_zone(uci, device, zone):
             zname = uci.get("firewall", section, "name")
             if zname == zone:
                 try:
-                    devices = uci.get_all("firewall", section, "device")
+                    devices = list(uci.get_all("firewall", section, "device"))
                 except:
                     devices = []
                 if not device in devices:
                     devices.append(device)
                     uci.set("firewall", section, "device", devices)
+                return section
+
+    return None
 
 
 def add_to_lan(uci, device):
@@ -82,8 +89,11 @@ def add_to_lan(uci, device):
     Arguments:
       uci -- Euci pointer
       device -- Device name
+
+    Returns:
+      The name of section or None
     '''
-    add_to_zone(uci, device, 'lan')
+    return add_to_zone(uci, device, 'lan')
 
 def add_to_wan(uci, device):
     '''
@@ -92,8 +102,11 @@ def add_to_wan(uci, device):
     Arguments:
       uci -- Euci pointer
       device -- Device name
+
+    Returns:
+      The name of section or None
     '''
-    add_to_zone(uci, device, 'wan')
+    return add_to_zone(uci, device, 'wan')
 
 def allow_service(uci, name, port, proto):
     '''
