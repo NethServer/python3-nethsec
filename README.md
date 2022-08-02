@@ -41,3 +41,12 @@ python3 -m pip install --upgrade build
 python3 -m pip install wheel
 python3 -m build
 ```
+
+## Tests
+
+Tests run inside a podman container based on Ubuntu with Python 3.10.
+
+To start the tests, first make sure to have podman installed. Then, from the repository root directory execute:
+```
+./test.sh
+```
