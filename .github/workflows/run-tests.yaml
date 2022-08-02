@@ -1,0 +1,22 @@
+name: "Run tests"
+
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - 'builder/**'
+  pull_request:
+    paths-ignore:
+      - 'builder/**'
+
+jobs:
+  run_tests:
+    name: 'Run tests'
+    runs-on: ubuntu-latest
+    env:
+      IMAGETAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: test
+        run: |
+          ./test.sh
