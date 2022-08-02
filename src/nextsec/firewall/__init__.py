@@ -23,16 +23,26 @@ def get_device_name(hwaddr):
     Returns:
       The device name as a string if the network interface has been found, None otherwise.
     '''
-    interfaces = json.loads(subprocess.run(["/sbin/ip", "--json", "address", "show"], check=True, capture_output=True).stdout)
-    for interface in interfaces:
-        if interface["address"] == hwaddr:
-            return interface["ifname"]
+    try:
+        interfaces = json.loads(subprocess.run(["/sbin/ip", "--json", "address", "show"], check=True, capture_output=True).stdout)
+        for interface in interfaces:
+            if interface["address"] == hwaddr:
+                return interface["ifname"]
+    except:
+        return None
 
     return None
 
 def get_interface_name(uci, hwaddr):
     '''
     Retrieve the logical UCI interface name given the MAC address
+
+    Arguments:
+      uci -- Euci pointer
+      hwaddr -- MAC address string
+
+    Returns:
+      The device name as a string if the interface has been found, None otherwise
     '''
     name = get_device_name(hwaddr)
     for section in uci.get("network"):
@@ -43,7 +53,13 @@ def get_interface_name(uci, hwaddr):
 
 def add_to_zone(uci, device, zone):
     '''
-    Add given device to a firewall zone
+    Add given device to a firewall zone.
+    The device is not added if the firewall zone does not exists
+
+    Arguments:
+      uci -- Euci pointer
+      device -- Device name
+      zone -- Firewall zone name
     '''
     for section in uci.get("firewall"):
         s_type = uci.get("firewall", section)
@@ -62,12 +78,20 @@ def add_to_zone(uci, device, zone):
 def add_to_lan(uci, device):
     '''
     Shortuct to add a device to lan zone
+
+    Arguments:
+      uci -- Euci pointer
+      device -- Device name
     '''
     add_to_zone(uci, device, 'lan')
 
 def add_to_wan(uci, device):
     '''
     Shortuct to add a device to wan zone
+
+    Arguments:
+      uci -- Euci pointer
+      device -- Device name
     '''
     add_to_zone(uci, device, 'wan')
 
@@ -94,7 +118,9 @@ def block_service(uci, name):
 
 def apply(uci):
     '''
-    Apply firewall configuration
+    Apply firewall configuration:
+    - commit changes to firewall config
+    - reload the firewall service
     '''
     uci.commit('firewall')
     subprocess.run(["/etc/init.d/firewall", "reload"], check=True)
