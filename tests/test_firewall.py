@@ -89,6 +89,9 @@ def test_add_service(tmp_path):
     assert u.get('firewall', 'ns_allow_my_service', 'src') == 'wan'
     assert u.get('firewall', 'ns_allow_my_service', 'name') == 'Allow-my-service'
 
+    assert firewall.add_service(u, "my-service2", "456", ["tcp", "udp"]) == "ns_allow_my_service2"
+    assert u.get_all('firewall', 'ns_allow_my_service2', 'proto') == ("tcp", "udp")
+
 def test_block_service(tmp_path):
     u = _setup_firewall_db(tmp_path)
     firewall.add_service(u, "my-service", "1234", "tcp")
