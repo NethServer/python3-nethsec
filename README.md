@@ -23,7 +23,7 @@ from nextsec import firewall
 
 u = EUci()
 firewall.add_to_lan(u, 'tunrw')
-firewall.allow_service(u, 'openvpn_rw', '1194', 'udp')
+firewall.add_service(u, 'openvpn_rw', '1194', ['udp', 'tcp'])
 firewall.apply(u)
 ```
 
