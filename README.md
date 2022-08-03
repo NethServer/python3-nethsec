@@ -7,6 +7,8 @@ Requirements:
 * Python3
 * [pyuci](https://gitlab.nic.cz/turris/pyuci)
 
+[![Run tests](https://github.com/NethServer/python3-nextsec/actions/workflows/run-tests.yaml/badge.svg?branch=master)](https://github.com/NethServer/python3-nextsec/actions/workflows/run-tests.yaml) 
+
 ## Usage
 
 The `nextsec` library is composed by the following sub-packages:
