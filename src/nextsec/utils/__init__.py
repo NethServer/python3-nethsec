@@ -15,7 +15,7 @@ def get_id(name):
     '''
     Return a valid UCI id based on the given string.
     All auto-generated NextSecurity ids:
-    - have a maximum length of 15 characters
+    - have a maximum length of 100 characters
     - are sanitized accordingly to UCI conventions (see 'sanitize' function)
     - start with 'ns_' prefix
 
@@ -26,7 +26,7 @@ def get_id(name):
       a valid UCI identifier as string
     '''
     sname = f'ns_{sanitize(name)}'
-    return sname[0:15]
+    return sname[0:100]
 
 def sanitize(name):
     '''

@@ -38,7 +38,7 @@ def get_interface_name(uci, hwaddr):
     Retrieve the logical UCI interface name given the MAC address
 
     Arguments:
-      uci -- Euci pointer
+      uci -- EUci pointer
       hwaddr -- MAC address string
 
     Returns:
@@ -57,7 +57,7 @@ def add_to_zone(uci, device, zone):
     The device is not added if the firewall zone does not exists
 
     Arguments:
-      uci -- Euci pointer
+      uci -- EUci pointer
       device -- Device name
       zone -- Firewall zone name
 
@@ -87,7 +87,7 @@ def add_to_lan(uci, device):
     Shortuct to add a device to lan zone
 
     Arguments:
-      uci -- Euci pointer
+      uci -- EUci pointer
       device -- Device name
 
     Returns:
@@ -100,40 +100,96 @@ def add_to_wan(uci, device):
     Shortuct to add a device to wan zone
 
     Arguments:
-      uci -- Euci pointer
+      uci -- EUci pointer
       device -- Device name
 
     Returns:
-      The name of section or None
+      The name of the configuration section or None
     '''
     return add_to_zone(uci, device, 'wan')
 
-def allow_service(uci, name, port, proto):
+def add_service(uci, name, port, proto):
     '''
     Create an ACCEPT traffic rile for the given service
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Service name
+      port -- Service port number as string
+      proto -- List of service protocols
+
+    Returns:
+      The name of the configuration section
     '''
-    name = utils.sanitize(name)
-    rname = utils.sanitize(f"allow_{name}")
+    rname = utils.get_id(f"allow_{name}")
     uci.set("firewall", rname, "rule")
     uci.set("firewall", rname, "name", f"Allow-{name}")
     uci.set("firewall", rname, "src", "wan")
     uci.set("firewall", rname, "dest_port", port)
     uci.set("firewall", rname, "proto", proto)
     uci.set("firewall", rname, "target", "ACCEPT")
+    uci.set("firewall", rname, "enabled", "1")
+    return rname
 
-def block_service(uci, name):
+def remove_service(uci, name):
     '''
-    Remove the ACCEPT traffic rul for the given service
+    Remove the ACCEPT traffic rule for the given service
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Service name
+
+    Returns:
+      The name of the configuration section
     '''
-    name = utils.sanitize(name)
-    rname = utils.sanitize(f"allow_{name}")
+    rname = utils.get_id(f"allow_{name}")
     uci.delete("firewall", rname)
+    return rname
+
+def disable_service(uci, name):
+    '''
+    Disable the ACCEPT rule traffic for the given service.
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Service name
+
+    Returns:
+      The name of the configuration section if found, None otherwise
+    '''
+    rname = utils.get_id(f"allow_{name}")
+    try:
+        uci.set("firewall", rname, "enabled", "0")
+    except:
+        return None
+    return rname
+
+def enable_service(uci, name):
+    '''
+    Disable the ACCEPT rule traffic for the given service
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Service name
+
+    Returns:
+      The name of the configuration section if found, None otherwise
+    '''
+    rname = utils.get_id(f"allow_{name}")
+    try:
+        uci.set("firewall", rname, "enabled", "0")
+    except:
+        return None
+    return rname
 
 def apply(uci):
     '''
     Apply firewall configuration:
     - commit changes to firewall config
     - reload the firewall service
+
+    Arguments:
+      uci -- EUci pointer
     '''
     uci.commit('firewall')
     subprocess.run(["/etc/init.d/firewall", "reload"], check=True)
