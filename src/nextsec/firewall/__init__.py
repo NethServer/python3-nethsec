@@ -81,7 +81,6 @@ def add_to_zone(uci, device, zone):
 
     return None
 
-
 def add_to_lan(uci, device):
     '''
     Shortuct to add a device to lan zone
@@ -107,6 +106,66 @@ def add_to_wan(uci, device):
       The name of the configuration section or None
     '''
     return add_to_zone(uci, device, 'wan')
+
+def add_vpn_interface(uci, name, device):
+    '''
+    Create a network interface for the given device.
+    The interface can be used for PBR (Policy Based Routing).
+    This function automatically commits the network database.
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Interface name
+      device -- Device name
+
+    Returns:
+      The name of the configuration section or None in case of error
+    '''
+    iname = utils.get_id(name)
+    uci.set('network', iname, 'interface')
+    uci.set('network', iname, 'proto', 'none')
+    uci.set('network', iname, 'device', device)
+    uci.commit('network')
+    return iname
+
+def add_trusted_zone(uci, name, networks = []):
+    '''
+    Create a trusted zone. The zone will:
+    - be able to access lan and wan zone
+    - be accessible from lan zone
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Zone name, maximum length is 12
+      network -- A list of interfaces to be added to the zone (optional)
+
+    Returns:
+      The name of the configuration section or None in case of error
+    '''
+
+    if len(name) > 12:
+        return None
+
+    zname = utils.get_id(name)
+    uci.set("firewall", zname, 'zone')
+    uci.set("firewall", zname, 'name', name)
+    uci.set("firewall", zname, 'input', 'ACCEPT')
+    uci.set("firewall", zname, 'output', 'ACCEPT')
+    uci.set("firewall", zname, 'forward', 'REJECT')
+    if networks:
+        uci.set("firewall", zname, 'network', networks)
+
+    flan = f"{zname}2lan"
+    uci.set("firewall", flan, "forwarding")
+    uci.set("firewall", flan, "src", zname)
+    uci.set("firewall", flan, "dest", "lan")
+
+    flan = f"{zname}2wan"
+    uci.set("firewall", flan, "forwarding")
+    uci.set("firewall", flan, "src", zname)
+    uci.set("firewall", flan, "dest", "wan")
+
+    return zname
 
 def add_service(uci, name, port, proto):
     '''
