@@ -11,7 +11,7 @@ General utilities
 
 import re
 
-def get_id(name):
+def get_id(name, length = 100):
     '''
     Return a valid UCI id based on the given string.
     All auto-generated NextSecurity ids:
@@ -21,12 +21,13 @@ def get_id(name):
 
     Arguments:
       name -- the name of the section
+      length -- maximum id length, default is 100. Maximum lenght for firewall zones is 15.
 
     Returns:
       a valid UCI identifier as string
     '''
     sname = f'ns_{sanitize(name)}'
-    return sname[0:100]
+    return sname[0:length]
 
 def sanitize(name):
     '''
