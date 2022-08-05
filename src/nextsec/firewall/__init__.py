@@ -147,6 +147,7 @@ def add_trusted_zone(uci, name, networks = []):
         return None
 
     zname = utils.get_id(name)
+    name = utils.sanitize(name)
     uci.set("firewall", zname, 'zone')
     uci.set("firewall", zname, 'name', name)
     uci.set("firewall", zname, 'input', 'ACCEPT')
@@ -157,12 +158,12 @@ def add_trusted_zone(uci, name, networks = []):
 
     flan = f"{zname}2lan"
     uci.set("firewall", flan, "forwarding")
-    uci.set("firewall", flan, "src", zname)
+    uci.set("firewall", flan, "src", name)
     uci.set("firewall", flan, "dest", "lan")
 
     flan = f"{zname}2wan"
     uci.set("firewall", flan, "forwarding")
-    uci.set("firewall", flan, "src", zname)
+    uci.set("firewall", flan, "src", name)
     uci.set("firewall", flan, "dest", "wan")
 
     return zname

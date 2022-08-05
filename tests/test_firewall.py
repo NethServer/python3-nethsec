@@ -131,10 +131,10 @@ def test_add_trusted_zone(tmp_path):
     assert u.get("firewall", "ns_mytrusted", 'output') == "ACCEPT"
     assert u.get("firewall", "ns_mytrusted", 'forward') == "REJECT"
     assert u.get("firewall", "ns_mytrusted2lan") == "forwarding"
-    assert u.get("firewall", "ns_mytrusted2lan", 'src') == "ns_mytrusted"
+    assert u.get("firewall", "ns_mytrusted2lan", 'src') == "mytrusted"
     assert u.get("firewall", "ns_mytrusted2lan", 'dest') == "lan"
     assert u.get("firewall", "ns_mytrusted2wan") == "forwarding"
-    assert u.get("firewall", "ns_mytrusted2wan", 'src') == "ns_mytrusted"
+    assert u.get("firewall", "ns_mytrusted2wan", 'src') == "mytrusted"
     assert u.get("firewall", "ns_mytrusted2wan", 'dest') == "wan"
 
 def test_add_trustez_zone_with_networks(tmp_path):
