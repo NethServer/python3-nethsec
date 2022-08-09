@@ -43,3 +43,25 @@ def sanitize(name):
     name = re.sub(r'[^\x00-\x7F]+','_', name)
     name = re.sub('[^0-9a-zA-Z]', '_', name)
     return name
+
+def get_all_by_type(uci, config, utype):
+    '''
+    Return all section of the given utype from the given config
+
+    Arguments:
+      uci -- EUci pointer
+      config -- Configuration database name
+      utype -- Section type
+
+    Returns:
+      a dictionary of all matched sections, None in case of error
+    '''
+    ret = dict()
+    try:
+        for section in uci.get(config):
+            print(f'{section} -> {uci.get(config, section)} vs {utype}')
+            if uci.get(config, section) == utype:
+                ret[section] = uci.get_all(config, section)
+        return ret
+    except:
+        return None

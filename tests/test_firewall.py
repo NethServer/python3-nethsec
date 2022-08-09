@@ -38,7 +38,7 @@ config interface lan
 """
 
 def _setup_db(tmp_path):
-     # setup fake firewall db
+     # setup fake dbs
     with tmp_path.joinpath('firewall').open('w') as fp:
         fp.write(firewall_db)
     with tmp_path.joinpath('network').open('w') as fp:
