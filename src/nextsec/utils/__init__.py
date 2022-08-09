@@ -59,7 +59,6 @@ def get_all_by_type(uci, config, utype):
     ret = dict()
     try:
         for section in uci.get(config):
-            print(f'{section} -> {uci.get(config, section)} vs {utype}')
             if uci.get(config, section) == utype:
                 ret[section] = uci.get_all(config, section)
         return ret
