@@ -10,6 +10,8 @@ General utilities
 '''
 
 import re
+import json
+import subprocess
 
 def get_id(name, length = 100):
     '''
@@ -64,3 +66,42 @@ def get_all_by_type(uci, config, utype):
         return ret
     except:
         return None
+
+def get_device_name(hwaddr):
+    '''
+    Retrieve the physical device name given the MAC address
+
+    Aarguments:
+      hwaddr -- MAC address string
+
+    Returns:
+      The device name as a string if the network interface has been found, None otherwise.
+    '''
+    try:
+        interfaces = json.loads(subprocess.run(["/sbin/ip", "--json", "address", "show"], check=True, capture_output=True).stdout)
+        for interface in interfaces:
+            if interface["address"] == hwaddr:
+                return interface["ifname"]
+    except:
+        return None
+
+    return None
+
+def get_interface_name(uci, hwaddr):
+    '''
+    Retrieve the logical UCI interface name given the MAC address
+
+    Arguments:
+      uci -- EUci pointer
+      hwaddr -- MAC address string
+
+    Returns:
+      The device name as a string if the interface has been found, None otherwise
+    '''
+    name = get_device_name(hwaddr)
+    for section in uci.get("network"):
+        if  uci.get("network", section) == "interface" and (uci.get("network", section, "device") == name):
+            return section
+
+    return None
+
