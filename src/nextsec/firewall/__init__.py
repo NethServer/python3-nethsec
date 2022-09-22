@@ -123,6 +123,11 @@ def add_trusted_zone(uci, name, networks = []):
     uci.set("firewall", flan, "src", name)
     uci.set("firewall", flan, "dest", "lan")
 
+    flan = f"lan2{zname}"
+    uci.set("firewall", flan, "forwarding")
+    uci.set("firewall", flan, "src", "lan")
+    uci.set("firewall", flan, "dest", name)
+
     flan = f"{zname}2wan"
     uci.set("firewall", flan, "forwarding")
     uci.set("firewall", flan, "src", name)
