@@ -13,44 +13,6 @@ import json
 import subprocess
 from nextsec import utils
 
-def get_device_name(hwaddr):
-    '''
-    Retrieve the physical device name given the MAC address
-
-    Aarguments:
-      hwaddr -- MAC address string
-
-    Returns:
-      The device name as a string if the network interface has been found, None otherwise.
-    '''
-    try:
-        interfaces = json.loads(subprocess.run(["/sbin/ip", "--json", "address", "show"], check=True, capture_output=True).stdout)
-        for interface in interfaces:
-            if interface["address"] == hwaddr:
-                return interface["ifname"]
-    except:
-        return None
-
-    return None
-
-def get_interface_name(uci, hwaddr):
-    '''
-    Retrieve the logical UCI interface name given the MAC address
-
-    Arguments:
-      uci -- EUci pointer
-      hwaddr -- MAC address string
-
-    Returns:
-      The device name as a string if the interface has been found, None otherwise
-    '''
-    name = get_device_name(hwaddr)
-    for section in uci.get("network"):
-        if  uci.get("network", section) == "interface" and (uci.get("network", section, "device") == name):
-            return section
-
-    return None
-
 def add_to_zone(uci, device, zone):
     '''
     Add given device to a firewall zone.
@@ -160,6 +122,11 @@ def add_trusted_zone(uci, name, networks = []):
     uci.set("firewall", flan, "forwarding")
     uci.set("firewall", flan, "src", name)
     uci.set("firewall", flan, "dest", "lan")
+
+    flan = f"lan2{zname}"
+    uci.set("firewall", flan, "forwarding")
+    uci.set("firewall", flan, "src", "lan")
+    uci.set("firewall", flan, "dest", name)
 
     flan = f"{zname}2wan"
     uci.set("firewall", flan, "forwarding")
