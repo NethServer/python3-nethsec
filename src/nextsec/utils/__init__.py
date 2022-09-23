@@ -87,7 +87,7 @@ def get_device_name(hwaddr):
 
     return None
 
-def get_interface_name(uci, hwaddr):
+def get_interface_from_mac(uci, hwaddr):
     '''
     Retrieve the logical UCI interface name given the MAC address
 
@@ -99,6 +99,19 @@ def get_interface_name(uci, hwaddr):
       The device name as a string if the interface has been found, None otherwise
     '''
     device = get_device_name(hwaddr)
+    return get_interface_from_device(uci, device)
+
+def get_interface_from_device(uci, device):
+    '''
+    Retrieve the logical UCI interface name given the device name
+
+    Arguments:
+      uci -- EUci pointer
+      hwaddr -- MAC address string
+
+    Returns:
+      The device name as a string if the interface has been found, None otherwise
+    '''
     for section in uci.get("network"):
         if uci.get("network", section) == "interface":
             try:

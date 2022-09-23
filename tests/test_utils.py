@@ -78,10 +78,16 @@ def test_get_device_name_not_valid():
     assert utils.get_device_name("aa:bb:cc:dd:66:55") == None
 
 @patch("nextsec.utils.subprocess.run")
-def test_get_interface_name(mock_run2, tmp_path):
+def test_get_interface_from_mac(mock_run2, tmp_path):
     # setup mock
     mock_run2.return_value = mock_ip_stdout
     u = _setup_db(tmp_path)
 
-    assert utils.get_interface_name(u, "fe:62:31:19:0b:29") == 'lan'
-    assert utils.get_interface_name(u, "aa:bb:cc:dd:66:55") == None
+    assert utils.get_interface_from_mac(u, "fe:62:31:19:0b:29") == 'lan'
+    assert utils.get_interface_from_mac(u, "aa:bb:cc:dd:66:55") == None
+
+def test_get_interface_from_device(tmp_path):
+    u = _setup_db(tmp_path)
+
+    assert utils.get_interface_from_device(u, "vnet3") == 'lan'
+    assert utils.get_interface_from_device(u, "vnet4") == None
