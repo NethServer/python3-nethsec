@@ -24,6 +24,7 @@ config mytype2 section3
 network_db = """
 config interface lan
 	option device 'vnet3'
+	option proto 'static'
 """
 
 def _setup_db(tmp_path):

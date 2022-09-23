@@ -98,10 +98,20 @@ def get_interface_name(uci, hwaddr):
     Returns:
       The device name as a string if the interface has been found, None otherwise
     '''
-    name = get_device_name(hwaddr)
+    device = get_device_name(hwaddr)
     for section in uci.get("network"):
-        if  uci.get("network", section) == "interface" and (uci.get("network", section, "device") == name):
-            return section
+        if uci.get("network", section) == "interface":
+            try:
+                proto = uci.get("network", section, 'proto')
+            except:
+                continue
+            if proto == 'bonding' and section == device:
+                return section
+            try:
+                sdevice = uci.get("network", section, 'device')
+            except:
+                continue
+            if proto != 'bonding' and device == sdevice:
+                return section
 
     return None
-
