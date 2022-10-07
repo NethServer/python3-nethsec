@@ -11,20 +11,56 @@ mock_ip_stdout.configure_mock(**{"stdout": ip_json})
 test_db = """
 config mytype section1
 	option name 'myname1'
+	option opt2 'value2'
 
 config mytype section2
 	option name 'myname2'
 	list opt1 'val1'
 	list opt1 'val2'
+	option opt2 'value2'
 
 config mytype2 section3
 	option name 'myname3'
+"""
+
+firewall_db = """
+config zone wan1
+	option name 'wan'
+	list network 'wan'
+	list network 'wan6'
+	option input 'REJECT'
+	option output 'ACCEPT'
+	option forward 'REJECT'
+	option masq '1'
+	option mtu_fix '1'
+	list device 'eth2.1'
+
+config zone
+	option name 'lan'
+	list network 'lan'
+	option input 'ACCEPT'
+	option output 'ACCEPT'
+	option forward 'ACCEPT'
 """
 
 network_db = """
 config interface lan
 	option device 'vnet3'
 	option proto 'static'
+
+config device
+	option type '8021q'
+	option ifname 'eth2'
+	option vid '1'
+	option name 'eth2.1'
+
+config interface 'wan'
+	option device 'eth1'
+	option proto 'dhcp'
+
+config interface 'wan6'
+	option device 'eth1'
+	option proto 'dhcpv6'
 """
 
 def _setup_db(tmp_path):
@@ -33,6 +69,8 @@ def _setup_db(tmp_path):
         fp.write(test_db)
     with tmp_path.joinpath('network').open('w') as fp:
         fp.write(network_db)
+    with tmp_path.joinpath('firewall').open('w') as fp:
+        fp.write(firewall_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_sanitize():
@@ -91,3 +129,16 @@ def test_get_interface_from_device(tmp_path):
 
     assert utils.get_interface_from_device(u, "vnet3") == 'lan'
     assert utils.get_interface_from_device(u, "vnet4") == None
+
+def test_get_all_by_option(tmp_path):
+    u = _setup_db(tmp_path)
+    return_map = {"section1": u.get_all("test", "section1"), "section2": u.get_all("test", "section2")}
+    assert(utils.get_all_by_option(u, 'test', 'opt2', 'value2') == return_map)
+
+def test_get_all_wan_devices(tmp_path):
+    u = _setup_db(tmp_path)
+    assert(set(utils.get_all_wan_devices(u)) == set(['eth1', 'eth2.1']))
+
+def test_get_all_lan_devices(tmp_path):
+    u = _setup_db(tmp_path)
+    assert(set(utils.get_all_lan_devices(u)) == set(['vnet3']))
