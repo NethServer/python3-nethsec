@@ -112,13 +112,10 @@ def test_add_trusted_zone(tmp_path):
     assert u.get("firewall", "ns_mytrusted2wan", 'src') == "mytrusted"
     assert u.get("firewall", "ns_mytrusted2wan", 'dest') == "wan"
 
-def test_add_trustez_zone_with_networks(tmp_path):
+def test_add_trusted_zone_with_networks(tmp_path):
     u = _setup_db(tmp_path)
     interface = firewall.add_vpn_interface(u, 'testvpn2', 'tuntest2')
-    print(interface)
     zone = firewall.add_trusted_zone(u, 'mytrusted2', list(interface))
-    print(zone)
-    print(u.get("firewall", zone, 'network'))
     assert u.get_all("firewall", zone, 'network') == tuple(interface)
 
 def test_apply():
