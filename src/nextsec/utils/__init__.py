@@ -48,7 +48,7 @@ def sanitize(name):
 
 def get_all_by_type(uci, config, utype):
     '''
-    Return all section of the given utype from the given config
+    Return all sections of the given utype from the given config
 
     Arguments:
       uci -- EUci pointer
@@ -56,7 +56,7 @@ def get_all_by_type(uci, config, utype):
       utype -- Section type
 
     Returns:
-      a dictionary of all matched sections, None in case of error
+      A dictionary of all matched sections, None in case of error
     '''
     ret = dict()
     try:
@@ -128,3 +128,75 @@ def get_interface_from_device(uci, device):
                 return section
 
     return None
+
+def get_all_by_option(uci, config, option, value):
+    '''
+    Return all sections with the given option value
+
+    Arguments:
+      uci -- EUci pointer
+      config -- Configuration database name
+      option -- Option name
+      value -- Option value
+
+    Returns:
+      A dictionary of all matched sections
+    '''
+    ret = dict()
+    for section in uci.get(config, list=True, default=[]):
+        if uci.get(config, section, option, default='') == value:
+            ret[section] = uci.get_all(config, section)
+    return ret
+
+
+def get_all_devices_by_zone(uci, zone):
+    '''
+    Retrieve all devices associated to the given zone
+
+    Arguments:
+      uci -- EUci pointer
+      zone -- Firewall zone name
+
+    Returns:
+      A list of device names
+    '''
+    devices = []
+    for section in uci.get("firewall"):
+        if uci.get("firewall", section, default='') == 'zone' and uci.get("firewall", section, "name", default='') == zone:
+            devices = devices + list(uci.get("firewall", section, "device", list=True, default=[]))
+            networks = uci.get("firewall", section, "network", list=True, default=[])
+            for network in networks:
+               device = uci.get("network", network, "device", default="")
+               if device != "":
+                   devices.append(device)
+               else:
+                   name = uci.get("network", network, "name", default="")
+                   if name != "":
+                       devices.append(name)
+
+    # remove duplicates
+    return list(set(devices))
+
+def get_all_wan_devices(uci):
+    '''
+    Retrieve all devices associated to the wan zone
+
+    Arguments:
+      uci -- EUci pointer
+
+    Returns:
+      A list of device names
+    '''
+    return get_all_devices_by_zone(uci, 'wan')
+
+def get_all_lan_devices(uci):
+    '''
+    Retrieve all devices associated to the lan zone
+
+    Arguments:
+      uci -- EUci pointer
+
+    Returns:
+      A list of device names
+    '''
+    return get_all_devices_by_zone(uci, 'lan')
