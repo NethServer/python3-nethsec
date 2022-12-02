@@ -32,7 +32,7 @@ firewall.apply(u)
 Execute:
 ```bash
 python3 -m pydoc nextsec.firewall
-python3 -m pydoc nextsec.utilities
+python3 -m pydoc nextsec.utils
 ```
 
 ## Build
