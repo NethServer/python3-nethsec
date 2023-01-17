@@ -63,6 +63,47 @@ config interface 'wan6'
 	option proto 'dhcpv6'
 """
 
+objects_db = """
+config user 'goofy'
+	option name "Goofy"
+	option description 'Goofy Doe'
+	list macaddr '52:54:00:9d:3d:e5'
+	list ipaddr '192.168.100.23'
+	list domain 'ns_goofy_name'
+	list host 'ns_goofy_pc'
+	list vpn 'goofy'
+
+config user 'daisy'
+	option name "Daisy"
+	list ipaddr '192.168.100.22'
+	list ipaddr '2001:db8:3333:4444:5555:6666:7777:8888'
+
+config group 'vip'
+	option description 'Very Important People'
+	list user 'goofy'
+	list user 'daisy'
+"""
+
+dhcp_db = """
+config host 'ns_goofy_pc'
+	option name 'goofypc'
+    option mac '00:00:8c:16:b3:bd'
+    option ip '192.168.100.36'
+    option dns '1'
+
+config domain 'ns_goofy_pc_nethserver_org'
+	option ip '192.168.100.30'
+    option name 'goofy.nethserver.org'
+    option description 'Goofy Workstation'
+"""
+
+openvpn_db = """
+config user 'goofy'
+    option instance 'ns_roadwarrior'
+    option ipaddr '10.9.9.38'
+    option enabled '1'
+"""
+
 def _setup_db(tmp_path):
      # setup fake db
     with tmp_path.joinpath('test').open('w') as fp:
@@ -71,6 +112,12 @@ def _setup_db(tmp_path):
         fp.write(network_db)
     with tmp_path.joinpath('firewall').open('w') as fp:
         fp.write(firewall_db)
+    with tmp_path.joinpath('objects').open('w') as fp:
+        fp.write(objects_db)
+    with tmp_path.joinpath('dhcp').open('w') as fp:
+        fp.write(dhcp_db)
+    with tmp_path.joinpath('openvpn').open('w') as fp:
+        fp.write(openvpn_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_sanitize():
@@ -142,3 +189,27 @@ def test_get_all_wan_devices(tmp_path):
 def test_get_all_lan_devices(tmp_path):
     u = _setup_db(tmp_path)
     assert(set(utils.get_all_lan_devices(u)) == set(['vnet3']))
+
+def test_get_user_addresses(tmp_path):
+    u = _setup_db(tmp_path)
+    (ipv4, ipv6) = utils.get_user_addresses(u, 'goofy')
+    for ip in ipv4:
+        assert(ip in ["192.168.100.36", "10.9.9.38", "192.168.100.30", "192.168.100.23"])
+    (ipv4, ipv6) = utils.get_user_addresses(u, 'daisy')
+    assert(ipv6 == ["2001:db8:3333:4444:5555:6666:7777:8888"])
+
+def test_get_user_macs(tmp_path):
+    u = _setup_db(tmp_path)
+    assert(utils.get_user_macs(u, 'goofy') == ["52:54:00:9d:3d:e5"])
+    assert(utils.get_user_macs(u, 'daisy') == [])
+
+def test_get_group_addresses(tmp_path):
+    u = _setup_db(tmp_path)
+    (ipv4, ipv6) = utils.get_group_addresses(u, 'vip')
+    for ip in ipv4:
+        assert(ip in ["192.168.100.36", "10.9.9.38", "192.168.100.30", "192.168.100.23", "192.168.100.22"])
+    assert(ipv6 == ["2001:db8:3333:4444:5555:6666:7777:8888"])
+
+def test_get_group_macs(tmp_path):
+    u = _setup_db(tmp_path)
+    assert(utils.get_group_macs(u, 'vip') == ["52:54:00:9d:3d:e5"])

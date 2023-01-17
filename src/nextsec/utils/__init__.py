@@ -200,3 +200,96 @@ def get_all_lan_devices(uci):
       A list of device names
     '''
     return get_all_devices_by_zone(uci, 'lan')
+
+def get_user_addresses(uci, user):
+    '''
+    Retrieve all IP addresses associated to given user
+
+    Arguments:
+      uci -- EUci pointer
+      user -- User object id (UCI section)
+
+    Returns:
+      A tuple of lists:
+        - first element is a list of IPv4 addresses
+        - second element is a list of IPv6 addresses
+    '''
+    ipv4 = []
+    ipv6 = []
+    # get addresses from plain ipaddr option
+    for ip in uci.get('objects', user, 'ipaddr', list=True, default=[]):
+        if ':' in ip:
+            ipv6.append(ip)
+        else:
+            ipv4.append(ip)
+    # get vpn reservation
+    for v in uci.get('objects', user, 'vpn', list=True, default=[]): # vpn reservation
+        ip = uci.get('openvpn', v, 'ipaddr', default='')
+        if not ip:
+            continue
+        if ':' in ip:
+            ipv6.append(ip)
+        else:
+            ipv4.append(ip)
+    # get address from DNS record and DHCP reservation
+    for st in ['host', 'domain']:
+        for h in uci.get('objects', user, st, list=True, default=[]): # dhcp reservation
+            ip = uci.get('dhcp', h, 'ip', default='')
+            if not ip:
+                continue
+            if ':' in ip:
+                ipv6.append(ip)
+            else:
+                ipv4.append(ip)
+
+    return (ipv4, ipv6)
+
+def get_user_macs(uci, user):
+    '''
+    Retrieve all MAC addresses associated to given user
+
+    Arguments:
+      uci -- EUci pointer
+      user -- User object id (UCI section)
+
+    Returns:
+      A list of MAC addresses
+    '''
+    return list(uci.get('objects', user, 'macaddr', list=True, default=[]))
+
+def get_group_addresses(uci, group):
+    '''
+    Retrieve all IP addresses associated to given group
+
+    Arguments:
+      uci -- EUci pointer
+      user -- Group object id (UCI section)
+
+    Returns:
+      A tuple of lists:
+        - first element is a list of IPv4 addresses
+        - second element is a list of IPv6 addresses
+    '''
+    ipv4 = []
+    ipv6 = []
+    for u in uci.get('objects', group, 'user', list=True, default=[]):
+        (uipv4, uipv6) = get_user_addresses(uci, u)
+        ipv4 = ipv4 + uipv4
+        ipv6 = ipv6 + uipv6
+    return (ipv4, ipv6)
+
+def get_group_macs(uci, group):
+    '''
+    Retrieve all MAC addresses associated to given user
+
+    Arguments:
+      uci -- EUci pointer
+      group -- Group object id (UCI section)
+
+    Returns:
+      A list of MAC addresses
+    '''
+    macs = []
+    for u in uci.get('objects', group, 'user', list=True, default=[]):
+        macs = macs + get_user_macs(uci, u)
+    return macs
