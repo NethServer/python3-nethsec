@@ -54,8 +54,8 @@ buildah run ${container} /bin/bash -c "pip install pytest==7.1.2 pyuci"
 echo "Setup image"
 buildah config --workingdir /root ${container}
 buildah config --cmd='["python3", "-m", "pytest"]' ${container}
-buildah commit ${container} "${repobase}/python3-nextsec-test"
-images+=("${repobase}/python3-nextsec-test")
+buildah commit ${container} "${repobase}/python3-nethsec-test"
+images+=("${repobase}/python3-nethsec-test")
 
 if [[ -n "${CI}" ]]; then
     # Set output value for Github Actions

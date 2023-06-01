@@ -6,17 +6,17 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name = 'nextsec',
+    name = 'nethsec',
     version = '0.0.1',
     author = 'Giacomo Sanchietti',
     author_email = 'giacomo.sanchietti@nethesis.it',
-    description = 'Utilities for Nextsecurity development',
+    description = 'Utilities for NethSecurity development',
     long_description = long_description,
     long_description_content_type = "text/markdown",
-    url = "https://github.com/NethServer/python3-nextsec",
+    url = "https://github.com/NethServer/python3-nethsec",
     license = "GPLv3",
     package_dir = {'': 'src'},
-    packages = ['nextsec', 'nextsec.utils', 'nextsec.firewall'],
+    packages = ['nethsec', 'nethsec.utils', 'nethsec.firewall'],
     #packages = find_packages(),
     requires = [ "pyuci" ],
     classifiers = [

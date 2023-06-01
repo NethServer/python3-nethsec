@@ -16,7 +16,7 @@ import subprocess
 def get_id(name, length = 100):
     '''
     Return a valid UCI id based on the given string.
-    All auto-generated NextSecurity ids:
+    All auto-generated NethSecurity ids:
     - have a maximum length of 100 characters
     - are sanitized accordingly to UCI conventions (see 'sanitize' function)
     - start with 'ns_' prefix

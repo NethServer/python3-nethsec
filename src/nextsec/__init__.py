@@ -1,3 +1,3 @@
 '''
-NextSecurity python library
+NethSecurity python library
 '''

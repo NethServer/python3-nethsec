@@ -8,4 +8,4 @@
 #
 # The container assumes the source code is mounted inside /root
 #
-podman run --rm -t -v .:/root:Z ghcr.io/nethserver/python3-nextsec-test
+podman run --rm -t -v .:/root:Z ghcr.io/nethserver/python3-nethsec-test

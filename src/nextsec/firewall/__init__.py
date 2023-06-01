@@ -11,7 +11,7 @@ Firewall utilities
 
 import json
 import subprocess
-from nextsec import utils
+from nethsec import utils
 
 def add_to_zone(uci, device, zone):
     '''

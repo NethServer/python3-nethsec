@@ -1,5 +1,5 @@
 import pytest
-from nextsec import utils
+from nethsec import utils
 from euci import EUci
 from unittest.mock import MagicMock, patch
 
@@ -152,7 +152,7 @@ def test_get_all_by_type(tmp_path):
     assert records['section2']['name'] == 'myname2'
     assert records['section2']['opt1'] == ('val1', 'val2')
 
-@patch("nextsec.utils.subprocess.run")
+@patch("nethsec.utils.subprocess.run")
 def test_get_device_name_valid(mock_run):
     # setup mock
     mock_run.return_value = mock_ip_stdout
@@ -162,7 +162,7 @@ def test_get_device_name_valid(mock_run):
 def test_get_device_name_not_valid():
     assert utils.get_device_name("aa:bb:cc:dd:66:55") == None
 
-@patch("nextsec.utils.subprocess.run")
+@patch("nethsec.utils.subprocess.run")
 def test_get_interface_from_mac(mock_run2, tmp_path):
     # setup mock
     mock_run2.return_value = mock_ip_stdout

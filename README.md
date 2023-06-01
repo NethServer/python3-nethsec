@@ -1,17 +1,17 @@
-# python3-nextsec
+# python3-nethsec
 
-Python3 library for Nextsecurity
+Python3 library for NethSecurity
 
 Requirements:
 
 * Python3
 * [pyuci](https://gitlab.nic.cz/turris/pyuci)
 
-[![Run tests](https://github.com/NethServer/python3-nextsec/actions/workflows/run-tests.yaml/badge.svg?branch=master)](https://github.com/NethServer/python3-nextsec/actions/workflows/run-tests.yaml) 
+[![Run tests](https://github.com/NethServer/python3-nethsec/actions/workflows/run-tests.yaml/badge.svg?branch=master)](https://github.com/NethServer/python3-nethsec/actions/workflows/run-tests.yaml)
 
 ## Usage
 
-The `nextsec` library is composed by the following sub-packages:
+The `nethsec` library is composed by the following sub-packages:
 
 - utils
 - firewall
@@ -19,7 +19,7 @@ The `nextsec` library is composed by the following sub-packages:
 Usage example:
 ```python
 from euci import EUci
-from nextsec import firewall
+from nethsec import firewall
 
 u = EUci()
 firewall.add_to_lan(u, 'tunrw')
@@ -31,8 +31,8 @@ firewall.apply(u)
 
 Execute:
 ```bash
-python3 -m pydoc nextsec.firewall
-python3 -m pydoc nextsec.utils
+python3 -m pydoc nethsec.firewall
+python3 -m pydoc nethsec.utils
 ```
 
 ## Build

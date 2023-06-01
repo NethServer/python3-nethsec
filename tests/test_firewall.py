@@ -1,6 +1,6 @@
 import pytest
 from euci import EUci, UciExceptionNotFound 
-from nextsec import firewall
+from nethsec import firewall
 
 firewall_db = """
 config zone lan1
