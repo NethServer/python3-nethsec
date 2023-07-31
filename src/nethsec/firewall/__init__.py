@@ -220,3 +220,132 @@ def apply(uci):
     '''
     uci.commit('firewall')
     subprocess.run(["/etc/init.d/firewall", "reload"], check=True)
+
+
+def add_default_forwarding(uci, name):
+    '''
+    Create a forwarding from ns-api default database.
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Name of the default forwarding from the ns-api database
+
+    Returns a tuple:
+      - The name of the configuration section for the forwarding or None in case of error
+    '''
+
+    frecord =  uci.get_all("ns-api", name)
+    fname = utils.get_random_id()
+    uci.set("firewall", fname, "forwarding")
+    for section in frecord:
+        uci.set("firewall", fname, section, frecord[section])
+    uci.set("firewall", fname, "ns_tag", ["automated"])
+
+    return fname
+
+def add_default_zone(uci, name, networks = []):
+    '''
+    Create a zone from ns-api default database.
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Name of the default zone from the ns-api database
+      network -- A list of interfaces to be added to the zone (optional)
+
+    Returns a tuple:
+      - The name of the configuration section for the zone or None in case of error
+      - A list of configuration section names for the forwardings or None in case of error
+    '''
+
+    dzone = uci.get_all("ns-api", name)
+    # Search for zones with the same "name"
+    for zone in utils.get_all_by_type(uci, "firewall", "zone"):
+        if uci.get("firewall", zone, "name") == dzone["name"]:
+            return None, None
+
+    forwardings = list()
+    zname = utils.get_random_id()
+    forward_list = dzone.pop("forwardings", list())
+    uci.set("firewall", zname, "zone")
+    for section in dzone:
+        uci.set("firewall", zname, section, dzone[section])
+    if len(networks) > 0:
+        uci.set("firewall", zname, "network", networks)
+    uci.set("firewall", zname, "ns_tag", ["automated"])
+
+    for forward in forward_list:
+        forwardings.append(add_default_forwarding(uci, forward))
+
+    return (zname, forwardings)
+
+def add_default_service_group(uci, name, src='lan', dest='wan'):
+    '''
+    Create all rules for the given service group
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Name of the default service group from the ns-api database
+      src -- Source zone, default is 'lan'. The zone must already exists inside the firewall db
+      dest -- Destination zone, default is 'wan'. The zone must already exists inside the firewall db
+
+    Returns:
+      - A list of configuration section names of each rule, None in case of error
+    '''
+
+    group = uci.get_all("ns-api", name)
+    services = group.pop("services", list())
+
+    if not services:
+        return None
+
+    rules = dict()
+    sections = list()
+
+    for service in services:
+        (port, proto, sdesc) = service.split("/",2)
+        if proto not in rules:
+            rules[proto] = {"ports": list(), "description": ""}
+        rules[proto]["ports"].append(port)
+        rules[proto]["description"] = utils.sanitize(sdesc)
+
+    for proto in rules:
+        sname = utils.get_random_id()
+        desc = rules[proto]["description"]
+        uci.set("firewall", sname, "rule")
+        uci.set("firewall", sname, "name", f"Allow-{name}-{proto}")
+        uci.set("firewall", sname, "ns_description", f"{desc} - {proto}")
+        uci.set("firewall", sname, "src", src)
+        uci.set("firewall", sname, "dest", dest)
+        uci.set("firewall", sname, "proto", proto)
+        uci.set("firewall", sname, "dest_port", ",".join(rules[proto]["ports"]))
+        uci.set("firewall", sname, "target", "ACCEPT")
+        uci.set("firewall", sname, "enabled", "1")
+        uci.set("firewall", sname, "ns_tag", ["automated"])
+        sections.append(sname)
+
+    return sections
+
+def add_default_rule(uci, name, proto, port):
+    '''
+    Create a rule from ns-api default database.
+
+    Arguments:
+      uci -- EUci pointer
+      name -- Name of the default rule from the ns-api database
+      proto -- A valid UCI protocol
+      ports -- A port or comma-separated list of ports
+
+    Returns:
+      - The name of the configuration section for the rule or None in case of error
+    '''
+
+    drule = uci.get_all("ns-api", name)
+    rname = utils.get_random_id()
+    uci.set("firewall", rname, "rule")
+    for section in drule:
+        drule[section] = drule[section].replace("__PORT__", port)
+        drule[section] = drule[section].replace("__PROTO__", proto)
+        uci.set("firewall", rname, section, drule[section])
+    uci.set("firewall", rname, "ns_tag", ["automated"])
+
+    return rname
