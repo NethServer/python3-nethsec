@@ -11,7 +11,30 @@ General utilities
 
 import re
 import json
+import uuid
+import hashlib
 import subprocess
+
+def get_random_id():
+    '''
+    Return a random valid UCI id.
+
+    Random ids:
+    - have a length of 11 characters
+    - are sanitized accordingly to UCI conventions (see 'sanitize' function)
+    - start with 'ns_' prefix
+
+    Arguments:
+      name -- the name of the section
+
+    Returns:
+      a valid UCI identifier as string
+    '''
+
+    h = hashlib.new('sha1')
+    h.update(uuid.uuid4().bytes)
+    digest = h.hexdigest()
+    return get_id(digest, 11)
 
 def get_id(name, length = 100):
     '''

@@ -213,3 +213,10 @@ def test_get_group_addresses(tmp_path):
 def test_get_group_macs(tmp_path):
     u = _setup_db(tmp_path)
     assert(utils.get_group_macs(u, 'vip') == ["52:54:00:9d:3d:e5"])
+
+def test_get_random_id():
+    id1 = utils.get_random_id()
+    id2 = utils.get_random_id()
+    assert len(id1) == 11
+    assert id1[0:3] == "ns_"
+    assert id1 != id2
