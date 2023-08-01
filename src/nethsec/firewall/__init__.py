@@ -137,7 +137,7 @@ def add_trusted_zone(uci, name, networks = []):
 
 def add_service(uci, name, port, proto):
     '''
-    Create an ACCEPT traffic rile for the given service
+    Create an ACCEPT traffic rule for the given service
 
     Arguments:
       uci -- EUci pointer
