@@ -181,6 +181,7 @@ def test_get_all_by_option(tmp_path):
     u = _setup_db(tmp_path)
     return_map = {"section1": u.get_all("test", "section1"), "section2": u.get_all("test", "section2")}
     assert(utils.get_all_by_option(u, 'test', 'opt2', 'value2') == return_map)
+    assert(utils.get_all_by_option(u, 'test', 'opt2', 'value2', deep = False) == list(return_map.keys()))
 
 def test_get_all_wan_devices(tmp_path):
     u = _setup_db(tmp_path)

@@ -153,7 +153,7 @@ def get_interface_from_device(uci, device):
 
     return None
 
-def get_all_by_option(uci, config, option, value):
+def get_all_by_option(uci, config, option, value, deep = True):
     '''
     Return all sections with the given option value
 
@@ -162,15 +162,22 @@ def get_all_by_option(uci, config, option, value):
       - config -- Configuration database name
       - option -- Option name
       - value -- Option value
+      - deep - If true, return a dict of all matched keys, otherwise return a list of section named
 
     Returns:
-      - A dictionary of all matched sections
+      - A dictionary or a list of all matched sections
     '''
     ret = dict()
     for section in uci.get(config, list=True, default=[]):
         if uci.get(config, section, option, default='') == value:
-            ret[section] = uci.get_all(config, section)
-    return ret
+            if deep:
+                ret[section] = uci.get_all(config, section)
+            else:
+                ret[section] = 1
+    if deep:
+        return ret
+    else:
+        return list(ret.keys())
 
 
 def get_all_devices_by_zone(uci, zone):
