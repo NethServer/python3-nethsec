@@ -248,19 +248,19 @@ def apply(uci):
     subprocess.run(["/etc/init.d/firewall", "reload"], check=True)
 
 
-def add_default_forwarding(uci, name):
+def add_template_forwarding(uci, name):
     '''
-    Create a forwarding from ns-api default database.
+    Create a forwarding from templates database.
 
     Arguments:
       - uci -- EUci pointer
-      - name -- Name of the default forwarding from the ns-api database
+      - name -- Name of the template forwarding from the templates database
 
     Returns a tuple:
       - The name of the configuration section for the forwarding or None in case of error
     '''
 
-    frecord =  uci.get_all("ns-api", name)
+    frecord =  uci.get_all("templates", name)
     fname = utils.get_random_id()
     uci.set("firewall", fname, "forwarding")
     for section in frecord:
@@ -269,13 +269,13 @@ def add_default_forwarding(uci, name):
 
     return fname
 
-def add_default_zone(uci, name, networks = []):
+def add_template_zone(uci, name, networks = []):
     '''
-    Create a zone from ns-api default database.
+    Create a zone from templates database.
 
     Arguments:
       - uci -- EUci pointer
-      - name -- Name of the default zone from the ns-api database
+      - name -- Name of the zone from the templates database
       - network -- A list of interfaces to be added to the zone (optional)
 
     Returns a tuple:
@@ -283,7 +283,7 @@ def add_default_zone(uci, name, networks = []):
       - A list of configuration section names for the forwardings or None in case of error
     '''
 
-    dzone = uci.get_all("ns-api", name)
+    dzone = uci.get_all("templates", name)
     # Search for zones with the same "name"
     for zone in utils.get_all_by_type(uci, "firewall", "zone"):
         if uci.get("firewall", zone, "name") == dzone["name"]:
@@ -300,17 +300,17 @@ def add_default_zone(uci, name, networks = []):
     uci.set("firewall", zname, "ns_tag", ["automated"])
 
     for forward in forward_list:
-        forwardings.append(add_default_forwarding(uci, forward))
+        forwardings.append(add_template_forwarding(uci, forward))
 
     return (zname, forwardings)
 
-def add_default_service_group(uci, name, src='lan', dest='wan', link=""):
+def add_template_service_group(uci, name, src='lan', dest='wan', link=""):
     '''
     Create all rules for the given service group
 
     Arguments:
       - uci -- EUci pointer
-      - name -- Name of the default service group from the ns-api database
+      - name -- Name of the service group from the templates database
       - src -- Source zone, default is 'lan'. The zone must already exists inside the firewall db
       - dest -- Destination zone, default is 'wan'. The zone must already exists inside the firewall db
       - link -- A reference to an existing key in the format <database>/<keyname> (optional)
@@ -319,7 +319,7 @@ def add_default_service_group(uci, name, src='lan', dest='wan', link=""):
       - A list of configuration section names of each rule, None in case of error
     '''
 
-    group = uci.get_all("ns-api", name)
+    group = uci.get_all("templates", name)
     services = group.pop("services", list())
 
     if not services:
@@ -354,13 +354,13 @@ def add_default_service_group(uci, name, src='lan', dest='wan', link=""):
 
     return sections
 
-def add_default_rule(uci, name, proto, port, link=""):
+def add_template_rule(uci, name, proto, port, link=""):
     '''
-    Create a rule from ns-api default database.
+    Create a rule from templates database.
 
     Arguments:
       - uci -- EUci pointer
-      - name -- Name of the default rule from the ns-api database
+      - name -- Name of the template rule from the templates database
       - proto -- A valid UCI protocol
       - ports -- A port or comma-separated list of ports
       - link -- A reference to an existing key in the format <database>/<keyname> (optional)
@@ -369,7 +369,7 @@ def add_default_rule(uci, name, proto, port, link=""):
       - The name of the configuration section for the rule or None in case of error
     '''
 
-    drule = uci.get_all("ns-api", name)
+    drule = uci.get_all("templates", name)
     rname = utils.get_random_id()
     uci.set("firewall", rname, "rule")
     for section in drule:
@@ -384,7 +384,7 @@ def add_default_rule(uci, name, proto, port, link=""):
 
 def get_all_linked(uci, link):
     '''
-    Search all database, execpt ns-api one, for entities with the given link
+    Search all database, execpt templates one, for entities with the given link
 
     Arguments:
       - uci -- EUci pointer
@@ -397,7 +397,7 @@ def get_all_linked(uci, link):
 
     ret = dict()
     for config in uci.list_configs():
-        if config == "ns-api":
+        if config == "templates":
             continue
         records = utils.get_all_by_option(uci, config, 'ns_link', link, deep = False)
         ret[config] = records
