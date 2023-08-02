@@ -19,13 +19,13 @@ def add_to_zone(uci, device, zone):
     The device is not added if the firewall zone does not exists
 
     Arguments:
-      uci -- EUci pointer
-      device -- Device name
-      zone -- Firewall zone name
+      - uci -- EUci pointer
+      - device -- Device name
+      - zone -- Firewall zone name
 
     Returns:
-      If the firewall zone exists, the name of the section where the device has been added.
-      None, otherwise.
+      - If the firewall zone exists, the name of the section where the device has been added.
+      - None, otherwise.
     '''
     for section in uci.get("firewall"):
         s_type = uci.get("firewall", section)
@@ -48,11 +48,11 @@ def add_to_lan(uci, device):
     Shortuct to add a device to lan zone
 
     Arguments:
-      uci -- EUci pointer
-      device -- Device name
+      - uci -- EUci pointer
+      - device -- Device name
 
     Returns:
-      The name of section or None
+      - The name of section or None
     '''
     return add_to_zone(uci, device, 'lan')
 
@@ -61,11 +61,11 @@ def add_to_wan(uci, device):
     Shortuct to add a device to wan zone
 
     Arguments:
-      uci -- EUci pointer
-      device -- Device name
+      - uci -- EUci pointer
+      - device -- Device name
 
     Returns:
-      The name of the configuration section or None
+      - The name of the configuration section or None
     '''
     return add_to_zone(uci, device, 'wan')
 
@@ -76,13 +76,13 @@ def add_vpn_interface(uci, name, device, link=""):
     This function automatically commits the network database.
 
     Arguments:
-      uci -- EUci pointer
-      name -- Interface name
-      device -- Device name
-      link -- A reference to an existing key in the format <database>/<keyname> (optional)
+      - uci -- EUci pointer
+      - name -- Interface name
+      - device -- Device name
+      - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns:
-      The name of the configuration section or None in case of error
+      - The name of the configuration section or None in case of error
     '''
     iname = utils.sanitize(name)
     uci.set('network', iname, 'interface')
@@ -97,14 +97,14 @@ def add_vpn_interface(uci, name, device, link=""):
 def add_trusted_zone(uci, name, networks = [], link = ""):
     '''
     Create a trusted zone. The zone will:
-    - be able to access lan and wan zone
-    - be accessible from lan zone
+      - be able to access lan and wan zone
+      - be accessible from lan zone
 
     Arguments:
-      uci -- EUci pointer
-      name -- Zone name, maximum length is 12
-      network -- A list of interfaces to be added to the zone (optional)
-      link -- A reference to an existing key in the format <database>/<keyname> (optional)
+      - uci -- EUci pointer
+      - name -- Zone name, maximum length is 12
+      - network -- A list of interfaces to be added to the zone (optional)
+      - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns a tuple:
       - The name of the configuration section or None in case of error
@@ -162,14 +162,14 @@ def add_service(uci, name, port, proto, link = ""):
     Create an ACCEPT traffic rule for the given service
 
     Arguments:
-      uci -- EUci pointer
-      name -- Service name
-      port -- Service port number as string
-      proto -- List of service protocols
-      link -- A reference to an existing key in the format <database>/<keyname> (optional)
+      - uci -- EUci pointer
+      - name -- Service name
+      - port -- Service port number as string
+      - proto -- List of service protocols
+      - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns:
-      The name of the configuration section
+      - The name of the configuration section
     '''
     rname = utils.get_id(f"allow_{name}")
     uci.set("firewall", rname, "rule")
@@ -189,11 +189,11 @@ def remove_service(uci, name):
     Remove the ACCEPT traffic rule for the given service
 
     Arguments:
-      uci -- EUci pointer
-      name -- Service name
+      - uci -- EUci pointer
+      - name -- Service name
 
     Returns:
-      The name of the configuration section
+      - The name of the configuration section
     '''
     rname = utils.get_id(f"allow_{name}")
     uci.delete("firewall", rname)
@@ -204,11 +204,11 @@ def disable_service(uci, name):
     Disable the ACCEPT rule traffic for the given service.
 
     Arguments:
-      uci -- EUci pointer
-      name -- Service name
+      - uci -- EUci pointer
+      - name -- Service name
 
     Returns:
-      The name of the configuration section if found, None otherwise
+      - The name of the configuration section if found, None otherwise
     '''
     rname = utils.get_id(f"allow_{name}")
     try:
@@ -222,11 +222,11 @@ def enable_service(uci, name):
     Disable the ACCEPT rule traffic for the given service
 
     Arguments:
-      uci -- EUci pointer
-      name -- Service name
+      - uci -- EUci pointer
+      - name -- Service name
 
     Returns:
-      The name of the configuration section if found, None otherwise
+      - The name of the configuration section if found, None otherwise
     '''
     rname = utils.get_id(f"allow_{name}")
     try:
@@ -238,11 +238,11 @@ def enable_service(uci, name):
 def apply(uci):
     '''
     Apply firewall configuration:
-    - commit changes to firewall config
-    - reload the firewall service
+      - commit changes to firewall config
+      - reload the firewall service
 
     Arguments:
-      uci -- EUci pointer
+      - uci -- EUci pointer
     '''
     uci.commit('firewall')
     subprocess.run(["/etc/init.d/firewall", "reload"], check=True)
@@ -253,8 +253,8 @@ def add_default_forwarding(uci, name):
     Create a forwarding from ns-api default database.
 
     Arguments:
-      uci -- EUci pointer
-      name -- Name of the default forwarding from the ns-api database
+      - uci -- EUci pointer
+      - name -- Name of the default forwarding from the ns-api database
 
     Returns a tuple:
       - The name of the configuration section for the forwarding or None in case of error
@@ -274,9 +274,9 @@ def add_default_zone(uci, name, networks = []):
     Create a zone from ns-api default database.
 
     Arguments:
-      uci -- EUci pointer
-      name -- Name of the default zone from the ns-api database
-      network -- A list of interfaces to be added to the zone (optional)
+      - uci -- EUci pointer
+      - name -- Name of the default zone from the ns-api database
+      - network -- A list of interfaces to be added to the zone (optional)
 
     Returns a tuple:
       - The name of the configuration section for the zone or None in case of error
@@ -309,10 +309,10 @@ def add_default_service_group(uci, name, src='lan', dest='wan'):
     Create all rules for the given service group
 
     Arguments:
-      uci -- EUci pointer
-      name -- Name of the default service group from the ns-api database
-      src -- Source zone, default is 'lan'. The zone must already exists inside the firewall db
-      dest -- Destination zone, default is 'wan'. The zone must already exists inside the firewall db
+      - uci -- EUci pointer
+      - name -- Name of the default service group from the ns-api database
+      - src -- Source zone, default is 'lan'. The zone must already exists inside the firewall db
+      - dest -- Destination zone, default is 'wan'. The zone must already exists inside the firewall db
 
     Returns:
       - A list of configuration section names of each rule, None in case of error
@@ -356,10 +356,10 @@ def add_default_rule(uci, name, proto, port):
     Create a rule from ns-api default database.
 
     Arguments:
-      uci -- EUci pointer
-      name -- Name of the default rule from the ns-api database
-      proto -- A valid UCI protocol
-      ports -- A port or comma-separated list of ports
+      - uci -- EUci pointer
+      - name -- Name of the default rule from the ns-api database
+      - proto -- A valid UCI protocol
+      - ports -- A port or comma-separated list of ports
 
     Returns:
       - The name of the configuration section for the rule or None in case of error

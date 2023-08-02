@@ -20,15 +20,15 @@ def get_random_id():
     Return a random valid UCI id.
 
     Random ids:
-    - have a length of 11 characters
-    - are sanitized accordingly to UCI conventions (see 'sanitize' function)
-    - start with 'ns_' prefix
+      - have a length of 11 characters
+      - are sanitized accordingly to UCI conventions (see 'sanitize' function)
+      - start with ns\_ prefix
 
     Arguments:
-      name -- the name of the section
+      - name -- the name of the section
 
     Returns:
-      a valid UCI identifier as string
+      - a valid UCI identifier as string
     '''
 
     h = hashlib.new('sha1')
@@ -40,16 +40,17 @@ def get_id(name, length = 100):
     '''
     Return a valid UCI id based on the given string.
     All auto-generated NethSecurity ids:
-    - have a maximum length of 100 characters
-    - are sanitized accordingly to UCI conventions (see 'sanitize' function)
-    - start with 'ns_' prefix
+
+      - have a maximum length of 100 characters
+      - start with ns\_ prefix
+      - are sanitized accordingly to UCI conventions
 
     Arguments:
-      name -- the name of the section
-      length -- maximum id length, default is 100. Maximum lenght for firewall zones is 15.
+      - name -- the name of the section
+      - length -- maximum id length, default is 100. Maximum lenght for firewall zones is 15.
 
     Returns:
-      a valid UCI identifier as string
+      - a valid UCI identifier as string
     '''
     sname = f'ns_{sanitize(name)}'
     return sname[0:length]
@@ -60,10 +61,10 @@ def sanitize(name):
     UCI identifiers and config file names may contain only the characters a-z, 0-9 and _
 
     Arguments:
-      name -- the name of the section
+      - name -- the name of the section
     
     Returns:
-      a string with valid chachars for UCI
+      - a string with valid chachars for UCI
     '''
     name = re.sub(r'[^\x00-\x7F]+','_', name)
     name = re.sub('[^0-9a-zA-Z]', '_', name)
@@ -74,12 +75,12 @@ def get_all_by_type(uci, config, utype):
     Return all sections of the given utype from the given config
 
     Arguments:
-      uci -- EUci pointer
-      config -- Configuration database name
-      utype -- Section type
+      - uci -- EUci pointer
+      - config -- Configuration database name
+      - utype -- Section type
 
     Returns:
-      A dictionary of all matched sections, None in case of error
+      - A dictionary of all matched sections, None in case of error
     '''
     ret = dict()
     try:
@@ -95,10 +96,10 @@ def get_device_name(hwaddr):
     Retrieve the physical device name given the MAC address
 
     Aarguments:
-      hwaddr -- MAC address string
+      - hwaddr -- MAC address string
 
     Returns:
-      The device name as a string if the network interface has been found, None otherwise.
+      - The device name as a string if the network interface has been found, None otherwise.
     '''
     try:
         interfaces = json.loads(subprocess.run(["/sbin/ip", "--json", "address", "show"], check=True, capture_output=True).stdout)
@@ -115,11 +116,11 @@ def get_interface_from_mac(uci, hwaddr):
     Retrieve the logical UCI interface name given the MAC address
 
     Arguments:
-      uci -- EUci pointer
-      hwaddr -- MAC address string
+      - uci -- EUci pointer
+      - hwaddr -- MAC address string
 
     Returns:
-      The device name as a string if the interface has been found, None otherwise
+      - The device name as a string if the interface has been found, None otherwise
     '''
     device = get_device_name(hwaddr)
     return get_interface_from_device(uci, device)
@@ -129,11 +130,11 @@ def get_interface_from_device(uci, device):
     Retrieve the logical UCI interface name given the device name
 
     Arguments:
-      uci -- EUci pointer
-      hwaddr -- MAC address string
+      - uci -- EUci pointer
+      - hwaddr -- MAC address string
 
     Returns:
-      The device name as a string if the interface has been found, None otherwise
+      - The device name as a string if the interface has been found, None otherwise
     '''
     for section in uci.get("network"):
         if uci.get("network", section) == "interface":
@@ -157,13 +158,13 @@ def get_all_by_option(uci, config, option, value):
     Return all sections with the given option value
 
     Arguments:
-      uci -- EUci pointer
-      config -- Configuration database name
-      option -- Option name
-      value -- Option value
+      - uci -- EUci pointer
+      - config -- Configuration database name
+      - option -- Option name
+      - value -- Option value
 
     Returns:
-      A dictionary of all matched sections
+      - A dictionary of all matched sections
     '''
     ret = dict()
     for section in uci.get(config, list=True, default=[]):
@@ -177,11 +178,11 @@ def get_all_devices_by_zone(uci, zone):
     Retrieve all devices associated to the given zone
 
     Arguments:
-      uci -- EUci pointer
-      zone -- Firewall zone name
+      - uci -- EUci pointer
+      - zone -- Firewall zone name
 
     Returns:
-      A list of device names
+      - A list of device names
     '''
     devices = []
     for section in uci.get("firewall"):
@@ -205,10 +206,10 @@ def get_all_wan_devices(uci):
     Retrieve all devices associated to the wan zone
 
     Arguments:
-      uci -- EUci pointer
+      - uci -- EUci pointer
 
     Returns:
-      A list of device names
+      - A list of device names
     '''
     return get_all_devices_by_zone(uci, 'wan')
 
@@ -217,10 +218,10 @@ def get_all_lan_devices(uci):
     Retrieve all devices associated to the lan zone
 
     Arguments:
-      uci -- EUci pointer
+      - uci -- EUci pointer
 
     Returns:
-      A list of device names
+      - A list of device names
     '''
     return get_all_devices_by_zone(uci, 'lan')
 
@@ -229,13 +230,12 @@ def get_user_addresses(uci, user):
     Retrieve all IP addresses associated to given user
 
     Arguments:
-      uci -- EUci pointer
-      user -- User object id (UCI section)
+      - uci -- EUci pointer
+      - user -- User object id (UCI section)
 
-    Returns:
-      A tuple of lists:
-        - first element is a list of IPv4 addresses
-        - second element is a list of IPv6 addresses
+    Returns a tuple of lists:
+      - first element is a list of IPv4 addresses
+      - second element is a list of IPv6 addresses
     '''
     ipv4 = []
     ipv6 = []
@@ -272,11 +272,11 @@ def get_user_macs(uci, user):
     Retrieve all MAC addresses associated to given user
 
     Arguments:
-      uci -- EUci pointer
-      user -- User object id (UCI section)
+      - uci -- EUci pointer
+      - user -- User object id (UCI section)
 
     Returns:
-      A list of MAC addresses
+      - A list of MAC addresses
     '''
     return list(uci.get('objects', user, 'macaddr', list=True, default=[]))
 
@@ -285,11 +285,11 @@ def get_group_addresses(uci, group):
     Retrieve all IP addresses associated to given group
 
     Arguments:
-      uci -- EUci pointer
-      user -- Group object id (UCI section)
+      - uci -- EUci pointer
+      - user -- Group object id (UCI section)
 
     Returns:
-      A tuple of lists:
+      - A tuple of lists:
         - first element is a list of IPv4 addresses
         - second element is a list of IPv6 addresses
     '''
@@ -306,11 +306,11 @@ def get_group_macs(uci, group):
     Retrieve all MAC addresses associated to given user
 
     Arguments:
-      uci -- EUci pointer
-      group -- Group object id (UCI section)
+      - uci -- EUci pointer
+      - group -- Group object id (UCI section)
 
     Returns:
-      A list of MAC addresses
+      - A list of MAC addresses
     '''
     macs = []
     for u in uci.get('objects', group, 'user', list=True, default=[]):
