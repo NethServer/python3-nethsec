@@ -69,7 +69,7 @@ def add_to_wan(uci, device):
     '''
     return add_to_zone(uci, device, 'wan')
 
-def add_vpn_interface(uci, name, device):
+def add_vpn_interface(uci, name, device, link=""):
     '''
     Create a network interface for the given device.
     The interface can be used for PBR (Policy Based Routing).
@@ -79,18 +79,22 @@ def add_vpn_interface(uci, name, device):
       uci -- EUci pointer
       name -- Interface name
       device -- Device name
+      link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns:
       The name of the configuration section or None in case of error
     '''
-    iname = utils.get_id(name)
+    iname = utils.sanitize(name)
     uci.set('network', iname, 'interface')
     uci.set('network', iname, 'proto', 'none')
     uci.set('network', iname, 'device', device)
+    uci.set('network', iname, 'ns_tag', ["automated"])
+    if link:
+        uci.set('network', iname, 'ns_link', link)
     uci.commit('network')
     return iname
 
-def add_trusted_zone(uci, name, networks = []):
+def add_trusted_zone(uci, name, networks = [], link = ""):
     '''
     Create a trusted zone. The zone will:
     - be able to access lan and wan zone
@@ -100,15 +104,18 @@ def add_trusted_zone(uci, name, networks = []):
       uci -- EUci pointer
       name -- Zone name, maximum length is 12
       network -- A list of interfaces to be added to the zone (optional)
+      link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
-    Returns:
-      The name of the configuration section or None in case of error
+    Returns a tuple:
+      - The name of the configuration section or None in case of error
+      - A list of configuration sections or an empy list in case of error
     '''
 
     if len(name) > 12:
-        return None
+        return None, None
 
-    zname = utils.get_id(name)
+    forwardings = list()
+    zname = utils.get_random_id()
     name = utils.sanitize(name)
     uci.set("firewall", zname, 'zone')
     uci.set("firewall", zname, 'name', name)
@@ -117,25 +124,40 @@ def add_trusted_zone(uci, name, networks = []):
     uci.set("firewall", zname, 'forward', 'REJECT')
     if networks:
         uci.set("firewall", zname, 'network', networks)
+    uci.set("firewall", zname, "ns_tag", ["automated"])
+    if link:
+        uci.set("firewall", zname, "ns_link", link)
 
-    flan = f"{zname}2lan"
+    flan = utils.get_random_id()
     uci.set("firewall", flan, "forwarding")
     uci.set("firewall", flan, "src", name)
     uci.set("firewall", flan, "dest", "lan")
+    uci.set("firewall", flan, "ns_tag", ["automated"])
+    if link:
+        uci.set("firewall", flan, "ns_link", link)
+    forwardings.append(flan)
 
-    flan = f"lan2{zname}"
+    flan = utils.get_random_id()
     uci.set("firewall", flan, "forwarding")
     uci.set("firewall", flan, "src", "lan")
     uci.set("firewall", flan, "dest", name)
+    uci.set("firewall", flan, "ns_tag", ["automated"])
+    if link:
+        uci.set("firewall", flan, "ns_link", link)
+    forwardings.append(flan)
 
-    flan = f"{zname}2wan"
+    flan = utils.get_random_id()
     uci.set("firewall", flan, "forwarding")
     uci.set("firewall", flan, "src", name)
     uci.set("firewall", flan, "dest", "wan")
+    uci.set("firewall", flan, "ns_tag", ["automated"])
+    if link:
+        uci.set("firewall", flan, "ns_link", link)
+    forwardings.append(flan)
 
-    return zname
+    return zname, forwardings
 
-def add_service(uci, name, port, proto):
+def add_service(uci, name, port, proto, link = ""):
     '''
     Create an ACCEPT traffic rule for the given service
 
@@ -144,6 +166,7 @@ def add_service(uci, name, port, proto):
       name -- Service name
       port -- Service port number as string
       proto -- List of service protocols
+      link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns:
       The name of the configuration section
@@ -156,6 +179,9 @@ def add_service(uci, name, port, proto):
     uci.set("firewall", rname, "proto", proto)
     uci.set("firewall", rname, "target", "ACCEPT")
     uci.set("firewall", rname, "enabled", "1")
+    uci.set("firewall", rname, "ns_tag", ["automated"])
+    if link:
+        uci.set("firewall", rname, "ns_link", link)
     return rname
 
 def remove_service(uci, name):

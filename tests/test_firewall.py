@@ -83,9 +83,10 @@ config default_forwarding 'ns_blue2lan'
 	option dest 'lan'
 
 # Default rule
-config default_rule 'ns_allow_ui'
-	option name 'Allow-ui'
+config default_rule 'ns_test_rule'
+	option name 'Test-rule'
 	option src 'wan'
+	option dest 'blue'
 	option dest_port '__PORT__'
 	option proto '__PROTO__'
 	option target 'ACCEPT'
@@ -104,7 +105,8 @@ def _setup_db(tmp_path):
 
 def test_add_to_zone(tmp_path):
     u = _setup_db(tmp_path)
-    assert firewall.add_to_zone(u, "vnet1", "lan") == 'lan1'
+    z1 = firewall.add_to_zone(u, "vnet1", "lan")
+    assert z1 == 'lan1'
     assert 'vnet1' in u.get_all('firewall', 'lan1', 'device')
     assert firewall.add_to_zone(u, "vnet1", "blue") == None
 
@@ -120,25 +122,28 @@ def test_add_to_wan(tmp_path):
 
 def test_add_service(tmp_path):
     u = _setup_db(tmp_path)
-    assert firewall.add_service(u, "my-service", "1234", "tcp") == "ns_allow_my_service"
-    assert u.get('firewall', 'ns_allow_my_service', 'dest_port') == '1234'
+    rule = firewall.add_service(u, "my_service", "443", "tcp", "nginx/_lan")
+    assert rule is not None
+    assert u.get('firewall', 'ns_allow_my_service', 'dest_port') == '443'
     assert u.get('firewall', 'ns_allow_my_service', 'proto') == 'tcp'
     assert u.get('firewall', 'ns_allow_my_service', 'src') == 'wan'
-    assert u.get('firewall', 'ns_allow_my_service', 'name') == 'Allow-my-service'
+    assert u.get('firewall', 'ns_allow_my_service', 'name') == 'Allow-my_service'
+    assert u.get('firewall', rule, 'ns_link') == "nginx/_lan"
+    assert u.get('firewall', rule, 'ns_tag') == "automated"
 
     assert firewall.add_service(u, "my-service2", "456", ["tcp", "udp"]) == "ns_allow_my_service2"
     assert u.get_all('firewall', 'ns_allow_my_service2', 'proto') == ("tcp", "udp")
 
 def test_block_service(tmp_path):
     u = _setup_db(tmp_path)
-    firewall.add_service(u, "my-service", "1234", "tcp")
+    firewall.add_service(u, "my-service", "443", "tcp")
     assert firewall.remove_service(u, "my-service") == "ns_allow_my_service"
     with pytest.raises(UciExceptionNotFound):
         u.get('firewall', 'ns_allow_my_service')
 
 def test_disable_service(tmp_path):
     u = _setup_db(tmp_path)
-    firewall.add_service(u, "my-service", "1234", "tcp")
+    firewall.add_service(u, "my-service", "443", "tcp")
     assert firewall.disable_service(u, "my-service") == "ns_allow_my_service"
     assert u.get("firewall", "ns_allow_my_service", "enabled") == "0"
     assert firewall.disable_service(u, "non-existing") == None
@@ -153,32 +158,50 @@ def test_enable_service(tmp_path):
 
 def test_add_vpn_interface(tmp_path):
     u = _setup_db(tmp_path)
-    assert firewall.add_vpn_interface(u, 'testvpn', 'tuntest') == 'ns_testvpn'
-    assert u.get('network', 'ns_testvpn') == 'interface'
-    assert u.get('network', 'ns_testvpn', 'proto') == 'none'
-    assert u.get('network', 'ns_testvpn', 'device') == 'tuntest'
+    assert firewall.add_vpn_interface(u, 'test!vpn', 'tuntest') == 'test_vpn'
+    assert u.get('network', 'test_vpn') == 'interface'
+    assert u.get('network', 'test_vpn', 'proto') == 'none'
+    assert u.get('network', 'test_vpn', 'device') == 'tuntest'
+    assert u.get('network', 'test_vpn', 'ns_tag') == 'automated'
+    i = firewall.add_vpn_interface(u, 'p2p', 'ppp10', 'torrent/server1')
+    assert u.get('network', 'p2p', 'ns_link') == 'torrent/server1'
 
 def test_add_trusted_zone(tmp_path):
     u = _setup_db(tmp_path)
-    assert firewall.add_trusted_zone(u, 'toolongnameforzone') == None
+    assert firewall.add_trusted_zone(u, 'toolongnameforzone') == (None, None)
 
-    assert firewall.add_trusted_zone(u, 'mytrusted') == 'ns_mytrusted'
-    assert u.get("firewall", "ns_mytrusted") == "zone"
-    assert u.get("firewall", "ns_mytrusted", 'name') == "mytrusted"
-    assert u.get("firewall", "ns_mytrusted", 'input') == "ACCEPT"
-    assert u.get("firewall", "ns_mytrusted", 'output') == "ACCEPT"
-    assert u.get("firewall", "ns_mytrusted", 'forward') == "REJECT"
-    assert u.get("firewall", "ns_mytrusted2lan") == "forwarding"
-    assert u.get("firewall", "ns_mytrusted2lan", 'src') == "mytrusted"
-    assert u.get("firewall", "ns_mytrusted2lan", 'dest') == "lan"
-    assert u.get("firewall", "ns_mytrusted2wan") == "forwarding"
-    assert u.get("firewall", "ns_mytrusted2wan", 'src') == "mytrusted"
-    assert u.get("firewall", "ns_mytrusted2wan", 'dest') == "wan"
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mytrusted')
+    assert zone is not None
+    assert len(forwardings) == 3
+    assert u.get("firewall", zone) == "zone"
+    assert u.get("firewall", zone, 'name') == "mytrusted"
+    assert u.get("firewall", zone, 'input') == "ACCEPT"
+    assert u.get("firewall", zone, 'output') == "ACCEPT"
+    assert u.get("firewall", zone, 'forward') == "REJECT"
+    assert u.get("firewall", forwardings[0]) == "forwarding"
+    assert u.get("firewall", forwardings[0], 'src') == "mytrusted"
+    assert u.get("firewall", forwardings[0], 'dest') == "lan"
+    assert u.get("firewall", forwardings[0], 'ns_tag') == "automated"
+    assert u.get("firewall", forwardings[1]) == "forwarding"
+    assert u.get("firewall", forwardings[1], 'src') == "lan"
+    assert u.get("firewall", forwardings[1], 'dest') == "mytrusted"
+    assert u.get("firewall", forwardings[1], 'ns_tag') == "automated"
+    assert u.get("firewall", forwardings[2]) == "forwarding"
+    assert u.get("firewall", forwardings[2], 'src') == "mytrusted"
+    assert u.get("firewall", forwardings[2], 'dest') == "wan"
+    assert u.get("firewall", forwardings[2], 'ns_tag') == "automated"
+
+    link = 'openvpn/instance1'
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked', link=link)
+    assert u.get("firewall", zone, 'ns_link') == link
+    assert u.get("firewall", forwardings[0], 'ns_link') == link
+    assert u.get("firewall", forwardings[1], 'ns_link') == link
+    assert u.get("firewall", forwardings[2], 'ns_link') == link
 
 def test_add_trusted_zone_with_networks(tmp_path):
     u = _setup_db(tmp_path)
     interface = firewall.add_vpn_interface(u, 'testvpn2', 'tuntest2')
-    zone = firewall.add_trusted_zone(u, 'mytrusted2', list(interface))
+    zone, forwardings = firewall.add_trusted_zone(u, 'mytrusted2', list(interface))
     assert u.get_all("firewall", zone, 'network') == tuple(interface)
 
 def test_apply():
@@ -187,12 +210,13 @@ def test_apply():
 
 def test_add_default_rule(tmp_path):
     u = _setup_db(tmp_path)
-    rule = firewall.add_default_rule(u, 'ns_allow_ui', 'tcp', '443')
+    rule = firewall.add_default_rule(u, 'ns_test_rule', 'tcp', '443')
     print(rule)
     assert u.get("firewall", rule) == "rule"
     assert u.get("firewall", rule, "proto") == "tcp"
-    assert u.get("firewall", rule, "name") == "Allow-ui"
+    assert u.get("firewall", rule, "name") == "Test-rule"
     assert u.get("firewall", rule, "src") == "wan"
+    assert u.get("firewall", rule, "dest") == "blue"
     assert u.get("firewall", rule, "dest_port") == "443"
     assert u.get("firewall", rule, "enabled") == "1"
     assert u.get("firewall", rule, "target") == "ACCEPT"
