@@ -124,10 +124,11 @@ def test_add_service(tmp_path):
     u = _setup_db(tmp_path)
     rule = firewall.add_service(u, "my_service", "443", "tcp", "nginx/_lan")
     assert rule is not None
-    assert u.get('firewall', 'ns_allow_my_service', 'dest_port') == '443'
-    assert u.get('firewall', 'ns_allow_my_service', 'proto') == 'tcp'
-    assert u.get('firewall', 'ns_allow_my_service', 'src') == 'wan'
-    assert u.get('firewall', 'ns_allow_my_service', 'name') == 'Allow-my_service'
+    assert rule == "ns_allow_my_service"
+    assert u.get('firewall', rule, 'dest_port') == '443'
+    assert u.get('firewall', rule, 'proto') == 'tcp'
+    assert u.get('firewall', rule, 'src') == 'wan'
+    assert u.get('firewall', rule, 'name') == 'Allow-my_service'
     assert u.get('firewall', rule, 'ns_link') == "nginx/_lan"
     assert u.get('firewall', rule, 'ns_tag') == "automated"
 
@@ -210,8 +211,7 @@ def test_apply():
 
 def test_add_default_rule(tmp_path):
     u = _setup_db(tmp_path)
-    rule = firewall.add_default_rule(u, 'ns_test_rule', 'tcp', '443')
-    print(rule)
+    rule = firewall.add_default_rule(u, 'ns_test_rule', 'tcp', '443', 'test1/key1')
     assert u.get("firewall", rule) == "rule"
     assert u.get("firewall", rule, "proto") == "tcp"
     assert u.get("firewall", rule, "name") == "Test-rule"
@@ -221,6 +221,7 @@ def test_add_default_rule(tmp_path):
     assert u.get("firewall", rule, "enabled") == "1"
     assert u.get("firewall", rule, "target") == "ACCEPT"
     assert u.get("firewall", rule, "ns_tag") == "automated"
+    assert u.get("firewall", rule, "ns_link") == "test1/key1"
 
 def test_add_default_zone(tmp_path):
     u = _setup_db(tmp_path)
@@ -260,9 +261,69 @@ def test_allow_default_service_group(tmp_path):
     assert u.get("firewall", sections[1], "dest") == "wan"
     assert u.get("firewall", sections[1], "proto") == "udp"
     assert u.get("firewall", sections[1], "dest_port") == "53"
+    assert u.get("firewall", sections[1], "ns_tag") ==  "automated"
     
     sections = firewall.add_default_service_group(u, "ns_web_secure", "grey", "orange")
     assert u.get("firewall", sections[0], "src") == "grey"
     assert u.get("firewall", sections[0], "dest") == "orange"
     assert u.get("firewall", sections[0], "proto") == "tcp"
     assert u.get("firewall", sections[1], "proto") == "udp"
+    
+    sections = firewall.add_default_service_group(u, "ns_web_secure", "blue", "yellow", link="db/mykey")
+    assert u.get("firewall", sections[0], "ns_link") == "db/mykey"
+    assert u.get("firewall", sections[1], "ns_link") == "db/mykey"
+
+def test_get_all_linked(tmp_path):
+    u = _setup_db(tmp_path)
+    link = "mytestdb/mykey"
+    sections = firewall.add_default_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
+    rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
+    interface = firewall.add_vpn_interface(u, 'p2p', 'ppp10', link=link)
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked', link=link)
+    linked = firewall.get_all_linked(u, link)
+    for s in sections:
+        assert s in linked['firewall']
+    assert rule in linked['firewall']
+    assert zone in linked['firewall']
+    for f in forwardings:
+        assert f in linked['firewall']
+    assert interface in linked['network']
+
+
+def test_disable_linked_rules(tmp_path):
+    u = _setup_db(tmp_path)
+    link = "mytestdb/mykey"
+    sections = firewall.add_default_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
+    rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
+    interface = firewall.add_vpn_interface(u, 'p2p', 'ppp10', link=link)
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked', link=link)
+    disabled = firewall.disable_linked_rules(u, link)
+    for s in sections:
+        assert u.get("firewall", s, "enabled") == "0"
+        assert s in disabled
+    assert u.get("firewall", rule, "enabled") == "0"
+    assert rule in disabled
+    assert u.get("firewall", zone, "enabled", default="XX") == "XX" # option must not be set
+    assert u.get("network", interface, "enabled", default="XX") == "XX" # option must not be set
+    for f in forwardings:
+        assert u.get("network", f, "enabled", default="XX") == "XX" # option must not be set
+
+def test_delete_linked_sections(tmp_path):
+    u = _setup_db(tmp_path)
+    link = "mytestdb/mykey"
+    sections = firewall.add_default_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
+    rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
+    interface = firewall.add_vpn_interface(u, 'p2p', 'ppp10', link=link)
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked', link=link)
+    deleted = firewall.delete_linked_sections(u, link)
+    assert len(deleted) > 0
+    with pytest.raises(UciExceptionNotFound):
+        u.get("firewall", rule)
+    with pytest.raises(UciExceptionNotFound):
+        u.get("firewall", zone)
+    with pytest.raises(UciExceptionNotFound):
+        for s in sections:
+            u.get("firewall", s)
+    with pytest.raises(UciExceptionNotFound):
+        for f in forwardings:
+            u.get("firewall", f)

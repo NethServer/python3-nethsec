@@ -304,7 +304,7 @@ def add_default_zone(uci, name, networks = []):
 
     return (zname, forwardings)
 
-def add_default_service_group(uci, name, src='lan', dest='wan'):
+def add_default_service_group(uci, name, src='lan', dest='wan', link=""):
     '''
     Create all rules for the given service group
 
@@ -313,6 +313,7 @@ def add_default_service_group(uci, name, src='lan', dest='wan'):
       - name -- Name of the default service group from the ns-api database
       - src -- Source zone, default is 'lan'. The zone must already exists inside the firewall db
       - dest -- Destination zone, default is 'wan'. The zone must already exists inside the firewall db
+      - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns:
       - A list of configuration section names of each rule, None in case of error
@@ -347,11 +348,13 @@ def add_default_service_group(uci, name, src='lan', dest='wan'):
         uci.set("firewall", sname, "target", "ACCEPT")
         uci.set("firewall", sname, "enabled", "1")
         uci.set("firewall", sname, "ns_tag", ["automated"])
+        if link:
+            uci.set("firewall", sname, "ns_link", link)
         sections.append(sname)
 
     return sections
 
-def add_default_rule(uci, name, proto, port):
+def add_default_rule(uci, name, proto, port, link=""):
     '''
     Create a rule from ns-api default database.
 
@@ -360,6 +363,7 @@ def add_default_rule(uci, name, proto, port):
       - name -- Name of the default rule from the ns-api database
       - proto -- A valid UCI protocol
       - ports -- A port or comma-separated list of ports
+      - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns:
       - The name of the configuration section for the rule or None in case of error
@@ -373,5 +377,72 @@ def add_default_rule(uci, name, proto, port):
         drule[section] = drule[section].replace("__PROTO__", proto)
         uci.set("firewall", rname, section, drule[section])
     uci.set("firewall", rname, "ns_tag", ["automated"])
+    if link:
+        uci.set("firewall", rname, "ns_link", link)
 
     return rname
+
+def get_all_linked(uci, link):
+    '''
+    Search all database, execpt ns-api one, for entities with the given link
+
+    Arguments:
+      - uci -- EUci pointer
+      - link -- A reference to an existing key in the format <database>/<keyname>
+
+    Returns:
+      - A dictionary of all matched sections like
+        {"db1": ["key1", "key2"], "db2": [...] }
+    '''
+
+    ret = dict()
+    for config in uci.list_configs():
+        if config == "ns-api":
+            continue
+        records = utils.get_all_by_option(uci, config, 'ns_link', link, deep = False)
+        ret[config] = records
+
+    return ret
+
+def disable_linked_rules(uci, link):
+    '''
+    Disable all rules matching the given link
+
+    Arguments:
+      - uci -- EUci pointer
+      - link -- A reference to an existing key in the format <database>/<keyname>
+
+    Returns:
+      - A list of disabled sections
+    '''
+
+    disabled = list()
+    linked = get_all_linked(uci, link)
+    if "firewall" in linked:
+        for section in linked["firewall"]:
+            if uci.get("firewall", section) == "rule":
+                uci.set("firewall", section, "enabled", 0)
+                disabled.append(section)
+
+    return disabled
+
+def delete_linked_sections(uci, link):
+    '''
+    Delete all sections matching the given link
+
+    Arguments:
+      - uci -- EUci pointer
+      - link -- A reference to an existing key in the format <database>/<keyname>
+
+    Returns:
+      - A list of disabled sections
+    '''
+
+    deleted = list()
+    linked = get_all_linked(uci, link)
+    for db in linked:
+        for section in linked[db]:
+            uci.delete(db, section)
+            deleted.append(section)
+
+    return deleted
