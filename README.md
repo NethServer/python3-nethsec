@@ -29,8 +29,28 @@ firewall.apply(u)
 
 ## Documentation
 
-Execute:
+Documentation can be generated using [pydoctor](https://pydoctor.readthedocs.io) or [pydoc](https://docs.python.org/3/library/pydoc.html).
+
+Documentation is automatically generated at each new commit on master branch.
+Online doc is hosted on [GitHub pages](https://nethserver.github.io/python3-nethsec).
+
+Generate doc using pydoctor:
+```
+pip install -U pydoctor
+pydoctor  \
+  --project-name=python3-nethsec \
+  --project-url=https://github.com/nethserver/python3-nethsec \
+  --make-html \
+  --html-output=./apidocs \
+  --project-base-dir="$(pwd)" \
+  --docformat=restructuredtext \
+  --intersphinx=https://docs.python.org/3/objects.inv \
+  ./src/nethsec
+```
+
+Generate doc using pydoc:
 ```bash
+cd src
 python3 -m pydoc nethsec.firewall
 python3 -m pydoc nethsec.utils
 ```

@@ -181,6 +181,7 @@ def test_get_all_by_option(tmp_path):
     u = _setup_db(tmp_path)
     return_map = {"section1": u.get_all("test", "section1"), "section2": u.get_all("test", "section2")}
     assert(utils.get_all_by_option(u, 'test', 'opt2', 'value2') == return_map)
+    assert(utils.get_all_by_option(u, 'test', 'opt2', 'value2', deep = False) == list(return_map.keys()))
 
 def test_get_all_wan_devices(tmp_path):
     u = _setup_db(tmp_path)
@@ -213,3 +214,10 @@ def test_get_group_addresses(tmp_path):
 def test_get_group_macs(tmp_path):
     u = _setup_db(tmp_path)
     assert(utils.get_group_macs(u, 'vip') == ["52:54:00:9d:3d:e5"])
+
+def test_get_random_id():
+    id1 = utils.get_random_id()
+    id2 = utils.get_random_id()
+    assert len(id1) == 11
+    assert id1[0:3] == "ns_"
+    assert id1 != id2
