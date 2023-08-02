@@ -1,0 +1,1107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>nethsec.firewall</title>
+    <meta name="generator" content="pydoctor 23.4.1"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code class="thisobject"><a href="nethsec.firewall.html" class="internal-link" title="This package">firewall</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Functions</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_default_forwarding" class="internal-link" title="nethsec.firewall.add_default_forwarding">add<wbr></wbr>_default<wbr></wbr>_forwarding</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_default_rule" class="internal-link" title="nethsec.firewall.add_default_rule">add<wbr></wbr>_default<wbr></wbr>_rule</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_default_service_group" class="internal-link" title="nethsec.firewall.add_default_service_group">add<wbr></wbr>_default<wbr></wbr>_service<wbr></wbr>_group</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_default_zone" class="internal-link" title="nethsec.firewall.add_default_zone">add<wbr></wbr>_default<wbr></wbr>_zone</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_service" class="internal-link" title="nethsec.firewall.add_service">add<wbr></wbr>_service</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_to_lan" class="internal-link" title="nethsec.firewall.add_to_lan">add<wbr></wbr>_to<wbr></wbr>_lan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_to_wan" class="internal-link" title="nethsec.firewall.add_to_wan">add<wbr></wbr>_to<wbr></wbr>_wan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_to_zone" class="internal-link" title="nethsec.firewall.add_to_zone">add<wbr></wbr>_to<wbr></wbr>_zone</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_trusted_zone" class="internal-link" title="nethsec.firewall.add_trusted_zone">add<wbr></wbr>_trusted<wbr></wbr>_zone</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_vpn_interface" class="internal-link" title="nethsec.firewall.add_vpn_interface">add<wbr></wbr>_vpn<wbr></wbr>_interface</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#apply" class="internal-link" title="nethsec.firewall.apply">apply</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#disable_service" class="internal-link" title="nethsec.firewall.disable_service">disable<wbr></wbr>_service</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#enable_service" class="internal-link" title="nethsec.firewall.enable_service">enable<wbr></wbr>_service</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#remove_service" class="internal-link" title="nethsec.firewall.remove_service">remove<wbr></wbr>_service</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code><a href="index.html" class="internal-link" title="The parent of this package">nethsec</a></code> 
+      </div>
+      
+      <div>
+        
+
+        <div class="childrenKindTitle">Modules</div>
+        <ul>
+    
+    <li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+        
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapseSideBar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <div id="main" class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code><wbr></wbr>.<code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          package documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <a href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py" class="sourceLink">(source)</a>
+          <p></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>Firewall utilities</p></div>
+        </div>
+
+        <div id="splitTables">
+          
+          
+
+            <p class="fromInitPy">From <code>__init__.py</code>:</p><table class="children sortable" id="id2">
+  
+  
+  <tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_default_forwarding" class="internal-link" title="nethsec.firewall.add_default_forwarding">add<wbr></wbr>_default<wbr></wbr>_forwarding</a></code></td>
+    <td>Create a forwarding from ns-api default database.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_default_rule" class="internal-link" title="nethsec.firewall.add_default_rule">add<wbr></wbr>_default<wbr></wbr>_rule</a></code></td>
+    <td>Create a rule from ns-api default database.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_default_service_group" class="internal-link" title="nethsec.firewall.add_default_service_group">add<wbr></wbr>_default<wbr></wbr>_service<wbr></wbr>_group</a></code></td>
+    <td>Create all rules for the given service group</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_default_zone" class="internal-link" title="nethsec.firewall.add_default_zone">add<wbr></wbr>_default<wbr></wbr>_zone</a></code></td>
+    <td>Create a zone from ns-api default database.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_service" class="internal-link" title="nethsec.firewall.add_service">add<wbr></wbr>_service</a></code></td>
+    <td>Create an ACCEPT traffic rule for the given service</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_to_lan" class="internal-link" title="nethsec.firewall.add_to_lan">add<wbr></wbr>_to<wbr></wbr>_lan</a></code></td>
+    <td>Shortuct to add a device to lan zone</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_to_wan" class="internal-link" title="nethsec.firewall.add_to_wan">add<wbr></wbr>_to<wbr></wbr>_wan</a></code></td>
+    <td>Shortuct to add a device to wan zone</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_to_zone" class="internal-link" title="nethsec.firewall.add_to_zone">add<wbr></wbr>_to<wbr></wbr>_zone</a></code></td>
+    <td>Add given device to a firewall zone. The device is not added if the firewall zone does not exists</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_trusted_zone" class="internal-link" title="nethsec.firewall.add_trusted_zone">add<wbr></wbr>_trusted<wbr></wbr>_zone</a></code></td>
+    <td>be able to access lan and wan zone</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_vpn_interface" class="internal-link" title="nethsec.firewall.add_vpn_interface">add<wbr></wbr>_vpn<wbr></wbr>_interface</a></code></td>
+    <td>Create a network interface for the given device. The interface can be used for PBR (Policy Based Routing). This function automatically commits the network database.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#apply" class="internal-link" title="nethsec.firewall.apply">apply</a></code></td>
+    <td>commit changes to firewall config</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#disable_service" class="internal-link" title="nethsec.firewall.disable_service">disable<wbr></wbr>_service</a></code></td>
+    <td>Disable the ACCEPT rule traffic for the given service.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#enable_service" class="internal-link" title="nethsec.firewall.enable_service">enable<wbr></wbr>_service</a></code></td>
+    <td>Disable the ACCEPT rule traffic for the given service</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#remove_service" class="internal-link" title="nethsec.firewall.remove_service">remove<wbr></wbr>_service</a></code></td>
+    <td>Remove the ACCEPT traffic rule for the given service</td>
+  </tr>
+</table>
+        </div>
+
+        <div id="childList">
+          <div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_to_zone">
+    
+  </a>
+  <a name="add_to_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_to_zone</span><span class="function-signature">(uci, device, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L16">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_to_zone" title="nethsec.firewall.add_to_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Add given device to a firewall zone.
+The device is not added if the firewall zone does not exists</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>device -- Device name</li>
+<li>zone -- Firewall zone name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>If the firewall zone exists, the name of the section where the device has been added.</li>
+<li>None, otherwise.</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_to_lan">
+    
+  </a>
+  <a name="add_to_lan">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_to_lan</span><span class="function-signature">(uci, device)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L46">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_to_lan" title="nethsec.firewall.add_to_lan">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Shortuct to add a device to lan zone</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>device -- Device name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of section or None</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_to_wan">
+    
+  </a>
+  <a name="add_to_wan">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_to_wan</span><span class="function-signature">(uci, device)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L59">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_to_wan" title="nethsec.firewall.add_to_wan">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Shortuct to add a device to wan zone</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>device -- Device name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section or None</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_vpn_interface">
+    
+  </a>
+  <a name="add_vpn_interface">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_vpn_interface</span><span class="function-signature">(uci, name, device, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L72">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_vpn_interface" title="nethsec.firewall.add_vpn_interface">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a network interface for the given device.
+The interface can be used for PBR (Policy Based Routing).
+This function automatically commits the network database.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Interface name</li>
+<li>device -- Device name</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section or None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_trusted_zone">
+    
+  </a>
+  <a name="add_trusted_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_trusted_zone</span><span class="function-signature">(uci, name, networks=[], link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L97">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_trusted_zone" title="nethsec.firewall.add_trusted_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p><dl class="rst-docutils">
+<dt>Create a trusted zone. The zone will:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>be able to access lan and wan zone</li>
+<li>be accessible from lan zone</li>
+</ul>
+</dd>
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Zone name, maximum length is 12</li>
+<li>network -- A list of interfaces to be added to the zone (optional)</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns a tuple:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section or None in case of error</li>
+<li>A list of configuration sections or an empy list in case of error</li>
+</ul>
+</dd>
+</dl>
+</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_service">
+    
+  </a>
+  <a name="add_service">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_service</span><span class="function-signature">(uci, name, port, proto, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L160">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_service" title="nethsec.firewall.add_service">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create an ACCEPT traffic rule for the given service</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Service name</li>
+<li>port -- Service port number as string</li>
+<li>proto -- List of service protocols</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.remove_service">
+    
+  </a>
+  <a name="remove_service">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">remove_service</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L187">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#remove_service" title="nethsec.firewall.remove_service">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Remove the ACCEPT traffic rule for the given service</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Service name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.disable_service">
+    
+  </a>
+  <a name="disable_service">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">disable_service</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L202">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#disable_service" title="nethsec.firewall.disable_service">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Disable the ACCEPT rule traffic for the given service.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Service name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section if found, None otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.enable_service">
+    
+  </a>
+  <a name="enable_service">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">enable_service</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L220">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#enable_service" title="nethsec.firewall.enable_service">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Disable the ACCEPT rule traffic for the given service</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Service name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section if found, None otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.apply">
+    
+  </a>
+  <a name="apply">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">apply</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L238">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#apply" title="nethsec.firewall.apply">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p><dl class="rst-docutils">
+<dt>Apply firewall configuration:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>commit changes to firewall config</li>
+<li>reload the firewall service</li>
+</ul>
+</dd>
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+</dl>
+</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_default_forwarding">
+    
+  </a>
+  <a name="add_default_forwarding">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_default_forwarding</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L251">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_default_forwarding" title="nethsec.firewall.add_default_forwarding">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a forwarding from ns-api default database.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Name of the default forwarding from the ns-api database</li>
+</ul>
+</dd>
+<dt>Returns a tuple:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section for the forwarding or None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_default_zone">
+    
+  </a>
+  <a name="add_default_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_default_zone</span><span class="function-signature">(uci, name, networks=[])</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L272">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_default_zone" title="nethsec.firewall.add_default_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a zone from ns-api default database.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Name of the default zone from the ns-api database</li>
+<li>network -- A list of interfaces to be added to the zone (optional)</li>
+</ul>
+</dd>
+<dt>Returns a tuple:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section for the zone or None in case of error</li>
+<li>A list of configuration section names for the forwardings or None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_default_service_group">
+    
+  </a>
+  <a name="add_default_service_group">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_default_service_group</span><span class="function-signature">(uci, name, src=<span class="rst-variable-quote">'</span><span class="rst-variable-string">lan</span><span class="rst-variable-quote">'</span>, dest=<span class="rst-variable-quote">'</span><span class="rst-variable-string">wan</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L307">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_default_service_group" title="nethsec.firewall.add_default_service_group">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create all rules for the given service group</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Name of the default service group from the ns-api database</li>
+<li>src -- Source zone, default is 'lan'. The zone must already exists inside the firewall db</li>
+<li>dest -- Destination zone, default is 'wan'. The zone must already exists inside the firewall db</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A list of configuration section names of each rule, None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_default_rule">
+    
+  </a>
+  <a name="add_default_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_default_rule</span><span class="function-signature">(uci, name, proto, port)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/firewall/__init__.py#L354">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_default_rule" title="nethsec.firewall.add_default_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a rule from ns-api default database.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>name -- Name of the default rule from the ns-api database</li>
+<li>proto -- A valid UCI protocol</li>
+<li>ports -- A port or comma-separated list of ports</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The name of the configuration section for the rule or None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    23.4.1 at 2023-08-02 10:00:45.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>

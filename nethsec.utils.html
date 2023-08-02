@@ -1,0 +1,1157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>nethsec.utils</title>
+    <meta name="generator" content="pydoctor 23.4.1"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code class="thisobject"><a href="nethsec.utils.html" class="internal-link" title="This package">utils</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Functions</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_all_by_option" class="internal-link" title="nethsec.utils.get_all_by_option">get<wbr></wbr>_all<wbr></wbr>_by<wbr></wbr>_option</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_all_by_type" class="internal-link" title="nethsec.utils.get_all_by_type">get<wbr></wbr>_all<wbr></wbr>_by<wbr></wbr>_type</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_all_devices_by_zone" class="internal-link" title="nethsec.utils.get_all_devices_by_zone">get<wbr></wbr>_all<wbr></wbr>_devices<wbr></wbr>_by<wbr></wbr>_zone</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_all_lan_devices" class="internal-link" title="nethsec.utils.get_all_lan_devices">get<wbr></wbr>_all<wbr></wbr>_lan<wbr></wbr>_devices</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_all_wan_devices" class="internal-link" title="nethsec.utils.get_all_wan_devices">get<wbr></wbr>_all<wbr></wbr>_wan<wbr></wbr>_devices</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_device_name" class="internal-link" title="nethsec.utils.get_device_name">get<wbr></wbr>_device<wbr></wbr>_name</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_group_addresses" class="internal-link" title="nethsec.utils.get_group_addresses">get<wbr></wbr>_group<wbr></wbr>_addresses</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_group_macs" class="internal-link" title="nethsec.utils.get_group_macs">get<wbr></wbr>_group<wbr></wbr>_macs</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_id" class="internal-link" title="nethsec.utils.get_id">get<wbr></wbr>_id</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_interface_from_device" class="internal-link" title="nethsec.utils.get_interface_from_device">get<wbr></wbr>_interface<wbr></wbr>_from<wbr></wbr>_device</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_interface_from_mac" class="internal-link" title="nethsec.utils.get_interface_from_mac">get<wbr></wbr>_interface<wbr></wbr>_from<wbr></wbr>_mac</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_random_id" class="internal-link" title="nethsec.utils.get_random_id">get<wbr></wbr>_random<wbr></wbr>_id</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_user_addresses" class="internal-link" title="nethsec.utils.get_user_addresses">get<wbr></wbr>_user<wbr></wbr>_addresses</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_user_macs" class="internal-link" title="nethsec.utils.get_user_macs">get<wbr></wbr>_user<wbr></wbr>_macs</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#sanitize" class="internal-link" title="nethsec.utils.sanitize">sanitize</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code><a href="index.html" class="internal-link" title="The parent of this package">nethsec</a></code> 
+      </div>
+      
+      <div>
+        
+
+        <div class="childrenKindTitle">Modules</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code>
+            </div>
+        
+
+    </li><li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+        
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapseSideBar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <div id="main" class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code><wbr></wbr>.<code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          package documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <a href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py" class="sourceLink">(source)</a>
+          <p></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>General utilities</p></div>
+        </div>
+
+        <div id="splitTables">
+          
+          
+
+            <p class="fromInitPy">From <code>__init__.py</code>:</p><table class="children sortable" id="id3">
+  
+  
+  <tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_all_by_option" class="internal-link" title="nethsec.utils.get_all_by_option">get<wbr></wbr>_all<wbr></wbr>_by<wbr></wbr>_option</a></code></td>
+    <td>Return all sections with the given option value</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_all_by_type" class="internal-link" title="nethsec.utils.get_all_by_type">get<wbr></wbr>_all<wbr></wbr>_by<wbr></wbr>_type</a></code></td>
+    <td>Return all sections of the given utype from the given config</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_all_devices_by_zone" class="internal-link" title="nethsec.utils.get_all_devices_by_zone">get<wbr></wbr>_all<wbr></wbr>_devices<wbr></wbr>_by<wbr></wbr>_zone</a></code></td>
+    <td>Retrieve all devices associated to the given zone</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_all_lan_devices" class="internal-link" title="nethsec.utils.get_all_lan_devices">get<wbr></wbr>_all<wbr></wbr>_lan<wbr></wbr>_devices</a></code></td>
+    <td>Retrieve all devices associated to the lan zone</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_all_wan_devices" class="internal-link" title="nethsec.utils.get_all_wan_devices">get<wbr></wbr>_all<wbr></wbr>_wan<wbr></wbr>_devices</a></code></td>
+    <td>Retrieve all devices associated to the wan zone</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_device_name" class="internal-link" title="nethsec.utils.get_device_name">get<wbr></wbr>_device<wbr></wbr>_name</a></code></td>
+    <td>Retrieve the physical device name given the MAC address</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_group_addresses" class="internal-link" title="nethsec.utils.get_group_addresses">get<wbr></wbr>_group<wbr></wbr>_addresses</a></code></td>
+    <td>Retrieve all IP addresses associated to given group</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_group_macs" class="internal-link" title="nethsec.utils.get_group_macs">get<wbr></wbr>_group<wbr></wbr>_macs</a></code></td>
+    <td>Retrieve all MAC addresses associated to given user</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_id" class="internal-link" title="nethsec.utils.get_id">get<wbr></wbr>_id</a></code></td>
+    <td>Return a valid UCI id based on the given string. All auto-generated NethSecurity ids:</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_interface_from_device" class="internal-link" title="nethsec.utils.get_interface_from_device">get<wbr></wbr>_interface<wbr></wbr>_from<wbr></wbr>_device</a></code></td>
+    <td>Retrieve the logical UCI interface name given the device name</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_interface_from_mac" class="internal-link" title="nethsec.utils.get_interface_from_mac">get<wbr></wbr>_interface<wbr></wbr>_from<wbr></wbr>_mac</a></code></td>
+    <td>Retrieve the logical UCI interface name given the MAC address</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_random_id" class="internal-link" title="nethsec.utils.get_random_id">get<wbr></wbr>_random<wbr></wbr>_id</a></code></td>
+    <td>Return a random valid UCI id.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_user_addresses" class="internal-link" title="nethsec.utils.get_user_addresses">get<wbr></wbr>_user<wbr></wbr>_addresses</a></code></td>
+    <td>Retrieve all IP addresses associated to given user</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_user_macs" class="internal-link" title="nethsec.utils.get_user_macs">get<wbr></wbr>_user<wbr></wbr>_macs</a></code></td>
+    <td>Retrieve all MAC addresses associated to given user</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#sanitize" class="internal-link" title="nethsec.utils.sanitize">sanitize</a></code></td>
+    <td>Replace illegal chars with _ char. UCI identifiers and config file names may contain only the characters a-z, 0-9 and _</td>
+  </tr>
+</table>
+        </div>
+
+        <div id="childList">
+          <div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_random_id">
+    
+  </a>
+  <a name="get_random_id">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_random_id</span><span class="function-signature">()</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L18">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_random_id" title="nethsec.utils.get_random_id">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return a random valid UCI id.</p>
+<dl class="rst-docutils">
+<dt>Random ids:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>have a length of 11 characters</li>
+<li>are sanitized accordingly to UCI conventions (see 'sanitize' function)</li>
+<li>start with ns_ prefix</li>
+</ul>
+</dd>
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>name -- the name of the section</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a valid UCI identifier as string</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_id">
+    
+  </a>
+  <a name="get_id">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_id</span><span class="function-signature">(name, length=100)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L39">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_id" title="nethsec.utils.get_id">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return a valid UCI id based on the given string.
+All auto-generated NethSecurity ids:</p>
+<blockquote>
+<ul class="rst-simple">
+<li>have a maximum length of 100 characters</li>
+<li>start with ns_ prefix</li>
+<li>are sanitized accordingly to UCI conventions</li>
+</ul>
+</blockquote>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>name -- the name of the section</li>
+<li>length -- maximum id length, default is 100. Maximum lenght for firewall zones is 15.</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a valid UCI identifier as string</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.sanitize">
+    
+  </a>
+  <a name="sanitize">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">sanitize</span><span class="function-signature">(name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L58">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#sanitize" title="nethsec.utils.sanitize">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Replace illegal chars with _ char.
+UCI identifiers and config file names may contain only the characters a-z, 0-9 and _</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>name -- the name of the section</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a string with valid chachars for UCI</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_by_type">
+    
+  </a>
+  <a name="get_all_by_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_by_type</span><span class="function-signature">(uci, config, utype)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L73">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_by_type" title="nethsec.utils.get_all_by_type">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return all sections of the given utype from the given config</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>config -- Configuration database name</li>
+<li>utype -- Section type</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A dictionary of all matched sections, None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_device_name">
+    
+  </a>
+  <a name="get_device_name">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_device_name</span><span class="function-signature">(hwaddr)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L94">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_device_name" title="nethsec.utils.get_device_name">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve the physical device name given the MAC address</p>
+<dl class="rst-docutils">
+<dt>Aarguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>hwaddr -- MAC address string</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The device name as a string if the network interface has been found, None otherwise.</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_interface_from_mac">
+    
+  </a>
+  <a name="get_interface_from_mac">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_interface_from_mac</span><span class="function-signature">(uci, hwaddr)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L114">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_interface_from_mac" title="nethsec.utils.get_interface_from_mac">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve the logical UCI interface name given the MAC address</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>hwaddr -- MAC address string</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The device name as a string if the interface has been found, None otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_interface_from_device">
+    
+  </a>
+  <a name="get_interface_from_device">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_interface_from_device</span><span class="function-signature">(uci, device)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L128">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_interface_from_device" title="nethsec.utils.get_interface_from_device">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve the logical UCI interface name given the device name</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>hwaddr -- MAC address string</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>The device name as a string if the interface has been found, None otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_by_option">
+    
+  </a>
+  <a name="get_all_by_option">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_by_option</span><span class="function-signature">(uci, config, option, value)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L156">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_by_option" title="nethsec.utils.get_all_by_option">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return all sections with the given option value</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>config -- Configuration database name</li>
+<li>option -- Option name</li>
+<li>value -- Option value</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A dictionary of all matched sections</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_devices_by_zone">
+    
+  </a>
+  <a name="get_all_devices_by_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_devices_by_zone</span><span class="function-signature">(uci, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L176">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_devices_by_zone" title="nethsec.utils.get_all_devices_by_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all devices associated to the given zone</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>zone -- Firewall zone name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A list of device names</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_wan_devices">
+    
+  </a>
+  <a name="get_all_wan_devices">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_wan_devices</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L204">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_wan_devices" title="nethsec.utils.get_all_wan_devices">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all devices associated to the wan zone</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A list of device names</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_lan_devices">
+    
+  </a>
+  <a name="get_all_lan_devices">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_lan_devices</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L216">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_lan_devices" title="nethsec.utils.get_all_lan_devices">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all devices associated to the lan zone</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A list of device names</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_user_addresses">
+    
+  </a>
+  <a name="get_user_addresses">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_user_addresses</span><span class="function-signature">(uci, user)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L228">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_user_addresses" title="nethsec.utils.get_user_addresses">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all IP addresses associated to given user</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>user -- User object id (UCI section)</li>
+</ul>
+</dd>
+<dt>Returns a tuple of lists:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>first element is a list of IPv4 addresses</li>
+<li>second element is a list of IPv6 addresses</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_user_macs">
+    
+  </a>
+  <a name="get_user_macs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_user_macs</span><span class="function-signature">(uci, user)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L270">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_user_macs" title="nethsec.utils.get_user_macs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all MAC addresses associated to given user</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>user -- User object id (UCI section)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A list of MAC addresses</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_group_addresses">
+    
+  </a>
+  <a name="get_group_addresses">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_group_addresses</span><span class="function-signature">(uci, group)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L283">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_group_addresses" title="nethsec.utils.get_group_addresses">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all IP addresses associated to given group</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>user -- Group object id (UCI section)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A tuple of lists:
+- first element is a list of IPv4 addresses
+- second element is a list of IPv6 addresses</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_group_macs">
+    
+  </a>
+  <a name="get_group_macs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_group_macs</span><span class="function-signature">(uci, group)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/ed4a8b6b8edd02349bcea6eecac2b0fd93881a5d/src/nethsec/utils/__init__.py#L304">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_group_macs" title="nethsec.utils.get_group_macs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all MAC addresses associated to given user</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>group -- Group object id (UCI section)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A list of MAC addresses</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    23.4.1 at 2023-08-02 10:00:45.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>
