@@ -446,3 +446,26 @@ def delete_linked_sections(uci, link):
             deleted.append(section)
 
     return deleted
+
+def is_ipv6_enabled(uci):
+    '''
+    Search the network database for devices and interfaces using IPv6
+
+    Arguments:
+      - uci -- EUci pointer
+
+    Returns:
+      - True if IPv6 is enabled at least on a device or interface, False otherwise
+    '''
+
+    for interface in utils.get_all_by_type(uci, 'network', 'interface'):
+        for option in uci.get_all('network', interface):
+            if option.startswith("ip6") or option == "dhcpv6":
+                return True
+        if uci.get('network', interface, 'proto', default="") in ['6in4', '6to4', '6rd', 'grev6', 'grev6tap', 'vtiv6']:
+            return True
+
+    for device in utils.get_all_by_type(uci, 'network', 'device'):
+        if uci.get_all('network', device, 'ipv6') == 1:
+            return True
+    return False
