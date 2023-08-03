@@ -435,7 +435,7 @@ def delete_linked_sections(uci, link):
       - link -- A reference to an existing key in the format <database>/<keyname>
 
     Returns:
-      - A list of disabled sections
+      - A list of deleted sections
     '''
 
     deleted = list()
@@ -469,3 +469,23 @@ def is_ipv6_enabled(uci):
         if uci.get_all('network', device, 'ipv6') == 1:
             return True
     return False
+
+def disable_ipv6_firewall(uci):
+    '''
+    Disable all rules, forwarings, redirects, zones and ipsets for ipv6-only family
+
+    Arguments:
+      - uci -- EUci pointer
+
+    Returns:
+      - A list of disabled sections
+    '''
+
+    disabled = list()
+    for section_type in ["rule", "forwarding", "redirect", "zone", "ipset"]:
+        for section in utils.get_all_by_type(uci, 'firewall', section_type):
+            if uci.get("firewall", section, 'family', default="any") == "ipv6":
+                uci.set("firewall", section, "enabled", "0")
+                disabled.append(section)
+
+    return disabled
