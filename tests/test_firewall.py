@@ -39,6 +39,14 @@ config zone wan1
 config forwarding fw1
 	option src 'lan'
 	option dest 'wan'
+
+config rule 'v6rule'
+    option name 'Allow-DHCPv6'
+    option src 'wan'
+    option proto 'udp'
+    option dest_port '546'
+    option family 'ipv6'
+    option target 'ACCEPT'
 """
 
 network_db = """
@@ -53,6 +61,29 @@ config interface grey1
 
 config interface orange1
 	option device 'vnet6'
+
+config interface 'lan6'
+    option device 'br-lan'
+    option proto 'dhcpv6'
+
+config device 'vlan6'
+	option type '8021ad'
+	option ifname 'eth2'
+	option vid '1'
+	option name 'eth2.1'
+	option ipv6 '1'
+
+config interface 'wan6'
+    option device   eth1
+    option proto    static
+    option ip6addr  2001:db80::2/64
+    option ip6gw    2001:db80::1
+    option ip6prefix 2001:db80:1::/48
+    option dns      2001:db80::1
+
+config interface 'wan6b'
+    option device   eth1
+    option proto    vtiv6
 """
 
 templates_db = """
@@ -70,8 +101,8 @@ config template_zone 'ns_blue'
 	option input 'DROP'
 	option output 'ACCEPT'
 	option ns_description 'Guest network with Internet access'
-    list forwardings 'ns_blue2wan'
-    list forwardings 'ns_blue2lan'
+	list forwardings 'ns_blue2wan'
+	list forwardings 'ns_blue2lan'
 	# requires network option
 
 config template_forwarding 'ns_blue2wan'
@@ -327,3 +358,21 @@ def test_delete_linked_sections(tmp_path):
     with pytest.raises(UciExceptionNotFound):
         for f in forwardings:
             u.get("firewall", f)
+
+def test_is_ipv6_enabled(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.is_ipv6_enabled(u) == True
+    u.delete("network", 'lan6')
+    assert firewall.is_ipv6_enabled(u) == True
+    u.delete("network", 'wan6')
+    assert firewall.is_ipv6_enabled(u) == True
+    u.delete("network", 'vlan6')
+    assert firewall.is_ipv6_enabled(u) == True
+    u.delete("network", 'wan6b')
+    assert firewall.is_ipv6_enabled(u) == False
+
+def test_disable_ipv6_firewall(tmp_path):
+    u = _setup_db(tmp_path)
+    assert u.get("firewall", "v6rule", "enabled", default="1") == "1"
+    firewall.disable_ipv6_firewall(u)
+    assert u.get("firewall", "v6rule", "enabled", default="1") == "0"
