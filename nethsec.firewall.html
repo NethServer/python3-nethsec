@@ -283,6 +283,16 @@
         
 
         
+            <div class="itemName"><code><a href="#disable_ipv6_firewall" class="internal-link" title="nethsec.firewall.disable_ipv6_firewall">disable<wbr></wbr>_ipv6<wbr></wbr>_firewall</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
             <div class="itemName"><code><a href="#disable_linked_rules" class="internal-link" title="nethsec.firewall.disable_linked_rules">disable<wbr></wbr>_linked<wbr></wbr>_rules</a></code>
             </div>
         
@@ -314,6 +324,16 @@
 
         
             <div class="itemName"><code><a href="#get_all_linked" class="internal-link" title="nethsec.firewall.get_all_linked">get<wbr></wbr>_all<wbr></wbr>_linked</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#is_ipv6_enabled" class="internal-link" title="nethsec.firewall.is_ipv6_enabled">is<wbr></wbr>_ipv6<wbr></wbr>_enabled</a></code>
             </div>
         
 
@@ -421,7 +441,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -499,6 +519,11 @@
   </tr><tr class="function">
     
     <td>Function</td>
+    <td><code><a href="#disable_ipv6_firewall" class="internal-link" title="nethsec.firewall.disable_ipv6_firewall">disable<wbr></wbr>_ipv6<wbr></wbr>_firewall</a></code></td>
+    <td>Disable all rules, forwarings, redirects, zones and ipsets for ipv6-only family</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
     <td><code><a href="#disable_linked_rules" class="internal-link" title="nethsec.firewall.disable_linked_rules">disable<wbr></wbr>_linked<wbr></wbr>_rules</a></code></td>
     <td>Disable all rules matching the given link</td>
   </tr><tr class="function">
@@ -516,6 +541,11 @@
     <td>Function</td>
     <td><code><a href="#get_all_linked" class="internal-link" title="nethsec.firewall.get_all_linked">get<wbr></wbr>_all<wbr></wbr>_linked</a></code></td>
     <td>Search all database, execpt templates one, for entities with the given link</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#is_ipv6_enabled" class="internal-link" title="nethsec.firewall.is_ipv6_enabled">is<wbr></wbr>_ipv6<wbr></wbr>_enabled</a></code></td>
+    <td>Search the network database for devices and interfaces using IPv6</td>
   </tr><tr class="function">
     
     <td>Function</td>
@@ -539,7 +569,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_to_zone</span><span class="function-signature">(uci, device, zone)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L16">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L16">
       
       (source)
     </a>
@@ -583,7 +613,7 @@ The device is not added if the firewall zone does not exists</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_to_lan</span><span class="function-signature">(uci, device)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L46">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L46">
       
       (source)
     </a>
@@ -624,7 +654,7 @@ The device is not added if the firewall zone does not exists</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_to_wan</span><span class="function-signature">(uci, device)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L59">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L59">
       
       (source)
     </a>
@@ -665,7 +695,7 @@ The device is not added if the firewall zone does not exists</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_vpn_interface</span><span class="function-signature">(uci, name, device, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L72">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L72">
       
       (source)
     </a>
@@ -710,7 +740,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_trusted_zone</span><span class="function-signature">(uci, name, networks=[], link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L97">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L97">
       
       (source)
     </a>
@@ -759,7 +789,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_service</span><span class="function-signature">(uci, name, port, proto, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L160">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L160">
       
       (source)
     </a>
@@ -803,7 +833,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">remove_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L187">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L187">
       
       (source)
     </a>
@@ -844,7 +874,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">disable_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L202">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L202">
       
       (source)
     </a>
@@ -885,7 +915,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">enable_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L220">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L220">
       
       (source)
     </a>
@@ -926,7 +956,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">apply</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L238">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L238">
       
       (source)
     </a>
@@ -966,7 +996,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_template_forwarding</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L251">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L251">
       
       (source)
     </a>
@@ -1007,7 +1037,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_template_zone</span><span class="function-signature">(uci, name, networks=[])</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L272">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L272">
       
       (source)
     </a>
@@ -1050,7 +1080,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_template_service_group</span><span class="function-signature">(uci, name, src=<span class="rst-variable-quote">'</span><span class="rst-variable-string">lan</span><span class="rst-variable-quote">'</span>, dest=<span class="rst-variable-quote">'</span><span class="rst-variable-string">wan</span><span class="rst-variable-quote">'</span>, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L307">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L307">
       
       (source)
     </a>
@@ -1094,7 +1124,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_template_rule</span><span class="function-signature">(uci, name, proto, port, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L357">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L357">
       
       (source)
     </a>
@@ -1138,7 +1168,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_all_linked</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L385">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L385">
       
       (source)
     </a>
@@ -1180,7 +1210,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">disable_linked_rules</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L407">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L407">
       
       (source)
     </a>
@@ -1221,7 +1251,7 @@ This function automatically commits the network database.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">delete_linked_sections</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4354d34ac2774fd28b9aba6fec76df44253495a5/src/nethsec/firewall/__init__.py#L429">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L429">
       
       (source)
     </a>
@@ -1239,6 +1269,86 @@ This function automatically commits the network database.</p>
 <dd><ul class="rst-first rst-last rst-simple">
 <li>uci -- EUci pointer</li>
 <li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt;</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>A list of deleted sections</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.is_ipv6_enabled">
+    
+  </a>
+  <a name="is_ipv6_enabled">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">is_ipv6_enabled</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L450">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#is_ipv6_enabled" title="nethsec.firewall.is_ipv6_enabled">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Search the network database for devices and interfaces using IPv6</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>True if IPv6 is enabled at least on a device or interface, False otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.disable_ipv6_firewall">
+    
+  </a>
+  <a name="disable_ipv6_firewall">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">disable_ipv6_firewall</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/f3f1c47e2271486e2185025b43d7e46a50845623/src/nethsec/firewall/__init__.py#L473">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#disable_ipv6_firewall" title="nethsec.firewall.disable_ipv6_firewall">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Disable all rules, forwarings, redirects, zones and ipsets for ipv6-only family</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
@@ -1261,7 +1371,7 @@ This function automatically commits the network database.</p>
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.4.1 at 2023-08-03 12:18:45.
+    23.4.1 at 2023-08-03 13:37:35.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
