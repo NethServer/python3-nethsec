@@ -7,7 +7,7 @@ Requirements:
 * Python3
 * [pyuci](https://gitlab.nic.cz/turris/pyuci)
 
-[![Run tests](https://github.com/NethServer/python3-nethsec/actions/workflows/run-tests.yaml/badge.svg?branch=master)](https://github.com/NethServer/python3-nethsec/actions/workflows/run-tests.yaml)
+[![Run tests](https://github.com/NethServer/python3-nethsec/actions/workflows/run-tests.yaml/badge.svg?branch=main)](https://github.com/NethServer/python3-nethsec/actions/workflows/run-tests.yaml)
 
 ## Usage
 
