@@ -26,7 +26,7 @@ config zone orange
 	option output 'DROP'
 	option forward 'DROP'
 
-config zone wan1
+config zone wan1f
 	option name 'wan'
 	list network 'wan'
 	list network 'wan6'
@@ -156,8 +156,8 @@ def test_add_to_lan(tmp_path):
 
 def test_add_to_wan(tmp_path):
     u = _setup_db(tmp_path)
-    assert firewall.add_to_wan(u, "vnet2") == 'wan1'
-    assert 'vnet2' in u.get_all('firewall', 'wan1', 'device')
+    assert firewall.add_to_wan(u, "vnet2") == 'wan1f'
+    assert 'vnet2' in u.get_all('firewall', 'wan1f', 'device')
 
 def test_add_service(tmp_path):
     u = _setup_db(tmp_path)
