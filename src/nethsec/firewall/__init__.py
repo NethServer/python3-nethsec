@@ -17,6 +17,7 @@ def add_to_zone(uci, device, zone):
     '''
     Add given device to a firewall zone.
     The device is not added if the firewall zone does not exists
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -39,6 +40,7 @@ def add_to_zone(uci, device, zone):
                 if not device in devices:
                     devices.append(device)
                     uci.set("firewall", section, "device", devices)
+                    uci.save("firewall")
                 return section
 
     return None
@@ -99,6 +101,7 @@ def add_trusted_zone(uci, name, networks = [], link = ""):
     Create a trusted zone. The zone will:
       - be able to access lan and wan zone
       - be accessible from lan zone
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -155,11 +158,13 @@ def add_trusted_zone(uci, name, networks = [], link = ""):
         uci.set("firewall", flan, "ns_link", link)
     forwardings.append(flan)
 
+    uci.save("firewall")
     return zname, forwardings
 
 def add_service(uci, name, port, proto, link = ""):
     '''
     Create an ACCEPT traffic rule for the given service
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -182,11 +187,13 @@ def add_service(uci, name, port, proto, link = ""):
     uci.set("firewall", rname, "ns_tag", ["automated"])
     if link:
         uci.set("firewall", rname, "ns_link", link)
+    uci.save("firewall")
     return rname
 
 def remove_service(uci, name):
     '''
     Remove the ACCEPT traffic rule for the given service
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -197,11 +204,13 @@ def remove_service(uci, name):
     '''
     rname = utils.get_id(f"allow_{name}")
     uci.delete("firewall", rname)
+    uci.save("firewall")
     return rname
 
 def disable_service(uci, name):
     '''
     Disable the ACCEPT rule traffic for the given service.
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -215,11 +224,13 @@ def disable_service(uci, name):
         uci.set("firewall", rname, "enabled", "0")
     except:
         return None
+    uci.save("firewall")
     return rname
 
 def enable_service(uci, name):
     '''
     Disable the ACCEPT rule traffic for the given service
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -233,6 +244,7 @@ def enable_service(uci, name):
         uci.set("firewall", rname, "enabled", "0")
     except:
         return None
+    uci.save("firewall")
     return rname
 
 def apply(uci):
@@ -251,6 +263,7 @@ def apply(uci):
 def add_template_forwarding(uci, name):
     '''
     Create a forwarding from templates database.
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -267,11 +280,13 @@ def add_template_forwarding(uci, name):
         uci.set("firewall", fname, section, frecord[section])
     uci.set("firewall", fname, "ns_tag", ["automated"])
 
+    uci.save("firewall")
     return fname
 
 def add_template_zone(uci, name, networks = []):
     '''
     Create a zone from templates database.
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -302,11 +317,13 @@ def add_template_zone(uci, name, networks = []):
     for forward in forward_list:
         forwardings.append(add_template_forwarding(uci, forward))
 
+    uci.save("firewall")
     return (zname, forwardings)
 
 def add_template_service_group(uci, name, src='lan', dest='wan', link=""):
     '''
     Create all rules for the given service group
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -352,11 +369,13 @@ def add_template_service_group(uci, name, src='lan', dest='wan', link=""):
             uci.set("firewall", sname, "ns_link", link)
         sections.append(sname)
 
+    uci.save("firewall")
     return sections
 
 def add_template_rule(uci, name, proto="", port="", link=""):
     '''
     Create a rule from templates database.
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -382,6 +401,7 @@ def add_template_rule(uci, name, proto="", port="", link=""):
     if link:
         uci.set("firewall", rname, "ns_link", link)
 
+    uci.save("firewall")
     return rname
 
 def get_all_linked(uci, link):
@@ -409,6 +429,7 @@ def get_all_linked(uci, link):
 def disable_linked_rules(uci, link):
     '''
     Disable all rules matching the given link
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -426,11 +447,13 @@ def disable_linked_rules(uci, link):
                 uci.set("firewall", section, "enabled", 0)
                 disabled.append(section)
 
+    uci.save("firewall")
     return disabled
 
 def delete_linked_sections(uci, link):
     '''
-    Delete all sections matching the given link
+    Delete all sections matching the given link.
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -446,6 +469,7 @@ def delete_linked_sections(uci, link):
         for section in linked[db]:
             uci.delete(db, section)
             deleted.append(section)
+        uci.save(db)
 
     return deleted
 
@@ -475,6 +499,7 @@ def is_ipv6_enabled(uci):
 def disable_ipv6_firewall(uci):
     '''
     Disable all rules, forwarings, redirects, zones and ipsets for ipv6-only family
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -490,4 +515,5 @@ def disable_ipv6_firewall(uci):
                 uci.set("firewall", section, "enabled", "0")
                 disabled.append(section)
 
+    uci.save("firewall")
     return disabled
