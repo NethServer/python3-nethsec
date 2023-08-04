@@ -354,15 +354,15 @@ def add_template_service_group(uci, name, src='lan', dest='wan', link=""):
 
     return sections
 
-def add_template_rule(uci, name, proto, port, link=""):
+def add_template_rule(uci, name, proto="", port="", link=""):
     '''
     Create a rule from templates database.
 
     Arguments:
       - uci -- EUci pointer
       - name -- Name of the template rule from the templates database
-      - proto -- A valid UCI protocol
-      - ports -- A port or comma-separated list of ports
+      - proto -- A valid UCI protocol (optional)
+      - port -- A port or comma-separated list of ports (optional)
       - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns:
@@ -373,8 +373,10 @@ def add_template_rule(uci, name, proto, port, link=""):
     rname = utils.get_random_id()
     uci.set("firewall", rname, "rule")
     for section in drule:
-        drule[section] = drule[section].replace("__PORT__", port)
-        drule[section] = drule[section].replace("__PROTO__", proto)
+        if port:
+            drule[section] = drule[section].replace("__PORT__", port)
+        if proto:
+            drule[section] = drule[section].replace("__PROTO__", proto)
         uci.set("firewall", rname, section, drule[section])
     uci.set("firewall", rname, "ns_tag", ["automated"])
     if link:

@@ -122,6 +122,14 @@ config template_rule 'ns_test_rule'
 	option proto '__PROTO__'
 	option target 'ACCEPT'
 	option enabled '1'
+
+config template_rule 'ip6_dhcp'
+	option name 'Allow-DHCPv6'
+	option src 'wan'
+	option proto 'udp'
+	option dest_port '546'
+	option family 'ipv6'
+	option target 'ACCEPT'
 """
 
 def _setup_db(tmp_path):
@@ -253,6 +261,16 @@ def test_add_template_rule(tmp_path):
     assert u.get("firewall", rule, "target") == "ACCEPT"
     assert u.get("firewall", rule, "ns_tag") == "automated"
     assert u.get("firewall", rule, "ns_link") == "test1/key1"
+
+    rule = firewall.add_template_rule(u, 'ip6_dhcp')
+    assert u.get("firewall", rule) == "rule"
+    assert u.get("firewall", rule, "proto") == "udp"
+    assert u.get("firewall", rule, "name") == "Allow-DHCPv6"
+    assert u.get("firewall", rule, "src") == "wan"
+    assert u.get("firewall", rule, "dest_port") == "546"
+    assert u.get("firewall", rule, "family") == "ipv6"
+    assert u.get("firewall", rule, "target") == "ACCEPT"
+    assert u.get("firewall", rule, "ns_tag") == "automated"
 
 def test_add_template_zone(tmp_path):
     u = _setup_db(tmp_path)
