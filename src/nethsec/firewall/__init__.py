@@ -75,7 +75,7 @@ def add_vpn_interface(uci, name, device, link=""):
     '''
     Create a network interface for the given device.
     The interface can be used for PBR (Policy Based Routing).
-    This function automatically commits the network database.
+    Changes are saved to staging area.
 
     Arguments:
       - uci -- EUci pointer
@@ -93,7 +93,7 @@ def add_vpn_interface(uci, name, device, link=""):
     uci.set('network', iname, 'ns_tag', ["automated"])
     if link:
         uci.set('network', iname, 'ns_link', link)
-    uci.commit('network')
+    uci.save('network')
     return iname
 
 def add_trusted_zone(uci, name, networks = [], link = ""):
