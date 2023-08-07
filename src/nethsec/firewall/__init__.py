@@ -101,6 +101,7 @@ def add_trusted_zone(uci, name, networks = [], link = ""):
     Create a trusted zone. The zone will:
       - be able to access lan and wan zone
       - be accessible from lan zone
+
     Changes are saved to staging area.
 
     Arguments:
