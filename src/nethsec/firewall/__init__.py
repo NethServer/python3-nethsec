@@ -505,7 +505,7 @@ def is_ipv6_enabled(uci):
 
 def disable_ipv6_firewall(uci):
     '''
-    Disable all rules, forwarings, redirects, zones and ipsets for ipv6-only family
+    Disable all rules, forwardings, redirects, zones and ipsets for ipv6-only family
     Changes are saved to staging area.
 
     Arguments:

@@ -162,7 +162,7 @@ def get_all_by_option(uci, config, option, value, deep = True):
       - config -- Configuration database name
       - option -- Option name
       - value -- Option value
-      - deep - If true, return a dict of all matched keys, otherwise return a list of section named
+      - deep - If true, return a dict of all matched keys, otherwise return a list of section names
 
     Returns:
       - A dictionary or a list of all matched sections
