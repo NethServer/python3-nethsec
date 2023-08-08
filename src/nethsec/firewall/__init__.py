@@ -496,8 +496,11 @@ def is_ipv6_enabled(uci):
             return True
 
     for device in utils.get_all_by_type(uci, 'network', 'device'):
-        if uci.get_all('network', device, 'ipv6') == 1:
-            return True
+        try:
+            if uci.get_all('network', device, 'ipv6') == 1:
+                return True
+        except:
+            return False
     return False
 
 def disable_ipv6_firewall(uci):
