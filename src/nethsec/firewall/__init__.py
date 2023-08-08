@@ -284,7 +284,7 @@ def add_template_forwarding(uci, name):
     uci.save("firewall")
     return fname
 
-def add_template_zone(uci, name, networks = []):
+def add_template_zone(uci, name, networks = [], link = ""):
     '''
     Create a zone from templates database.
     Changes are saved to staging area.
@@ -293,6 +293,7 @@ def add_template_zone(uci, name, networks = []):
       - uci -- EUci pointer
       - name -- Name of the zone from the templates database
       - network -- A list of interfaces to be added to the zone (optional)
+      - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns a tuple:
       - The name of the configuration section for the zone or None in case of error
@@ -314,6 +315,8 @@ def add_template_zone(uci, name, networks = []):
     if len(networks) > 0:
         uci.set("firewall", zname, "network", networks)
     uci.set("firewall", zname, "ns_tag", ["automated"])
+    if link:
+        uci.set("firewall", zname, "ns_link", link)
 
     for forward in forward_list:
         forwardings.append(add_template_forwarding(uci, forward))

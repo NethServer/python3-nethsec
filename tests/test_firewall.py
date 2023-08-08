@@ -274,7 +274,7 @@ def test_add_template_rule(tmp_path):
 
 def test_add_template_zone(tmp_path):
     u = _setup_db(tmp_path)
-    (zone, forwardings) = firewall.add_template_zone(u, 'ns_blue', ["lan", "lan2"] )
+    (zone, forwardings) = firewall.add_template_zone(u, 'ns_blue', ["lan", "lan2"], link="mydb/mykey" )
     assert zone is not None
     assert u.get("firewall", zone) == "zone"
     assert u.get("firewall", zone, "name") == "blue"
@@ -283,6 +283,7 @@ def test_add_template_zone(tmp_path):
     assert u.get("firewall", zone, "output") == "ACCEPT"
     assert u.get("firewall", zone, "ns_description") == "Guest network with Internet access"
     assert u.get("firewall", zone, "ns_tag") ==  "automated"
+    assert u.get("firewall", zone, "ns_link") ==  "mydb/mykey"
     assert "lan" in u.get("firewall", zone, "network", list=True)
     assert "lan2" in u.get("firewall", zone, "network", list=True)
     assert len(forwardings) == 2
