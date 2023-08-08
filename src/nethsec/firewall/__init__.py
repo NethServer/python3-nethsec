@@ -490,7 +490,7 @@ def is_ipv6_enabled(uci):
 
     for interface in utils.get_all_by_type(uci, 'network', 'interface'):
         for option in uci.get_all('network', interface):
-            if option.startswith("ip6") or option == "dhcpv6":
+            if option.startswith("ip6") or option == "dhcpv6" or option == "ipv6":
                 return True
         if uci.get('network', interface, 'proto', default="") in ['6in4', '6to4', '6rd', 'grev6', 'grev6tap', 'vtiv6']:
             return True
@@ -500,7 +500,7 @@ def is_ipv6_enabled(uci):
             if uci.get_all('network', device, 'ipv6') == 1:
                 return True
         except:
-            return False
+            pass
     return False
 
 def disable_ipv6_firewall(uci):

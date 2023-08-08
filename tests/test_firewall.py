@@ -84,6 +84,10 @@ config interface 'wan6'
 config interface 'wan6b'
     option device   eth1
     option proto    vtiv6
+
+config interface 'wan6c'
+    option device   eth44
+    option ipv6   1
 """
 
 templates_db = """
@@ -388,6 +392,8 @@ def test_is_ipv6_enabled(tmp_path):
     u.delete("network", 'vlan6')
     assert firewall.is_ipv6_enabled(u) == True
     u.delete("network", 'wan6b')
+    assert firewall.is_ipv6_enabled(u) == True
+    u.delete("network", 'wan6c')
     assert firewall.is_ipv6_enabled(u) == False
 
 def test_disable_ipv6_firewall(tmp_path):
