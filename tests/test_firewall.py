@@ -1,5 +1,6 @@
 import pytest
-from euci import EUci, UciExceptionNotFound 
+from euci import EUci, UciExceptionNotFound
+
 from nethsec import firewall
 
 firewall_db = """
@@ -136,10 +137,50 @@ config template_rule 'ip6_dhcp'
 	option target 'ACCEPT'
 """
 
+zone_testing_db = """
+config zone 'ns_lan'
+    option name 'lan'
+    option input 'ACCEPT'
+    option output 'ACCEPT'
+    option forward 'ACCEPT'
+    list network 'GREEN_1'
+
+config zone 'ns_wan'
+    option name 'wan'
+    option input 'REJECT'
+    option output 'ACCEPT'
+    option forward 'REJECT'
+    option masq '1'
+    option mtu_fix '1'
+    list network 'wan6'
+    list network 'RED_2'
+    list network 'RED_3'
+    list network 'RED_1'
+    
+config zone 'ns_guests'
+    option name 'guests'
+    option input 'DROP'
+    option forward 'DROP'
+    option output 'ACCEPT'
+    
+config forwarding
+    option src 'lan'
+    option dest 'wan'
+
+config forwarding 'ns_guests2wan'
+    option src 'guests'
+    option dest 'wan'
+    
+config forwarding 'ns_lan2guests'
+    option src 'lan'
+    option dest 'guests'
+"""
+
 def _setup_db(tmp_path):
      # setup fake dbs
     with tmp_path.joinpath('firewall').open('w') as fp:
         fp.write(firewall_db)
+        fp.write(zone_testing_db)
     with tmp_path.joinpath('network').open('w') as fp:
         fp.write(network_db)
     with tmp_path.joinpath('templates').open('w') as fp:
@@ -316,13 +357,13 @@ def test_add_template_service_group(tmp_path):
     assert u.get("firewall", sections[1], "proto") == "udp"
     assert u.get("firewall", sections[1], "dest_port") == "53"
     assert u.get("firewall", sections[1], "ns_tag") ==  "automated"
-    
+
     sections = firewall.add_template_service_group(u, "ns_web_secure", "grey", "orange")
     assert u.get("firewall", sections[0], "src") == "grey"
     assert u.get("firewall", sections[0], "dest") == "orange"
     assert u.get("firewall", sections[0], "proto") == "tcp"
     assert u.get("firewall", sections[1], "proto") == "udp"
-    
+
     sections = firewall.add_template_service_group(u, "ns_web_secure", "blue", "yellow", link="db/mykey")
     assert u.get("firewall", sections[0], "ns_link") == "db/mykey"
     assert u.get("firewall", sections[1], "ns_link") == "db/mykey"
@@ -401,3 +442,51 @@ def test_disable_ipv6_firewall(tmp_path):
     assert u.get("firewall", "v6rule", "enabled", default="1") == "1"
     firewall.disable_ipv6_firewall(u)
     assert u.get("firewall", "v6rule", "enabled", default="1") == "0"
+
+
+def test_list_zones(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.list_zones(u)["ns_lan"]["name"] == "lan"
+    assert firewall.list_zones(u)["ns_lan"]["input"] == "ACCEPT"
+    assert firewall.list_zones(u)["ns_lan"]["output"] == "ACCEPT"
+    assert firewall.list_zones(u)["ns_lan"]["forward"] == "ACCEPT"
+    assert firewall.list_zones(u)["ns_lan"]["network"] == ("GREEN_1",)
+    assert firewall.list_zones(u)["ns_wan"]["name"] == "wan"
+    assert firewall.list_zones(u)["ns_wan"]["input"] == "REJECT"
+    assert firewall.list_zones(u)["ns_wan"]["output"] == "ACCEPT"
+    assert firewall.list_zones(u)["ns_wan"]["forward"] == "REJECT"
+    assert firewall.list_zones(u)["ns_wan"]["network"] == ("wan6", "RED_2", "RED_3", "RED_1")
+
+
+def test_list_forwardings(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.list_forwardings(u)["ns_lan2guests"]["src"] == "lan"
+    assert firewall.list_forwardings(u)["ns_lan2guests"]["dest"] == "guests"
+    assert firewall.list_forwardings(u)["ns_guests2wan"]["src"] == "guests"
+    assert firewall.list_forwardings(u)["ns_guests2wan"]["dest"] == "wan"
+
+
+def test_add_zone(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.add_zone(u, "new_zone", "REJECT", "DROP", True, ["lan"], ["lan", "guest"]) == (
+        "ns_new_zone", {"ns_new_zone2wan", "ns_new_zone2lan", "ns_lan2new_zone", "ns_guest2new_zone"})
+    assert u.get("firewall", "ns_new_zone", "name") == "new_zone"
+    assert u.get("firewall", "ns_new_zone", "input") == "REJECT"
+    assert u.get("firewall", "ns_new_zone", "output") == "ACCEPT"
+    assert u.get("firewall", "ns_new_zone", "forward") == "DROP"
+    assert u.get("firewall", "ns_new_zone2wan", "src") == "new_zone"
+    assert u.get("firewall", "ns_new_zone2wan", "dest") == "wan"
+    assert u.get("firewall", "ns_new_zone2lan", "src") == "new_zone"
+    assert u.get("firewall", "ns_new_zone2lan", "dest") == "lan"
+    assert u.get("firewall", "ns_lan2new_zone", "src") == "lan"
+    assert u.get("firewall", "ns_lan2new_zone", "dest") == "new_zone"
+    assert u.get("firewall", "ns_guest2new_zone", "src") == "guest"
+    assert u.get("firewall", "ns_guest2new_zone", "dest") == "new_zone"
+
+
+def test_delete_zone(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.delete_zone(u, "ns_new_zone") == (
+        "ns_new_zone", {"ns_new_zone2wan", "ns_new_zone2lan", "ns_guest2new_zone", "ns_lan2new_zone"})
+    with pytest.raises(Exception) as e:
+        firewall.delete_zone(u, "not_a_zone")
