@@ -8,10 +8,10 @@
 '''
 Firewall utilities
 '''
-
-import json
 import subprocess
+
 from nethsec import utils
+
 
 def add_to_zone(uci, device, zone):
     '''
@@ -524,3 +524,123 @@ def disable_ipv6_firewall(uci):
 
     uci.save("firewall")
     return disabled
+
+
+def list_zones(uci) -> dict:
+    """
+    Get all zones from firewall config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        dict with all zones
+    """
+    return utils.get_all_by_type(uci, 'firewall', 'zone')
+
+
+def list_forwardings(uci) -> dict:
+    """
+    Get all forwardings from firewall config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        dict with all forwardings
+    """
+    return utils.get_all_by_type(uci, 'firewall', 'forwarding')
+
+
+def add_forwarding(uci, src: str, dest: str) -> str:
+    """
+    Add forwarding from src to dest.
+
+    Args:
+        uci: EUci pointer
+        src: source zone, must be zone name, not config name
+        dest: destination zone, must be zone name, not config name
+
+    Returns:
+        name of forwarding config that was added
+    """
+    config_name = utils.get_id(f'{src}2{dest}')
+    uci.set('firewall', config_name, 'forwarding')
+    uci.set('firewall', config_name, 'src', src)
+    uci.set('firewall', config_name, 'dest', dest)
+    uci.save('firewall')
+    return config_name
+
+
+def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
+             forwards_from: list[str] = None) -> {str, set[str]}:
+    """
+    Add zone to firewall config.
+
+    Args:
+        uci: EUci pointer
+        name: name of zone
+        input: rule for input traffic, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        forward: rule for forward traffic, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        traffic_to_wan: if True, add forwarding from zone to wan
+        forwards_to: list of zones to forward traffic to
+        forwards_from: list of zones to forward traffic from
+
+    Returns:
+        tuple of zone config name and set of added forwarding configs
+    """
+    zone_config_name = utils.get_id(name)
+    uci.set('firewall', zone_config_name, 'zone')
+    uci.set('firewall', zone_config_name, 'name', name)
+    uci.set('firewall', zone_config_name, 'input', input)
+    uci.set('firewall', zone_config_name, 'forward', forward)
+    uci.set('firewall', zone_config_name, 'output', 'ACCEPT')
+
+    forwardings_added = set()
+
+    if traffic_to_wan:
+        forwardings_added.add(add_forwarding(uci, name, 'wan'))
+
+    if forwards_to is not None:
+        for forward_to in forwards_to:
+            forwardings_added.add(add_forwarding(uci, name, forward_to))
+
+    if forwards_from is not None:
+        for forward_from in forwards_from:
+            forwardings_added.add(add_forwarding(uci, forward_from, name))
+
+    uci.save('firewall')
+    return zone_config_name, forwardings_added
+
+
+def delete_zone(uci, zone_config_name: str) -> {str, set[str]}:
+    """
+    Delete zone and all forwardings that are connected to it.
+
+    Args:
+        uci: EUci pointer
+        zone_config_name: name of zone config to delete
+
+    Returns:
+        tuple of zone config name and set of deleted forwarding configs
+
+    Raises:
+        ValueError: if zone_config_name is not a valid zone config name
+    """
+    if zone_config_name not in list_zones(uci):
+        raise ValueError
+    zone_name = list_zones(uci)[zone_config_name]['name']
+    forwardings = list_forwardings(uci)
+    to_delete_forwardings = set()
+    for forwarding in forwardings:
+        if forwardings[forwarding]['src'] == zone_name:
+            to_delete_forwardings.add(forwarding)
+        if forwardings[forwarding]['dest'] == zone_name:
+            to_delete_forwardings.add(forwarding)
+
+    for to_delete_forwarding in to_delete_forwardings:
+        uci.delete('firewall', to_delete_forwarding)
+
+    uci.delete('firewall', zone_config_name)
+    uci.save('firewall')
+    return zone_config_name, to_delete_forwardings
