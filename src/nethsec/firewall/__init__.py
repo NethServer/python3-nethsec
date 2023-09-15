@@ -8,25 +8,9 @@
 '''
 Firewall utilities
 '''
-import json
 import subprocess
-from enum import Enum
 
 from nethsec import utils
-
-PREFIX_CONFIG = 'ns_'
-
-
-class SpecialZones(Enum):
-    GUESTS = 'guests'
-    IPSEC = 'ipsec'
-    LAN = 'lan'
-    OPENVPN = 'openvpn'
-    RWOPENWRT = 'rwopenwrt'
-    RWWIREGUARD = 'rwwireguard'
-    TUNHOTSPOT = 'tunhotspot'
-    WAN = 'wan'
-    WIREGUARD = 'wireguard'
 
 
 def add_to_zone(uci, device, zone):
@@ -568,81 +552,95 @@ def list_forwardings(uci) -> dict:
     return utils.get_all_by_type(uci, 'firewall', 'forwarding')
 
 
-def __add_forwarding(uci, src: str, dest: str):
+def add_forwarding(uci, src: str, dest: str) -> str:
     """
     Add forwarding from src to dest.
 
     Args:
         uci: EUci pointer
-        src: source zone
-        dest: destination zone
+        src: source zone, must be zone name, not config name
+        dest: destination zone, must be zone name, not config name
+
+    Returns:
+        name of forwarding config that was added
     """
-    config_name = PREFIX_CONFIG + src + '2' + dest
+    config_name = utils.get_id(f'{src}2{dest}')
     uci.set('firewall', config_name, 'forwarding')
     uci.set('firewall', config_name, 'src', src)
     uci.set('firewall', config_name, 'dest', dest)
+    uci.save('firewall')
+    return config_name
 
 
-def add_zone(uci, data):
+def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
+             forwards_from: list[str] = None) -> tuple[str, set[str]]:
     """
-    Add zone and all forwarding related to zone.
+    Add zone to firewall config.
 
     Args:
         uci: EUci pointer
-        data: JSON string
+        name: name of zone
+        input: rule for input traffic, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        forward: rule for forward traffic, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        traffic_to_wan: if True, add forwarding from zone to wan
+        forwards_to: list of zones to forward traffic to
+        forwards_from: list of zones to forward traffic from
 
-    Raises
-        JSONDecodeError if data is not a valid JSON string
-        KeyError if data does not contain all required keys
+    Returns:
+        tuple of zone config name and set of added forwarding configs
     """
-    data = json.JSONDecoder().decode(data)
-    zone_config_name = PREFIX_CONFIG + data['name']
-    # create zone by given name
+    zone_config_name = utils.get_id(name)
     uci.set('firewall', zone_config_name, 'zone')
-    uci.set('firewall', zone_config_name, 'name', data['name'])
-    uci.set('firewall', zone_config_name, 'input', data['input'])
-    uci.set('firewall', zone_config_name, 'forward', data['forward'])
+    uci.set('firewall', zone_config_name, 'name', name)
+    uci.set('firewall', zone_config_name, 'input', input)
+    uci.set('firewall', zone_config_name, 'forward', forward)
     uci.set('firewall', zone_config_name, 'output', 'ACCEPT')
 
-    if data['traffic_to_wan']:
-        __add_forwarding(uci, data['name'], SpecialZones.WAN.value)
+    forwardings_added = set()
 
-    if 'forwards_to' in data:
-        for forward_to in data['forwards_to']:
-            __add_forwarding(uci, data['name'], forward_to)
+    if traffic_to_wan:
+        forwardings_added.add(add_forwarding(uci, name, 'wan'))
 
-    if 'forwards_from' in data:
-        for forward_from in data['forwards_from']:
-            __add_forwarding(uci, forward_from, data['name'])
+    if forwards_to is not None:
+        for forward_to in forwards_to:
+            forwardings_added.add(add_forwarding(uci, name, forward_to))
+
+    if forwards_from is not None:
+        for forward_from in forwards_from:
+            forwardings_added.add(add_forwarding(uci, forward_from, name))
 
     uci.save('firewall')
+    return zone_config_name, forwardings_added
 
 
-def delete_zone(uci, data):
+def delete_zone(uci, zone_config_name: str) -> tuple[str, set[str]]:
     """
-    Delete zone and all forwarding related to zone.
+    Delete zone and all forwardings that are connected to it.
 
     Args:
-        uci -- EUci pointer
-        data -- JSON string with zone name
+        uci: EUci pointer
+        zone_config_name: name of zone config to delete
+
+    Returns:
+        tuple of zone config name and set of deleted forwarding configs
 
     Raises:
-        ValueError if zone does not exist or doesn't have the "ns" prefix
-        KeyError if data does not contain all required keys
+        ValueError: if zone_config_name is not a valid zone config name
     """
-    data = json.JSONDecoder().decode(data)
-    if PREFIX_CONFIG + data['name'] not in list_zones(uci):
+    if zone_config_name not in list_zones(uci):
         raise ValueError
+    zone_name = list_zones(uci)[zone_config_name]['name']
     forwardings = list_forwardings(uci)
     to_delete_forwardings = set()
     for forwarding in forwardings:
-        if forwardings[forwarding]['src'] == data['name']:
+        if forwardings[forwarding]['src'] == zone_name:
             to_delete_forwardings.add(forwarding)
-        if forwardings[forwarding]['dest'] == data['name']:
+        if forwardings[forwarding]['dest'] == zone_name:
             to_delete_forwardings.add(forwarding)
 
     for to_delete_forwarding in to_delete_forwardings:
         uci.delete('firewall', to_delete_forwarding)
 
-    uci.delete('firewall', PREFIX_CONFIG + data['name'])
+    uci.delete('firewall', zone_config_name)
     uci.save('firewall')
+    return zone_config_name, to_delete_forwardings
