@@ -573,7 +573,7 @@ def add_forwarding(uci, src: str, dest: str) -> str:
 
 
 def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
-             forwards_from: list[str] = None) -> tuple[str, set[str]]:
+             forwards_from: list[str] = None) -> {str, set[str]}:
     """
     Add zone to firewall config.
 
@@ -613,7 +613,7 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
     return zone_config_name, forwardings_added
 
 
-def delete_zone(uci, zone_config_name: str) -> tuple[str, set[str]]:
+def delete_zone(uci, zone_config_name: str) -> {str, set[str]}:
     """
     Delete zone and all forwardings that are connected to it.
 
