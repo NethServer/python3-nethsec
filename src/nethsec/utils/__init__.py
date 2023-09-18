@@ -358,7 +358,7 @@ def validation_error(parameter, message="", value=""):
     Returns:
       - A validation error object
     '''
-    return {"validation": {"errors": [{"parameter": parameter, "message": message.strip().replace(" ", "_").lower(), "value": value}]}}
+    return validation_errors([[parameter, message, value]])
 
 def generic_error(error):
     '''
