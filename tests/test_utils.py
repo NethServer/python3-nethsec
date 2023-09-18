@@ -221,3 +221,20 @@ def test_get_random_id():
     assert len(id1) == 11
     assert id1[0:3] == "ns_"
     assert id1 != id2
+
+def test_error():
+    obj = utils.generic_error("my Error ")
+    assert obj == {"error": "my_error"}
+
+def test_validation_error():
+    er1 = utils.validation_error("param1", "my Error ", "val1")
+    assert er1 == {"validation": {"errors": [{"parameter": "param1", "message": "my_error", "value": "val1"}]}}
+    er2 = utils.validation_error("param1")
+    assert er2 == {"validation": {"errors": [{"parameter": "param1", "message": "", "value": ""}]}}
+
+def test_validation_errors():
+    er1 = utils.validation_errors([
+        ["param1", " my Error ", "val1"],
+        ["param2", " invalid_value ", False],
+        ])
+    assert er1 == {"validation": {"errors": [{"parameter": "param1", "message": "my_error", "value": "val1"}, {"parameter": "param2", "message": "invalid_value", "value": False}]}}
