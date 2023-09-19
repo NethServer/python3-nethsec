@@ -323,3 +323,50 @@ def get_group_macs(uci, group):
     for u in uci.get('objects', group, 'user', list=True, default=[]):
         macs = macs + get_user_macs(uci, u)
     return macs
+
+
+def validation_errors(errors):
+    '''
+    Generate a validation error for the APIs from an array.
+
+    Arguments:
+      - errors -- An array of array errors
+
+    Each array element is an array composed by 3 parameters:
+      - the name of the parameter
+      - the validation error reason
+      - the parameter original value that caused the error
+
+    Returns:
+      - A validation error object
+    '''
+    verrors = []
+    for e in errors:
+        verrors.append({"parameter": e[0], "message": e[1].strip().replace(" ", "_").lower(), "value": e[2]})
+
+    return {"validation": {"errors": verrors}}
+
+def validation_error(parameter, message="", value=""):
+    '''
+    Generate a validation error for the APIs.
+
+    Arguments:
+      - parameter -- The name of the parameter
+      - message -- The validation error reason, default is empty
+      - value -- The parmeter original value that caused the error
+
+    Returns:
+      - A validation error object
+    '''
+    return validation_errors([[parameter, message, value]])
+
+def generic_error(error):
+    '''
+    Generate a generic error for the APIs.
+
+    Arguments:
+      - message -- An error message
+    Returns:
+      - A validation error object
+    '''
+    return {"error": error.strip().replace(" ", "_").lower()}
