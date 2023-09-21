@@ -157,7 +157,7 @@ def test_create_default_mwan(e_uci):
     assert e_uci.get('mwan3', 'ns_default') == 'policy'
     assert e_uci.get('mwan3', 'ns_default', 'name') == 'default'
     assert e_uci.get('mwan3', 'ns_default', 'use_member', list=True) == (
-        'mwan3.ns_RED_1_M10_W100', 'mwan3.ns_RED_2_M10_W100')
+        'mwan3.ns_RED_1_M10_W200', 'mwan3.ns_RED_2_M20_W100')
 
 
 def test_create_unique_mwan(e_uci):
