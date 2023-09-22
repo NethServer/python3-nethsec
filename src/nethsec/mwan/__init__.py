@@ -107,7 +107,7 @@ def __store_member(e_uci: EUci, interface_name: str, metric: int, weight: int) -
         e_uci.set('mwan3', member_config_name, 'interface', interface_name)
         e_uci.set('mwan3', member_config_name, 'metric', metric)
         e_uci.set('mwan3', member_config_name, 'weight', weight)
-    return f'mwan3.{member_config_name}', changed
+    return member_config_name, changed
 
 
 def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
@@ -149,7 +149,7 @@ def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
                                                             interface['weight'])
         member_names.append(member_config_name)
         if member_created:
-            changed_config.append(member_config_name)
+            changed_config.append(f'mwan3.{member_config_name}')
 
     e_uci.set('mwan3', policy_config_name, 'use_member', member_names)
 

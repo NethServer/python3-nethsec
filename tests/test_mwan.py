@@ -129,9 +129,9 @@ def test_interface_avoid_edit_of_metric(e_uci):
 
 
 def test_create_member(e_uci):
-    assert mwan.__store_member(e_uci, 'RED_1', 10, 100) == ('mwan3.ns_RED_1_M10_W100', True)
-    assert mwan.__store_member(e_uci, 'RED_1', 10, 100) == ('mwan3.ns_RED_1_M10_W100', False)
-    assert mwan.__store_member(e_uci, 'RED_1', 1, 100) == ('mwan3.ns_RED_1_M1_W100', True)
+    assert mwan.__store_member(e_uci, 'RED_1', 10, 100) == ('ns_RED_1_M10_W100', True)
+    assert mwan.__store_member(e_uci, 'RED_1', 10, 100) == ('ns_RED_1_M10_W100', False)
+    assert mwan.__store_member(e_uci, 'RED_1', 1, 100) == ('ns_RED_1_M1_W100', True)
 
 
 def test_create_default_mwan(e_uci):
@@ -157,7 +157,7 @@ def test_create_default_mwan(e_uci):
     assert e_uci.get('mwan3', 'ns_default') == 'policy'
     assert e_uci.get('mwan3', 'ns_default', 'name') == 'default'
     assert e_uci.get('mwan3', 'ns_default', 'use_member', list=True) == (
-        'mwan3.ns_RED_1_M10_W200', 'mwan3.ns_RED_2_M20_W100')
+        'ns_RED_1_M10_W200', 'ns_RED_2_M20_W100')
 
 
 def test_create_unique_mwan(e_uci):
