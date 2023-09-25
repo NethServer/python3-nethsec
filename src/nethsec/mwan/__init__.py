@@ -135,12 +135,13 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
     Raises:
         ValidationError if name is not unique or policy is not valid
     """
-    rule_config_name = utils.get_id(name, 15)
+    rule_config_name = utils.get_id(name.lower(), 15)
     if rule_config_name in e_uci.get('mwan3').keys():
         raise ValidationError('name', 'unique', name)
     if policy not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
         raise ValidationError('policy', 'invalid', policy)
     e_uci.set('mwan3', rule_config_name, 'rule')
+    e_uci.set('mwan3', rule_config_name, 'label', name)
     e_uci.set('mwan3', rule_config_name, 'label', name)
     e_uci.set('mwan3', rule_config_name, 'use_policy', policy)
     if protocol is not None:
@@ -174,7 +175,7 @@ def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
     """
     changed_config = []
     # generate policy name
-    policy_config_name = utils.get_id(name)
+    policy_config_name = utils.get_id(name.lower())
     # make sure name is not something that already exists
     if policy_config_name in e_uci.get('mwan3').keys():
         raise ValidationError('name', 'unique', name)
