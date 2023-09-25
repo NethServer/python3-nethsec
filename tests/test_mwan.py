@@ -119,8 +119,9 @@ def test_create_interface(e_uci):
 
 
 def test_fail_create_invalid_interface(e_uci):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError) as err:
         mwan.__store_interface(e_uci, 'RED_4')
+        assert err.value.args[0] == ('RED_4', 'invalid')
 
 
 def test_interface_avoid_edit_of_metric(e_uci):
@@ -152,10 +153,11 @@ def test_create_default_mwan(e_uci):
            'mwan3.ns_RED_1_M10_W200',
            'mwan3.RED_2',
            'network.RED_2',
-           'mwan3.ns_RED_2_M20_W100']
+           'mwan3.ns_RED_2_M20_W100',
+           'mwan3.ns_Default_Rule']
 
     assert e_uci.get('mwan3', 'ns_default') == 'policy'
-    assert e_uci.get('mwan3', 'ns_default', 'name') == 'default'
+    assert e_uci.get('mwan3', 'ns_default', 'label') == 'default'
     assert e_uci.get('mwan3', 'ns_default', 'use_member', list=True) == (
         'ns_RED_1_M10_W200', 'ns_RED_2_M20_W100')
 
@@ -171,3 +173,117 @@ def test_metric_generation(e_uci):
     assert mwan.__generate_metric(e_uci, [1, 4]) == 2
     assert mwan.__generate_metric(e_uci, [1, 2, 4]) == 3
     assert mwan.__generate_metric(e_uci, [4, 3, 1]) == 2
+
+
+def test_list_policies(e_uci):
+    mwan.store_policy(e_uci, 'backup', [
+        {
+            'name': 'RED_1',
+            'metric': '10',
+            'weight': '200',
+        },
+        {
+            'name': 'RED_2',
+            'metric': '20',
+            'weight': '100',
+        }
+    ])
+    mwan.store_policy(e_uci, 'balance', [
+        {
+            'name': 'RED_3',
+            'metric': '10',
+            'weight': '200',
+        },
+        {
+            'name': 'RED_2',
+            'metric': '10',
+            'weight': '100',
+        }
+    ])
+    mwan.store_policy(e_uci, 'custom', [
+        {
+            'name': 'RED_3',
+            'metric': '10',
+            'weight': '200',
+        },
+        {
+            'name': 'RED_2',
+            'metric': '10',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_1',
+            'metric': '20',
+            'weight': '100',
+        }
+    ])
+    index = mwan.index_policies(e_uci)
+    # check backup policy
+    assert index[0]['name'] == 'ns_backup'
+    assert index[0]['label'] == 'backup'
+    assert index[0]['type'] == 'backup'
+    assert index[0]['members'][10][0]['name'] == 'ns_RED_1_M10_W200'
+    assert index[0]['members'][10][0]['interface'] == 'RED_1'
+    assert index[0]['members'][10][0]['metric'] == '10'
+    assert index[0]['members'][10][0]['weight'] == '200'
+    assert index[0]['members'][20][0]['name'] == 'ns_RED_2_M20_W100'
+    assert index[0]['members'][20][0]['interface'] == 'RED_2'
+    assert index[0]['members'][20][0]['metric'] == '20'
+    assert index[0]['members'][20][0]['weight'] == '100'
+    # check balance policy
+    assert index[1]['name'] == 'ns_balance'
+    assert index[1]['label'] == 'balance'
+    assert index[1]['type'] == 'balance'
+    assert index[1]['members'][10][0]['name'] == 'ns_RED_3_M10_W200'
+    assert index[1]['members'][10][0]['interface'] == 'RED_3'
+    assert index[1]['members'][10][0]['metric'] == '10'
+    assert index[1]['members'][10][0]['weight'] == '200'
+    assert index[1]['members'][10][1]['name'] == 'ns_RED_2_M10_W100'
+    assert index[1]['members'][10][1]['interface'] == 'RED_2'
+    assert index[1]['members'][10][1]['metric'] == '10'
+    assert index[1]['members'][10][1]['weight'] == '100'
+    # check custom policy
+    assert index[2]['name'] == 'ns_custom'
+    assert index[2]['label'] == 'custom'
+    assert index[2]['type'] == 'custom'
+    assert index[2]['members'][10][0]['name'] == 'ns_RED_3_M10_W200'
+    assert index[2]['members'][10][0]['interface'] == 'RED_3'
+    assert index[2]['members'][10][0]['metric'] == '10'
+    assert index[2]['members'][10][0]['weight'] == '200'
+    assert index[2]['members'][10][1]['name'] == 'ns_RED_2_M10_W100'
+    assert index[2]['members'][10][1]['interface'] == 'RED_2'
+    assert index[2]['members'][10][1]['metric'] == '10'
+    assert index[2]['members'][10][1]['weight'] == '100'
+    assert index[2]['members'][20][0]['name'] == 'ns_RED_1_M20_W100'
+    assert index[2]['members'][20][0]['interface'] == 'RED_1'
+    assert index[2]['members'][20][0]['metric'] == '20'
+    assert index[2]['members'][20][0]['weight'] == '100'
+
+
+def test_store_rule(e_uci):
+    mwan.store_policy(e_uci, 'default', [
+        {
+            'name': 'RED_1',
+            'metric': '20',
+            'weight': '100',
+        }
+    ])
+    assert mwan.store_rule(e_uci, 'additional rule', 'ns_default') == 'mwan3.ns_additional_r'
+    assert e_uci.get('mwan3', 'ns_additional_r') == 'rule'
+    assert e_uci.get('mwan3', 'ns_additional_r', 'label') == 'additional rule'
+    assert e_uci.get('mwan3', 'ns_additional_r', 'use_policy') == 'ns_default'
+
+
+def test_unique_rule(e_uci):
+    mwan.store_policy(e_uci, 'default', [
+        {
+            'name': 'RED_1',
+            'metric': '20',
+            'weight': '100',
+        }
+    ])
+    with pytest.raises(ValueError) as e:
+        mwan.store_rule(e_uci, 'additional rule', 'ns_default')
+        mwan.store_rule(e_uci, 'additional rule', 'ns_default')
+        assert e.value.args[0] == 'name'
+        assert e.value.args[1] == 'invalid'
