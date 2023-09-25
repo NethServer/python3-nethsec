@@ -154,7 +154,7 @@ def test_create_default_mwan(e_uci):
            'mwan3.RED_2',
            'network.RED_2',
            'mwan3.ns_RED_2_M20_W100',
-           'mwan3.ns_Default_Rule']
+           'mwan3.ns_default_rule']
 
     assert e_uci.get('mwan3', 'ns_default') == 'policy'
     assert e_uci.get('mwan3', 'ns_default', 'label') == 'default'
