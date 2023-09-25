@@ -292,3 +292,11 @@ def index_policies(e_uci: EUci) -> list[dict]:
         # append policy to data
         data.append(policy_data)
     return data
+
+
+def delete_policy(e_uci: EUci, name: str) -> list[str]:
+    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+        raise ValidationError('name', 'invalid', name)
+    e_uci.delete('mwan3', name)
+    e_uci.save('mwan3')
+    return [f'mwan3.{name}']

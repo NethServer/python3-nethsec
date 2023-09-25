@@ -4,6 +4,7 @@ import pytest
 from euci import EUci
 
 from nethsec import mwan
+from nethsec.utils import ValidationError
 
 network_db = """
 config interface 'loopback'
@@ -287,3 +288,23 @@ def test_unique_rule(e_uci):
         mwan.store_rule(e_uci, 'additional rule', 'ns_default')
         assert e.value.args[0] == 'name'
         assert e.value.args[1] == 'invalid'
+
+
+def test_delete_non_existent_policy(e_uci):
+    with pytest.raises(ValidationError) as e:
+        mwan.delete_policy(e_uci, 'ns_default')
+        assert e.value.args[0] == 'name'
+        assert e.value.args[1] == 'invalid'
+        assert e.value.args[2] == 'ns_default'
+
+
+def test_delete_policy(e_uci):
+    mwan.store_policy(e_uci, 'default', [
+        {
+            'name': 'RED_1',
+            'metric': '20',
+            'weight': '100',
+        }
+    ])
+    assert mwan.delete_policy(e_uci, 'ns_default') == ['mwan3.ns_default']
+    assert e_uci.get('mwan3', 'ns_default', default=None) is None
