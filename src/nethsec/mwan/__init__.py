@@ -349,3 +349,31 @@ def index_rules(e_uci: EUci) -> list[dict]:
 
         data.append(rule_data)
     return data
+
+
+def order_rules(e_uci: EUci, rules: list[str]) -> list[str]:
+    for rule in utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys():
+        if rule not in rules:
+            raise ValidationError('rules', 'missing', rule)
+
+    order: list[str] = []
+
+    for key in e_uci.get_all('mwan3').keys():
+        if key not in rules:
+            order.append(key)
+
+    order.extend(rules)
+
+    subprocess.check_output([
+        'ubus',
+        'call',
+        'uci',
+        'order',
+        json.dumps({
+            'config': 'mwan3',
+            'sections': order,
+        })
+    ])
+
+    e_uci.save('mwan3')
+    return order
