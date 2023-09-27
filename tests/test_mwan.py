@@ -308,3 +308,41 @@ def test_delete_policy(e_uci):
     ])
     assert mwan.delete_policy(e_uci, 'ns_default') == ['mwan3.ns_default']
     assert e_uci.get('mwan3', 'ns_default', default=None) is None
+
+
+def test_edit_policy(e_uci):
+    mwan.store_policy(e_uci, 'default', [
+        {
+            'name': 'RED_1',
+            'metric': '10',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_2',
+            'metric': '10',
+            'weight': '100',
+        }
+    ])
+    assert mwan.index_policies(e_uci)[0]['type'] == 'balance'
+    assert mwan.edit_policy(e_uci, 'ns_default', 'new label', [
+        {
+            'name': 'RED_1',
+            'metric': '20',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_3',
+            'metric': '10',
+            'weight': '100',
+        }
+    ]) == ['mwan3.ns_default', 'mwan3.ns_RED_1_M20_W100', 'mwan3.RED_3', 'network.RED_3', 'mwan3.ns_RED_3_M10_W100']
+    assert e_uci.get('mwan3', 'ns_default', 'label') == 'new label'
+    assert mwan.index_policies(e_uci)[0]['type'] == 'backup'
+
+
+def test_missing_policy(e_uci):
+    with pytest.raises(ValidationError) as e:
+        mwan.edit_policy(e_uci, 'dummy', '', [])
+        assert e.value[0] == 'name'
+        assert e.value[1] == 'invalid'
+        assert e.value[2] == 'dummy'

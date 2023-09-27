@@ -1,4 +1,10 @@
 #!/usr/bin/python3
+
+#
+# Copyright (C) 2023 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-2.0-only
+#
+
 import json
 import subprocess
 
@@ -6,12 +12,6 @@ from euci import EUci
 
 from nethsec import utils
 from nethsec.utils import ValidationError
-
-
-#
-# Copyright (C) 2023 Nethesis S.r.l.
-# SPDX-License-Identifier: GPL-2.0-only
-#
 
 
 def __generate_metric(e_uci: EUci, interface_metrics: list[int] = None, metric: int = 1) -> int:
@@ -184,24 +184,7 @@ def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
     e_uci.set('mwan3', policy_config_name, 'label', name)
     changed_config.append(f'mwan3.{policy_config_name}')
 
-    member_names: list[str] = []
-    for interface in interfaces:
-        try:
-            added_mwan_interface, updated_interface = __store_interface(e_uci, interface['name'])
-        except ValidationError:
-            raise ValidationError('interfaces', 'invalid', interface['name'])
-        if added_mwan_interface:
-            changed_config.append(f'mwan3.{interface["name"]}')
-        if updated_interface:
-            changed_config.append(f'network.{interface["name"]}')
-
-        member_config_name, member_created = __store_member(e_uci,
-                                                            interface['name'],
-                                                            interface['metric'],
-                                                            interface['weight'])
-        member_names.append(member_config_name)
-        if member_created:
-            changed_config.append(f'mwan3.{member_config_name}')
+    member_names = __add_interfaces(e_uci, interfaces, changed_config)
 
     e_uci.set('mwan3', policy_config_name, 'use_member', member_names)
 
@@ -292,6 +275,48 @@ def index_policies(e_uci: EUci) -> list[dict]:
         # append policy to data
         data.append(policy_data)
     return data
+
+
+def __add_interfaces(e_uci: EUci, interfaces: list[dict], changed_config: list[str] = None) -> list[str]:
+    if changed_config is None:
+        changed_config = list()
+    member_names: list[str] = []
+    for interface in interfaces:
+        try:
+            added_mwan_interface, updated_interface = __store_interface(e_uci, interface['name'])
+        except ValidationError:
+            raise ValidationError('interfaces', 'invalid', interface['name'])
+        if added_mwan_interface:
+            changed_config.append(f'mwan3.{interface["name"]}')
+        if updated_interface:
+            changed_config.append(f'network.{interface["name"]}')
+
+        member_config_name, member_created = __store_member(e_uci,
+                                                            interface['name'],
+                                                            interface['metric'],
+                                                            interface['weight'])
+        member_names.append(member_config_name)
+        if member_created:
+            changed_config.append(f'mwan3.{member_config_name}')
+
+    return member_names
+
+
+def edit_policy(e_uci: EUci, name: str, label: str, interfaces: list[dict]) -> list[str]:
+    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+        raise ValidationError('name', 'invalid', name)
+    changed_config = []
+    if label != e_uci.get_all('mwan3', name)['label']:
+        e_uci.set('mwan3', name, 'label', label)
+        changed_config.append(f'mwan3.{name}')
+
+    member_names = __add_interfaces(e_uci, interfaces, changed_config)
+
+    e_uci.set('mwan3', name, 'use_member', member_names)
+
+    e_uci.save('mwan3')
+    e_uci.save('network')
+    return changed_config
 
 
 def delete_policy(e_uci: EUci, name: str) -> list[str]:
