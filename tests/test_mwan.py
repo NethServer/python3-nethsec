@@ -122,7 +122,9 @@ def test_create_interface(e_uci):
 def test_fail_create_invalid_interface(e_uci):
     with pytest.raises(ValueError) as err:
         mwan.__store_interface(e_uci, 'RED_4')
-        assert err.value.args[0] == ('RED_4', 'invalid')
+    assert err.value.args[0] == 'name'
+    assert err.value.args[1] == 'invalid'
+    assert err.value.args[2] == 'RED_4'
 
 
 def test_interface_avoid_edit_of_metric(e_uci):
@@ -286,16 +288,16 @@ def test_unique_rule(e_uci):
     with pytest.raises(ValueError) as e:
         mwan.store_rule(e_uci, 'additional rule', 'ns_default')
         mwan.store_rule(e_uci, 'additional rule', 'ns_default')
-        assert e.value.args[0] == 'name'
-        assert e.value.args[1] == 'invalid'
+    assert e.value.args[0] == 'name'
+    assert e.value.args[1] == 'unique'
 
 
 def test_delete_non_existent_policy(e_uci):
     with pytest.raises(ValidationError) as e:
         mwan.delete_policy(e_uci, 'ns_default')
-        assert e.value.args[0] == 'name'
-        assert e.value.args[1] == 'invalid'
-        assert e.value.args[2] == 'ns_default'
+    assert e.value.args[0] == 'name'
+    assert e.value.args[1] == 'invalid'
+    assert e.value.args[2] == 'ns_default'
 
 
 def test_delete_policy(e_uci):
@@ -343,6 +345,39 @@ def test_edit_policy(e_uci):
 def test_missing_policy(e_uci):
     with pytest.raises(ValidationError) as e:
         mwan.edit_policy(e_uci, 'dummy', '', [])
-        assert e.value[0] == 'name'
-        assert e.value[1] == 'invalid'
-        assert e.value[2] == 'dummy'
+    assert e.value.args[0] == 'name'
+    assert e.value.args[1] == 'invalid'
+    assert e.value.args[2] == 'dummy'
+
+
+def test_index_rules(e_uci):
+    mwan.store_policy(e_uci, 'default', [
+        {
+            'name': 'RED_1',
+            'metric': '10',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_2',
+            'metric': '10',
+            'weight': '100',
+        }
+    ])
+    mwan.store_rule(e_uci, 'additional rule', 'ns_default')
+    index = mwan.index_rules(e_uci)
+    assert index[0] == {
+        'name': 'ns_default_rule',
+        'label': 'Default Rule',
+        'policy': {
+            'name': 'ns_default',
+            'label': 'default',
+        }
+    }
+    assert index[1] == {
+        'name': 'ns_additional_r',
+        'label': 'additional rule',
+        'policy': {
+            'name': 'ns_default',
+            'label': 'default',
+        }
+    }

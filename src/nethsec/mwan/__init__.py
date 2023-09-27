@@ -325,3 +325,27 @@ def delete_policy(e_uci: EUci, name: str) -> list[str]:
     e_uci.delete('mwan3', name)
     e_uci.save('mwan3')
     return [f'mwan3.{name}']
+
+
+def index_rules(e_uci: EUci) -> list[dict]:
+    data = []
+    rules = utils.get_all_by_type(e_uci, 'mwan3', 'rule')
+    for rule_key in rules.keys():
+        rule_data = {}
+        rule_value = rules[rule_key]
+        rule_data['name'] = rule_key
+        rule_data['policy'] = {}
+        rule_data['policy']['name'] = rule_value['use_policy']
+        if rule_value['use_policy'] in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+            rule_data['policy']['label'] = utils.get_all_by_type(e_uci, 'mwan3', 'policy')[rule_value['use_policy']]['label']
+        if 'label' in rule_value:
+            rule_data['label'] = rule_value['label']
+        if 'proto' in rule_value:
+            rule_data['protocol'] = rule_value['proto']
+        if 'src_ip' in rule_value:
+            rule_data['source_addresses'] = rule_value['src_ip']
+        if 'dest_ip' in rule_value:
+            rule_data['destination_addresses'] = rule_value['dest_ip']
+
+        data.append(rule_data)
+    return data
