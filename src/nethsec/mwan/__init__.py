@@ -392,3 +392,33 @@ def delete_rule(e_uci: EUci, name: str):
 
     e_uci.delete('mwan3', name)
     e_uci.save('mwan3')
+    return f'mwan3.{name}'
+
+
+def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = None,
+              source_address: str = None, source_port: str = None,
+              destination_address: str = None, destination_port: str = None):
+    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys():
+        raise ValidationError('name', 'invalid', name)
+
+    if policy not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+        raise ValidationError('policy', 'invalid', policy)
+    e_uci.set('mwan3', name, 'use_policy', policy)
+    e_uci.set('mwan3', name, 'label', label)
+    if protocol is not None:
+        e_uci.set('mwan3', name, 'proto', protocol)
+        if protocol != 'tcp' and protocol != 'udp':
+            e_uci.delete('mwan3', name, 'src_port')
+            e_uci.delete('mwan3', name, 'dest_port')
+        else:
+            if destination_port is not None:
+                e_uci.set('mwan3', name, 'dest_port', destination_port)
+            if source_port is not None:
+                e_uci.set('mwan3', name, 'src_port', source_port)
+    if source_address is not None:
+        e_uci.set('mwan3', name, 'src_ip', source_address)
+    if destination_address is not None:
+        e_uci.set('mwan3', name, 'dest_ip', destination_address)
+
+    e_uci.save('mwan3')
+    return f'mwan3.{name}'
