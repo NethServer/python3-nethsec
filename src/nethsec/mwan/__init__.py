@@ -384,3 +384,11 @@ def order_rules(e_uci: EUci, rules: list[str]) -> list[str]:
 
     e_uci.save('mwan3')
     return order
+
+
+def delete_rule(e_uci: EUci, name: str):
+    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys():
+        raise ValidationError('name', 'invalid', name)
+
+    e_uci.delete('mwan3', name)
+    e_uci.save('mwan3')

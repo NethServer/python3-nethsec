@@ -407,3 +407,22 @@ def test_index_rules(e_uci, mocker):
             'label': 'default',
         }
     }
+
+
+def test_delete_rule(e_uci, mocker):
+    mocker.patch('subprocess.run')
+    mwan.store_policy(e_uci, 'default', [
+        {
+            'name': 'RED_1',
+            'metric': '10',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_2',
+            'metric': '10',
+            'weight': '100',
+        }
+    ])
+    mwan.store_rule(e_uci, 'additional rule', 'ns_default')
+    mwan.delete_rule(e_uci, 'ns_additional_r')
+    assert 'ns_additional_r' not in e_uci.get_all('mwan3').keys()
