@@ -138,7 +138,8 @@ def test_create_member(e_uci):
     assert mwan.__store_member(e_uci, 'RED_1', 1, 100) == ('ns_RED_1_M1_W100', True)
 
 
-def test_create_default_mwan(e_uci):
+def test_create_default_mwan(e_uci, mocker):
+    mocker.patch('subprocess.run')
     assert mwan.store_policy(e_uci, 'default', [
         {
             'name': 'RED_1',
@@ -165,7 +166,8 @@ def test_create_default_mwan(e_uci):
         'ns_RED_1_M10_W200', 'ns_RED_2_M20_W100')
 
 
-def test_create_unique_mwan(e_uci):
+def test_create_unique_mwan(e_uci, mocker):
+    mocker.patch('subprocess.run')
     mwan.store_policy(e_uci, 'this', [])
     with pytest.raises(ValueError):
         mwan.store_policy(e_uci, 'this', [])
@@ -178,7 +180,8 @@ def test_metric_generation(e_uci):
     assert mwan.__generate_metric(e_uci, [4, 3, 1]) == 2
 
 
-def test_list_policies(e_uci):
+def test_list_policies(e_uci, mocker):
+    mocker.patch('subprocess.run')
     mwan.store_policy(e_uci, 'backup', [
         {
             'name': 'RED_1',
@@ -263,7 +266,8 @@ def test_list_policies(e_uci):
     assert index[2]['members'][20][0]['weight'] == '100'
 
 
-def test_store_rule(e_uci):
+def test_store_rule(e_uci, mocker):
+    mocker.patch('subprocess.run')
     mwan.store_policy(e_uci, 'default', [
         {
             'name': 'RED_1',
@@ -271,13 +275,20 @@ def test_store_rule(e_uci):
             'weight': '100',
         }
     ])
-    assert mwan.store_rule(e_uci, 'additional rule', 'ns_default') == 'mwan3.ns_additional_r'
+    assert mwan.store_rule(e_uci, 'additional rule', 'ns_default', 'udp', '192.168.1.1/24', '1:1024', '10.0.0.2/12',
+                           '22,443') == 'mwan3.ns_additional_r'
     assert e_uci.get('mwan3', 'ns_additional_r') == 'rule'
     assert e_uci.get('mwan3', 'ns_additional_r', 'label') == 'additional rule'
     assert e_uci.get('mwan3', 'ns_additional_r', 'use_policy') == 'ns_default'
+    assert e_uci.get('mwan3', 'ns_additional_r', 'proto') == 'udp'
+    assert e_uci.get('mwan3', 'ns_additional_r', 'src_ip') == '192.168.1.1/24'
+    assert e_uci.get('mwan3', 'ns_additional_r', 'src_port') == '1:1024'
+    assert e_uci.get('mwan3', 'ns_additional_r', 'dest_ip') == '10.0.0.2/12'
+    assert e_uci.get('mwan3', 'ns_additional_r', 'dest_port') == '22,443'
 
 
-def test_unique_rule(e_uci):
+def test_unique_rule(e_uci, mocker):
+    mocker.patch('subprocess.run')
     mwan.store_policy(e_uci, 'default', [
         {
             'name': 'RED_1',
@@ -285,14 +296,25 @@ def test_unique_rule(e_uci):
             'weight': '100',
         }
     ])
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValidationError) as e:
         mwan.store_rule(e_uci, 'additional rule', 'ns_default')
         mwan.store_rule(e_uci, 'additional rule', 'ns_default')
+
     assert e.value.args[0] == 'name'
     assert e.value.args[1] == 'unique'
 
 
-def test_delete_non_existent_policy(e_uci):
+def test_missing_policy_rule(e_uci):
+    with pytest.raises(ValidationError) as e:
+        mwan.store_rule(e_uci, 'cool rule', 'ns_default')
+
+    assert e.value.args[0] == 'policy'
+    assert e.value.args[1] == 'invalid'
+    assert e.value.args[2] == 'ns_default'
+
+
+def test_delete_non_existent_policy(e_uci, mocker):
+    mocker.patch('subprocess.run')
     with pytest.raises(ValidationError) as e:
         mwan.delete_policy(e_uci, 'ns_default')
     assert e.value.args[0] == 'name'
@@ -300,7 +322,8 @@ def test_delete_non_existent_policy(e_uci):
     assert e.value.args[2] == 'ns_default'
 
 
-def test_delete_policy(e_uci):
+def test_delete_policy(e_uci, mocker):
+    mocker.patch('subprocess.run')
     mwan.store_policy(e_uci, 'default', [
         {
             'name': 'RED_1',
@@ -312,7 +335,8 @@ def test_delete_policy(e_uci):
     assert e_uci.get('mwan3', 'ns_default', default=None) is None
 
 
-def test_edit_policy(e_uci):
+def test_edit_policy(e_uci, mocker):
+    mocker.patch('subprocess.run')
     mwan.store_policy(e_uci, 'default', [
         {
             'name': 'RED_1',
@@ -342,7 +366,8 @@ def test_edit_policy(e_uci):
     assert mwan.index_policies(e_uci)[0]['type'] == 'backup'
 
 
-def test_missing_policy(e_uci):
+def test_missing_policy(e_uci, mocker):
+    mocker.patch('subprocess.run')
     with pytest.raises(ValidationError) as e:
         mwan.edit_policy(e_uci, 'dummy', '', [])
     assert e.value.args[0] == 'name'
@@ -350,7 +375,8 @@ def test_missing_policy(e_uci):
     assert e.value.args[2] == 'dummy'
 
 
-def test_index_rules(e_uci):
+def test_index_rules(e_uci, mocker):
+    mocker.patch('subprocess.run')
     mwan.store_policy(e_uci, 'default', [
         {
             'name': 'RED_1',

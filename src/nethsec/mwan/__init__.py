@@ -115,8 +115,8 @@ def __store_member(e_uci: EUci, interface_name: str, metric: int, weight: int) -
 
 
 def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
-               source_addresses: str = None, source_ports: str = None,
-               destination_addresses: str = None, destination_ports: str = None) -> str:
+               source_address: str = None, source_port: str = None,
+               destination_address: str = None, destination_port: str = None) -> str:
     """
     Stores a rule for mwan3
     Args:
@@ -124,10 +124,10 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
         name: name of the rule, must be unique
         policy: policy to use for the rule, must be already set
         protocol: must be one of tcp, udp, icmp or all, defaults to 'all'
-        source_addresses: source addresses to match
-        source_ports: source ports to match or range
-        destination_addresses: destination addresses to match
-        destination_ports: destination ports to match or range
+        source_address: source addresses to match
+        source_port: source ports to match or range
+        destination_address: destination addresses to match
+        destination_port: destination ports to match or range
 
     Returns:
         name of the rule created
@@ -136,6 +136,7 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
         ValidationError if name is not unique or policy is not valid
     """
     rule_config_name = utils.get_id(name.lower(), 15)
+    rules = utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys()
     if rule_config_name in e_uci.get('mwan3').keys():
         raise ValidationError('name', 'unique', name)
     if policy not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
@@ -146,16 +147,17 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
     e_uci.set('mwan3', rule_config_name, 'use_policy', policy)
     if protocol is not None:
         e_uci.set('mwan3', rule_config_name, 'proto', protocol)
-    if source_addresses is not None:
-        e_uci.set('mwan3', rule_config_name, 'src_ip', source_addresses)
-    if source_ports is not None:
-        e_uci.set('mwan3', rule_config_name, 'src_port', source_ports)
-    if destination_addresses is not None:
-        e_uci.set('mwan3', rule_config_name, 'dest_ip', destination_addresses)
-    if destination_ports is not None:
-        e_uci.set('mwan3', rule_config_name, 'dest_port', destination_ports)
+    if source_address is not None:
+        e_uci.set('mwan3', rule_config_name, 'src_ip', source_address)
+    if source_port is not None:
+        e_uci.set('mwan3', rule_config_name, 'src_port', source_port)
+    if destination_address is not None:
+        e_uci.set('mwan3', rule_config_name, 'dest_ip', destination_address)
+    if destination_port is not None:
+        e_uci.set('mwan3', rule_config_name, 'dest_port', destination_port)
 
     e_uci.save('mwan3')
+    order_rules(e_uci, [rule_config_name] + list(rules))
     return f'mwan3.{rule_config_name}'
 
 
@@ -198,13 +200,14 @@ def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
 
 def __fetch_interface_status(interface_name: str) -> str:
     try:
-        output = subprocess.check_output([
+        output = (subprocess.run([
             'ubus',
             'call',
             'mwan3',
             'status',
             '{"section": "interfaces"}'
-        ]).decode('utf-8')
+        ], capture_output=True)
+                  .stdout.decode('utf-8'))
         decoded_output = json.JSONDecoder().decode(output)
         return decoded_output['interfaces'][interface_name]['status']
     except:
@@ -343,9 +346,13 @@ def index_rules(e_uci: EUci) -> list[dict]:
         if 'proto' in rule_value:
             rule_data['protocol'] = rule_value['proto']
         if 'src_ip' in rule_value:
-            rule_data['source_addresses'] = rule_value['src_ip']
+            rule_data['source_address'] = rule_value['src_ip']
+        if 'src_port' in rule_value:
+            rule_data['source_port'] = rule_value['src_port']
         if 'dest_ip' in rule_value:
-            rule_data['destination_addresses'] = rule_value['dest_ip']
+            rule_data['destination_address'] = rule_value['dest_ip']
+        if 'dest_port' in rule_value:
+            rule_data['destination_port'] = rule_value['dest_port']
 
         data.append(rule_data)
     return data
@@ -364,7 +371,7 @@ def order_rules(e_uci: EUci, rules: list[str]) -> list[str]:
 
     order.extend(rules)
 
-    subprocess.check_output([
+    subprocess.run([
         'ubus',
         'call',
         'uci',
