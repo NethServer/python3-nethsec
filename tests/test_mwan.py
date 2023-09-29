@@ -175,9 +175,11 @@ def test_create_unique_mwan(e_uci, mocker):
 
 def test_metric_generation(e_uci):
     assert mwan.__generate_metric(e_uci) == 1
-    assert mwan.__generate_metric(e_uci, [1, 4]) == 2
-    assert mwan.__generate_metric(e_uci, [1, 2, 4]) == 3
-    assert mwan.__generate_metric(e_uci, [4, 3, 1]) == 2
+    assert mwan.__store_interface(e_uci, 'RED_1') == (True, True)
+    assert mwan.__generate_metric(e_uci) == 2
+    assert mwan.__generate_metric(e_uci) == 2
+    assert mwan.__store_interface(e_uci, 'RED_2') == (True, True)
+    assert mwan.__generate_metric(e_uci) == 3
 
 
 def test_list_policies(e_uci, mocker):
@@ -424,5 +426,68 @@ def test_delete_rule(e_uci, mocker):
         }
     ])
     mwan.store_rule(e_uci, 'additional rule', 'ns_default')
-    mwan.delete_rule(e_uci, 'ns_additional_r')
+    assert mwan.delete_rule(e_uci, 'ns_additional_r') == 'mwan3.ns_additional_r'
     assert 'ns_additional_r' not in e_uci.get_all('mwan3').keys()
+
+
+def test_edit_rule(e_uci, mocker):
+    mocker.patch('subprocess.run')
+    mwan.store_policy(e_uci, 'hello world', [
+        {
+            'name': 'RED_1',
+            'metric': '10',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_2',
+            'metric': '10',
+            'weight': '100',
+        }
+    ])
+    mwan.store_policy(e_uci, 'cool policy', [
+        {
+            'name': 'RED_3',
+            'metric': '10',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_1',
+            'metric': '10',
+            'weight': '100',
+        }
+    ])
+    assert mwan.edit_rule(e_uci, 'ns_default_rule', 'ns_cool_policy', 'new label!', 'udp', '192.168.10.1/12', '80,443',
+                          '0.0.0.0/0', '4040-8080') == 'mwan3.ns_default_rule'
+    assert e_uci.get('mwan3', 'ns_default_rule', 'label') == 'new label!'
+    assert e_uci.get('mwan3', 'ns_default_rule', 'use_policy') == 'ns_cool_policy'
+    assert e_uci.get('mwan3', 'ns_default_rule', 'proto') == 'udp'
+    assert e_uci.get('mwan3', 'ns_default_rule', 'src_ip') == '192.168.10.1/12'
+    assert e_uci.get('mwan3', 'ns_default_rule', 'src_port') == '80,443'
+    assert e_uci.get('mwan3', 'ns_default_rule', 'dest_ip') == '0.0.0.0/0'
+    assert e_uci.get('mwan3', 'ns_default_rule', 'dest_port') == '4040-8080'
+
+
+def test_cant_edit_invalid_rule(e_uci, mocker):
+    mocker.patch('subprocess.run')
+    with pytest.raises(ValidationError) as e:
+        mwan.edit_rule(e_uci, 'ns_default_rule', 'ns_cool_policy', 'new label!')
+    assert e.value.args[0] == 'name'
+    assert e.value.args[1] == 'invalid'
+    assert e.value.args[2] == 'ns_default_rule'
+    mwan.store_policy(e_uci, 'hello world', [
+        {
+            'name': 'RED_1',
+            'metric': '10',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_2',
+            'metric': '10',
+            'weight': '100',
+        }
+    ])
+    with pytest.raises(ValidationError) as e:
+        mwan.edit_rule(e_uci, 'ns_default_rule', 'ns_cool_policy', 'new label!')
+    assert e.value.args[0] == 'policy'
+    assert e.value.args[1] == 'invalid'
+    assert e.value.args[2] == 'ns_cool_policy'

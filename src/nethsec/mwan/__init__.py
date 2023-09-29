@@ -8,33 +8,27 @@
 import json
 import subprocess
 
+import uci
 from euci import EUci
 
 from nethsec import utils
 from nethsec.utils import ValidationError
 
 
-def __generate_metric(e_uci: EUci, interface_metrics: list[int] = None, metric: int = 1) -> int:
+def __generate_metric(e_uci: EUci) -> int:
     """
     Generates a metric for an interface.
     Args:
         e_uci: EUci instance
-        interface_metrics: list of metrics already used, will be generated if not provided
-        metric: metric to start from
 
     Returns:
         first metric that is not present in interface_metrics
     """
-    if interface_metrics is None:
-        interface_metrics = list[int]()
-        for interface in utils.get_all_by_type(e_uci, 'network', 'interface').values():
-            if 'metric' in interface:
-                interface_metrics.append(int(interface['metric']))
-
-    if metric not in interface_metrics:
-        return metric
-    else:
-        return __generate_metric(e_uci, interface_metrics, metric + 1)
+    next_metric = 0
+    for interface in utils.get_all_by_type(e_uci, 'network', 'interface').values():
+        if 'metric' in interface:
+            next_metric = max(next_metric, int(interface['metric']))
+    return next_metric + 1
 
 
 def __store_interface(e_uci: EUci, name: str) -> tuple[bool, bool]:
@@ -52,16 +46,17 @@ def __store_interface(e_uci: EUci, name: str) -> tuple[bool, bool]:
         ValidationError: if interface name is not defined in /etc/config/network
     """
     # checking if interface is configured
-    available_interfaces = utils.get_all_by_type(e_uci, 'network', 'interface')
-    if name not in available_interfaces.keys():
+    try:
+        e_uci.get('network', name)
+    except uci.UciExceptionNotFound:
         raise ValidationError('name', 'invalid', name)
 
     created_interface = False
     # if no interface with name exists, create one with defaults
-    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'interface').keys():
+    if e_uci.get('mwan3', name, default=None) is None:
         created_interface = True
         # fetch default configuration and set interface
-        default_interface_config = utils.get_all_by_type(e_uci, 'ns-api', 'defaults_mwan').get('defaults_mwan')
+        default_interface_config = e_uci.get_all('ns-api', 'defaults_mwan')
         e_uci.set('mwan3', name, 'interface')
         e_uci.set('mwan3', name, 'enabled', '1')
         e_uci.set('mwan3', name, 'initial_state', default_interface_config['initial_state'])
@@ -81,7 +76,7 @@ def __store_interface(e_uci: EUci, name: str) -> tuple[bool, bool]:
 
     added_metric = False
     # avoid adding metric if already present
-    if 'metric' not in available_interfaces[name]:
+    if e_uci.get('network', name, 'metric', default=None) is None:
         added_metric = True
         # generate metric
         metric = __generate_metric(e_uci)
@@ -105,7 +100,7 @@ def __store_member(e_uci: EUci, interface_name: str, metric: int, weight: int) -
     """
     member_config_name = utils.get_id(f'{interface_name}_M{metric}_W{weight}')
     changed = False
-    if member_config_name not in utils.get_all_by_type(e_uci, 'mwan3', 'member').keys():
+    if e_uci.get('mwan3', member_config_name, default=None) is None:
         changed = True
         e_uci.set('mwan3', member_config_name, 'member')
         e_uci.set('mwan3', member_config_name, 'interface', interface_name)
@@ -137,12 +132,11 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
     """
     rule_config_name = utils.get_id(name.lower(), 15)
     rules = utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys()
-    if rule_config_name in e_uci.get('mwan3').keys():
+    if e_uci.get('mwan3', rule_config_name, default=None) is not None:
         raise ValidationError('name', 'unique', name)
-    if policy not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+    if e_uci.get('mwan3', policy, default=None) is None:
         raise ValidationError('policy', 'invalid', policy)
     e_uci.set('mwan3', rule_config_name, 'rule')
-    e_uci.set('mwan3', rule_config_name, 'label', name)
     e_uci.set('mwan3', rule_config_name, 'label', name)
     e_uci.set('mwan3', rule_config_name, 'use_policy', policy)
     if protocol is not None:
@@ -179,7 +173,7 @@ def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
     # generate policy name
     policy_config_name = utils.get_id(name.lower())
     # make sure name is not something that already exists
-    if policy_config_name in e_uci.get('mwan3').keys():
+    if e_uci.get('mwan3', policy_config_name, default=None) is not None:
         raise ValidationError('name', 'unique', name)
     # generate policy config with corresponding name
     e_uci.set('mwan3', policy_config_name, 'policy')
@@ -206,7 +200,7 @@ def __fetch_interface_status(interface_name: str) -> str:
             'mwan3',
             'status',
             '{"section": "interfaces"}'
-        ], capture_output=True)
+        ], capture_output=True, check=True)
                   .stdout.decode('utf-8'))
         decoded_output = json.JSONDecoder().decode(output)
         return decoded_output['interfaces'][interface_name]['status']
@@ -306,7 +300,7 @@ def __add_interfaces(e_uci: EUci, interfaces: list[dict], changed_config: list[s
 
 
 def edit_policy(e_uci: EUci, name: str, label: str, interfaces: list[dict]) -> list[str]:
-    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+    if e_uci.get('mwan3', name, default=None) is None:
         raise ValidationError('name', 'invalid', name)
     changed_config = []
     if label != e_uci.get_all('mwan3', name)['label']:
@@ -323,7 +317,7 @@ def edit_policy(e_uci: EUci, name: str, label: str, interfaces: list[dict]) -> l
 
 
 def delete_policy(e_uci: EUci, name: str) -> list[str]:
-    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+    if e_uci.get('mwan3', name, default=None) is None:
         raise ValidationError('name', 'invalid', name)
     e_uci.delete('mwan3', name)
     e_uci.save('mwan3')
@@ -339,7 +333,7 @@ def index_rules(e_uci: EUci) -> list[dict]:
         rule_data['name'] = rule_key
         rule_data['policy'] = {}
         rule_data['policy']['name'] = rule_value['use_policy']
-        if rule_value['use_policy'] in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+        if e_uci.get('mwan3', rule_value['use_policy'], default=None) is not None:
             rule_data['policy']['label'] = utils.get_all_by_type(e_uci, 'mwan3', 'policy')[rule_value['use_policy']]['label']
         if 'label' in rule_value:
             rule_data['label'] = rule_value['label']
@@ -387,7 +381,7 @@ def order_rules(e_uci: EUci, rules: list[str]) -> list[str]:
 
 
 def delete_rule(e_uci: EUci, name: str):
-    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys():
+    if e_uci.get('mwan3', name, default=None) is None:
         raise ValidationError('name', 'invalid', name)
 
     e_uci.delete('mwan3', name)
@@ -398,10 +392,10 @@ def delete_rule(e_uci: EUci, name: str):
 def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = None,
               source_address: str = None, source_port: str = None,
               destination_address: str = None, destination_port: str = None):
-    if name not in utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys():
+    if e_uci.get('mwan3', name, default=None) is None:
         raise ValidationError('name', 'invalid', name)
 
-    if policy not in utils.get_all_by_type(e_uci, 'mwan3', 'policy').keys():
+    if e_uci.get('mwan3', policy, default=None) is None:
         raise ValidationError('policy', 'invalid', policy)
     e_uci.set('mwan3', name, 'use_policy', policy)
     e_uci.set('mwan3', name, 'label', label)
