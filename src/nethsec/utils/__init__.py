@@ -370,3 +370,10 @@ def generic_error(error):
       - A validation error object
     '''
     return {"error": error.strip().replace(" ", "_").lower()}
+
+
+class ValidationError(ValueError):
+    def __init__(self, parameter, message="", value=""):
+        self.parameter = parameter
+        self.message = message
+        self.value = value
