@@ -18,6 +18,7 @@ from nethsec.utils import ValidationError
 def __generate_metric(e_uci: EUci) -> int:
     """
     Generates a metric for an interface.
+
     Args:
         e_uci: EUci instance
 
@@ -34,6 +35,7 @@ def __generate_metric(e_uci: EUci) -> int:
 def __store_interface(e_uci: EUci, name: str) -> tuple[bool, bool]:
     """
     Stores interface configuration for mwan3 and network, not suited to be used outside store_policy.
+
     Args:
         e_uci: EUci instance
         name: name of interface
@@ -88,6 +90,7 @@ def __store_interface(e_uci: EUci, name: str) -> tuple[bool, bool]:
 def __store_member(e_uci: EUci, interface_name: str, metric: int, weight: int) -> tuple[str, bool]:
     """
     Stores member configuration for mwan3, not suited to be used outside store_policy.
+
     Args:
         e_uci: EUci instance
         interface_name: name of interface to link the member to
@@ -114,6 +117,7 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
                destination_address: str = None, destination_port: str = None) -> str:
     """
     Stores a rule for mwan3
+
     Args:
         e_uci: EUci instance
         name: name of the rule, must be unique
@@ -158,6 +162,7 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
 def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
     """
     Stores a policy for mwan3, takes care of creating interfaces and members.
+
     Args:
         e_uci: EUci instance
         name: name of policy
@@ -211,6 +216,7 @@ def __fetch_interface_status(interface_name: str) -> str:
 def __parse_member(e_uci: EUci, member_name: str) -> dict:
     """
     Parses a member configuration and returns formatted data.
+
     Args:
         e_uci: EUci instance
         member_name: member name
@@ -231,6 +237,7 @@ def __parse_member(e_uci: EUci, member_name: str) -> dict:
 def index_policies(e_uci: EUci) -> list[dict]:
     """
     Returns a list of policies with their members, interfaces and metrics/weights.
+
     Args:
         e_uci: EUci instance
 
@@ -275,6 +282,20 @@ def index_policies(e_uci: EUci) -> list[dict]:
 
 
 def __add_interfaces(e_uci: EUci, interfaces: list[dict], changed_config: list[str] = None) -> list[str]:
+    """
+    Add interfaces to policy, takes care of creating interfaces and members.
+
+    Args:
+        e_uci: euci instance
+        interfaces: list of interfaces to add
+        changed_config: array of changed configuration
+
+    Returns:
+        list of member names added to policy
+
+    Raises:
+        ValidationError: if interface name is not defined in /etc/config/network
+    """
     if changed_config is None:
         changed_config = list()
     member_names: list[str] = []
@@ -300,6 +321,21 @@ def __add_interfaces(e_uci: EUci, interfaces: list[dict], changed_config: list[s
 
 
 def edit_policy(e_uci: EUci, name: str, label: str, interfaces: list[dict]) -> list[str]:
+    """
+    Edits a mwan3 policy.
+
+    Args:
+        e_uci: euci instance
+        name: name of policy to edit
+        label: policy label
+        interfaces: dict of interfaces to add to policy
+
+    Returns:
+        list of changed mwan3 entries
+
+    Raises:
+        ValidationError: if name is not valid
+    """
     if e_uci.get('mwan3', name, default=None) is None:
         raise ValidationError('name', 'invalid', name)
     changed_config = []
@@ -317,6 +353,16 @@ def edit_policy(e_uci: EUci, name: str, label: str, interfaces: list[dict]) -> l
 
 
 def delete_policy(e_uci: EUci, name: str) -> list[str]:
+    """
+    Deletes a mwan3 policy.
+
+    Args:
+        e_uci: euci instance
+        name: name of policy to delete
+
+    Returns:
+        list of deleted mwan3 entries
+    """
     if e_uci.get('mwan3', name, default=None) is None:
         raise ValidationError('name', 'invalid', name)
     e_uci.delete('mwan3', name)
@@ -325,6 +371,15 @@ def delete_policy(e_uci: EUci, name: str) -> list[str]:
 
 
 def index_rules(e_uci: EUci) -> list[dict]:
+    """
+    Returns a list of rules with their policies.
+
+    Args:
+        e_uci: euci instance
+
+    Returns:
+        parsed list of rules with assigned policy
+    """
     data = []
     rules = utils.get_all_by_type(e_uci, 'mwan3', 'rule')
     for rule_key in rules.keys():
@@ -353,6 +408,19 @@ def index_rules(e_uci: EUci) -> list[dict]:
 
 
 def order_rules(e_uci: EUci, rules: list[str]) -> list[str]:
+    """
+    Orders mwan3 rules, moves everything else but rules to the end of the list.
+
+    Args:
+        e_uci: euci instance
+        rules: which order to put rules
+
+    Returns:
+        list of ordered mwan3 entries
+
+    Raises:
+        ValidationError: if a rule is not present in /etc/config/mwan3
+    """
     for rule in utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys():
         if rule not in rules:
             raise ValidationError('rules', 'missing', rule)
@@ -381,6 +449,16 @@ def order_rules(e_uci: EUci, rules: list[str]) -> list[str]:
 
 
 def delete_rule(e_uci: EUci, name: str):
+    """
+    Deletes a mwan3 rule.
+
+    Args:
+        e_uci: euci instance
+        name: rule name to delete
+
+    Returns:
+        name of rule deleted
+    """
     if e_uci.get('mwan3', name, default=None) is None:
         raise ValidationError('name', 'invalid', name)
 
@@ -392,6 +470,23 @@ def delete_rule(e_uci: EUci, name: str):
 def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = None,
               source_address: str = None, source_port: str = None,
               destination_address: str = None, destination_port: str = None):
+    """
+    Edits a mwan3 rule.
+
+    Args:
+        e_uci: EUci instance
+        name: rule name
+        policy: policy to use for the rule
+        label: rule label
+        protocol: protocol in which the rule applies
+        source_address: CIDR notation of source address
+        source_port: port or port range
+        destination_address: CIDR notation of destination address
+        destination_port: port or port range
+
+    Raises:
+        ValidationError: if name is not valid or policy is not valid
+    """
     if e_uci.get('mwan3', name, default=None) is None:
         raise ValidationError('name', 'invalid', name)
 
