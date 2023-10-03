@@ -573,6 +573,16 @@ def add_forwarding(uci, src: str, dest: str) -> str:
 
 
 def zone_exists(u, zone_name):
+    """
+    Check if a zone with name zone_name already exists
+
+    Args:
+        u: EUci pointer
+        zone_name: zone name to check
+
+    Returns:
+        true if a zone with name zone_name already exists, false otherwise
+    """
     try:
         for h in utils.get_all_by_type(u, 'firewall', 'zone'):
             if u.get('firewall', h, 'name', default='') == zone_name:
