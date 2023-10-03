@@ -572,6 +572,17 @@ def add_forwarding(uci, src: str, dest: str) -> str:
     return config_name
 
 
+def zone_exists(u, zone_name):
+    try:
+        for h in utils.get_all_by_type(u, 'firewall', 'zone'):
+            if u.get('firewall', h, 'name', default='') == zone_name:
+                return True
+    except:
+        return False
+
+    return False
+
+
 def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
              forwards_from: list[str] = None) -> {str, set[str]}:
     """
@@ -589,6 +600,11 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
     Returns:
         tuple of zone config name and set of added forwarding configs
     """
+
+    # check if a zone with the same name already exists
+    if zone_exists(uci, name):
+        return utils.validation_error("name", "zone_already_exists", name)
+
     zone_config_name = utils.get_id(name)
     uci.set('firewall', zone_config_name, 'zone')
     uci.set('firewall', zone_config_name, 'name', name)
