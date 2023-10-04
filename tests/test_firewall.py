@@ -483,10 +483,25 @@ def test_add_zone(tmp_path):
     assert u.get("firewall", "ns_guest2new_zone", "src") == "guest"
     assert u.get("firewall", "ns_guest2new_zone", "dest") == "new_zone"
 
+def test_edit_zone(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.edit_zone(u, "new_zone", "DROP", "ACCEPT", False, ["lan"], ["lan", "guest"]) == (
+        "ns_new_zone", {"ns_new_zone2lan", "ns_lan2new_zone", "ns_guest2new_zone"})
+    assert u.get("firewall", "ns_new_zone", "name") == "new_zone"
+    assert u.get("firewall", "ns_new_zone", "input") == "DROP"
+    assert u.get("firewall", "ns_new_zone", "output") == "ACCEPT"
+    assert u.get("firewall", "ns_new_zone", "forward") == "ACCEPT"
+    assert u.get("firewall", "ns_new_zone2lan", "src") == "new_zone"
+    assert u.get("firewall", "ns_new_zone2lan", "dest") == "lan"
+    assert u.get("firewall", "ns_lan2new_zone", "src") == "lan"
+    assert u.get("firewall", "ns_lan2new_zone", "dest") == "new_zone"
+    assert u.get("firewall", "ns_guest2new_zone", "src") == "guest"
+    assert u.get("firewall", "ns_guest2new_zone", "dest") == "new_zone"
+
 
 def test_delete_zone(tmp_path):
     u = _setup_db(tmp_path)
     assert firewall.delete_zone(u, "ns_new_zone") == (
-        "ns_new_zone", {"ns_new_zone2wan", "ns_new_zone2lan", "ns_guest2new_zone", "ns_lan2new_zone"})
+        "ns_new_zone", {"ns_new_zone2lan", "ns_guest2new_zone", "ns_lan2new_zone"})
     with pytest.raises(Exception) as e:
         firewall.delete_zone(u, "not_a_zone")

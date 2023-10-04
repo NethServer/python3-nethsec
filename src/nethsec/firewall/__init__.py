@@ -572,6 +572,27 @@ def add_forwarding(uci, src: str, dest: str) -> str:
     return config_name
 
 
+def zone_exists(u, zone_name):
+    """
+    Check if a zone with name zone_name already exists
+
+    Args:
+        u: EUci pointer
+        zone_name: zone name to check
+
+    Returns:
+        true if a zone with name zone_name already exists, false otherwise
+    """
+    try:
+        for h in utils.get_all_by_type(u, 'firewall', 'zone'):
+            if u.get('firewall', h, 'name', default='') == zone_name:
+                return True
+    except:
+        return False
+
+    return False
+
+
 def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
              forwards_from: list[str] = None) -> {str, set[str]}:
     """
@@ -589,12 +610,71 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
     Returns:
         tuple of zone config name and set of added forwarding configs
     """
+
+    # check if a zone with the same name already exists
+    if zone_exists(uci, name):
+        return utils.validation_error("name", "zone_already_exists", name)
+
     zone_config_name = utils.get_id(name)
     uci.set('firewall', zone_config_name, 'zone')
     uci.set('firewall', zone_config_name, 'name', name)
     uci.set('firewall', zone_config_name, 'input', input)
     uci.set('firewall', zone_config_name, 'forward', forward)
     uci.set('firewall', zone_config_name, 'output', 'ACCEPT')
+
+    forwardings_added = set()
+
+    if traffic_to_wan:
+        forwardings_added.add(add_forwarding(uci, name, 'wan'))
+
+    if forwards_to is not None:
+        for forward_to in forwards_to:
+            forwardings_added.add(add_forwarding(uci, name, forward_to))
+
+    if forwards_from is not None:
+        for forward_from in forwards_from:
+            forwardings_added.add(add_forwarding(uci, forward_from, name))
+
+    uci.save('firewall')
+    return zone_config_name, forwardings_added
+
+
+def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
+             forwards_from: list[str] = None) -> {str, set[str]}:
+    """
+    Add zone to firewall config.
+
+    Args:
+        uci: EUci pointer
+        name: name of zone to edit
+        input: rule for input traffic, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        forward: rule for forward traffic, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        traffic_to_wan: if True, add forwarding from zone to wan
+        forwards_to: list of zones to forward traffic to
+        forwards_from: list of zones to forward traffic from
+
+    Returns:
+        tuple of zone config name and set of updated forwarding configs
+    """
+    zone_config_name = utils.get_id(name)
+    uci.set('firewall', zone_config_name, 'input', input)
+    uci.set('firewall', zone_config_name, 'forward', forward)
+    uci.set('firewall', zone_config_name, 'output', 'ACCEPT')
+
+    # delete old forwardings
+
+    forwardings = list_forwardings(uci)
+    to_delete_forwardings = set()
+    for forwarding in forwardings:
+        if forwardings[forwarding]['src'] == name:
+            to_delete_forwardings.add(forwarding)
+        if forwardings[forwarding]['dest'] == name:
+            to_delete_forwardings.add(forwarding)
+
+    for to_delete_forwarding in to_delete_forwardings:
+        uci.delete('firewall', to_delete_forwarding)
+
+    # create updated forwardings
 
     forwardings_added = set()
 

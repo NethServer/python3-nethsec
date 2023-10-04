@@ -138,7 +138,7 @@ def test_get_id():
     assert utils.get_id(long_str) == f'ns_{long_str}'
     assert utils.get_id(long_str+"123") == f'ns_{long_str}'
 
-def test_get_id_lenght():
+def test_get_id_length():
     assert utils.get_id("123456789012345", 15) == "ns_123456789012"
 
 def test_get_all_by_type(tmp_path):

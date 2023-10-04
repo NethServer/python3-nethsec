@@ -47,7 +47,7 @@ def get_id(name, length = 100):
 
     Arguments:
       - name -- the name of the section
-      - length -- maximum id length, default is 100. Maximum lenght for firewall zones is 15.
+      - length -- maximum id length, default is 100. Maximum length for firewall zones is 15.
 
     Returns:
       - a valid UCI identifier as string
