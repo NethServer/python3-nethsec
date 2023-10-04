@@ -1,5 +1,7 @@
-from unittest.mock import mock_open
+import pathlib
 
+import pytest
+from euci import EUci
 from pytest_mock import MockFixture
 
 from nethsec import dpi
@@ -192,6 +194,61 @@ protocol_output = """
    130: HTTP/Connect
 """
 
+dpi_db = """
+config rule rule0
+	option action 'block'
+	list application 'netify.linkedin'
+	list application 'netify.snapchat'
+	list protocol 'HTTP/Connect'
+	list source '192.168.100.1'
+	list source '192.168.100.2'
+	list source 'user:giacomo'
+	list source 'group:g1'
+	list category 'games'
+	option interface 'wan'
+	option description 'my description'
+	option enabled 1
+
+config rule rule1
+	option action 'block'
+	list application 'netify.tesla'
+	option description 'my description 2'
+	option interface 'br-lan'
+	option enabled 0
+	list exemption '192.168.100.3'
+
+config rule rule2
+	option action 'block'
+	option criteria 'local_ip == 192.168.100.22 && application == "netify.facebook";'
+	option enabled 1
+	
+config rule rule3
+    option action 'block'
+    list protocol 'HTTP/Connect'
+    option interface 'lan'
+    option description 'my description 3'
+    option enabled 1
+"""
+
+
+@pytest.fixture
+def e_uci(tmp_path: pathlib.Path) -> EUci:
+    conf_dir = tmp_path.joinpath('conf')
+    conf_dir.mkdir()
+    save_dir = tmp_path.joinpath('save')
+    save_dir.mkdir()
+    with conf_dir.joinpath('dpi').open('w') as fp:
+        fp.write(dpi_db)
+    return EUci(confdir=conf_dir.as_posix(), savedir=save_dir.as_posix())
+
+
+@pytest.fixture
+def mock_load(mocker):
+    mocker.patch('nethsec.dpi.__load_applications', return_value=applications)
+    mocker.patch('nethsec.dpi.__load_application_categories', return_value=application_categories)
+    mocker.patch('nethsec.dpi.__load_protocols', return_value=protocols)
+    mocker.patch('nethsec.dpi.__load_protocol_categories', return_value=protocol_categories)
+
 
 def test_load_applications(mocker: MockFixture):
     mocker.patch('builtins.open', mocker.mock_open(read_data=applications_file))
@@ -215,11 +272,7 @@ def test_load_protocols(mocker: MockFixture):
     assert dpi.__load_protocols() == protocols
 
 
-def test_index_applications(mocker: MockFixture):
-    mocker.patch('nethsec.dpi.__load_applications', return_value=applications)
-    mocker.patch('nethsec.dpi.__load_application_categories', return_value=application_categories)
-    mocker.patch('nethsec.dpi.__load_protocols', return_value=protocols)
-    mocker.patch('nethsec.dpi.__load_protocol_categories', return_value=protocol_categories)
+def test_index_applications(mock_load):
     assert dpi.index_applications() == [
         {
             'id': '133',
@@ -368,11 +421,7 @@ def test_index_applications(mocker: MockFixture):
     ]
 
 
-def test_index_applications_search(mocker: MockFixture):
-    mocker.patch('nethsec.dpi.__load_applications', return_value=applications)
-    mocker.patch('nethsec.dpi.__load_application_categories', return_value=application_categories)
-    mocker.patch('nethsec.dpi.__load_protocols', return_value=protocols)
-    mocker.patch('nethsec.dpi.__load_protocol_categories', return_value=protocol_categories)
+def test_index_applications_search(mock_load):
     assert dpi.index_applications(search='l') == [
         {
             'id': '10119',
@@ -431,11 +480,7 @@ def test_index_applications_search(mocker: MockFixture):
     ]
 
 
-def test_index_applications_paginate(mocker: MockFixture):
-    mocker.patch('nethsec.dpi.__load_applications', return_value=applications)
-    mocker.patch('nethsec.dpi.__load_application_categories', return_value=application_categories)
-    mocker.patch('nethsec.dpi.__load_protocols', return_value=protocols)
-    mocker.patch('nethsec.dpi.__load_protocol_categories', return_value=protocol_categories)
+def test_index_applications_paginate(mock_load):
     assert dpi.index_applications(limit=2, page=2) == [
         {
             'id': '10552',
@@ -474,5 +519,79 @@ def test_index_applications_paginate(mocker: MockFixture):
                 'id': '33',
                 'name': 'unknown'
             }
+        }
+    ]
+
+
+def test_list_rules(e_uci, mock_load):
+    assert dpi.index_rules(e_uci) == [
+        {
+            'config-name': 'rule0',
+            'description': 'my description',
+            'enabled': True,
+            'interface': 'wan',
+            'blocks': [
+                {
+                    'id': '10119',
+                    'name': 'linkedin',
+                    'type': 'application',
+                    'category': {
+                        'id': '33',
+                        'name': 'unknown'
+                    }
+                },
+                {
+                    'id': '199',
+                    'name': 'snapchat',
+                    'type': 'application',
+                    'category': {
+                        'id': '20',
+                        'name': 'last'
+                    }
+                },
+                {
+                    'id': '130',
+                    'name': 'HTTP/Connect',
+                    'type': 'protocol',
+                    'category': {
+                        'id': '4',
+                        'name': 'low'
+                    }
+                }
+            ]
+        },
+        {
+            'config-name': 'rule1',
+            'description': 'my description 2',
+            'enabled': False,
+            'interface': 'br-lan',
+            'blocks': [
+                {
+                    'id': '10552',
+                    'name': 'tesla',
+                    'type': 'application',
+                    'category': {
+                        'id': '3',
+                        'name': 'first-category'
+                    }
+                }
+            ]
+        },
+        {
+            'config-name': 'rule3',
+            'description': 'my description 3',
+            'enabled': True,
+            'interface': 'lan',
+            'blocks': [
+                {
+                    'id': '130',
+                    'name': 'HTTP/Connect',
+                    'type': 'protocol',
+                    'category': {
+                        'id': '4',
+                        'name': 'low'
+                    }
+                }
+            ]
         }
     ]
