@@ -22,14 +22,14 @@ def __load_applications() -> dict[int, str]:
     return applications
 
 
-def __load_application_categories() -> dict[int, dict[str, str]]:
+def __load_application_categories() -> dict[int, dict[str]]:
     """
     Reads the application categories from the netify-categories.json file.
 
     Returns:
         dict of application categories, each dict contains the property `id` and `name`
     """
-    categories = dict[int, dict[str, str]]()
+    categories = dict[int, dict[str]]()
     with open('/etc/netify.d/netify-categories.json', 'r') as file:
         categories_file = json.load(file)
 
@@ -42,7 +42,7 @@ def __load_application_categories() -> dict[int, dict[str, str]]:
         for category_id, applications_id in categories_application_index:
             for application_id in applications_id:
                 categories[application_id] = {
-                    'id': str(category_id),
+                    'id': category_id,
                     'name': categories_names[category_id]
                 }
 
@@ -68,14 +68,14 @@ def __load_protocols() -> dict[int, str]:
     return protocols
 
 
-def __load_protocol_categories() -> dict[int, dict[str, str]]:
+def __load_protocol_categories() -> dict[int, dict[str]]:
     """
     Reads the protocol categories from the netify-categories.json file.
 
     Returns:
         dict of protocol categories, each dict contains the property `id` and `name`
     """
-    categories = dict[int, dict[str, str]]()
+    categories = dict[int, dict[str]]()
     with open('/etc/netify.d/netify-categories.json', 'r') as file:
         categories_file = json.load(file)
 
@@ -88,27 +88,27 @@ def __load_protocol_categories() -> dict[int, dict[str, str]]:
         for category_id, protocol_ids in categories_protocol_index:
             for protocol_id in protocol_ids:
                 categories[protocol_id] = {
-                    'id': str(category_id),
+                    'id': category_id,
                     'name': categories_names[category_id]
                 }
 
     return categories
 
 
-def __load_blocklist() -> list[dict[str, str]]:
+def __load_blocklist() -> list[dict[str]]:
     """
     Format the applications and protocols into a list of dicts.
 
     Returns:
         list of dicts, each dict contains the property `id`, `name`, `type` and `category`
     """
-    result = list[dict[str, str]]()
+    result = list[dict[str]]()
     applications = __load_applications()
     application_categories = __load_application_categories()
 
     for application_id, application_name in applications.items():
         result.append({
-            'id': str(application_id),
+            'id': application_id,
             'name': application_name,
             'type': 'application',
             'category': application_categories[application_id]
@@ -119,7 +119,7 @@ def __load_blocklist() -> list[dict[str, str]]:
 
     for protocol_id, protocol_name in protocols.items():
         result.append({
-            'id': str(protocol_id),
+            'id': protocol_id,
             'name': protocol_name,
             'type': 'protocol',
             'category': protocol_categories[protocol_id]

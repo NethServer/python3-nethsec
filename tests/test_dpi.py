@@ -116,70 +116,70 @@ categories_file = """
 
 application_categories = {
     10362: {
-        'id': '3',
+        'id': 3,
         'name': 'first-category'
     },
     10194: {
-        'id': '3',
+        'id': 3,
         'name': 'first-category'
     },
     10552: {
-        'id': '3',
+        'id': 3,
         'name': 'first-category'
     },
     133: {
-        'id': '33',
+        'id': 33,
         'name': 'unknown'
     },
     10119: {
-        'id': '33',
+        'id': 33,
         'name': 'unknown'
     },
     10195: {
-        'id': '33',
+        'id': 33,
         'name': 'unknown'
     },
     10244: {
-        'id': '33',
+        'id': 33,
         'name': 'unknown'
     },
     10118: {
-        'id': '20',
+        'id': 20,
         'name': 'last'
     },
     199: {
-        'id': '20',
+        'id': 20,
         'name': 'last'
     }
 }
 
 protocol_categories = {
     121: {
-        'id': '1',
+        'id': 1,
         'name': 'base'
     },
     127: {
-        'id': '1',
+        'id': 1,
         'name': 'base'
     },
     128: {
-        'id': '1',
+        'id': 1,
         'name': 'base'
     },
     116: {
-        'id': '2',
+        'id': 2,
         'name': 'games'
     },
     117: {
-        'id': '2',
+        'id': 2,
         'name': 'games'
     },
     129: {
-        'id': '4',
+        'id': 4,
         'name': 'low'
     },
     130: {
-        'id': '4',
+        'id': 4,
         'name': 'low'
     }
 }
@@ -237,9 +237,14 @@ def e_uci(tmp_path: pathlib.Path) -> EUci:
     conf_dir.mkdir()
     save_dir = tmp_path.joinpath('save')
     save_dir.mkdir()
-    with conf_dir.joinpath('dpi').open('w') as fp:
-        fp.write(dpi_db)
     return EUci(confdir=conf_dir.as_posix(), savedir=save_dir.as_posix())
+
+
+@pytest.fixture
+def e_uci_preload(e_uci: EUci):
+    with pathlib.Path(e_uci.confdir()).joinpath('dpi').open('w') as fp:
+        fp.write(dpi_db)
+    return e_uci
 
 
 @pytest.fixture
@@ -272,149 +277,150 @@ def test_load_protocols(mocker: MockFixture):
     assert dpi.__load_protocols() == protocols
 
 
-def test_index_applications(mock_load):
-    assert dpi.index_applications() == [
+@pytest.mark.parametrize('search', [None, ''])
+def test_index_applications(mock_load, search):
+    assert dpi.index_applications(search) == [
         {
-            'id': '133',
+            'id': 133,
             'name': 'netflix',
             'type': 'application',
             'category': {
-                'id': '33',
+                'id': 33,
                 'name': 'unknown'
             }
         },
         {
-            'id': '10119',
+            'id': 10119,
             'name': 'linkedin',
             'type': 'application',
             'category': {
-                'id': '33',
+                'id': 33,
                 'name': 'unknown'
             }
         },
         {
-            'id': '10552',
+            'id': 10552,
             'name': 'tesla',
             'type': 'application',
             'category': {
-                'id': '3',
+                'id': 3,
                 'name': 'first-category'
             }
         },
         {
-            'id': '10195',
+            'id': 10195,
             'name': 'avira',
             'type': 'application',
             'category': {
-                'id': '33',
+                'id': 33,
                 'name': 'unknown'
             }
         },
         {
-            'id': '10194',
+            'id': 10194,
             'name': 'sophos',
             'type': 'application',
             'category': {
-                'id': '3',
+                'id': 3,
                 'name': 'first-category'
             }
         },
         {
-            'id': '10244',
+            'id': 10244,
             'name': 'bbc',
             'type': 'application',
             'category': {
-                'id': '33',
+                'id': 33,
                 'name': 'unknown'
             }
         },
         {
-            'id': '10362',
+            'id': 10362,
             'name': 'hulu',
             'type': 'application',
             'category': {
-                'id': '3',
+                'id': 3,
                 'name': 'first-category'
             }
         },
         {
-            'id': '10118',
+            'id': 10118,
             'name': 'lets-encrypt',
             'type': 'application',
             'category': {
-                'id': '20',
+                'id': 20,
                 'name': 'last'
             }
         },
         {
-            'id': '199',
+            'id': 199,
             'name': 'snapchat',
             'type': 'application',
             'category': {
-                'id': '20',
+                'id': 20,
                 'name': 'last'
             }
         },
         {
-            'id': '116',
+            'id': 116,
             'name': 'Warcraft3',
             'type': 'protocol',
             'category': {
-                'id': '2',
+                'id': 2,
                 'name': 'games'
             }
         },
         {
-            'id': '117',
+            'id': 117,
             'name': 'LotusNotes',
             'type': 'protocol',
             'category': {
-                'id': '2',
+                'id': 2,
                 'name': 'games'
             }
         },
         {
-            'id': '121',
+            'id': 121,
             'name': 'Dropbox',
             'type': 'protocol',
             'category': {
-                'id': '1',
+                'id': 1,
                 'name': 'base'
             }
         },
         {
-            'id': '127',
+            'id': 127,
             'name': 'RPC',
             'type': 'protocol',
             'category': {
-                'id': '1',
+                'id': 1,
                 'name': 'base'
             }
         },
         {
-            'id': '128',
+            'id': 128,
             'name': 'NetFlow',
             'type': 'protocol',
             'category': {
-                'id': '1',
+                'id': 1,
                 'name': 'base'
             }
         },
         {
-            'id': '129',
+            'id': 129,
             'name': 'SFlow',
             'type': 'protocol',
             'category': {
-                'id': '4',
+                'id': 4,
                 'name': 'low'
             }
         },
         {
-            'id': '130',
+            'id': 130,
             'name': 'HTTP/Connect',
             'type': 'protocol',
             'category': {
-                'id': '4',
+                'id': 4,
                 'name': 'low'
             }
         }
@@ -424,56 +430,56 @@ def test_index_applications(mock_load):
 def test_index_applications_search(mock_load):
     assert dpi.index_applications(search='l') == [
         {
-            'id': '10119',
+            'id': 10119,
             'name': 'linkedin',
             'type': 'application',
             'category': {
-                'id': '33',
+                'id': 33,
                 'name': 'unknown'
             }
         },
         {
-            'id': '10118',
+            'id': 10118,
             'name': 'lets-encrypt',
             'type': 'application',
             'category': {
-                'id': '20',
+                'id': 20,
                 'name': 'last'
             }
         },
         {
-            'id': '199',
+            'id': 199,
             'name': 'snapchat',
             'type': 'application',
             'category': {
-                'id': '20',
+                'id': 20,
                 'name': 'last'
             }
         },
         {
-            'id': '117',
+            'id': 117,
             'name': 'LotusNotes',
             'type': 'protocol',
             'category': {
-                'id': '2',
+                'id': 2,
                 'name': 'games'
             }
         },
         {
-            'id': '129',
+            'id': 129,
             'name': 'SFlow',
             'type': 'protocol',
             'category': {
-                'id': '4',
+                'id': 4,
                 'name': 'low'
             }
         },
         {
-            'id': '130',
+            'id': 130,
             'name': 'HTTP/Connect',
             'type': 'protocol',
             'category': {
-                'id': '4',
+                'id': 4,
                 'name': 'low'
             }
         }
@@ -483,48 +489,48 @@ def test_index_applications_search(mock_load):
 def test_index_applications_paginate(mock_load):
     assert dpi.index_applications(limit=2, page=2) == [
         {
-            'id': '10552',
+            'id': 10552,
             'name': 'tesla',
             'type': 'application',
             'category': {
-                'id': '3',
+                'id': 3,
                 'name': 'first-category'
             }
         },
         {
-            'id': '10195',
+            'id': 10195,
             'name': 'avira',
             'type': 'application',
             'category': {
-                'id': '33',
+                'id': 33,
                 'name': 'unknown'
             }
         }
     ]
     assert dpi.index_applications(limit=2, page=3) == [
         {
-            'id': '10194',
+            'id': 10194,
             'name': 'sophos',
             'type': 'application',
             'category': {
-                'id': '3',
+                'id': 3,
                 'name': 'first-category'
             }
         },
         {
-            'id': '10244',
+            'id': 10244,
             'name': 'bbc',
             'type': 'application',
             'category': {
-                'id': '33',
+                'id': 33,
                 'name': 'unknown'
             }
         }
     ]
 
 
-def test_list_rules(e_uci, mock_load):
-    assert dpi.index_rules(e_uci) == [
+def test_list_rules(e_uci_preload, mock_load):
+    assert dpi.index_rules(e_uci_preload) == [
         {
             'config-name': 'rule0',
             'description': 'my description',
@@ -532,29 +538,29 @@ def test_list_rules(e_uci, mock_load):
             'interface': 'wan',
             'blocks': [
                 {
-                    'id': '10119',
+                    'id': 10119,
                     'name': 'linkedin',
                     'type': 'application',
                     'category': {
-                        'id': '33',
+                        'id': 33,
                         'name': 'unknown'
                     }
                 },
                 {
-                    'id': '199',
+                    'id': 199,
                     'name': 'snapchat',
                     'type': 'application',
                     'category': {
-                        'id': '20',
+                        'id': 20,
                         'name': 'last'
                     }
                 },
                 {
-                    'id': '130',
+                    'id': 130,
                     'name': 'HTTP/Connect',
                     'type': 'protocol',
                     'category': {
-                        'id': '4',
+                        'id': 4,
                         'name': 'low'
                     }
                 }
@@ -567,11 +573,11 @@ def test_list_rules(e_uci, mock_load):
             'interface': 'br-lan',
             'blocks': [
                 {
-                    'id': '10552',
+                    'id': 10552,
                     'name': 'tesla',
                     'type': 'application',
                     'category': {
-                        'id': '3',
+                        'id': 3,
                         'name': 'first-category'
                     }
                 }
@@ -584,11 +590,11 @@ def test_list_rules(e_uci, mock_load):
             'interface': 'lan',
             'blocks': [
                 {
-                    'id': '130',
+                    'id': 130,
                     'name': 'HTTP/Connect',
                     'type': 'protocol',
                     'category': {
-                        'id': '4',
+                        'id': 4,
                         'name': 'low'
                     }
                 }
