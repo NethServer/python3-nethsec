@@ -237,11 +237,13 @@ def e_uci(tmp_path: pathlib.Path) -> EUci:
     conf_dir.mkdir()
     save_dir = tmp_path.joinpath('save')
     save_dir.mkdir()
+    with conf_dir.joinpath('dpi').open('w') as fp:
+        fp.write("")
     return EUci(confdir=conf_dir.as_posix(), savedir=save_dir.as_posix())
 
 
 @pytest.fixture
-def e_uci_preload(e_uci: EUci):
+def e_uci_with_dpi_data(e_uci: EUci):
     with pathlib.Path(e_uci.confdir()).joinpath('dpi').open('w') as fp:
         fp.write(dpi_db)
     return e_uci
@@ -529,8 +531,8 @@ def test_index_applications_paginate(mock_load):
     ]
 
 
-def test_list_rules(e_uci_preload, mock_load):
-    assert dpi.index_rules(e_uci_preload) == [
+def test_list_rules(e_uci_with_dpi_data, mock_load):
+    assert dpi.index_rules(e_uci_with_dpi_data) == [
         {
             'config-name': 'rule0',
             'description': 'my description',
@@ -592,6 +594,67 @@ def test_list_rules(e_uci_preload, mock_load):
                 {
                     'id': 130,
                     'name': 'HTTP/Connect',
+                    'type': 'protocol',
+                    'category': {
+                        'id': 4,
+                        'name': 'low'
+                    }
+                }
+            ]
+        }
+    ]
+
+
+def test_store_rule(e_uci, mock_load):
+    rule_created = 'ns_cool_new_rule'
+    assert dpi.store_rule(e_uci, 'cool new rule!', False, 'lan', ['linkedin', 'avira', 'netflix'],
+                          ['LotusNotes', 'SFlow']) == rule_created
+    assert dpi.index_rules(e_uci) == [
+        {
+            'config-name': rule_created,
+            'description': 'cool new rule!',
+            'enabled': False,
+            'interface': 'lan',
+            'blocks': [
+                {
+                    'id': 10119,
+                    'name': 'linkedin',
+                    'type': 'application',
+                    'category': {
+                        'id': 33,
+                        'name': 'unknown'
+                    }
+                },
+                {
+                    'id': 10195,
+                    'name': 'avira',
+                    'type': 'application',
+                    'category': {
+                        'id': 33,
+                        'name': 'unknown'
+                    }
+                },
+                {
+                    'id': 133,
+                    'name': 'netflix',
+                    'type': 'application',
+                    'category': {
+                        'id': 33,
+                        'name': 'unknown'
+                    }
+                },
+                {
+                    'id': 117,
+                    'name': 'LotusNotes',
+                    'type': 'protocol',
+                    'category': {
+                        'id': 2,
+                        'name': 'games'
+                    }
+                },
+                {
+                    'id': 129,
+                    'name': 'SFlow',
                     'type': 'protocol',
                     'category': {
                         'id': 4,

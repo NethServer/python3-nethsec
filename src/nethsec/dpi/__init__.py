@@ -208,3 +208,24 @@ def index_rules(e_uci: EUci) -> list[dict[str]]:
             rules.append(data_rule)
 
     return rules
+
+
+def store_rule(e_uci: EUci, description: str, enabled: bool = True, interface: str = "*",
+               applications: list[str] = None, protocols: list[str] = None) -> str:
+    rule_name = utils.get_id(description, 20)
+    e_uci.set('dpi', rule_name, 'rule')
+    e_uci.set('dpi', rule_name, 'description', description)
+    e_uci.set('dpi', rule_name, 'enabled', enabled)
+    e_uci.set('dpi', rule_name, 'interface', interface)
+
+    if applications is None:
+        applications = []
+    e_uci.set('dpi', rule_name, 'application', [f'netify.{application}' for application in applications])
+
+    if protocols is None:
+        protocols = []
+    e_uci.set('dpi', rule_name, 'protocol', protocols)
+
+    e_uci.save('dpi')
+
+    return rule_name
