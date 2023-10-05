@@ -1,3 +1,15 @@
+#!/usr/bin/python3
+
+#
+# Copyright (C) 2023 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-2.0-only
+#
+
+"""
+Library that handles the DPI rules.
+"""
+
+
 import json
 import subprocess
 
@@ -12,7 +24,7 @@ def __load_applications() -> dict[int, str]:
     Reads the applications from the netify-apps.conf file.
 
     Returns:
-        dict of applications, each dict contains the property `id` and `name`
+        dict of applications, each dict contains the property "id" and "name"
     """
     applications = dict[int, str]()
     with open('/etc/netify.d/netify-apps.conf', 'r') as file:
@@ -28,7 +40,7 @@ def __load_application_categories() -> dict[int, dict[str]]:
     Reads the application categories from the netify-categories.json file.
 
     Returns:
-        dict of application categories, each dict contains the property `id` and `name`
+        dict of application categories, each dict contains the property "id" and "name"
     """
     categories = dict[int, dict[str]]()
     with open('/etc/netify.d/netify-categories.json', 'r') as file:
@@ -55,7 +67,7 @@ def __load_protocols() -> dict[int, str]:
     Reads the protocols from the netifyd --dump-protos command.
 
     Returns:
-        dict of protocols, each dict contains the property `id` and `name`
+        dict of protocols, each dict contains the property "id" and "name"
     """
     result = subprocess.run(['netifyd', '--dump-protos'], check=True, capture_output=True)
     protocols = dict[int, str]()
@@ -74,7 +86,7 @@ def __load_protocol_categories() -> dict[int, dict[str]]:
     Reads the protocol categories from the netify-categories.json file.
 
     Returns:
-        dict of protocol categories, each dict contains the property `id` and `name`
+        dict of protocol categories, each dict contains the property "id" and "name"
     """
     categories = dict[int, dict[str]]()
     with open('/etc/netify.d/netify-categories.json', 'r') as file:
@@ -101,7 +113,7 @@ def __load_blocklist() -> list[dict[str]]:
     Format the applications and protocols into a list of dicts.
 
     Returns:
-        list of dicts, each dict contains the property `id`, `name`, `type` and `category`
+        list of dicts, each dict contains the property "id", "name", "type" and "category"
     """
     result = list[dict[str]]()
     applications = __load_applications()
@@ -139,7 +151,7 @@ def index_applications(search: str = None, limit: int = None, page: int = 1) -> 
       - page: page number
 
     Returns:
-        list of dicts, each dict contains the property `code` and `name`
+        list of dicts, each dict contains the property "code" and "name"
     """
     result = __load_blocklist()
 
@@ -165,7 +177,7 @@ def index_rules(e_uci: EUci) -> list[dict[str]]:
       - e_uci: euci instance
 
     Returns:
-        list of dicts, each dict contains the property `config-name`, `description`, `enabled`, `interface` and `blocks`
+        list of dicts, each dict contains the property "config-name", "description", "enabled", "interface" and "blocks"
     """
     rules = list[dict[str]]()
     fetch_rules = utils.get_all_by_type(e_uci, 'dpi', 'rule')
