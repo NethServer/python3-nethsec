@@ -766,6 +766,6 @@ def test_edit_rule_with_missing_rule(e_uci):
     with pytest.raises(ValidationError) as err:
         dpi.edit_rule(e_uci, 'rule0', 'another description', False, 'lan', [], [])
 
-    assert err.value.args[0] == 'config_name'
+    assert err.value.args[0] == 'config-name'
     assert err.value.args[1] == 'invalid'
     assert err.value.args[2] == 'rule0'
