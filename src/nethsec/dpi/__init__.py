@@ -233,3 +233,8 @@ def store_rule(e_uci: EUci, description: str, enabled: bool = True, interface: s
     e_uci.save('dpi')
 
     return rule_name
+
+
+def delete_rule(e_uci: EUci, config_name: str):
+    e_uci.delete('dpi', config_name)
+    e_uci.save('dpi')

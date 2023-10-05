@@ -668,3 +668,27 @@ def test_store_rule(e_uci, mock_load):
             ]
         }
     ]
+
+
+def test_delete_rule(e_uci_with_dpi_data, mock_load):
+    dpi.delete_rule(e_uci_with_dpi_data, 'rule1')
+    dpi.delete_rule(e_uci_with_dpi_data, 'rule0')
+    assert dpi.index_rules(e_uci_with_dpi_data) == [
+        {
+            'config-name': 'rule3',
+            'description': 'my description 3',
+            'enabled': True,
+            'interface': 'lan',
+            'blocks': [
+                {
+                    'id': 130,
+                    'name': 'HTTP/Connect',
+                    'type': 'protocol',
+                    'category': {
+                        'id': 4,
+                        'name': 'low'
+                    }
+                }
+            ]
+        }
+    ]
