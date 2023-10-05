@@ -5,6 +5,7 @@ from euci import EUci
 from pytest_mock import MockFixture
 
 from nethsec import dpi
+from nethsec.utils import ValidationError
 
 applications_file = """
 # Comment to avoid
@@ -692,3 +693,79 @@ def test_delete_rule(e_uci_with_dpi_data, mock_load):
             ]
         }
     ]
+
+
+def test_edit_rule(e_uci_with_dpi_data, mock_load):
+    dpi.edit_rule(e_uci_with_dpi_data, 'rule0', 'another description', False, 'lan', [],
+                  ['HTTP/Connect', 'LotusNotes'])
+    assert dpi.index_rules(e_uci_with_dpi_data) == [
+        {
+            'config-name': 'rule0',
+            'description': 'another description',
+            'enabled': False,
+            'interface': 'lan',
+            'blocks': [
+                {
+                    'id': 130,
+                    'name': 'HTTP/Connect',
+                    'type': 'protocol',
+                    'category': {
+                        'id': 4,
+                        'name': 'low'
+                    }
+                },
+                {
+                    'id': 117,
+                    'name': 'LotusNotes',
+                    'type': 'protocol',
+                    'category': {
+                        'id': 2,
+                        'name': 'games'
+                    }
+                }
+            ]
+        },
+        {
+            'config-name': 'rule1',
+            'description': 'my description 2',
+            'enabled': False,
+            'interface': 'br-lan',
+            'blocks': [
+                {
+                    'id': 10552,
+                    'name': 'tesla',
+                    'type': 'application',
+                    'category': {
+                        'id': 3,
+                        'name': 'first-category'
+                    }
+                }
+            ]
+        },
+        {
+            'config-name': 'rule3',
+            'description': 'my description 3',
+            'enabled': True,
+            'interface': 'lan',
+            'blocks': [
+                {
+                    'id': 130,
+                    'name': 'HTTP/Connect',
+                    'type': 'protocol',
+                    'category': {
+                        'id': 4,
+                        'name': 'low'
+                    }
+                }
+            ]
+        }
+    ]
+
+
+def test_edit_rule_with_missing_rule(e_uci):
+    with pytest.raises(ValidationError) as err:
+        dpi.edit_rule(e_uci, 'rule0', 'another description', False, 'lan', [], [])
+
+    assert err.value.args[0] == 'config_name'
+    assert err.value.args[1] == 'invalid'
+    assert err.value.args[2] == 'rule0'

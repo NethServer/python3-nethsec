@@ -4,6 +4,7 @@ import subprocess
 from euci import EUci
 
 from nethsec import utils
+from nethsec.utils import ValidationError
 
 
 def __load_applications() -> dict[int, str]:
@@ -169,7 +170,7 @@ def index_rules(e_uci: EUci) -> list[dict[str]]:
     rules = list[dict[str]]()
     fetch_rules = utils.get_all_by_type(e_uci, 'dpi', 'rule')
 
-    if fetch_rules is None:
+    if not fetch_rules:
         return rules
 
     for rule_name in fetch_rules.keys():
@@ -214,27 +215,34 @@ def index_rules(e_uci: EUci) -> list[dict[str]]:
     return rules
 
 
-def store_rule(e_uci: EUci, description: str, enabled: bool = True, interface: str = "*",
-               applications: list[str] = None, protocols: list[str] = None) -> str:
+def __save_rule_data(e_uci: EUci, config_name: str, description: str, enabled: bool, interface: str,
+                     applications: list[str], protocols: list[str]):
+    e_uci.set('dpi', config_name, 'description', description)
+    e_uci.set('dpi', config_name, 'enabled', enabled)
+    e_uci.set('dpi', config_name, 'interface', interface)
+    e_uci.set('dpi', config_name, 'application', [f'netify.{application}' for application in applications])
+    e_uci.set('dpi', config_name, 'protocol', protocols)
+
+
+def store_rule(e_uci: EUci, description: str, enabled: bool, interface: str, applications: list[str],
+               protocols: list[str]) -> str:
     rule_name = utils.get_id(description, 20)
     e_uci.set('dpi', rule_name, 'rule')
-    e_uci.set('dpi', rule_name, 'description', description)
-    e_uci.set('dpi', rule_name, 'enabled', enabled)
-    e_uci.set('dpi', rule_name, 'interface', interface)
-
-    if applications is None:
-        applications = []
-    e_uci.set('dpi', rule_name, 'application', [f'netify.{application}' for application in applications])
-
-    if protocols is None:
-        protocols = []
-    e_uci.set('dpi', rule_name, 'protocol', protocols)
-
+    __save_rule_data(e_uci, rule_name, description, enabled, interface, applications, protocols)
     e_uci.save('dpi')
-
     return rule_name
 
 
 def delete_rule(e_uci: EUci, config_name: str):
     e_uci.delete('dpi', config_name)
+    e_uci.save('dpi')
+
+
+def edit_rule(e_uci: EUci, config_name: str, description: str, enabled: bool, interface: str, applications: list[str],
+              protocols: list[str]):
+    if e_uci.get('dpi', config_name, default=None) is None:
+        raise ValidationError('config_name', 'invalid', config_name)
+
+    __save_rule_data(e_uci, config_name, description, enabled, interface, applications, protocols)
+
     e_uci.save('dpi')
