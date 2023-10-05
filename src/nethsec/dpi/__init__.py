@@ -134,9 +134,9 @@ def index_applications(search: str = None, limit: int = None, page: int = 1) -> 
     List applications available for filtering.
 
     Args:
-        search: search string
-        limit: limit the number of results
-        page: page number
+      - search: search string
+      - limit: limit the number of results
+      - page: page number
 
     Returns:
         list of dicts, each dict contains the property `code` and `name`
@@ -162,7 +162,7 @@ def index_rules(e_uci: EUci) -> list[dict[str]]:
     Index all rules
 
     Args:
-        e_uci: euci instance
+      - e_uci: euci instance
 
     Returns:
         list of dicts, each dict contains the property `config-name`, `description`, `enabled`, `interface` and `blocks`
@@ -192,7 +192,6 @@ def index_rules(e_uci: EUci) -> list[dict[str]]:
 
             # filter by application
             application_blocklist = [item for item in blocklist if item['type'] == 'application']
-            application: str
             for application in rule.get('application', []):
                 found_app = [item for item in application_blocklist if
                              item['name'] == application.removeprefix('netify.')]
@@ -202,7 +201,6 @@ def index_rules(e_uci: EUci) -> list[dict[str]]:
 
             # filter by protocol
             protocol_blocklist = [item for item in blocklist if item['type'] == 'protocol']
-            protocol: str
             for protocol in rule.get('protocol', []):
                 found_protocol = [item for item in protocol_blocklist if item['name'] == protocol]
                 # there's a possibility of not finding the protocol due to manual edit of the config
@@ -226,6 +224,20 @@ def __save_rule_data(e_uci: EUci, config_name: str, description: str, enabled: b
 
 def store_rule(e_uci: EUci, description: str, enabled: bool, interface: str, applications: list[str],
                protocols: list[str]) -> str:
+    """
+    Store a new rule
+
+    Args:
+      - e_uci: euci instance
+      - description: description of the rule
+      - enabled: enable the rule
+      - interface: interface to listen and apply the rule on
+      - applications: list of applications to block
+      - protocols: list of protocols to block
+
+    Returns:
+        config name of the rule created
+    """
     rule_name = utils.get_id(description, 20)
     e_uci.set('dpi', rule_name, 'rule')
     __save_rule_data(e_uci, rule_name, description, enabled, interface, applications, protocols)
@@ -234,14 +246,36 @@ def store_rule(e_uci: EUci, description: str, enabled: bool, interface: str, app
 
 
 def delete_rule(e_uci: EUci, config_name: str):
+    """
+    Delete a rule
+
+    Args:
+      - e_uci: euci instance
+      - config_name: config name of the rule to delete
+    """
     e_uci.delete('dpi', config_name)
     e_uci.save('dpi')
 
 
 def edit_rule(e_uci: EUci, config_name: str, description: str, enabled: bool, interface: str, applications: list[str],
               protocols: list[str]):
+    """
+    Edit a rule
+
+    Args:
+      - e_uci: euci instance
+      - config_name: rule to change
+      - description: rule description
+      - enabled: enable the rule
+      - interface: interface to listen and apply the rule on
+      - applications: array of applications to block
+      - protocols: array of protocols to block
+
+    Raises
+        - ValidationError: if the config name is invalid
+    """
     if e_uci.get('dpi', config_name, default=None) is None:
-        raise ValidationError('config_name', 'invalid', config_name)
+        raise ValidationError('config-name', 'invalid', config_name)
 
     __save_rule_data(e_uci, config_name, description, enabled, interface, applications, protocols)
 
