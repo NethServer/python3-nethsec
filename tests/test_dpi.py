@@ -531,6 +531,10 @@ def test_index_applications_paginate(mock_load):
     ]
 
 
+def test_list_empty_rules(e_uci, mock_load):
+    assert dpi.index_rules(e_uci) == []
+
+
 def test_list_rules(e_uci_with_dpi_data, mock_load):
     assert dpi.index_rules(e_uci_with_dpi_data) == [
         {

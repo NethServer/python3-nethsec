@@ -168,6 +168,10 @@ def index_rules(e_uci: EUci) -> list[dict[str]]:
     """
     rules = list[dict[str]]()
     fetch_rules = utils.get_all_by_type(e_uci, 'dpi', 'rule')
+
+    if fetch_rules is None:
+        return rules
+
     for rule_name in fetch_rules.keys():
         # skipping rules with criteria, must be custom entries
         if e_uci.get('dpi', rule_name, 'criteria', default=None) is None:
