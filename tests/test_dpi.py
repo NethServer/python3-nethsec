@@ -73,7 +73,6 @@ categories_file = """
         [
             20,
             [
-                10118,
                 199
             ]
         ]
@@ -95,8 +94,7 @@ categories_file = """
         [
             2,
             [
-                116,
-                117
+                116
             ]
         ],
         [
@@ -144,10 +142,6 @@ application_categories = {
         'id': 33,
         'name': 'unknown'
     },
-    10118: {
-        'id': 20,
-        'name': 'last'
-    },
     199: {
         'id': 20,
         'name': 'last'
@@ -168,10 +162,6 @@ protocol_categories = {
         'name': 'base'
     },
     116: {
-        'id': 2,
-        'name': 'games'
-    },
-    117: {
         'id': 2,
         'name': 'games'
     },
@@ -349,11 +339,7 @@ def test_index_applications(mock_load, search):
         {
             'id': 10118,
             'name': 'lets-encrypt',
-            'type': 'application',
-            'category': {
-                'id': 20,
-                'name': 'last'
-            }
+            'type': 'application'
         },
         {
             'id': 199,
@@ -376,11 +362,7 @@ def test_index_applications(mock_load, search):
         {
             'id': 117,
             'name': 'LotusNotes',
-            'type': 'protocol',
-            'category': {
-                'id': 2,
-                'name': 'games'
-            }
+            'type': 'protocol'
         },
         {
             'id': 121,
@@ -444,11 +426,7 @@ def test_index_applications_search(mock_load):
         {
             'id': 10118,
             'name': 'lets-encrypt',
-            'type': 'application',
-            'category': {
-                'id': 20,
-                'name': 'last'
-            }
+            'type': 'application'
         },
         {
             'id': 199,
@@ -462,11 +440,7 @@ def test_index_applications_search(mock_load):
         {
             'id': 117,
             'name': 'LotusNotes',
-            'type': 'protocol',
-            'category': {
-                'id': 2,
-                'name': 'games'
-            }
+            'type': 'protocol'
         },
         {
             'id': 129,
@@ -652,10 +626,6 @@ def test_store_rule(e_uci, mock_load):
                     'id': 117,
                     'name': 'LotusNotes',
                     'type': 'protocol',
-                    'category': {
-                        'id': 2,
-                        'name': 'games'
-                    }
                 },
                 {
                     'id': 129,
@@ -718,10 +688,6 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
                     'id': 117,
                     'name': 'LotusNotes',
                     'type': 'protocol',
-                    'category': {
-                        'id': 2,
-                        'name': 'games'
-                    }
                 }
             ]
         },

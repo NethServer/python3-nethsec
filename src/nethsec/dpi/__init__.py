@@ -9,7 +9,6 @@
 Library that handles the DPI rules.
 """
 
-
 import json
 import subprocess
 
@@ -120,23 +119,27 @@ def __load_blocklist() -> list[dict[str]]:
     application_categories = __load_application_categories()
 
     for application_id, application_name in applications.items():
-        result.append({
+        result_application = {
             'id': application_id,
             'name': application_name,
-            'type': 'application',
-            'category': application_categories[application_id]
-        })
+            'type': 'application'
+        }
+        if application_id in application_categories:
+            result_application['category'] = application_categories[application_id]
+        result.append(result_application)
 
     protocols = __load_protocols()
     protocol_categories = __load_protocol_categories()
 
     for protocol_id, protocol_name in protocols.items():
-        result.append({
+        result_protocol = {
             'id': protocol_id,
             'name': protocol_name,
-            'type': 'protocol',
-            'category': protocol_categories[protocol_id]
-        })
+            'type': 'protocol'
+        }
+        if protocol_id in protocol_categories:
+            result_protocol['category'] = protocol_categories[protocol_id]
+        result.append(result_protocol)
 
     return result
 
