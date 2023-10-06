@@ -144,7 +144,7 @@ def __load_blocklist() -> list[dict[str]]:
     return result
 
 
-def index_applications(search: str = None, limit: int = None, page: int = 1) -> list[dict[str, str]]:
+def list_applications(search: str = None, limit: int = None, page: int = 1) -> list[dict[str, str]]:
     """
     List applications available for filtering.
 
@@ -172,7 +172,7 @@ def index_applications(search: str = None, limit: int = None, page: int = 1) -> 
     return result
 
 
-def index_rules(e_uci: EUci) -> list[dict[str]]:
+def list_rules(e_uci: EUci) -> list[dict[str]]:
     """
     Index all rules
 
@@ -237,8 +237,8 @@ def __save_rule_data(e_uci: EUci, config_name: str, description: str, enabled: b
     e_uci.set('dpi', config_name, 'protocol', protocols)
 
 
-def store_rule(e_uci: EUci, description: str, enabled: bool, interface: str, applications: list[str],
-               protocols: list[str]) -> str:
+def add_rule(e_uci: EUci, description: str, enabled: bool, interface: str, applications: list[str],
+             protocols: list[str]) -> str:
     """
     Store a new rule
 
@@ -255,6 +255,7 @@ def store_rule(e_uci: EUci, description: str, enabled: bool, interface: str, app
     """
     rule_name = utils.get_id(description, 20)
     e_uci.set('dpi', rule_name, 'rule')
+    e_uci.set('dpi', rule_name, 'action', 'block')
     __save_rule_data(e_uci, rule_name, description, enabled, interface, applications, protocols)
     e_uci.save('dpi')
     return rule_name

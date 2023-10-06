@@ -272,7 +272,7 @@ def test_load_protocols(mocker: MockFixture):
 
 @pytest.mark.parametrize('search', [None, ''])
 def test_index_applications(mock_load, search):
-    assert dpi.index_applications(search) == [
+    assert dpi.list_applications(search) == [
         {
             'id': 133,
             'name': 'netflix',
@@ -413,7 +413,7 @@ def test_index_applications(mock_load, search):
 
 
 def test_index_applications_search(mock_load):
-    assert dpi.index_applications(search='l') == [
+    assert dpi.list_applications(search='l') == [
         {
             'id': 10119,
             'name': 'linkedin',
@@ -464,7 +464,7 @@ def test_index_applications_search(mock_load):
 
 
 def test_index_applications_paginate(mock_load):
-    assert dpi.index_applications(limit=2, page=2) == [
+    assert dpi.list_applications(limit=2, page=2) == [
         {
             'id': 10552,
             'name': 'tesla',
@@ -484,7 +484,7 @@ def test_index_applications_paginate(mock_load):
             }
         }
     ]
-    assert dpi.index_applications(limit=2, page=3) == [
+    assert dpi.list_applications(limit=2, page=3) == [
         {
             'id': 10194,
             'name': 'sophos',
@@ -507,11 +507,11 @@ def test_index_applications_paginate(mock_load):
 
 
 def test_list_empty_rules(e_uci, mock_load):
-    assert dpi.index_rules(e_uci) == []
+    assert dpi.list_rules(e_uci) == []
 
 
 def test_list_rules(e_uci_with_dpi_data, mock_load):
-    assert dpi.index_rules(e_uci_with_dpi_data) == [
+    assert dpi.list_rules(e_uci_with_dpi_data) == [
         {
             'config-name': 'rule0',
             'description': 'my description',
@@ -586,9 +586,9 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
 
 def test_store_rule(e_uci, mock_load):
     rule_created = 'ns_cool_new_rule'
-    assert dpi.store_rule(e_uci, 'cool new rule!', False, 'lan', ['linkedin', 'avira', 'netflix'],
-                          ['LotusNotes', 'SFlow']) == rule_created
-    assert dpi.index_rules(e_uci) == [
+    assert dpi.add_rule(e_uci, 'cool new rule!', False, 'lan', ['linkedin', 'avira', 'netflix'],
+                        ['LotusNotes', 'SFlow']) == rule_created
+    assert dpi.list_rules(e_uci) == [
         {
             'config-name': rule_created,
             'description': 'cool new rule!',
@@ -644,7 +644,7 @@ def test_store_rule(e_uci, mock_load):
 def test_delete_rule(e_uci_with_dpi_data, mock_load):
     dpi.delete_rule(e_uci_with_dpi_data, 'rule1')
     dpi.delete_rule(e_uci_with_dpi_data, 'rule0')
-    assert dpi.index_rules(e_uci_with_dpi_data) == [
+    assert dpi.list_rules(e_uci_with_dpi_data) == [
         {
             'config-name': 'rule3',
             'description': 'my description 3',
@@ -668,7 +668,7 @@ def test_delete_rule(e_uci_with_dpi_data, mock_load):
 def test_edit_rule(e_uci_with_dpi_data, mock_load):
     dpi.edit_rule(e_uci_with_dpi_data, 'rule0', 'another description', False, 'lan', [],
                   ['HTTP/Connect', 'LotusNotes'])
-    assert dpi.index_rules(e_uci_with_dpi_data) == [
+    assert dpi.list_rules(e_uci_with_dpi_data) == [
         {
             'config-name': 'rule0',
             'description': 'another description',
