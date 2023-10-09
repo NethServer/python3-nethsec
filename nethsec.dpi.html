@@ -1,0 +1,873 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>nethsec.dpi</title>
+    <meta name="generator" content="pydoctor 23.9.0"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code class="thisobject"><a href="nethsec.dpi.html" class="internal-link" title="This package">dpi</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Functions</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_rule" class="internal-link" title="nethsec.dpi.add_rule">add<wbr></wbr>_rule</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#delete_rule" class="internal-link" title="nethsec.dpi.delete_rule">delete<wbr></wbr>_rule</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#edit_rule" class="internal-link" title="nethsec.dpi.edit_rule">edit<wbr></wbr>_rule</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#list_applications" class="internal-link" title="nethsec.dpi.list_applications">list<wbr></wbr>_applications</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#list_rules" class="internal-link" title="nethsec.dpi.list_rules">list<wbr></wbr>_rules</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__load_application_categories" class="internal-link" title="nethsec.dpi.__load_application_categories">__load<wbr></wbr>_application<wbr></wbr>_categories</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__load_applications" class="internal-link" title="nethsec.dpi.__load_applications">__load<wbr></wbr>_applications</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__load_blocklist" class="internal-link" title="nethsec.dpi.__load_blocklist">__load<wbr></wbr>_blocklist</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__load_protocol_categories" class="internal-link" title="nethsec.dpi.__load_protocol_categories">__load<wbr></wbr>_protocol<wbr></wbr>_categories</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__load_protocols" class="internal-link" title="nethsec.dpi.__load_protocols">__load<wbr></wbr>_protocols</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#__save_rule_data" class="internal-link" title="nethsec.dpi.__save_rule_data">__save<wbr></wbr>_rule<wbr></wbr>_data</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code><a href="index.html" class="internal-link" title="The parent of this package">nethsec</a></code> 
+      </div>
+      
+      <div>
+        
+
+        <div class="childrenKindTitle">Modules</div>
+        <ul>
+    
+    <li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.dpi.html" class="internal-link" title="nethsec.dpi">dpi</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.mwan.html" class="internal-link" title="nethsec.mwan">mwan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+        
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapseSideBar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <div id="main" class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code><wbr></wbr>.<code><a href="nethsec.dpi.html" class="internal-link" title="nethsec.dpi">dpi</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          package documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <a href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py" class="sourceLink">(source)</a>
+          <p></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>Library that handles the DPI rules.</p></div>
+        </div>
+
+        <div id="splitTables">
+          
+          
+
+            <p class="fromInitPy">From <code>__init__.py</code>:</p><table class="children sortable" id="id2">
+  
+  
+  <tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_rule" class="internal-link" title="nethsec.dpi.add_rule">add<wbr></wbr>_rule</a></code></td>
+    <td>Store a new rule</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#delete_rule" class="internal-link" title="nethsec.dpi.delete_rule">delete<wbr></wbr>_rule</a></code></td>
+    <td>Delete a rule</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#edit_rule" class="internal-link" title="nethsec.dpi.edit_rule">edit<wbr></wbr>_rule</a></code></td>
+    <td>Edit a rule</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#list_applications" class="internal-link" title="nethsec.dpi.list_applications">list<wbr></wbr>_applications</a></code></td>
+    <td>List applications available for filtering.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#list_rules" class="internal-link" title="nethsec.dpi.list_rules">list<wbr></wbr>_rules</a></code></td>
+    <td>Index all rules</td>
+  </tr><tr class="function private">
+    
+    <td>Function</td>
+    <td><code><a href="#__load_application_categories" class="internal-link" title="nethsec.dpi.__load_application_categories">__load<wbr></wbr>_application<wbr></wbr>_categories</a></code></td>
+    <td>Reads the application categories from the netify-categories.json file.</td>
+  </tr><tr class="function private">
+    
+    <td>Function</td>
+    <td><code><a href="#__load_applications" class="internal-link" title="nethsec.dpi.__load_applications">__load<wbr></wbr>_applications</a></code></td>
+    <td>Reads the applications from the netify-apps.conf file.</td>
+  </tr><tr class="function private">
+    
+    <td>Function</td>
+    <td><code><a href="#__load_blocklist" class="internal-link" title="nethsec.dpi.__load_blocklist">__load<wbr></wbr>_blocklist</a></code></td>
+    <td>Format the applications and protocols into a list of dicts.</td>
+  </tr><tr class="function private">
+    
+    <td>Function</td>
+    <td><code><a href="#__load_protocol_categories" class="internal-link" title="nethsec.dpi.__load_protocol_categories">__load<wbr></wbr>_protocol<wbr></wbr>_categories</a></code></td>
+    <td>Reads the protocol categories from the netify-categories.json file.</td>
+  </tr><tr class="function private">
+    
+    <td>Function</td>
+    <td><code><a href="#__load_protocols" class="internal-link" title="nethsec.dpi.__load_protocols">__load<wbr></wbr>_protocols</a></code></td>
+    <td>Reads the protocols from the netifyd --dump-protos command.</td>
+  </tr><tr class="function private">
+    
+    <td>Function</td>
+    <td><code><a href="#__save_rule_data" class="internal-link" title="nethsec.dpi.__save_rule_data">__save<wbr></wbr>_rule<wbr></wbr>_data</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+</table>
+        </div>
+
+        <div id="childList">
+          <div class="basefunction private">
+  
+  
+  <a name="nethsec.dpi.__load_applications">
+    
+  </a>
+  <a name="__load_applications">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__load_applications</span><span class="function-signature">() -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L21">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__load_applications" title="nethsec.dpi.__load_applications">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Reads the applications from the netify-apps.conf file.</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd>dict of applications, each dict contains the property "id" and "name"</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction private">
+  
+  
+  <a name="nethsec.dpi.__load_application_categories">
+    
+  </a>
+  <a name="__load_application_categories">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__load_application_categories</span><span class="function-signature">() -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L37">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__load_application_categories" title="nethsec.dpi.__load_application_categories">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Reads the application categories from the netify-categories.json file.</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd>dict of application categories, each dict contains the property "id" and "name"</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction private">
+  
+  
+  <a name="nethsec.dpi.__load_protocols">
+    
+  </a>
+  <a name="__load_protocols">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__load_protocols</span><span class="function-signature">() -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L64">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__load_protocols" title="nethsec.dpi.__load_protocols">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Reads the protocols from the netifyd --dump-protos command.</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd>dict of protocols, each dict contains the property "id" and "name"</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction private">
+  
+  
+  <a name="nethsec.dpi.__load_protocol_categories">
+    
+  </a>
+  <a name="__load_protocol_categories">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__load_protocol_categories</span><span class="function-signature">() -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L83">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__load_protocol_categories" title="nethsec.dpi.__load_protocol_categories">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Reads the protocol categories from the netify-categories.json file.</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd>dict of protocol categories, each dict contains the property "id" and "name"</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction private">
+  
+  
+  <a name="nethsec.dpi.__load_blocklist">
+    
+  </a>
+  <a name="__load_blocklist">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__load_blocklist</span><span class="function-signature">() -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L110">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__load_blocklist" title="nethsec.dpi.__load_blocklist">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Format the applications and protocols into a list of dicts.</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd>list of dicts, each dict contains the property "id", "name", "type" and "category"</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.dpi.list_applications">
+    
+  </a>
+  <a name="list_applications">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_applications</span><span class="function-signature">(search: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, limit: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, page: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code> = 1) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L147">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_applications" title="nethsec.dpi.list_applications">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>List applications available for filtering.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>search: search string</li>
+<li>limit: limit the number of results</li>
+<li>page: page number</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>list of dicts, each dict contains the property "code" and "name"</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.dpi.list_rules">
+    
+  </a>
+  <a name="list_rules">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_rules</span><span class="function-signature">(e_uci: <code>EUci</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L175">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_rules" title="nethsec.dpi.list_rules">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Index all rules</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>e_uci: euci instance</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>list of dicts, each dict contains the property "config-name", "description", "enabled", "interface" and "blocks"</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction private">
+  
+  
+  <a name="nethsec.dpi.__save_rule_data">
+    
+  </a>
+  <a name="__save_rule_data">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">__save_rule_data</span><span class="function-signature">(e_uci: <code>EUci</code>, config_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, enabled: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code>, interface: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, action: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, applications: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, protocols: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L229">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#__save_rule_data" title="nethsec.dpi.__save_rule_data">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.dpi.add_rule">
+    
+  </a>
+  <a name="add_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_rule</span><span class="function-signature">(e_uci: <code>EUci</code>, enabled: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code>, interface: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, action: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, applications: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, protocols: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L238">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_rule" title="nethsec.dpi.add_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Store a new rule</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>e_uci: euci instance</li>
+<li>description: description of the rule</li>
+<li>enabled: enable the rule</li>
+<li>action: apply specific action to rule, can be 'block', 'bulk', 'best_effort', 'video' or 'voice'</li>
+<li>interface: interface to listen and apply the rule on</li>
+<li>applications: list of applications to block</li>
+<li>protocols: list of protocols to block</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>config name of the rule created</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.dpi.delete_rule">
+    
+  </a>
+  <a name="delete_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_rule</span><span class="function-signature">(e_uci: <code>EUci</code>, config_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L262">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_rule" title="nethsec.dpi.delete_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete a rule</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>e_uci: euci instance</li>
+<li>config_name: config name of the rule to delete</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.dpi.edit_rule">
+    
+  </a>
+  <a name="edit_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">edit_rule</span><span class="function-signature">(e_uci: <code>EUci</code>, config_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, enabled: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code>, interface: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, action: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, applications: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, protocols: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/e9208961827fb65cb9f7c3031ec5a0e696e3f112/src/nethsec/dpi/__init__.py#L274">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#edit_rule" title="nethsec.dpi.edit_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Edit a rule</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>e_uci: euci instance</li>
+<li>config_name: rule to change</li>
+<li>enabled: enable the rule</li>
+<li>interface: interface to listen and apply the rule on</li>
+<li>action: apply specific action to rule, can be 'block', 'bulk', 'best_effort', 'video' or 'voice'</li>
+<li>applications: array of applications to block</li>
+<li>protocols: array of protocols to block</li>
+</ul>
+</dd>
+<dt>Raises</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>ValidationError: if the config name is invalid</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    23.9.0 at 2023-10-09 13:52:10.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>
