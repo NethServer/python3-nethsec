@@ -198,8 +198,6 @@ def list_rules(e_uci: EUci) -> list[dict[str]]:
             # prepare the data to append to rules
             data_rule = dict[str]()
             data_rule['config-name'] = rule_name
-            if 'description' in rule:
-                data_rule['description'] = rule.get('description')
             data_rule['enabled'] = rule.get('enabled', '1') == '1'
             data_rule['interface'] = rule.get('interface', '*')
             # get the blocked applications/protocols
@@ -228,17 +226,23 @@ def list_rules(e_uci: EUci) -> list[dict[str]]:
     return rules
 
 
-def __save_rule_data(e_uci: EUci, config_name: str, description: str, enabled: bool, interface: str,
-                     applications: list[str], protocols: list[str]):
-    e_uci.set('dpi', config_name, 'description', description)
+def __generate_rule_name(e_uci):
+    counter = 0
+    for role in utils.get_all_by_type(e_uci, 'dpi', 'rule').keys():
+        if f'rule{counter}' == role:
+            counter += 1
+    return f'rule{counter}'
+
+
+def __save_rule_data(e_uci: EUci, config_name: str, enabled: bool, interface: str, applications: list[str],
+                     protocols: list[str]):
     e_uci.set('dpi', config_name, 'enabled', enabled)
     e_uci.set('dpi', config_name, 'interface', interface)
     e_uci.set('dpi', config_name, 'application', [f'netify.{application}' for application in applications])
     e_uci.set('dpi', config_name, 'protocol', protocols)
 
 
-def add_rule(e_uci: EUci, description: str, enabled: bool, interface: str, applications: list[str],
-             protocols: list[str]) -> str:
+def add_rule(e_uci: EUci, enabled: bool, interface: str, applications: list[str], protocols: list[str]) -> str:
     """
     Store a new rule
 
@@ -253,10 +257,10 @@ def add_rule(e_uci: EUci, description: str, enabled: bool, interface: str, appli
     Returns:
         config name of the rule created
     """
-    rule_name = utils.get_id(description, 20)
+    rule_name = __generate_rule_name(e_uci)
     e_uci.set('dpi', rule_name, 'rule')
     e_uci.set('dpi', rule_name, 'action', 'block')
-    __save_rule_data(e_uci, rule_name, description, enabled, interface, applications, protocols)
+    __save_rule_data(e_uci, rule_name, enabled, interface, applications, protocols)
     e_uci.save('dpi')
     return rule_name
 
@@ -273,7 +277,7 @@ def delete_rule(e_uci: EUci, config_name: str):
     e_uci.save('dpi')
 
 
-def edit_rule(e_uci: EUci, config_name: str, description: str, enabled: bool, interface: str, applications: list[str],
+def edit_rule(e_uci: EUci, config_name: str, enabled: bool, interface: str, applications: list[str],
               protocols: list[str]):
     """
     Edit a rule
@@ -293,6 +297,6 @@ def edit_rule(e_uci: EUci, config_name: str, description: str, enabled: bool, in
     if e_uci.get('dpi', config_name, default=None) is None:
         raise ValidationError('config-name', 'invalid', config_name)
 
-    __save_rule_data(e_uci, config_name, description, enabled, interface, applications, protocols)
+    __save_rule_data(e_uci, config_name, enabled, interface, applications, protocols)
 
     e_uci.save('dpi')

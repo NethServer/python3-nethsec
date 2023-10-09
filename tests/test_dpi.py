@@ -197,13 +197,11 @@ config rule rule0
 	list source 'group:g1'
 	list category 'games'
 	option interface 'wan'
-	option description 'my description'
 	option enabled 1
 
 config rule rule1
 	option action 'block'
 	list application 'netify.tesla'
-	option description 'my description 2'
 	option interface 'br-lan'
 	option enabled 0
 	list exemption '192.168.100.3'
@@ -217,7 +215,6 @@ config rule rule3
     option action 'block'
     list protocol 'HTTP/Connect'
     option interface 'lan'
-    option description 'my description 3'
     option enabled 1
 """
 
@@ -412,6 +409,16 @@ def test_index_applications(mock_load, search):
     ]
 
 
+def test_generate_rule_name(e_uci):
+    assert dpi.__generate_rule_name(e_uci) == 'rule0'
+    e_uci.set('dpi', 'rule0', 'rule')
+    assert dpi.__generate_rule_name(e_uci) == 'rule1'
+    assert dpi.__generate_rule_name(e_uci) == 'rule1'
+    e_uci.set('dpi', 'rule1', 'rule')
+    e_uci.delete('dpi', 'rule0')
+    assert dpi.__generate_rule_name(e_uci) == 'rule0'
+
+
 def test_index_applications_search(mock_load):
     assert dpi.list_applications(search='l') == [
         {
@@ -514,7 +521,6 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
     assert dpi.list_rules(e_uci_with_dpi_data) == [
         {
             'config-name': 'rule0',
-            'description': 'my description',
             'enabled': True,
             'interface': 'wan',
             'blocks': [
@@ -549,7 +555,6 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
         },
         {
             'config-name': 'rule1',
-            'description': 'my description 2',
             'enabled': False,
             'interface': 'br-lan',
             'blocks': [
@@ -566,7 +571,6 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
         },
         {
             'config-name': 'rule3',
-            'description': 'my description 3',
             'enabled': True,
             'interface': 'lan',
             'blocks': [
@@ -585,13 +589,12 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
 
 
 def test_store_rule(e_uci, mock_load):
-    rule_created = 'ns_cool_new_rule'
-    assert dpi.add_rule(e_uci, 'cool new rule!', False, 'lan', ['linkedin', 'avira', 'netflix'],
+    rule_created = 'rule0'
+    assert dpi.add_rule(e_uci, False, 'lan', ['linkedin', 'avira', 'netflix'],
                         ['LotusNotes', 'SFlow']) == rule_created
     assert dpi.list_rules(e_uci) == [
         {
             'config-name': rule_created,
-            'description': 'cool new rule!',
             'enabled': False,
             'interface': 'lan',
             'blocks': [
@@ -647,7 +650,6 @@ def test_delete_rule(e_uci_with_dpi_data, mock_load):
     assert dpi.list_rules(e_uci_with_dpi_data) == [
         {
             'config-name': 'rule3',
-            'description': 'my description 3',
             'enabled': True,
             'interface': 'lan',
             'blocks': [
@@ -666,12 +668,11 @@ def test_delete_rule(e_uci_with_dpi_data, mock_load):
 
 
 def test_edit_rule(e_uci_with_dpi_data, mock_load):
-    dpi.edit_rule(e_uci_with_dpi_data, 'rule0', 'another description', False, 'lan', [],
+    dpi.edit_rule(e_uci_with_dpi_data, 'rule0', False, 'lan', [],
                   ['HTTP/Connect', 'LotusNotes'])
     assert dpi.list_rules(e_uci_with_dpi_data) == [
         {
             'config-name': 'rule0',
-            'description': 'another description',
             'enabled': False,
             'interface': 'lan',
             'blocks': [
@@ -693,7 +694,6 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
         },
         {
             'config-name': 'rule1',
-            'description': 'my description 2',
             'enabled': False,
             'interface': 'br-lan',
             'blocks': [
@@ -710,7 +710,6 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
         },
         {
             'config-name': 'rule3',
-            'description': 'my description 3',
             'enabled': True,
             'interface': 'lan',
             'blocks': [
@@ -730,7 +729,7 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
 
 def test_edit_rule_with_missing_rule(e_uci):
     with pytest.raises(ValidationError) as err:
-        dpi.edit_rule(e_uci, 'rule0', 'another description', False, 'lan', [], [])
+        dpi.edit_rule(e_uci, 'rule0', False, 'lan', [], [])
 
     assert err.value.args[0] == 'config-name'
     assert err.value.args[1] == 'invalid'
