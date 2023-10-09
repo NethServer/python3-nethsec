@@ -16,7 +16,7 @@ setup(
     url = "https://github.com/NethServer/python3-nethsec",
     license = "GPLv3",
     package_dir = {'': 'src'},
-    packages = ['nethsec', 'nethsec.utils', 'nethsec.firewall'],
+    packages = ['nethsec', 'nethsec.utils', 'nethsec.firewall', 'nethsec.mwan'],
     #packages = find_packages(),
     requires = [ "pyuci" ],
     classifiers = [
