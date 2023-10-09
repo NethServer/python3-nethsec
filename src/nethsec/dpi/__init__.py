@@ -30,7 +30,7 @@ def __load_applications() -> dict[int, str]:
         for line in file.readlines():
             if line.startswith('app'):
                 line_split = line.strip().removesuffix('\n').removeprefix('app:').split(":")
-                applications[int(line_split[0])] = line_split[1].split('.')[1]
+                applications[int(line_split[0])] = line_split[1]
     return applications
 
 
@@ -163,8 +163,8 @@ def list_applications(search: str = None, limit: int = None, page: int = 1) -> l
         search = search.lower()
         # I'm aware it's far from a readable code, but list comprehension is the fastest way to filter.
         result = [item for item in result if
-                  item.get('name', '').lower().startswith(search) or
-                  item.get('category', {}).get('name', '').lower().startswith(search)]
+                  item.get('name', '').lower().find(search) != -1 or
+                  item.get('category', {}).get('name', '').lower().find(search) != -1]
 
     if limit is not None:
         result = result[limit * (page - 1):limit * page]
@@ -200,17 +200,17 @@ def list_rules(e_uci: EUci) -> list[dict[str]]:
             data_rule['config-name'] = rule_name
             data_rule['enabled'] = rule.get('enabled', '1') == '1'
             data_rule['interface'] = rule.get('interface', '*')
+            data_rule['action'] = rule.get('action')
             # get the blocked applications/protocols
-            data_rule['blocks'] = list[dict[str]]()
+            data_rule['criteria'] = list[dict[str]]()
 
             # filter by application
             application_blocklist = [item for item in blocklist if item['type'] == 'application']
             for application in rule.get('application', []):
-                found_app = [item for item in application_blocklist if
-                             item['name'] == application.removeprefix('netify.')]
+                found_app = [item for item in application_blocklist if item['name'] == application]
                 # there's a possibility of not finding the application due to manual edit of the config
                 if len(found_app) > 0:
-                    data_rule['blocks'].append(found_app[0])
+                    data_rule['criteria'].append(found_app[0])
 
             # filter by protocol
             protocol_blocklist = [item for item in blocklist if item['type'] == 'protocol']
@@ -218,7 +218,7 @@ def list_rules(e_uci: EUci) -> list[dict[str]]:
                 found_protocol = [item for item in protocol_blocklist if item['name'] == protocol]
                 # there's a possibility of not finding the protocol due to manual edit of the config
                 if len(found_protocol) > 0:
-                    data_rule['blocks'].append(found_protocol[0])
+                    data_rule['criteria'].append(found_protocol[0])
 
             # append rule
             rules.append(data_rule)
@@ -226,23 +226,17 @@ def list_rules(e_uci: EUci) -> list[dict[str]]:
     return rules
 
 
-def __generate_rule_name(e_uci):
-    counter = 0
-    for role in utils.get_all_by_type(e_uci, 'dpi', 'rule').keys():
-        if f'rule{counter}' == role:
-            counter += 1
-    return f'rule{counter}'
-
-
-def __save_rule_data(e_uci: EUci, config_name: str, enabled: bool, interface: str, applications: list[str],
+def __save_rule_data(e_uci: EUci, config_name: str, enabled: bool, interface: str, action: str, applications: list[str],
                      protocols: list[str]):
     e_uci.set('dpi', config_name, 'enabled', enabled)
     e_uci.set('dpi', config_name, 'interface', interface)
+    e_uci.set('dpi', config_name, 'action', action)
     e_uci.set('dpi', config_name, 'application', [f'netify.{application}' for application in applications])
     e_uci.set('dpi', config_name, 'protocol', protocols)
 
 
-def add_rule(e_uci: EUci, enabled: bool, interface: str, applications: list[str], protocols: list[str]) -> str:
+def add_rule(e_uci: EUci, enabled: bool, interface: str, action: str, applications: list[str],
+             protocols: list[str]) -> str:
     """
     Store a new rule
 
@@ -250,6 +244,7 @@ def add_rule(e_uci: EUci, enabled: bool, interface: str, applications: list[str]
       - e_uci: euci instance
       - description: description of the rule
       - enabled: enable the rule
+      - action: apply specific action to rule, can be 'block', 'bulk', 'best_effort', 'video' or 'voice'
       - interface: interface to listen and apply the rule on
       - applications: list of applications to block
       - protocols: list of protocols to block
@@ -257,10 +252,9 @@ def add_rule(e_uci: EUci, enabled: bool, interface: str, applications: list[str]
     Returns:
         config name of the rule created
     """
-    rule_name = __generate_rule_name(e_uci)
+    rule_name = utils.get_random_id()
     e_uci.set('dpi', rule_name, 'rule')
-    e_uci.set('dpi', rule_name, 'action', 'block')
-    __save_rule_data(e_uci, rule_name, enabled, interface, applications, protocols)
+    __save_rule_data(e_uci, rule_name, enabled, interface, action, applications, protocols)
     e_uci.save('dpi')
     return rule_name
 
@@ -277,7 +271,7 @@ def delete_rule(e_uci: EUci, config_name: str):
     e_uci.save('dpi')
 
 
-def edit_rule(e_uci: EUci, config_name: str, enabled: bool, interface: str, applications: list[str],
+def edit_rule(e_uci: EUci, config_name: str, enabled: bool, interface: str, action: str, applications: list[str],
               protocols: list[str]):
     """
     Edit a rule
@@ -285,9 +279,9 @@ def edit_rule(e_uci: EUci, config_name: str, enabled: bool, interface: str, appl
     Args:
       - e_uci: euci instance
       - config_name: rule to change
-      - description: rule description
       - enabled: enable the rule
       - interface: interface to listen and apply the rule on
+      - action: apply specific action to rule, can be 'block', 'bulk', 'best_effort', 'video' or 'voice'
       - applications: array of applications to block
       - protocols: array of protocols to block
 
@@ -297,6 +291,6 @@ def edit_rule(e_uci: EUci, config_name: str, enabled: bool, interface: str, appl
     if e_uci.get('dpi', config_name, default=None) is None:
         raise ValidationError('config-name', 'invalid', config_name)
 
-    __save_rule_data(e_uci, config_name, enabled, interface, applications, protocols)
+    __save_rule_data(e_uci, config_name, enabled, interface, action, applications, protocols)
 
     e_uci.save('dpi')

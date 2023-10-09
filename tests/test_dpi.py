@@ -29,15 +29,15 @@ nsd:-1:67:YXBwID09ICduZXRpZnkuZ29vZ2xlLWNoYXQnICYmIHByb3RvY29sX2lkICE9IDY3ICYmIC
 """
 
 applications = {
-    133: 'netflix',
-    10119: 'linkedin',
-    10552: 'tesla',
-    10195: 'avira',
-    10194: 'sophos',
-    10244: 'bbc',
-    10362: 'hulu',
-    10118: 'lets-encrypt',
-    199: 'snapchat'
+    133: 'netify.netflix',
+    10119: 'netify.linkedin',
+    10552: 'netify.tesla',
+    10195: 'netify.avira',
+    10194: 'netify.sophos',
+    10244: 'netify.bbc',
+    10362: 'netify.hulu',
+    10118: 'netify.lets-encrypt',
+    199: 'netify.snapchat'
 }
 
 protocols = {
@@ -212,7 +212,7 @@ config rule rule2
 	option enabled 1
 	
 config rule rule3
-    option action 'block'
+    option action 'video'
     list protocol 'HTTP/Connect'
     option interface 'lan'
     option enabled 1
@@ -272,7 +272,7 @@ def test_index_applications(mock_load, search):
     assert dpi.list_applications(search) == [
         {
             'id': 133,
-            'name': 'netflix',
+            'name': 'netify.netflix',
             'type': 'application',
             'category': {
                 'id': 33,
@@ -281,7 +281,7 @@ def test_index_applications(mock_load, search):
         },
         {
             'id': 10119,
-            'name': 'linkedin',
+            'name': 'netify.linkedin',
             'type': 'application',
             'category': {
                 'id': 33,
@@ -290,7 +290,7 @@ def test_index_applications(mock_load, search):
         },
         {
             'id': 10552,
-            'name': 'tesla',
+            'name': 'netify.tesla',
             'type': 'application',
             'category': {
                 'id': 3,
@@ -299,7 +299,7 @@ def test_index_applications(mock_load, search):
         },
         {
             'id': 10195,
-            'name': 'avira',
+            'name': 'netify.avira',
             'type': 'application',
             'category': {
                 'id': 33,
@@ -308,7 +308,7 @@ def test_index_applications(mock_load, search):
         },
         {
             'id': 10194,
-            'name': 'sophos',
+            'name': 'netify.sophos',
             'type': 'application',
             'category': {
                 'id': 3,
@@ -317,7 +317,7 @@ def test_index_applications(mock_load, search):
         },
         {
             'id': 10244,
-            'name': 'bbc',
+            'name': 'netify.bbc',
             'type': 'application',
             'category': {
                 'id': 33,
@@ -326,7 +326,7 @@ def test_index_applications(mock_load, search):
         },
         {
             'id': 10362,
-            'name': 'hulu',
+            'name': 'netify.hulu',
             'type': 'application',
             'category': {
                 'id': 3,
@@ -335,12 +335,12 @@ def test_index_applications(mock_load, search):
         },
         {
             'id': 10118,
-            'name': 'lets-encrypt',
+            'name': 'netify.lets-encrypt',
             'type': 'application'
         },
         {
             'id': 199,
-            'name': 'snapchat',
+            'name': 'netify.snapchat',
             'type': 'application',
             'category': {
                 'id': 20,
@@ -409,21 +409,11 @@ def test_index_applications(mock_load, search):
     ]
 
 
-def test_generate_rule_name(e_uci):
-    assert dpi.__generate_rule_name(e_uci) == 'rule0'
-    e_uci.set('dpi', 'rule0', 'rule')
-    assert dpi.__generate_rule_name(e_uci) == 'rule1'
-    assert dpi.__generate_rule_name(e_uci) == 'rule1'
-    e_uci.set('dpi', 'rule1', 'rule')
-    e_uci.delete('dpi', 'rule0')
-    assert dpi.__generate_rule_name(e_uci) == 'rule0'
-
-
 def test_index_applications_search(mock_load):
     assert dpi.list_applications(search='l') == [
         {
-            'id': 10119,
-            'name': 'linkedin',
+            'id': 133,
+            'name': 'netify.netflix',
             'type': 'application',
             'category': {
                 'id': 33,
@@ -431,13 +421,40 @@ def test_index_applications_search(mock_load):
             }
         },
         {
+            'id': 10119,
+            'name': 'netify.linkedin',
+            'type': 'application',
+            'category': {
+                'id': 33,
+                'name': 'unknown'
+            }
+        },
+        {
+            'id': 10552,
+            'name': 'netify.tesla',
+            'type': 'application',
+            'category': {
+                'id': 3,
+                'name': 'first-category'
+            }
+        },
+        {
+            'id': 10362,
+            'name': 'netify.hulu',
+            'type': 'application',
+            'category': {
+                'id': 3,
+                'name': 'first-category'
+            }
+        },
+        {
             'id': 10118,
-            'name': 'lets-encrypt',
+            'name': 'netify.lets-encrypt',
             'type': 'application'
         },
         {
             'id': 199,
-            'name': 'snapchat',
+            'name': 'netify.snapchat',
             'type': 'application',
             'category': {
                 'id': 20,
@@ -448,6 +465,15 @@ def test_index_applications_search(mock_load):
             'id': 117,
             'name': 'LotusNotes',
             'type': 'protocol'
+        },
+        {
+            'id': 128,
+            'name': 'NetFlow',
+            'type': 'protocol',
+            'category': {
+                'id': 1,
+                'name': 'base'
+            }
         },
         {
             'id': 129,
@@ -474,7 +500,7 @@ def test_index_applications_paginate(mock_load):
     assert dpi.list_applications(limit=2, page=2) == [
         {
             'id': 10552,
-            'name': 'tesla',
+            'name': 'netify.tesla',
             'type': 'application',
             'category': {
                 'id': 3,
@@ -483,7 +509,7 @@ def test_index_applications_paginate(mock_load):
         },
         {
             'id': 10195,
-            'name': 'avira',
+            'name': 'netify.avira',
             'type': 'application',
             'category': {
                 'id': 33,
@@ -494,7 +520,7 @@ def test_index_applications_paginate(mock_load):
     assert dpi.list_applications(limit=2, page=3) == [
         {
             'id': 10194,
-            'name': 'sophos',
+            'name': 'netify.sophos',
             'type': 'application',
             'category': {
                 'id': 3,
@@ -503,7 +529,7 @@ def test_index_applications_paginate(mock_load):
         },
         {
             'id': 10244,
-            'name': 'bbc',
+            'name': 'netify.bbc',
             'type': 'application',
             'category': {
                 'id': 33,
@@ -523,10 +549,11 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
             'config-name': 'rule0',
             'enabled': True,
             'interface': 'wan',
-            'blocks': [
+            'action': 'block',
+            'criteria': [
                 {
                     'id': 10119,
-                    'name': 'linkedin',
+                    'name': 'netify.linkedin',
                     'type': 'application',
                     'category': {
                         'id': 33,
@@ -535,7 +562,7 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
                 },
                 {
                     'id': 199,
-                    'name': 'snapchat',
+                    'name': 'netify.snapchat',
                     'type': 'application',
                     'category': {
                         'id': 20,
@@ -557,10 +584,11 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
             'config-name': 'rule1',
             'enabled': False,
             'interface': 'br-lan',
-            'blocks': [
+            'action': 'block',
+            'criteria': [
                 {
                     'id': 10552,
-                    'name': 'tesla',
+                    'name': 'netify.tesla',
                     'type': 'application',
                     'category': {
                         'id': 3,
@@ -573,7 +601,8 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
             'config-name': 'rule3',
             'enabled': True,
             'interface': 'lan',
-            'blocks': [
+            'action': 'video',
+            'criteria': [
                 {
                     'id': 130,
                     'name': 'HTTP/Connect',
@@ -589,18 +618,18 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
 
 
 def test_store_rule(e_uci, mock_load):
-    rule_created = 'rule0'
-    assert dpi.add_rule(e_uci, False, 'lan', ['linkedin', 'avira', 'netflix'],
-                        ['LotusNotes', 'SFlow']) == rule_created
+    rule_created = dpi.add_rule(e_uci, True, 'lan', 'best_effort', ['linkedin', 'avira', 'netflix'],
+                                ['LotusNotes', 'SFlow'])
     assert dpi.list_rules(e_uci) == [
         {
             'config-name': rule_created,
-            'enabled': False,
+            'enabled': True,
             'interface': 'lan',
-            'blocks': [
+            'action': 'best_effort',
+            'criteria': [
                 {
                     'id': 10119,
-                    'name': 'linkedin',
+                    'name': 'netify.linkedin',
                     'type': 'application',
                     'category': {
                         'id': 33,
@@ -609,7 +638,7 @@ def test_store_rule(e_uci, mock_load):
                 },
                 {
                     'id': 10195,
-                    'name': 'avira',
+                    'name': 'netify.avira',
                     'type': 'application',
                     'category': {
                         'id': 33,
@@ -618,7 +647,7 @@ def test_store_rule(e_uci, mock_load):
                 },
                 {
                     'id': 133,
-                    'name': 'netflix',
+                    'name': 'netify.netflix',
                     'type': 'application',
                     'category': {
                         'id': 33,
@@ -652,7 +681,8 @@ def test_delete_rule(e_uci_with_dpi_data, mock_load):
             'config-name': 'rule3',
             'enabled': True,
             'interface': 'lan',
-            'blocks': [
+            'action': 'video',
+            'criteria': [
                 {
                     'id': 130,
                     'name': 'HTTP/Connect',
@@ -668,14 +698,15 @@ def test_delete_rule(e_uci_with_dpi_data, mock_load):
 
 
 def test_edit_rule(e_uci_with_dpi_data, mock_load):
-    dpi.edit_rule(e_uci_with_dpi_data, 'rule0', False, 'lan', [],
+    dpi.edit_rule(e_uci_with_dpi_data, 'rule0', False, 'lan', 'voice', [],
                   ['HTTP/Connect', 'LotusNotes'])
     assert dpi.list_rules(e_uci_with_dpi_data) == [
         {
             'config-name': 'rule0',
             'enabled': False,
             'interface': 'lan',
-            'blocks': [
+            'action': 'voice',
+            'criteria': [
                 {
                     'id': 130,
                     'name': 'HTTP/Connect',
@@ -696,10 +727,11 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
             'config-name': 'rule1',
             'enabled': False,
             'interface': 'br-lan',
-            'blocks': [
+            'action': 'block',
+            'criteria': [
                 {
                     'id': 10552,
-                    'name': 'tesla',
+                    'name': 'netify.tesla',
                     'type': 'application',
                     'category': {
                         'id': 3,
@@ -712,7 +744,8 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
             'config-name': 'rule3',
             'enabled': True,
             'interface': 'lan',
-            'blocks': [
+            'action': 'video',
+            'criteria': [
                 {
                     'id': 130,
                     'name': 'HTTP/Connect',
@@ -729,7 +762,7 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
 
 def test_edit_rule_with_missing_rule(e_uci):
     with pytest.raises(ValidationError) as err:
-        dpi.edit_rule(e_uci, 'rule0', False, 'lan', [], [])
+        dpi.edit_rule(e_uci, 'rule0', False, 'lan', 'block', [], [])
 
     assert err.value.args[0] == 'config-name'
     assert err.value.args[1] == 'invalid'
