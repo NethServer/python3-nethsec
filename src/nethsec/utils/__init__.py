@@ -68,6 +68,7 @@ def sanitize(name):
     '''
     name = re.sub(r'[^\x00-\x7F]+','_', name)
     name = re.sub('[^0-9a-zA-Z]', '_', name)
+    name = name.removesuffix('_')
     return name
 
 def get_all_by_type(uci, config, utype):
