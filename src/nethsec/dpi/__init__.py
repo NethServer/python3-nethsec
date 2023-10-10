@@ -231,7 +231,7 @@ def __save_rule_data(e_uci: EUci, config_name: str, enabled: bool, interface: st
     e_uci.set('dpi', config_name, 'enabled', enabled)
     e_uci.set('dpi', config_name, 'interface', interface)
     e_uci.set('dpi', config_name, 'action', action)
-    e_uci.set('dpi', config_name, 'application', [f'netify.{application}' for application in applications])
+    e_uci.set('dpi', config_name, 'application', applications)
     e_uci.set('dpi', config_name, 'protocol', protocols)
 
 
