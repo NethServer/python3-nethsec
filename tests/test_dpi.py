@@ -618,8 +618,8 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
 
 
 def test_store_rule(e_uci, mock_load):
-    rule_created = dpi.add_rule(e_uci, True, 'lan', 'best_effort', ['linkedin', 'avira', 'netflix'],
-                                ['LotusNotes', 'SFlow'])
+    rule_created = dpi.add_rule(e_uci, True, 'lan', 'best_effort',
+                                ['netify.linkedin', 'netify.avira', 'netify.netflix'], ['LotusNotes', 'SFlow'])
     assert dpi.list_rules(e_uci) == [
         {
             'config-name': rule_created,
