@@ -196,13 +196,13 @@ config rule rule0
 	list source 'user:giacomo'
 	list source 'group:g1'
 	list category 'games'
-	option interface 'wan'
+	option device 'eth0'
 	option enabled 1
 
 config rule rule1
 	option action 'block'
 	list application 'netify.tesla'
-	option interface 'br-lan'
+	option device 'eth4'
 	option enabled 0
 	list exemption '192.168.100.3'
 
@@ -214,8 +214,74 @@ config rule rule2
 config rule rule3
     option action 'video'
     list protocol 'HTTP/Connect'
-    option interface 'lan'
+    option device 'eth1'
     option enabled 1
+"""
+
+network_config = """
+config interface 'RED_1'
+        option proto 'dhcp'
+        option device 'eth1'
+        option metric '1'
+
+config interface 'RED_2'
+        option proto 'dhcp'
+        option device 'eth2'
+        option metric '2'
+
+config interface 'RED_3'
+        option proto 'dhcp'
+        option device 'eth3'
+        option metric '3'
+
+config interface 'GREEN_1'
+        option proto 'static'
+        option device 'eth0'
+        option ipaddr '192.168.200.2'
+        option netmask '255.255.255.0'
+        option gateway '192.168.200.1'
+
+config interface 'GREEN_2'
+        option proto 'static'
+        option device 'eth4'
+        option ipaddr '10.0.3.1'
+        option netmask '255.255.255.0'
+        option gateway '10.0.3.0'
+"""
+
+firewall_config = """
+config zone 'ns_lan'
+        option name 'lan'
+        option input 'ACCEPT'
+        option output 'ACCEPT'
+        option forward 'ACCEPT'
+        list network 'GREEN_1'
+        list network 'GREEN_2'
+
+config zone 'ns_wan'
+        option name 'wan'
+        option input 'REJECT'
+        option output 'ACCEPT'
+        option forward 'REJECT'
+        option masq '1'
+        option mtu_fix '1'
+        list network 'RED_1'
+        list network 'RED_2'
+        list network 'RED_3'
+        
+config zone 'ns_guests'
+        option name 'guests'
+        option input 'REJECT'
+        option output 'ACCEPT'
+        option forward 'REJECT'
+        list network 'RED_1'
+        list network 'GREEN_1'
+        
+config zone 'ns_empty'
+        option name 'guests'
+        option input 'REJECT'
+        option output 'ACCEPT'
+        option forward 'REJECT'
 """
 
 
@@ -227,11 +293,15 @@ def e_uci(tmp_path: pathlib.Path) -> EUci:
     save_dir.mkdir()
     with conf_dir.joinpath('dpi').open('w') as fp:
         fp.write("")
+    with conf_dir.joinpath('network').open('w') as fp:
+        fp.write(network_config)
+    with conf_dir.joinpath('firewall').open('w') as fp:
+        fp.write(firewall_config)
     return EUci(confdir=conf_dir.as_posix(), savedir=save_dir.as_posix())
 
 
 @pytest.fixture
-def e_uci_with_dpi_data(e_uci: EUci):
+def e_uci_with_data(e_uci: EUci):
     with pathlib.Path(e_uci.confdir()).joinpath('dpi').open('w') as fp:
         fp.write(dpi_db)
     return e_uci
@@ -543,12 +613,13 @@ def test_list_empty_rules(e_uci, mock_load):
     assert dpi.list_rules(e_uci) == []
 
 
-def test_list_rules(e_uci_with_dpi_data, mock_load):
-    assert dpi.list_rules(e_uci_with_dpi_data) == [
+def test_list_rules(e_uci_with_data, mock_load):
+    assert dpi.list_rules(e_uci_with_data) == [
         {
             'config-name': 'rule0',
             'enabled': True,
-            'interface': 'wan',
+            'interface': 'GREEN_1',
+            'device': 'eth0',
             'action': 'block',
             'criteria': [
                 {
@@ -583,7 +654,8 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
         {
             'config-name': 'rule1',
             'enabled': False,
-            'interface': 'br-lan',
+            'interface': 'GREEN_2',
+            'device': 'eth4',
             'action': 'block',
             'criteria': [
                 {
@@ -600,7 +672,8 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
         {
             'config-name': 'rule3',
             'enabled': True,
-            'interface': 'lan',
+            'interface': 'RED_1',
+            'device': 'eth1',
             'action': 'video',
             'criteria': [
                 {
@@ -618,13 +691,14 @@ def test_list_rules(e_uci_with_dpi_data, mock_load):
 
 
 def test_store_rule(e_uci, mock_load):
-    rule_created = dpi.add_rule(e_uci, True, 'lan', 'best_effort',
+    rule_created = dpi.add_rule(e_uci, True, 'eth0', 'best_effort',
                                 ['netify.linkedin', 'netify.avira', 'netify.netflix'], ['LotusNotes', 'SFlow'])
     assert dpi.list_rules(e_uci) == [
         {
             'config-name': rule_created,
             'enabled': True,
-            'interface': 'lan',
+            'interface': 'GREEN_1',
+            'device': 'eth0',
             'action': 'best_effort',
             'criteria': [
                 {
@@ -673,14 +747,15 @@ def test_store_rule(e_uci, mock_load):
     ]
 
 
-def test_delete_rule(e_uci_with_dpi_data, mock_load):
-    dpi.delete_rule(e_uci_with_dpi_data, 'rule1')
-    dpi.delete_rule(e_uci_with_dpi_data, 'rule0')
-    assert dpi.list_rules(e_uci_with_dpi_data) == [
+def test_delete_rule(e_uci_with_data, mock_load):
+    dpi.delete_rule(e_uci_with_data, 'rule1')
+    dpi.delete_rule(e_uci_with_data, 'rule0')
+    assert dpi.list_rules(e_uci_with_data) == [
         {
             'config-name': 'rule3',
             'enabled': True,
-            'interface': 'lan',
+            'interface': 'RED_1',
+            'device': 'eth1',
             'action': 'video',
             'criteria': [
                 {
@@ -697,14 +772,15 @@ def test_delete_rule(e_uci_with_dpi_data, mock_load):
     ]
 
 
-def test_edit_rule(e_uci_with_dpi_data, mock_load):
-    dpi.edit_rule(e_uci_with_dpi_data, 'rule0', False, 'lan', 'voice', [],
+def test_edit_rule(e_uci_with_data, mock_load):
+    dpi.edit_rule(e_uci_with_data, 'rule0', False, 'eth0', 'voice', [],
                   ['HTTP/Connect', 'LotusNotes'])
-    assert dpi.list_rules(e_uci_with_dpi_data) == [
+    assert dpi.list_rules(e_uci_with_data) == [
         {
             'config-name': 'rule0',
             'enabled': False,
-            'interface': 'lan',
+            'interface': 'GREEN_1',
+            'device': 'eth0',
             'action': 'voice',
             'criteria': [
                 {
@@ -726,7 +802,8 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
         {
             'config-name': 'rule1',
             'enabled': False,
-            'interface': 'br-lan',
+            'interface': 'GREEN_2',
+            'device': 'eth4',
             'action': 'block',
             'criteria': [
                 {
@@ -743,7 +820,8 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
         {
             'config-name': 'rule3',
             'enabled': True,
-            'interface': 'lan',
+            'interface': 'RED_1',
+            'device': 'eth1',
             'action': 'video',
             'criteria': [
                 {
@@ -762,8 +840,23 @@ def test_edit_rule(e_uci_with_dpi_data, mock_load):
 
 def test_edit_rule_with_missing_rule(e_uci):
     with pytest.raises(ValidationError) as err:
-        dpi.edit_rule(e_uci, 'rule0', False, 'lan', 'block', [], [])
+        dpi.edit_rule(e_uci, 'rule0', False, 'eth0', 'block', [], [])
 
     assert err.value.args[0] == 'config-name'
     assert err.value.args[1] == 'invalid'
     assert err.value.args[2] == 'rule0'
+
+
+def test_list_interfaces(e_uci_with_data):
+    assert dpi.list_devices(e_uci_with_data).index({
+        'interface': 'GREEN_1',
+        'device': 'eth0'
+    }) != -1
+    assert dpi.list_devices(e_uci_with_data).index({
+        'interface': 'GREEN_2',
+        'device': 'eth4'
+    }) != -1
+    assert dpi.list_devices(e_uci_with_data).index({
+        'interface': 'RED_1',
+        'device': 'eth1'
+    }) != -1

@@ -14,7 +14,7 @@ import subprocess
 
 from euci import EUci
 
-from nethsec import utils
+from nethsec import utils, firewall
 from nethsec.utils import ValidationError
 
 
@@ -144,6 +144,37 @@ def __load_blocklist() -> list[dict[str]]:
     return result
 
 
+def list_devices(e_uci: EUci):
+    """
+    List device-interface available for filtering.
+
+    Returns:
+        list of dicts, each dict contains the property "interface" and "device"
+    """
+    zones = firewall.list_zones(e_uci)
+
+    # filter out wan zone
+    zones = [zone['name'] for zone in zones.values() if zone['name'] != 'wan']
+
+    # get all devices from zones
+    devices = set()
+    for zone in zones:
+        for device in utils.get_all_devices_by_zone(e_uci, zone):
+            devices.add(device)
+
+    filtered_devices = []
+    # get all interfaces from network
+    for device in devices:
+        interface = utils.get_interface_from_device(e_uci, device)
+        if interface is not None:
+            filtered_devices.append({
+                'interface': interface,
+                'device': device
+            })
+
+    return filtered_devices
+
+
 def list_applications(search: str = None, limit: int = None, page: int = 1) -> list[dict[str, str]]:
     """
     List applications available for filtering.
@@ -199,7 +230,11 @@ def list_rules(e_uci: EUci) -> list[dict[str]]:
             data_rule = dict[str]()
             data_rule['config-name'] = rule_name
             data_rule['enabled'] = rule.get('enabled', '1') == '1'
-            data_rule['interface'] = rule.get('interface', '*')
+            data_rule['device'] = rule.get('device', '*')
+            # from device, get the interface
+            interface = utils.get_interface_from_device(e_uci, data_rule['device'])
+            if interface is not None:
+                data_rule['interface'] = interface
             data_rule['action'] = rule.get('action')
             # get the blocked applications/protocols
             data_rule['criteria'] = list[dict[str]]()
@@ -226,16 +261,16 @@ def list_rules(e_uci: EUci) -> list[dict[str]]:
     return rules
 
 
-def __save_rule_data(e_uci: EUci, config_name: str, enabled: bool, interface: str, action: str, applications: list[str],
+def __save_rule_data(e_uci: EUci, config_name: str, enabled: bool, device: str, action: str, applications: list[str],
                      protocols: list[str]):
     e_uci.set('dpi', config_name, 'enabled', enabled)
-    e_uci.set('dpi', config_name, 'interface', interface)
+    e_uci.set('dpi', config_name, 'device', device)
     e_uci.set('dpi', config_name, 'action', action)
     e_uci.set('dpi', config_name, 'application', applications)
     e_uci.set('dpi', config_name, 'protocol', protocols)
 
 
-def add_rule(e_uci: EUci, enabled: bool, interface: str, action: str, applications: list[str],
+def add_rule(e_uci: EUci, enabled: bool, device: str, action: str, applications: list[str],
              protocols: list[str]) -> str:
     """
     Store a new rule
@@ -245,7 +280,7 @@ def add_rule(e_uci: EUci, enabled: bool, interface: str, action: str, applicatio
       - description: description of the rule
       - enabled: enable the rule
       - action: apply specific action to rule, can be 'block', 'bulk', 'best_effort', 'video' or 'voice'
-      - interface: interface to listen and apply the rule on
+      - device: device to listen and apply the rule on
       - applications: list of applications to block
       - protocols: list of protocols to block
 
@@ -254,7 +289,7 @@ def add_rule(e_uci: EUci, enabled: bool, interface: str, action: str, applicatio
     """
     rule_name = utils.get_random_id()
     e_uci.set('dpi', rule_name, 'rule')
-    __save_rule_data(e_uci, rule_name, enabled, interface, action, applications, protocols)
+    __save_rule_data(e_uci, rule_name, enabled, device, action, applications, protocols)
     e_uci.save('dpi')
     return rule_name
 
@@ -271,7 +306,7 @@ def delete_rule(e_uci: EUci, config_name: str):
     e_uci.save('dpi')
 
 
-def edit_rule(e_uci: EUci, config_name: str, enabled: bool, interface: str, action: str, applications: list[str],
+def edit_rule(e_uci: EUci, config_name: str, enabled: bool, device: str, action: str, applications: list[str],
               protocols: list[str]):
     """
     Edit a rule
@@ -280,7 +315,7 @@ def edit_rule(e_uci: EUci, config_name: str, enabled: bool, interface: str, acti
       - e_uci: euci instance
       - config_name: rule to change
       - enabled: enable the rule
-      - interface: interface to listen and apply the rule on
+      - device: device to listen and apply the rule on
       - action: apply specific action to rule, can be 'block', 'bulk', 'best_effort', 'video' or 'voice'
       - applications: array of applications to block
       - protocols: array of protocols to block
@@ -291,6 +326,6 @@ def edit_rule(e_uci: EUci, config_name: str, enabled: bool, interface: str, acti
     if e_uci.get('dpi', config_name, default=None) is None:
         raise ValidationError('config-name', 'invalid', config_name)
 
-    __save_rule_data(e_uci, config_name, enabled, interface, action, applications, protocols)
+    __save_rule_data(e_uci, config_name, enabled, device, action, applications, protocols)
 
     e_uci.save('dpi')
