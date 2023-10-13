@@ -203,6 +203,27 @@ def list_applications(search: str = None, limit: int = None, page: int = 1) -> l
     return result
 
 
+def list_popular(e_uci: EUci, limit: int = None, page: int = 1) -> list:
+    """
+    List popular applications available for filtering.
+
+    Args:
+      - limit: limit the number of results
+      - page: page number
+
+    Returns:
+        list of dicts, each dict contains the property "id", "name", "type" and "category"
+    """
+    popular_filters = e_uci.get('dpi', 'config', 'popular_filters', default=[], list=True)
+
+    block_list = [block for block in __load_blocklist() if block['name'] in popular_filters]
+
+    if limit is not None:
+        block_list = block_list[limit * (page - 1):limit * page]
+
+    return block_list
+
+
 def list_rules(e_uci: EUci) -> list[dict[str]]:
     """
     Index all rules
