@@ -186,6 +186,16 @@ protocol_output = """
 """
 
 dpi_db = """
+config main 'config'
+    option log_blocked '0'
+    option firewall_exemption '0'
+    option enabled '0'
+    list popular_filters 'netify.netflix'
+    list popular_filters 'netify.hulu'
+    list popular_filters 'netify.sophos'
+    list popular_filters 'HTTP/Connect'
+    list popular_filters 'Dropbox'
+
 config rule rule0
 	option action 'block'
 	list application 'netify.linkedin'
@@ -860,3 +870,87 @@ def test_list_interfaces(e_uci_with_data):
         'interface': 'RED_1',
         'device': 'eth1'
     }) != -1
+
+
+def test_list_popular(e_uci_with_data, mock_load):
+    assert dpi.list_popular(e_uci_with_data) == [
+        {
+            'id': 133,
+            'name': 'netify.netflix',
+            'type': 'application',
+            'category': {
+                'id': 33,
+                'name': 'unknown'
+            }
+        },
+        {
+            'id': 10194,
+            'name': 'netify.sophos',
+            'type': 'application',
+            'category': {
+                'id': 3,
+                'name': 'first-category'
+            }
+        },
+        {
+            'id': 10362,
+            'name': 'netify.hulu',
+            'type': 'application',
+            'category': {
+                'id': 3,
+                'name': 'first-category'
+            }
+        },
+        {
+            'id': 121,
+            'name': 'Dropbox',
+            'type': 'protocol',
+            'category': {
+                'id': 1,
+                'name': 'base'
+            }
+        },
+        {
+            'id': 130,
+            'name': 'HTTP/Connect',
+            'type': 'protocol',
+            'category': {
+                'id': 4,
+                'name': 'low'
+            }
+        }
+    ]
+
+
+def test_list_popular_with_limits(e_uci_with_data, mock_load):
+    assert dpi.list_popular(e_uci_with_data, limit=2, page=2) == [
+        {
+            'id': 10362,
+            'name': 'netify.hulu',
+            'type': 'application',
+            'category': {
+                'id': 3,
+                'name': 'first-category'
+            }
+        },
+        {
+            'id': 121,
+            'name': 'Dropbox',
+            'type': 'protocol',
+            'category': {
+                'id': 1,
+                'name': 'base'
+            }
+        }
+    ]
+    assert dpi.list_popular(e_uci_with_data, limit=2, page=3) == [
+        {
+            'id': 130,
+            'name': 'HTTP/Connect',
+            'type': 'protocol',
+            'category': {
+                'id': 4,
+                'name': 'low'
+            }
+        }
+    ]
