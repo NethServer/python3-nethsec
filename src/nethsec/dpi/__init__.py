@@ -10,9 +10,9 @@ Library that handles the DPI rules.
 """
 
 import json
-import math
 import subprocess
 
+import math
 from euci import EUci
 
 from nethsec import utils, firewall
@@ -227,19 +227,28 @@ def list_popular(e_uci: EUci, limit: int = None, page: int = 1) -> dict:
         list of dicts, each dict contains the property "id", "name", "type" and "category"
     """
     popular_filters = e_uci.get('dpi', 'config', 'popular_filters', default=[], list=True)
+    block_list = {block['name']: block for block in __load_blocklist()}
+    result = []
 
-    block_list = [block for block in __load_blocklist() if block['name'] in popular_filters]
+    for popular_filter in popular_filters:
+        if popular_filter in block_list.keys():
+            result.append(block_list[popular_filter] | {'missing': False})
+        else:
+            result.append({
+                'name': popular_filter,
+                'missing': True
+            })
 
-    total = len(block_list)
+    total = len(result)
 
     if limit is not None:
-        block_list = block_list[limit * (page - 1):limit * page]
+        result = result[limit * (page - 1):limit * page]
         last_page = math.ceil(total / limit)
     else:
         last_page = 1
 
     return {
-        'data': block_list,
+        'data': result,
         'meta': {
             'last_page': last_page,
             'total': total,

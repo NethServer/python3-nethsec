@@ -192,6 +192,8 @@ config main 'config'
     option enabled '0'
     list popular_filters 'netify.netflix'
     list popular_filters 'netify.hulu'
+    list popular_filters 'netify.whatsapp'
+    list popular_filters 'netify.facebook'
     list popular_filters 'netify.sophos'
     list popular_filters 'HTTP/Connect'
     list popular_filters 'Dropbox'
@@ -906,7 +908,26 @@ def test_list_popular(e_uci_with_data, mock_load):
                 'category': {
                     'id': 33,
                     'name': 'unknown'
-                }
+                },
+                'missing': False
+            },
+            {
+                'id': 10362,
+                'name': 'netify.hulu',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                },
+                'missing': False
+            },
+            {
+                'name': 'netify.whatsapp',
+                'missing': True
+            },
+            {
+                'name': 'netify.facebook',
+                'missing': True
             },
             {
                 'id': 10194,
@@ -915,25 +936,8 @@ def test_list_popular(e_uci_with_data, mock_load):
                 'category': {
                     'id': 3,
                     'name': 'first-category'
-                }
-            },
-            {
-                'id': 10362,
-                'name': 'netify.hulu',
-                'type': 'application',
-                'category': {
-                    'id': 3,
-                    'name': 'first-category'
-                }
-            },
-            {
-                'id': 121,
-                'name': 'Dropbox',
-                'type': 'protocol',
-                'category': {
-                    'id': 1,
-                    'name': 'base'
-                }
+                },
+                'missing': False
             },
             {
                 'id': 130,
@@ -942,12 +946,23 @@ def test_list_popular(e_uci_with_data, mock_load):
                 'category': {
                     'id': 4,
                     'name': 'low'
-                }
+                },
+                'missing': False
+            },
+            {
+                'id': 121,
+                'name': 'Dropbox',
+                'type': 'protocol',
+                'category': {
+                    'id': 1,
+                    'name': 'base'
+                },
+                'missing': False
             }
         ],
         'meta': {
             'last_page': 1,
-            'total': 5
+            'total': 7
         }
     }
 
@@ -956,31 +971,31 @@ def test_list_popular_with_limits(e_uci_with_data, mock_load):
     assert dpi.list_popular(e_uci_with_data, limit=2, page=2) == {
         'data': [
             {
-                'id': 10362,
-                'name': 'netify.hulu',
-                'type': 'application',
-                'category': {
-                    'id': 3,
-                    'name': 'first-category'
-                }
+                'name': 'netify.whatsapp',
+                'missing': True
             },
             {
-                'id': 121,
-                'name': 'Dropbox',
-                'type': 'protocol',
-                'category': {
-                    'id': 1,
-                    'name': 'base'
-                }
+                'name': 'netify.facebook',
+                'missing': True
             }
         ],
         'meta': {
-            'last_page': 3,
-            'total': 5
+            'last_page': 4,
+            'total': 7
         }
     }
     assert dpi.list_popular(e_uci_with_data, limit=2, page=3) == {
         'data': [
+            {
+                'id': 10194,
+                'name': 'netify.sophos',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                },
+                'missing': False
+            },
             {
                 'id': 130,
                 'name': 'HTTP/Connect',
@@ -988,11 +1003,12 @@ def test_list_popular_with_limits(e_uci_with_data, mock_load):
                 'category': {
                     'id': 4,
                     'name': 'low'
-                }
+                },
+                'missing': False
             }
         ],
         'meta': {
-            'last_page': 3,
-            'total': 5
+            'last_page': 4,
+            'total': 7
         }
     }
