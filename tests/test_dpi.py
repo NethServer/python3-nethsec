@@ -349,274 +349,298 @@ def test_load_protocols(mocker: MockFixture):
 
 @pytest.mark.parametrize('search', [None, ''])
 def test_index_applications(mock_load, search):
-    assert dpi.list_applications(search) == [
-        {
-            'id': 133,
-            'name': 'netify.netflix',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
+    assert dpi.list_applications(search) == {
+        'data': [
+            {
+                'id': 133,
+                'name': 'netify.netflix',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
+            },
+            {
+                'id': 10119,
+                'name': 'netify.linkedin',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
+            },
+            {
+                'id': 10552,
+                'name': 'netify.tesla',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 10195,
+                'name': 'netify.avira',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
+            },
+            {
+                'id': 10194,
+                'name': 'netify.sophos',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 10244,
+                'name': 'netify.bbc',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
+            },
+            {
+                'id': 10362,
+                'name': 'netify.hulu',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 10118,
+                'name': 'netify.lets-encrypt',
+                'type': 'application'
+            },
+            {
+                'id': 199,
+                'name': 'netify.snapchat',
+                'type': 'application',
+                'category': {
+                    'id': 20,
+                    'name': 'last'
+                }
+            },
+            {
+                'id': 116,
+                'name': 'Warcraft3',
+                'type': 'protocol',
+                'category': {
+                    'id': 2,
+                    'name': 'games'
+                }
+            },
+            {
+                'id': 117,
+                'name': 'LotusNotes',
+                'type': 'protocol'
+            },
+            {
+                'id': 121,
+                'name': 'Dropbox',
+                'type': 'protocol',
+                'category': {
+                    'id': 1,
+                    'name': 'base'
+                }
+            },
+            {
+                'id': 127,
+                'name': 'RPC',
+                'type': 'protocol',
+                'category': {
+                    'id': 1,
+                    'name': 'base'
+                }
+            },
+            {
+                'id': 128,
+                'name': 'NetFlow',
+                'type': 'protocol',
+                'category': {
+                    'id': 1,
+                    'name': 'base'
+                }
+            },
+            {
+                'id': 129,
+                'name': 'SFlow',
+                'type': 'protocol',
+                'category': {
+                    'id': 4,
+                    'name': 'low'
+                }
+            },
+            {
+                'id': 130,
+                'name': 'HTTP/Connect',
+                'type': 'protocol',
+                'category': {
+                    'id': 4,
+                    'name': 'low'
+                }
             }
-        },
-        {
-            'id': 10119,
-            'name': 'netify.linkedin',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
-            }
-        },
-        {
-            'id': 10552,
-            'name': 'netify.tesla',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
-            }
-        },
-        {
-            'id': 10195,
-            'name': 'netify.avira',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
-            }
-        },
-        {
-            'id': 10194,
-            'name': 'netify.sophos',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
-            }
-        },
-        {
-            'id': 10244,
-            'name': 'netify.bbc',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
-            }
-        },
-        {
-            'id': 10362,
-            'name': 'netify.hulu',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
-            }
-        },
-        {
-            'id': 10118,
-            'name': 'netify.lets-encrypt',
-            'type': 'application'
-        },
-        {
-            'id': 199,
-            'name': 'netify.snapchat',
-            'type': 'application',
-            'category': {
-                'id': 20,
-                'name': 'last'
-            }
-        },
-        {
-            'id': 116,
-            'name': 'Warcraft3',
-            'type': 'protocol',
-            'category': {
-                'id': 2,
-                'name': 'games'
-            }
-        },
-        {
-            'id': 117,
-            'name': 'LotusNotes',
-            'type': 'protocol'
-        },
-        {
-            'id': 121,
-            'name': 'Dropbox',
-            'type': 'protocol',
-            'category': {
-                'id': 1,
-                'name': 'base'
-            }
-        },
-        {
-            'id': 127,
-            'name': 'RPC',
-            'type': 'protocol',
-            'category': {
-                'id': 1,
-                'name': 'base'
-            }
-        },
-        {
-            'id': 128,
-            'name': 'NetFlow',
-            'type': 'protocol',
-            'category': {
-                'id': 1,
-                'name': 'base'
-            }
-        },
-        {
-            'id': 129,
-            'name': 'SFlow',
-            'type': 'protocol',
-            'category': {
-                'id': 4,
-                'name': 'low'
-            }
-        },
-        {
-            'id': 130,
-            'name': 'HTTP/Connect',
-            'type': 'protocol',
-            'category': {
-                'id': 4,
-                'name': 'low'
-            }
+        ],
+        'meta': {
+            'last_page': 1,
+            'total': 16
         }
-    ]
+    }
 
 
 def test_index_applications_search(mock_load):
-    assert dpi.list_applications(search='l') == [
-        {
-            'id': 133,
-            'name': 'netify.netflix',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
+    assert dpi.list_applications(search='l') == {
+        'data': [
+            {
+                'id': 133,
+                'name': 'netify.netflix',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
+            },
+            {
+                'id': 10119,
+                'name': 'netify.linkedin',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
+            },
+            {
+                'id': 10552,
+                'name': 'netify.tesla',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 10362,
+                'name': 'netify.hulu',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 10118,
+                'name': 'netify.lets-encrypt',
+                'type': 'application'
+            },
+            {
+                'id': 199,
+                'name': 'netify.snapchat',
+                'type': 'application',
+                'category': {
+                    'id': 20,
+                    'name': 'last'
+                }
+            },
+            {
+                'id': 117,
+                'name': 'LotusNotes',
+                'type': 'protocol'
+            },
+            {
+                'id': 128,
+                'name': 'NetFlow',
+                'type': 'protocol',
+                'category': {
+                    'id': 1,
+                    'name': 'base'
+                }
+            },
+            {
+                'id': 129,
+                'name': 'SFlow',
+                'type': 'protocol',
+                'category': {
+                    'id': 4,
+                    'name': 'low'
+                }
+            },
+            {
+                'id': 130,
+                'name': 'HTTP/Connect',
+                'type': 'protocol',
+                'category': {
+                    'id': 4,
+                    'name': 'low'
+                }
             }
-        },
-        {
-            'id': 10119,
-            'name': 'netify.linkedin',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
-            }
-        },
-        {
-            'id': 10552,
-            'name': 'netify.tesla',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
-            }
-        },
-        {
-            'id': 10362,
-            'name': 'netify.hulu',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
-            }
-        },
-        {
-            'id': 10118,
-            'name': 'netify.lets-encrypt',
-            'type': 'application'
-        },
-        {
-            'id': 199,
-            'name': 'netify.snapchat',
-            'type': 'application',
-            'category': {
-                'id': 20,
-                'name': 'last'
-            }
-        },
-        {
-            'id': 117,
-            'name': 'LotusNotes',
-            'type': 'protocol'
-        },
-        {
-            'id': 128,
-            'name': 'NetFlow',
-            'type': 'protocol',
-            'category': {
-                'id': 1,
-                'name': 'base'
-            }
-        },
-        {
-            'id': 129,
-            'name': 'SFlow',
-            'type': 'protocol',
-            'category': {
-                'id': 4,
-                'name': 'low'
-            }
-        },
-        {
-            'id': 130,
-            'name': 'HTTP/Connect',
-            'type': 'protocol',
-            'category': {
-                'id': 4,
-                'name': 'low'
-            }
+        ],
+        'meta': {
+            'last_page': 1,
+            'total': 10
         }
-    ]
+    }
 
 
 def test_index_applications_paginate(mock_load):
-    assert dpi.list_applications(limit=2, page=2) == [
-        {
-            'id': 10552,
-            'name': 'netify.tesla',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
+    assert dpi.list_applications(limit=2, page=2) == {
+        'data': [
+            {
+                'id': 10552,
+                'name': 'netify.tesla',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 10195,
+                'name': 'netify.avira',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
             }
-        },
-        {
-            'id': 10195,
-            'name': 'netify.avira',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
-            }
+        ],
+        'meta': {
+            'last_page': 8,
+            'total': 16
         }
-    ]
-    assert dpi.list_applications(limit=2, page=3) == [
-        {
-            'id': 10194,
-            'name': 'netify.sophos',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
+    }
+    assert dpi.list_applications(limit=2, page=3) == {
+        'data': [
+            {
+                'id': 10194,
+                'name': 'netify.sophos',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 10244,
+                'name': 'netify.bbc',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
             }
-        },
-        {
-            'id': 10244,
-            'name': 'netify.bbc',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
-            }
+        ],
+        'meta': {
+            'last_page': 8,
+            'total': 16
         }
-    ]
+    }
 
 
 def test_list_empty_rules(e_uci, mock_load):
@@ -873,84 +897,102 @@ def test_list_interfaces(e_uci_with_data):
 
 
 def test_list_popular(e_uci_with_data, mock_load):
-    assert dpi.list_popular(e_uci_with_data) == [
-        {
-            'id': 133,
-            'name': 'netify.netflix',
-            'type': 'application',
-            'category': {
-                'id': 33,
-                'name': 'unknown'
+    assert dpi.list_popular(e_uci_with_data) == {
+        'data': [
+            {
+                'id': 133,
+                'name': 'netify.netflix',
+                'type': 'application',
+                'category': {
+                    'id': 33,
+                    'name': 'unknown'
+                }
+            },
+            {
+                'id': 10194,
+                'name': 'netify.sophos',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 10362,
+                'name': 'netify.hulu',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 121,
+                'name': 'Dropbox',
+                'type': 'protocol',
+                'category': {
+                    'id': 1,
+                    'name': 'base'
+                }
+            },
+            {
+                'id': 130,
+                'name': 'HTTP/Connect',
+                'type': 'protocol',
+                'category': {
+                    'id': 4,
+                    'name': 'low'
+                }
             }
-        },
-        {
-            'id': 10194,
-            'name': 'netify.sophos',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
-            }
-        },
-        {
-            'id': 10362,
-            'name': 'netify.hulu',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
-            }
-        },
-        {
-            'id': 121,
-            'name': 'Dropbox',
-            'type': 'protocol',
-            'category': {
-                'id': 1,
-                'name': 'base'
-            }
-        },
-        {
-            'id': 130,
-            'name': 'HTTP/Connect',
-            'type': 'protocol',
-            'category': {
-                'id': 4,
-                'name': 'low'
-            }
+        ],
+        'meta': {
+            'last_page': 1,
+            'total': 5
         }
-    ]
+    }
 
 
 def test_list_popular_with_limits(e_uci_with_data, mock_load):
-    assert dpi.list_popular(e_uci_with_data, limit=2, page=2) == [
-        {
-            'id': 10362,
-            'name': 'netify.hulu',
-            'type': 'application',
-            'category': {
-                'id': 3,
-                'name': 'first-category'
+    assert dpi.list_popular(e_uci_with_data, limit=2, page=2) == {
+        'data': [
+            {
+                'id': 10362,
+                'name': 'netify.hulu',
+                'type': 'application',
+                'category': {
+                    'id': 3,
+                    'name': 'first-category'
+                }
+            },
+            {
+                'id': 121,
+                'name': 'Dropbox',
+                'type': 'protocol',
+                'category': {
+                    'id': 1,
+                    'name': 'base'
+                }
             }
-        },
-        {
-            'id': 121,
-            'name': 'Dropbox',
-            'type': 'protocol',
-            'category': {
-                'id': 1,
-                'name': 'base'
-            }
+        ],
+        'meta': {
+            'last_page': 3,
+            'total': 5
         }
-    ]
-    assert dpi.list_popular(e_uci_with_data, limit=2, page=3) == [
-        {
-            'id': 130,
-            'name': 'HTTP/Connect',
-            'type': 'protocol',
-            'category': {
-                'id': 4,
-                'name': 'low'
+    }
+    assert dpi.list_popular(e_uci_with_data, limit=2, page=3) == {
+        'data': [
+            {
+                'id': 130,
+                'name': 'HTTP/Connect',
+                'type': 'protocol',
+                'category': {
+                    'id': 4,
+                    'name': 'low'
+                }
             }
+        ],
+        'meta': {
+            'last_page': 3,
+            'total': 5
         }
-    ]
+    }
