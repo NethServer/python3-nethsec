@@ -10,6 +10,7 @@ Library that handles the DPI rules.
 """
 
 import json
+import math
 import subprocess
 
 from euci import EUci
@@ -175,7 +176,7 @@ def list_devices(e_uci: EUci):
     return filtered_devices
 
 
-def list_applications(search: str = None, limit: int = None, page: int = 1) -> list[dict[str, str]]:
+def list_applications(search: str = None, limit: int = None, page: int = 1) -> dict:
     """
     List applications available for filtering.
 
@@ -197,13 +198,24 @@ def list_applications(search: str = None, limit: int = None, page: int = 1) -> l
                   item.get('name', '').lower().find(search) != -1 or
                   item.get('category', {}).get('name', '').lower().find(search) != -1]
 
+    total = len(result)
+
     if limit is not None:
         result = result[limit * (page - 1):limit * page]
+        last_page = math.ceil(total / limit)
+    else:
+        last_page = 1
 
-    return result
+    return {
+        'data': result,
+        'meta': {
+            'last_page': last_page,
+            'total': total,
+        }
+    }
 
 
-def list_popular(e_uci: EUci, limit: int = None, page: int = 1) -> list:
+def list_popular(e_uci: EUci, limit: int = None, page: int = 1) -> dict:
     """
     List popular applications available for filtering.
 
@@ -218,10 +230,21 @@ def list_popular(e_uci: EUci, limit: int = None, page: int = 1) -> list:
 
     block_list = [block for block in __load_blocklist() if block['name'] in popular_filters]
 
+    total = len(block_list)
+
     if limit is not None:
         block_list = block_list[limit * (page - 1):limit * page]
+        last_page = math.ceil(total / limit)
+    else:
+        last_page = 1
 
-    return block_list
+    return {
+        'data': block_list,
+        'meta': {
+            'last_page': last_page,
+            'total': total,
+        }
+    }
 
 
 def list_rules(e_uci: EUci) -> list[dict[str]]:
