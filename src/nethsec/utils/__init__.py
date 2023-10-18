@@ -325,6 +325,59 @@ def get_group_macs(uci, group):
         macs = macs + get_user_macs(uci, u)
     return macs
 
+def get_unassigned_devices(uci):
+    '''
+    Retrieve all unused/unassigned devices.
+
+    Arguments:
+      - uci -- EUci pointer
+
+    Returns:
+      - A list of devices
+    '''
+    unassigned = []
+    try:
+        p = subprocess.run(["ip", "-j", "link"], check=True, capture_output=True, text=True)
+        devices = json.loads(p.stdout)
+    except:
+        return []
+
+    u_interfaces = get_all_by_type(uci, 'network', 'interface')
+    u_devices = get_all_by_type(uci, 'network', 'device')
+
+    for ip_device in devices:
+        free = True
+        ifname = ip_device.get('ifname', '')
+        # exclude special devices
+        if not ifname or ifname == "lo" or ifname.startswith("ifb-"):
+            continue
+        # search among UCI devices
+        for d in u_devices:
+            # ports are present on bridge devices
+            try:
+                ports = uci.get_all('network', d, 'ports')
+            except:
+                ports = []
+            if uci.get('network', d, 'name', default="") == ifname or ifname in ports:
+                free = False
+        # search among UCI interfaces
+        for i in u_interfaces:
+            # slaves are present on bond devices
+            slaves = []
+            if uci.get('network', i, 'proto', default='') == 'bonding':
+                slaves = list(uci.get_all('network', i, 'slaves'))
+                # for bonds, the section name is the nmame of device with 'bond-' prefix
+                slaves.append(f'bond-{i}')
+            device = uci.get('network', i, 'device', default="")
+            if device == ifname or ifname in slaves:
+                free = False
+        # search inside hotspot configuration
+        if uci.get('dedalo', 'config', 'disabled', default="1") == "0" and uci.get('dedalo', 'config', 'interface', default="") == ifname:
+            free = False
+        if free:
+            unassigned.append(ifname)
+    return unassigned
+
 
 def validation_errors(errors):
     '''
