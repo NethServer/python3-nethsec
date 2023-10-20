@@ -351,6 +351,9 @@ def get_unassigned_devices(uci):
         # exclude special devices
         if not ifname or ifname == "lo" or ifname.startswith("ifb-"):
             continue
+        # exclude tun devices
+        if ip_device.get("link_type", "ether") == "none":
+            continue
         # search among UCI devices
         for d in u_devices:
             # ports are present on bridge devices
