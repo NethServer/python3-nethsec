@@ -113,64 +113,86 @@ categories_file = """
 }
 """
 
+categories_file_old = """
+{
+  "last_update": 1696950440,
+  "application_index": {
+    "first-category": [
+      10362,
+      10194,
+      10552
+    ],
+    "unknown": [
+      133,
+      10119,
+      10195,
+      10244
+    ],
+    "last": [
+      199
+    ]
+  },
+  "protocol_index": {
+    "base": [
+      121,
+      127,
+      128
+    ],
+    "games": [
+      116
+    ],
+    "low": [
+      129,
+      130
+    ]
+  }
+}
+"""
+
 application_categories = {
     10362: {
-        'id': 3,
         'name': 'first-category'
     },
     10194: {
-        'id': 3,
         'name': 'first-category'
     },
     10552: {
-        'id': 3,
         'name': 'first-category'
     },
     133: {
-        'id': 33,
         'name': 'unknown'
     },
     10119: {
-        'id': 33,
         'name': 'unknown'
     },
     10195: {
-        'id': 33,
         'name': 'unknown'
     },
     10244: {
-        'id': 33,
         'name': 'unknown'
     },
     199: {
-        'id': 20,
         'name': 'last'
     }
 }
 
 protocol_categories = {
     121: {
-        'id': 1,
         'name': 'base'
     },
     127: {
-        'id': 1,
         'name': 'base'
     },
     128: {
-        'id': 1,
         'name': 'base'
     },
     116: {
-        'id': 2,
         'name': 'games'
     },
     129: {
-        'id': 4,
         'name': 'low'
     },
     130: {
-        'id': 4,
         'name': 'low'
     }
 }
@@ -332,13 +354,15 @@ def test_load_applications(mocker: MockFixture):
     assert dpi.__load_applications() == applications
 
 
-def test_load_application_categories(mocker: MockFixture):
-    mocker.patch('builtins.open', mocker.mock_open(read_data=categories_file))
+@pytest.mark.parametrize('data', [categories_file, categories_file_old])
+def test_load_application_categories(mocker: MockFixture, data: str):
+    mocker.patch('builtins.open', mocker.mock_open(read_data=data))
     assert dpi.__load_application_categories() == application_categories
 
 
-def test_load_protocol_categories(mocker: MockFixture):
-    mocker.patch('builtins.open', mocker.mock_open(read_data=categories_file))
+@pytest.mark.parametrize('data', [categories_file, categories_file_old])
+def test_load_protocol_categories(mocker: MockFixture, data: str):
+    mocker.patch('builtins.open', mocker.mock_open(read_data=data))
     assert dpi.__load_protocol_categories() == protocol_categories
 
 
@@ -358,7 +382,6 @@ def test_index_applications(mock_load, search):
                 'name': 'netify.netflix',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 }
             },
@@ -367,7 +390,6 @@ def test_index_applications(mock_load, search):
                 'name': 'netify.linkedin',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 }
             },
@@ -376,7 +398,6 @@ def test_index_applications(mock_load, search):
                 'name': 'netify.tesla',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 }
             },
@@ -385,7 +406,6 @@ def test_index_applications(mock_load, search):
                 'name': 'netify.avira',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 }
             },
@@ -394,7 +414,6 @@ def test_index_applications(mock_load, search):
                 'name': 'netify.sophos',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 }
             },
@@ -403,7 +422,6 @@ def test_index_applications(mock_load, search):
                 'name': 'netify.bbc',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 }
             },
@@ -412,7 +430,6 @@ def test_index_applications(mock_load, search):
                 'name': 'netify.hulu',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 }
             },
@@ -426,7 +443,6 @@ def test_index_applications(mock_load, search):
                 'name': 'netify.snapchat',
                 'type': 'application',
                 'category': {
-                    'id': 20,
                     'name': 'last'
                 }
             },
@@ -435,7 +451,6 @@ def test_index_applications(mock_load, search):
                 'name': 'Warcraft3',
                 'type': 'protocol',
                 'category': {
-                    'id': 2,
                     'name': 'games'
                 }
             },
@@ -449,7 +464,6 @@ def test_index_applications(mock_load, search):
                 'name': 'Dropbox',
                 'type': 'protocol',
                 'category': {
-                    'id': 1,
                     'name': 'base'
                 }
             },
@@ -458,7 +472,6 @@ def test_index_applications(mock_load, search):
                 'name': 'RPC',
                 'type': 'protocol',
                 'category': {
-                    'id': 1,
                     'name': 'base'
                 }
             },
@@ -467,7 +480,6 @@ def test_index_applications(mock_load, search):
                 'name': 'NetFlow',
                 'type': 'protocol',
                 'category': {
-                    'id': 1,
                     'name': 'base'
                 }
             },
@@ -476,7 +488,6 @@ def test_index_applications(mock_load, search):
                 'name': 'SFlow',
                 'type': 'protocol',
                 'category': {
-                    'id': 4,
                     'name': 'low'
                 }
             },
@@ -485,7 +496,6 @@ def test_index_applications(mock_load, search):
                 'name': 'HTTP/Connect',
                 'type': 'protocol',
                 'category': {
-                    'id': 4,
                     'name': 'low'
                 }
             }
@@ -505,7 +515,6 @@ def test_index_applications_search(mock_load):
                 'name': 'netify.netflix',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 }
             },
@@ -514,7 +523,6 @@ def test_index_applications_search(mock_load):
                 'name': 'netify.linkedin',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 }
             },
@@ -523,7 +531,6 @@ def test_index_applications_search(mock_load):
                 'name': 'netify.tesla',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 }
             },
@@ -532,7 +539,6 @@ def test_index_applications_search(mock_load):
                 'name': 'netify.hulu',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 }
             },
@@ -546,7 +552,6 @@ def test_index_applications_search(mock_load):
                 'name': 'netify.snapchat',
                 'type': 'application',
                 'category': {
-                    'id': 20,
                     'name': 'last'
                 }
             },
@@ -560,7 +565,6 @@ def test_index_applications_search(mock_load):
                 'name': 'NetFlow',
                 'type': 'protocol',
                 'category': {
-                    'id': 1,
                     'name': 'base'
                 }
             },
@@ -569,7 +573,6 @@ def test_index_applications_search(mock_load):
                 'name': 'SFlow',
                 'type': 'protocol',
                 'category': {
-                    'id': 4,
                     'name': 'low'
                 }
             },
@@ -578,7 +581,6 @@ def test_index_applications_search(mock_load):
                 'name': 'HTTP/Connect',
                 'type': 'protocol',
                 'category': {
-                    'id': 4,
                     'name': 'low'
                 }
             }
@@ -598,7 +600,6 @@ def test_index_applications_paginate(mock_load):
                 'name': 'netify.tesla',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 }
             },
@@ -607,7 +608,6 @@ def test_index_applications_paginate(mock_load):
                 'name': 'netify.avira',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 }
             }
@@ -624,7 +624,6 @@ def test_index_applications_paginate(mock_load):
                 'name': 'netify.sophos',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 }
             },
@@ -633,7 +632,6 @@ def test_index_applications_paginate(mock_load):
                 'name': 'netify.bbc',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 }
             }
@@ -663,7 +661,6 @@ def test_list_rules(e_uci_with_data, mock_load):
                     'name': 'netify.linkedin',
                     'type': 'application',
                     'category': {
-                        'id': 33,
                         'name': 'unknown'
                     }
                 },
@@ -672,7 +669,6 @@ def test_list_rules(e_uci_with_data, mock_load):
                     'name': 'netify.snapchat',
                     'type': 'application',
                     'category': {
-                        'id': 20,
                         'name': 'last'
                     }
                 },
@@ -681,7 +677,6 @@ def test_list_rules(e_uci_with_data, mock_load):
                     'name': 'HTTP/Connect',
                     'type': 'protocol',
                     'category': {
-                        'id': 4,
                         'name': 'low'
                     }
                 }
@@ -699,7 +694,6 @@ def test_list_rules(e_uci_with_data, mock_load):
                     'name': 'netify.tesla',
                     'type': 'application',
                     'category': {
-                        'id': 3,
                         'name': 'first-category'
                     }
                 }
@@ -717,7 +711,6 @@ def test_list_rules(e_uci_with_data, mock_load):
                     'name': 'HTTP/Connect',
                     'type': 'protocol',
                     'category': {
-                        'id': 4,
                         'name': 'low'
                     }
                 }
@@ -742,7 +735,6 @@ def test_store_rule(e_uci, mock_load):
                     'name': 'netify.linkedin',
                     'type': 'application',
                     'category': {
-                        'id': 33,
                         'name': 'unknown'
                     }
                 },
@@ -751,7 +743,6 @@ def test_store_rule(e_uci, mock_load):
                     'name': 'netify.avira',
                     'type': 'application',
                     'category': {
-                        'id': 33,
                         'name': 'unknown'
                     }
                 },
@@ -760,7 +751,6 @@ def test_store_rule(e_uci, mock_load):
                     'name': 'netify.netflix',
                     'type': 'application',
                     'category': {
-                        'id': 33,
                         'name': 'unknown'
                     }
                 },
@@ -774,7 +764,6 @@ def test_store_rule(e_uci, mock_load):
                     'name': 'SFlow',
                     'type': 'protocol',
                     'category': {
-                        'id': 4,
                         'name': 'low'
                     }
                 }
@@ -799,7 +788,6 @@ def test_delete_rule(e_uci_with_data, mock_load):
                     'name': 'HTTP/Connect',
                     'type': 'protocol',
                     'category': {
-                        'id': 4,
                         'name': 'low'
                     }
                 }
@@ -824,7 +812,6 @@ def test_edit_rule(e_uci_with_data, mock_load):
                     'name': 'HTTP/Connect',
                     'type': 'protocol',
                     'category': {
-                        'id': 4,
                         'name': 'low'
                     }
                 },
@@ -847,7 +834,6 @@ def test_edit_rule(e_uci_with_data, mock_load):
                     'name': 'netify.tesla',
                     'type': 'application',
                     'category': {
-                        'id': 3,
                         'name': 'first-category'
                     }
                 }
@@ -865,7 +851,6 @@ def test_edit_rule(e_uci_with_data, mock_load):
                     'name': 'HTTP/Connect',
                     'type': 'protocol',
                     'category': {
-                        'id': 4,
                         'name': 'low'
                     }
                 }
@@ -906,7 +891,6 @@ def test_list_popular(e_uci_with_data, mock_load):
                 'name': 'netify.netflix',
                 'type': 'application',
                 'category': {
-                    'id': 33,
                     'name': 'unknown'
                 },
                 'missing': False
@@ -916,7 +900,6 @@ def test_list_popular(e_uci_with_data, mock_load):
                 'name': 'netify.hulu',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 },
                 'missing': False
@@ -934,7 +917,6 @@ def test_list_popular(e_uci_with_data, mock_load):
                 'name': 'netify.sophos',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 },
                 'missing': False
@@ -944,7 +926,6 @@ def test_list_popular(e_uci_with_data, mock_load):
                 'name': 'HTTP/Connect',
                 'type': 'protocol',
                 'category': {
-                    'id': 4,
                     'name': 'low'
                 },
                 'missing': False
@@ -954,7 +935,6 @@ def test_list_popular(e_uci_with_data, mock_load):
                 'name': 'Dropbox',
                 'type': 'protocol',
                 'category': {
-                    'id': 1,
                     'name': 'base'
                 },
                 'missing': False
@@ -991,7 +971,6 @@ def test_list_popular_with_limits(e_uci_with_data, mock_load):
                 'name': 'netify.sophos',
                 'type': 'application',
                 'category': {
-                    'id': 3,
                     'name': 'first-category'
                 },
                 'missing': False
@@ -1001,7 +980,6 @@ def test_list_popular_with_limits(e_uci_with_data, mock_load):
                 'name': 'HTTP/Connect',
                 'type': 'protocol',
                 'category': {
-                    'id': 4,
                     'name': 'low'
                 },
                 'missing': False
