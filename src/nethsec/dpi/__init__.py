@@ -46,18 +46,24 @@ def __load_application_categories() -> dict[int, dict[str]]:
     with open('/etc/netify.d/netify-categories.json', 'r') as file:
         categories_file = json.load(file)
 
-        categories_application_tag_index: dict[str, int] = categories_file['application_tag_index']
         categories_names = dict[int, str]()
-        for category_name, category_id in categories_application_tag_index.items():
-            categories_names[category_id] = category_name
+        if 'application_tag_index' not in categories_file:
+            for category_name, applications in categories_file['application_index'].items():
+                for application in applications:
+                    categories[application] = {
+                        'name': category_name
+                    }
+        else:
+            categories_application_tag_index: dict[str, int] = categories_file['application_tag_index']
+            for category_name, category_id in categories_application_tag_index.items():
+                categories_names[category_id] = category_name
 
-        categories_application_index: list[int, list[int]] = categories_file['application_index']
-        for category_id, applications_id in categories_application_index:
-            for application_id in applications_id:
-                categories[application_id] = {
-                    'id': category_id,
-                    'name': categories_names[category_id]
-                }
+            categories_application_index: list[int, list[int]] = categories_file['application_index']
+            for category_id, applications_id in categories_application_index:
+                for application_id in applications_id:
+                    categories[application_id] = {
+                        'name': categories_names[category_id]
+                    }
 
     return categories
 
@@ -92,18 +98,25 @@ def __load_protocol_categories() -> dict[int, dict[str]]:
     with open('/etc/netify.d/netify-categories.json', 'r') as file:
         categories_file = json.load(file)
 
-        categories_protocol_tag_index: dict[str, int] = categories_file['protocol_tag_index']
         categories_names = dict[int, str]()
-        for category_name, category_id in categories_protocol_tag_index.items():
-            categories_names[category_id] = category_name
 
-        categories_protocol_index: list[int, list[int]] = categories_file['protocol_index']
-        for category_id, protocol_ids in categories_protocol_index:
-            for protocol_id in protocol_ids:
-                categories[protocol_id] = {
-                    'id': category_id,
-                    'name': categories_names[category_id]
-                }
+        if 'protocol_tag_index' not in categories_file:
+            for category_name, protocols in categories_file['protocol_index'].items():
+                for protocol in protocols:
+                    categories[protocol] = {
+                        'name': category_name
+                    }
+        else:
+            categories_protocol_tag_index: dict[str, int] = categories_file['protocol_tag_index']
+            for category_name, category_id in categories_protocol_tag_index.items():
+                categories_names[category_id] = category_name
+
+            categories_protocol_index: list[int, list[int]] = categories_file['protocol_index']
+            for category_id, protocol_ids in categories_protocol_index:
+                for protocol_id in protocol_ids:
+                    categories[protocol_id] = {
+                        'name': categories_names[category_id]
+                    }
 
     return categories
 
