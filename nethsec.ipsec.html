@@ -6,7 +6,7 @@
 
   <head>
     
-    <title>nethsec</title>
+    <title>nethsec.ipsec</title>
     <meta name="generator" content="pydoctor 23.9.1"> 
         
     </meta>
@@ -142,7 +142,82 @@
 
       <div class="thingTitle">
         <span>Package</span>
-        <code class="thisobject"><a href="index.html" class="internal-link" title="This package">nethsec</a></code> 
+        <code class="thisobject"><a href="nethsec.ipsec.html" class="internal-link" title="This package">ipsec</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Functions</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_trusted_interface" class="internal-link" title="nethsec.ipsec.add_trusted_interface">add<wbr></wbr>_trusted<wbr></wbr>_interface</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#init_ipsec" class="internal-link" title="nethsec.ipsec.init_ipsec">init<wbr></wbr>_ipsec</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#open_firewall_ports" class="internal-link" title="nethsec.ipsec.open_firewall_ports">open<wbr></wbr>_firewall<wbr></wbr>_ports</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        <div class="childrenKindTitle">Variables</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#IPSEC_ZONE" class="internal-link" title="nethsec.ipsec.IPSEC_ZONE">IPSEC<wbr></wbr>_ZONE</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code><a href="index.html" class="internal-link" title="The parent of this package">nethsec</a></code> 
       </div>
       
       <div>
@@ -171,7 +246,7 @@
             </div>
         
 
-    </li><li class="">
+    </li><li class=" thisobject">
         
         
         
@@ -238,7 +313,7 @@
         
 
         <div class="page-header">
-          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code></code></h1>
+          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code><wbr></wbr>.<code><a href="nethsec.ipsec.html" class="internal-link" title="nethsec.ipsec">ipsec</a></code></code></h1>
           <div id="showPrivate">
             <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
           </div>
@@ -249,52 +324,182 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/ipsec/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
         <div class="moduleDocstring">
-          <div><p>NethSecurity python library</p></div>
+          <div><p>IPSec utilities</p></div>
         </div>
 
         <div id="splitTables">
-          <table class="children sortable" id="id1">
-  
-  
-  <tr class="package">
-    
-    <td>Package</td>
-    <td><code><a href="nethsec.dpi.html" class="internal-link" title="nethsec.dpi">dpi</a></code></td>
-    <td>Library that handles the DPI rules.</td>
-  </tr><tr class="package">
-    
-    <td>Package</td>
-    <td><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code></td>
-    <td>Firewall utilities</td>
-  </tr><tr class="package">
-    
-    <td>Package</td>
-    <td><code><a href="nethsec.ipsec.html" class="internal-link" title="nethsec.ipsec">ipsec</a></code></td>
-    <td>IPSec utilities</td>
-  </tr><tr class="package">
-    
-    <td>Package</td>
-    <td><code><a href="nethsec.mwan.html" class="internal-link" title="nethsec.mwan">mwan</a></code></td>
-    <td>Mwan utilities</td>
-  </tr><tr class="package">
-    
-    <td>Package</td>
-    <td><code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code></td>
-    <td>General utilities</td>
-  </tr>
-</table>
+          
           
 
-            
+            <p class="fromInitPy">From <code>__init__.py</code>:</p><table class="children sortable" id="id4">
+  
+  
+  <tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_trusted_interface" class="internal-link" title="nethsec.ipsec.add_trusted_interface">add<wbr></wbr>_trusted<wbr></wbr>_interface</a></code></td>
+    <td>Add the interface to the 'ipsec' trusted zone. The function also creates the trusted zone, if needed.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#init_ipsec" class="internal-link" title="nethsec.ipsec.init_ipsec">init<wbr></wbr>_ipsec</a></code></td>
+    <td>Initialize IPSec global configuration, if needed.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#open_firewall_ports" class="internal-link" title="nethsec.ipsec.open_firewall_ports">open<wbr></wbr>_firewall<wbr></wbr>_ports</a></code></td>
+    <td>Open firewall ports for IPSec tunnels, if need.</td>
+  </tr><tr class="constant">
+    
+    <td>Constant</td>
+    <td><code><a href="#IPSEC_ZONE" class="internal-link" title="nethsec.ipsec.IPSEC_ZONE">IPSEC<wbr></wbr>_ZONE</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+</table>
         </div>
 
         <div id="childList">
-          
+          <div class="baseconstant">
+  
+  
+  <a name="nethsec.ipsec.IPSEC_ZONE">
+    
+  </a>
+  <a name="IPSEC_ZONE">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">IPSEC_ZONE</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> =
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/ipsec/__init__.py#L15">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#IPSEC_ZONE" title="nethsec.ipsec.IPSEC_ZONE">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'</span><span class="rst-variable-string">ipsec</span><span class="rst-variable-quote">'</span></code></pre></td></tr></table>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ipsec.init_ipsec">
+    
+  </a>
+  <a name="init_ipsec">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">init_ipsec</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/ipsec/__init__.py#L17">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#init_ipsec" title="nethsec.ipsec.init_ipsec">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Initialize IPSec global configuration, if needed.</p>
+<p>Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ipsec.open_firewall_ports">
+    
+  </a>
+  <a name="open_firewall_ports">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">open_firewall_ports</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/ipsec/__init__.py#L40">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#open_firewall_ports" title="nethsec.ipsec.open_firewall_ports">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Open firewall ports for IPSec tunnels, if need.</p>
+<p>Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ipsec.add_trusted_interface">
+    
+  </a>
+  <a name="add_trusted_interface">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_trusted_interface</span><span class="function-signature">(uci, interface)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/ipsec/__init__.py#L82">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_trusted_interface" title="nethsec.ipsec.add_trusted_interface">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Add the interface to the 'ipsec' trusted zone. The function also creates the trusted zone, if needed.</p>
+<p>Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div>
         </div>
       
       </div>

@@ -7,7 +7,7 @@
   <head>
     
     <title>nethsec.firewall</title>
-    <meta name="generator" content="pydoctor 23.9.0"> 
+    <meta name="generator" content="pydoctor 23.9.1"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -163,7 +163,47 @@
         
 
         
+            <div class="itemName"><code><a href="#add_device_to_lan" class="internal-link" title="nethsec.firewall.add_device_to_lan">add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_lan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_device_to_wan" class="internal-link" title="nethsec.firewall.add_device_to_wan">add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_wan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_device_to_zone" class="internal-link" title="nethsec.firewall.add_device_to_zone">add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_zone</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
             <div class="itemName"><code><a href="#add_forwarding" class="internal-link" title="nethsec.firewall.add_forwarding">add<wbr></wbr>_forwarding</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#add_interface_to_zone" class="internal-link" title="nethsec.firewall.add_interface_to_zone">add<wbr></wbr>_interface<wbr></wbr>_to<wbr></wbr>_zone</a></code>
             </div>
         
 
@@ -214,36 +254,6 @@
 
         
             <div class="itemName"><code><a href="#add_template_zone" class="internal-link" title="nethsec.firewall.add_template_zone">add<wbr></wbr>_template<wbr></wbr>_zone</a></code>
-            </div>
-        
-
-    </li><li class="">
-        
-        
-        
-
-        
-            <div class="itemName"><code><a href="#add_to_lan" class="internal-link" title="nethsec.firewall.add_to_lan">add<wbr></wbr>_to<wbr></wbr>_lan</a></code>
-            </div>
-        
-
-    </li><li class="">
-        
-        
-        
-
-        
-            <div class="itemName"><code><a href="#add_to_wan" class="internal-link" title="nethsec.firewall.add_to_wan">add<wbr></wbr>_to<wbr></wbr>_wan</a></code>
-            </div>
-        
-
-    </li><li class="">
-        
-        
-        
-
-        
-            <div class="itemName"><code><a href="#add_to_zone" class="internal-link" title="nethsec.firewall.add_to_zone">add<wbr></wbr>_to<wbr></wbr>_zone</a></code>
             </div>
         
 
@@ -403,6 +413,16 @@
         
 
         
+            <div class="itemName"><code><a href="#remove_interface_from_zone" class="internal-link" title="nethsec.firewall.remove_interface_from_zone">remove<wbr></wbr>_interface<wbr></wbr>_from<wbr></wbr>_zone</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
             <div class="itemName"><code><a href="#remove_service" class="internal-link" title="nethsec.firewall.remove_service">remove<wbr></wbr>_service</a></code>
             </div>
         
@@ -460,6 +480,16 @@
 
         
             <div class="itemName"><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.ipsec.html" class="internal-link" title="nethsec.ipsec">ipsec</a></code>
             </div>
         
 
@@ -531,7 +561,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -549,8 +579,28 @@
   <tr class="function">
     
     <td>Function</td>
+    <td><code><a href="#add_device_to_lan" class="internal-link" title="nethsec.firewall.add_device_to_lan">add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_lan</a></code></td>
+    <td>Shortuct to add a device to lan zone</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_device_to_wan" class="internal-link" title="nethsec.firewall.add_device_to_wan">add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_wan</a></code></td>
+    <td>Shortuct to add a device to wan zone</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_device_to_zone" class="internal-link" title="nethsec.firewall.add_device_to_zone">add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_zone</a></code></td>
+    <td>Add given device to a firewall zone. The device is not added if the firewall zone does not exists Changes are saved to staging area.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
     <td><code><a href="#add_forwarding" class="internal-link" title="nethsec.firewall.add_forwarding">add<wbr></wbr>_forwarding</a></code></td>
     <td>Add forwarding from src to dest.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#add_interface_to_zone" class="internal-link" title="nethsec.firewall.add_interface_to_zone">add<wbr></wbr>_interface<wbr></wbr>_to<wbr></wbr>_zone</a></code></td>
+    <td>Add given interface to a firewall zone. The interface is not added if the firewall zone does not exists Changes are saved to staging area.</td>
   </tr><tr class="function">
     
     <td>Function</td>
@@ -576,21 +626,6 @@
     <td>Function</td>
     <td><code><a href="#add_template_zone" class="internal-link" title="nethsec.firewall.add_template_zone">add<wbr></wbr>_template<wbr></wbr>_zone</a></code></td>
     <td>Create a zone from templates database. Changes are saved to staging area.</td>
-  </tr><tr class="function">
-    
-    <td>Function</td>
-    <td><code><a href="#add_to_lan" class="internal-link" title="nethsec.firewall.add_to_lan">add<wbr></wbr>_to<wbr></wbr>_lan</a></code></td>
-    <td>Shortuct to add a device to lan zone</td>
-  </tr><tr class="function">
-    
-    <td>Function</td>
-    <td><code><a href="#add_to_wan" class="internal-link" title="nethsec.firewall.add_to_wan">add<wbr></wbr>_to<wbr></wbr>_wan</a></code></td>
-    <td>Shortuct to add a device to wan zone</td>
-  </tr><tr class="function">
-    
-    <td>Function</td>
-    <td><code><a href="#add_to_zone" class="internal-link" title="nethsec.firewall.add_to_zone">add<wbr></wbr>_to<wbr></wbr>_zone</a></code></td>
-    <td>Add given device to a firewall zone. The device is not added if the firewall zone does not exists Changes are saved to staging area.</td>
   </tr><tr class="function">
     
     <td>Function</td>
@@ -669,6 +704,11 @@
   </tr><tr class="function">
     
     <td>Function</td>
+    <td><code><a href="#remove_interface_from_zone" class="internal-link" title="nethsec.firewall.remove_interface_from_zone">remove<wbr></wbr>_interface<wbr></wbr>_from<wbr></wbr>_zone</a></code></td>
+    <td>Remove the given interface from a firewall zone. The operation always succeed if the zone does not exists</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
     <td><code><a href="#remove_service" class="internal-link" title="nethsec.firewall.remove_service">remove<wbr></wbr>_service</a></code></td>
     <td>Remove the ACCEPT traffic rule for the given service Changes are saved to staging area.</td>
   </tr><tr class="function">
@@ -684,21 +724,21 @@
           <div class="basefunction">
   
   
-  <a name="nethsec.firewall.add_to_zone">
+  <a name="nethsec.firewall.add_device_to_zone">
     
   </a>
-  <a name="add_to_zone">
+  <a name="add_device_to_zone">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">add_to_zone</span><span class="function-signature">(uci, device, zone)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L16">
+    <span class="py-keyword">def</span> <span class="py-defname">add_device_to_zone</span><span class="function-signature">(uci, device, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L16">
       
       (source)
     </a>
-    <a class="headerLink" href="#add_to_zone" title="nethsec.firewall.add_to_zone">
+    <a class="headerLink" href="#add_device_to_zone" title="nethsec.firewall.add_device_to_zone">
       
       
       ¶
@@ -729,21 +769,111 @@ Changes are saved to staging area.</p>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.add_to_lan">
+  <a name="nethsec.firewall.add_interface_to_zone">
     
   </a>
-  <a name="add_to_lan">
+  <a name="add_interface_to_zone">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">add_to_lan</span><span class="function-signature">(uci, device)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L48">
+    <span class="py-keyword">def</span> <span class="py-defname">add_interface_to_zone</span><span class="function-signature">(uci, interface, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L48">
       
       (source)
     </a>
-    <a class="headerLink" href="#add_to_lan" title="nethsec.firewall.add_to_lan">
+    <a class="headerLink" href="#add_interface_to_zone" title="nethsec.firewall.add_interface_to_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Add given interface to a firewall zone.
+The interface is not added if the firewall zone does not exists
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>interface -- Interface name</li>
+<li>zone -- Firewall zone name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>If the firewall zone exists, the name of the section where the device has been added.</li>
+<li>None, otherwise.</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.remove_interface_from_zone">
+    
+  </a>
+  <a name="remove_interface_from_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">remove_interface_from_zone</span><span class="function-signature">(uci, interface, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L81">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#remove_interface_from_zone" title="nethsec.firewall.remove_interface_from_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Remove the given interface from a firewall zone.
+The operation always succeed if the zone does not exists</p>
+<p>Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci pointer</li>
+<li>interface -- Interface name</li>
+<li>zone -- Firewall zone name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>If the firewall zone exists, the name of the section where the device has been removed.</li>
+<li>None, otherwise.</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_device_to_lan">
+    
+  </a>
+  <a name="add_device_to_lan">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_device_to_lan</span><span class="function-signature">(uci, device)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L112">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_device_to_lan" title="nethsec.firewall.add_device_to_lan">
       
       
       ¶
@@ -770,21 +900,21 @@ Changes are saved to staging area.</p>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.add_to_wan">
+  <a name="nethsec.firewall.add_device_to_wan">
     
   </a>
-  <a name="add_to_wan">
+  <a name="add_device_to_wan">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">add_to_wan</span><span class="function-signature">(uci, device)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L61">
+    <span class="py-keyword">def</span> <span class="py-defname">add_device_to_wan</span><span class="function-signature">(uci, device)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L125">
       
       (source)
     </a>
-    <a class="headerLink" href="#add_to_wan" title="nethsec.firewall.add_to_wan">
+    <a class="headerLink" href="#add_device_to_wan" title="nethsec.firewall.add_device_to_wan">
       
       
       ¶
@@ -821,7 +951,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_vpn_interface</span><span class="function-signature">(uci, name, device, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L74">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L138">
       
       (source)
     </a>
@@ -866,7 +996,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_trusted_zone</span><span class="function-signature">(uci, name, networks=[], link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L99">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L163">
       
       (source)
     </a>
@@ -918,7 +1048,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_service</span><span class="function-signature">(uci, name, port, proto, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L165">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L229">
       
       (source)
     </a>
@@ -963,7 +1093,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">remove_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L194">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L258">
       
       (source)
     </a>
@@ -1005,7 +1135,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">disable_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L211">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L275">
       
       (source)
     </a>
@@ -1047,7 +1177,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">enable_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L231">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L295">
       
       (source)
     </a>
@@ -1089,7 +1219,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">apply</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L251">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L315">
       
       (source)
     </a>
@@ -1129,7 +1259,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_template_forwarding</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L264">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L328">
       
       (source)
     </a>
@@ -1171,7 +1301,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_template_zone</span><span class="function-signature">(uci, name, networks=[], link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L287">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L351">
       
       (source)
     </a>
@@ -1216,7 +1346,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_template_service_group</span><span class="function-signature">(uci, name, src=<span class="rst-variable-quote">'</span><span class="rst-variable-string">lan</span><span class="rst-variable-quote">'</span>, dest=<span class="rst-variable-quote">'</span><span class="rst-variable-string">wan</span><span class="rst-variable-quote">'</span>, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L327">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L391">
       
       (source)
     </a>
@@ -1261,7 +1391,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_template_rule</span><span class="function-signature">(uci, name, proto=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, port=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L379">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L443">
       
       (source)
     </a>
@@ -1306,7 +1436,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_all_linked</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L411">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L475">
       
       (source)
     </a>
@@ -1348,7 +1478,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">disable_linked_rules</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L433">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L497">
       
       (source)
     </a>
@@ -1390,7 +1520,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">delete_linked_sections</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L457">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L521">
       
       (source)
     </a>
@@ -1432,7 +1562,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">is_ipv6_enabled</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L480">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L544">
       
       (source)
     </a>
@@ -1472,7 +1602,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">disable_ipv6_firewall</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L506">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L570">
       
       (source)
     </a>
@@ -1513,7 +1643,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">list_zones</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L529">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L593">
       
       (source)
     </a>
@@ -1547,7 +1677,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">list_forwardings</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L542">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L606">
       
       (source)
     </a>
@@ -1581,7 +1711,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_forwarding</span><span class="function-signature">(uci, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L555">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L619">
       
       (source)
     </a>
@@ -1617,7 +1747,7 @@ dest: destination zone, must be zone name, not config name</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">zone_exists</span><span class="function-signature">(u, zone_name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L575">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L639">
       
       (source)
     </a>
@@ -1652,7 +1782,7 @@ zone_name: zone name to check</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_zone</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, input: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, forward: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, traffic_to_wan: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, forwards_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, forwards_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>) -&gt; <code>set([<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#set" class="intersphinx-link">set</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]])</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L596">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L660">
       
       (source)
     </a>
@@ -1692,7 +1822,7 @@ forwards_from: list of zones to forward traffic from</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">edit_zone</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, input: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, forward: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, traffic_to_wan: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, forwards_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, forwards_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>) -&gt; <code>set([<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#set" class="intersphinx-link">set</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]])</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L642">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L706">
       
       (source)
     </a>
@@ -1732,7 +1862,7 @@ forwards_from: list of zones to forward traffic from</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">delete_zone</span><span class="function-signature">(uci, zone_config_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code>set([<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#set" class="intersphinx-link">set</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]])</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/d00ba37ac41610bfbb558e94ecca65768ca2c874/src/nethsec/firewall/__init__.py#L696">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/20b659bde358cf3e64939813c3e288d23a5f063d/src/nethsec/firewall/__init__.py#L760">
       
       (source)
     </a>
@@ -1768,7 +1898,7 @@ zone_config_name: name of zone config to delete</dd>
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.9.0 at 2023-10-24 07:54:07.
+    23.9.1 at 2023-11-07 17:01:29.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 

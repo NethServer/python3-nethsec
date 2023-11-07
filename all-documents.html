@@ -6,7 +6,7 @@
   <head>
     
     <title>All Documents</title>
-    <meta name="generator" content="pydoctor 23.9.0"> 
+    <meta name="generator" content="pydoctor 23.9.1"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -156,6 +156,14 @@
             <div class="kind">Package</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Firewall utilities</div>
+          </li><li id="nethsec.ipsec">
+            
+            <div class="fullName">nethsec<wbr></wbr>.ipsec</div>
+            <div class="url">nethsec.ipsec.html</div>
+            <div class="type">Package</div>
+            <div class="kind">Package</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">IPSec utilities</div>
           </li><li id="nethsec.mwan">
             
             <div class="fullName">nethsec<wbr></wbr>.mwan</div>
@@ -364,26 +372,42 @@
             <div class="kind">Instance Variable</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary"><span class="undocumented">Undocumented</span></div>
-          </li><li id="nethsec.firewall.add_to_zone">
+          </li><li id="nethsec.firewall.add_device_to_zone">
             
-            <div class="fullName">nethsec<wbr></wbr>.firewall<wbr></wbr>.add<wbr></wbr>_to<wbr></wbr>_zone</div>
-            <div class="url">nethsec.firewall.html#add_to_zone</div>
+            <div class="fullName">nethsec<wbr></wbr>.firewall<wbr></wbr>.add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_zone</div>
+            <div class="url">nethsec.firewall.html#add_device_to_zone</div>
             <div class="type">Function</div>
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Add given device to a firewall zone. The device is not added if the firewall zone does not exists Changes are saved to staging area.</div>
-          </li><li id="nethsec.firewall.add_to_lan">
+          </li><li id="nethsec.firewall.add_interface_to_zone">
             
-            <div class="fullName">nethsec<wbr></wbr>.firewall<wbr></wbr>.add<wbr></wbr>_to<wbr></wbr>_lan</div>
-            <div class="url">nethsec.firewall.html#add_to_lan</div>
+            <div class="fullName">nethsec<wbr></wbr>.firewall<wbr></wbr>.add<wbr></wbr>_interface<wbr></wbr>_to<wbr></wbr>_zone</div>
+            <div class="url">nethsec.firewall.html#add_interface_to_zone</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Add given interface to a firewall zone. The interface is not added if the firewall zone does not exists Changes are saved to staging area.</div>
+          </li><li id="nethsec.firewall.remove_interface_from_zone">
+            
+            <div class="fullName">nethsec<wbr></wbr>.firewall<wbr></wbr>.remove<wbr></wbr>_interface<wbr></wbr>_from<wbr></wbr>_zone</div>
+            <div class="url">nethsec.firewall.html#remove_interface_from_zone</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Remove the given interface from a firewall zone. The operation always succeed if the zone does not exists</div>
+          </li><li id="nethsec.firewall.add_device_to_lan">
+            
+            <div class="fullName">nethsec<wbr></wbr>.firewall<wbr></wbr>.add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_lan</div>
+            <div class="url">nethsec.firewall.html#add_device_to_lan</div>
             <div class="type">Function</div>
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Shortuct to add a device to lan zone</div>
-          </li><li id="nethsec.firewall.add_to_wan">
+          </li><li id="nethsec.firewall.add_device_to_wan">
             
-            <div class="fullName">nethsec<wbr></wbr>.firewall<wbr></wbr>.add<wbr></wbr>_to<wbr></wbr>_wan</div>
-            <div class="url">nethsec.firewall.html#add_to_wan</div>
+            <div class="fullName">nethsec<wbr></wbr>.firewall<wbr></wbr>.add<wbr></wbr>_device<wbr></wbr>_to<wbr></wbr>_wan</div>
+            <div class="url">nethsec.firewall.html#add_device_to_wan</div>
             <div class="type">Function</div>
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
@@ -676,6 +700,38 @@
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Edit a rule</div>
+          </li><li id="nethsec.ipsec.IPSEC_ZONE">
+            
+            <div class="fullName">nethsec<wbr></wbr>.ipsec<wbr></wbr>.IPSEC<wbr></wbr>_ZONE</div>
+            <div class="url">nethsec.ipsec.html#IPSEC_ZONE</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Constant</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.ipsec.init_ipsec">
+            
+            <div class="fullName">nethsec<wbr></wbr>.ipsec<wbr></wbr>.init<wbr></wbr>_ipsec</div>
+            <div class="url">nethsec.ipsec.html#init_ipsec</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Initialize IPSec global configuration, if needed.</div>
+          </li><li id="nethsec.ipsec.open_firewall_ports">
+            
+            <div class="fullName">nethsec<wbr></wbr>.ipsec<wbr></wbr>.open<wbr></wbr>_firewall<wbr></wbr>_ports</div>
+            <div class="url">nethsec.ipsec.html#open_firewall_ports</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Open firewall ports for IPSec tunnels, if need.</div>
+          </li><li id="nethsec.ipsec.add_trusted_interface">
+            
+            <div class="fullName">nethsec<wbr></wbr>.ipsec<wbr></wbr>.add<wbr></wbr>_trusted<wbr></wbr>_interface</div>
+            <div class="url">nethsec.ipsec.html#add_trusted_interface</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Add the interface to the 'ipsec' trusted zone. The function also creates the trusted zone, if needed.</div>
           </li><li id="nethsec.mwan.__generate_metric">
             
             <div class="fullName">nethsec<wbr></wbr>.mwan<wbr></wbr>.__generate<wbr></wbr>_metric</div>
