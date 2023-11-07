@@ -187,21 +187,30 @@ def _setup_db(tmp_path):
         fp.write(templates_db)
     return EUci(confdir=tmp_path.as_posix())
 
-def test_add_to_zone(tmp_path):
+def test_add_interface_to_zone(tmp_path):
     u = _setup_db(tmp_path)
-    z1 = firewall.add_to_zone(u, "vnet1", "lan")
+    z1 = firewall.add_interface_to_zone(u, "interface1", "lan")
+    assert z1 == 'lan1'
+    assert 'interface1' in u.get_all('firewall', 'lan1', 'network')
+    assert firewall.add_interface_to_zone(u, "interface1", "blue") == None
+    z1 = firewall.add_interface_to_zone(u, "interface2", "lan")
+    assert 'interface2' in u.get_all('firewall', 'lan1', 'network')
+
+def test_add_device_to_zone(tmp_path):
+    u = _setup_db(tmp_path)
+    z1 = firewall.add_device_to_zone(u, "vnet1", "lan")
     assert z1 == 'lan1'
     assert 'vnet1' in u.get_all('firewall', 'lan1', 'device')
-    assert firewall.add_to_zone(u, "vnet1", "blue") == None
+    assert firewall.add_device_to_zone(u, "vnet1", "blue") == None
 
-def test_add_to_lan(tmp_path):
+def test_add_device_to_lan(tmp_path):
     u = _setup_db(tmp_path)
-    assert firewall.add_to_lan(u, "vnet1") == 'lan1'
+    assert firewall.add_device_to_lan(u, "vnet1") == 'lan1'
     assert 'vnet1' in u.get_all('firewall', 'lan1', 'device')
 
-def test_add_to_wan(tmp_path):
+def test_add_device_to_wan(tmp_path):
     u = _setup_db(tmp_path)
-    assert firewall.add_to_wan(u, "vnet2") == 'wan1f'
+    assert firewall.add_device_to_wan(u, "vnet2") == 'wan1f'
     assert 'vnet2' in u.get_all('firewall', 'wan1f', 'device')
 
 def test_add_service(tmp_path):

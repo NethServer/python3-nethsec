@@ -13,7 +13,7 @@ import subprocess
 from nethsec import utils
 
 
-def add_to_zone(uci, device, zone):
+def add_device_to_zone(uci, device, zone):
     '''
     Add given device to a firewall zone.
     The device is not added if the firewall zone does not exists
@@ -45,7 +45,40 @@ def add_to_zone(uci, device, zone):
 
     return None
 
-def add_to_lan(uci, device):
+def add_interface_to_zone(uci, interface, zone):
+    '''
+    Add given interface to a firewall zone.
+    The interface is not added if the firewall zone does not exists
+    Changes are saved to staging area.
+
+    Arguments:
+      - uci -- EUci pointer
+      - interface -- Interface name
+      - zone -- Firewall zone name
+
+    Returns:
+      - If the firewall zone exists, the name of the section where the device has been added.
+      - None, otherwise.
+    '''
+    for section in uci.get("firewall"):
+        s_type = uci.get("firewall", section)
+        if s_type == "zone":
+            zname = uci.get("firewall", section, "name")
+            if zname == zone:
+                try:
+                    networks = list(uci.get_all("firewall", section, "network"))
+                except:
+                    networks = []
+                if not interface in networks:
+                    networks.append(interface)
+                    uci.set("firewall", section, "network", networks)
+                    uci.save("firewall")
+                return section
+
+    return None
+
+
+def add_device_to_lan(uci, device):
     '''
     Shortuct to add a device to lan zone
 
@@ -56,9 +89,9 @@ def add_to_lan(uci, device):
     Returns:
       - The name of section or None
     '''
-    return add_to_zone(uci, device, 'lan')
+    return add_device_to_zone(uci, device, 'lan')
 
-def add_to_wan(uci, device):
+def add_device_to_wan(uci, device):
     '''
     Shortuct to add a device to wan zone
 
@@ -69,7 +102,7 @@ def add_to_wan(uci, device):
     Returns:
       - The name of the configuration section or None
     '''
-    return add_to_zone(uci, device, 'wan')
+    return add_device_to_zone(uci, device, 'wan')
 
 def add_vpn_interface(uci, name, device, link=""):
     '''
