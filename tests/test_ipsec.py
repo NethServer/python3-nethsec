@@ -56,7 +56,6 @@ def test_open_firewall_ports(e_uci_with_data):
     nat = ike = esp = False
     for r in utils.get_all_by_type(e_uci_with_data, 'firewall', 'rule'):
         name = e_uci_with_data.get('firewall', r, 'name')
-        print(name)
         if name == 'Allow-IPSec-NAT':
             nat = True
         elif name == 'Allow-IPSec-IKE':
@@ -64,3 +63,28 @@ def test_open_firewall_ports(e_uci_with_data):
         elif name == 'Allow-IPSec-ESP':
             esp = True
     assert (nat and ipsec and esp)
+
+def test_add_trusted_interface(e_uci_with_data):
+    ipsec.add_trusted_interface(e_uci_with_data, 'ipsec1')
+    count = 0
+    zid = ''
+    # check the zone has been created
+    for section in e_uci_with_data.get_all('firewall'):
+        if e_uci_with_data.get('firewall', section) == 'zone':
+            if e_uci_with_data.get('firewall', section, 'name') == ipsec.IPSEC_ZONE:
+                count = count + 1
+                zid = section
+    assert(count == 1)
+    assert(zid)
+    assert(e_uci_with_data.get_all('firewall', zid, 'network') == ('ipsec1',))
+    # check the zone has not been duplicated
+    count = 0
+    ipsec.add_trusted_interface(e_uci_with_data, 'ipsec2')
+    for section in e_uci_with_data.get_all('firewall'):
+        if e_uci_with_data.get('firewall', section) == 'zone':
+            if e_uci_with_data.get('firewall', section, 'name') == ipsec.IPSEC_ZONE:
+                count = count + 1
+    assert(count == 1)
+    assert('ipsec1' in e_uci_with_data.get_all('firewall', zid, 'network'))
+    assert('ipsec2' in e_uci_with_data.get_all('firewall', zid, 'network'))
+

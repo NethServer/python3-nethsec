@@ -78,3 +78,17 @@ def open_firewall_ports(uci):
 
     if not nat_accepted or not ike_accepted or not esp_accepted:
         uci.save('firewall')
+
+def add_trusted_interface(uci, interface):
+    '''
+    Add the interface to the 'ipsec' trusted zone. The function also creates the trusted zone, if needed.
+
+    Changes are saved to staging area.
+
+    Arguments:
+      - uci -- EUci pointer
+    '''
+    if firewall.zone_exists(uci, IPSEC_ZONE):
+        firewall.add_interface_to_zone(uci, interface, IPSEC_ZONE)
+    else:
+        firewall.add_trusted_zone(uci, IPSEC_ZONE, [interface])
