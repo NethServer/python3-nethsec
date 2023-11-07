@@ -196,6 +196,11 @@ def test_add_interface_to_zone(tmp_path):
     z1 = firewall.add_interface_to_zone(u, "interface2", "lan")
     assert 'interface2' in u.get_all('firewall', 'lan1', 'network')
 
+def test_remove_interface_from_zone(tmp_path):
+    u = _setup_db(tmp_path)
+    z1 = firewall.remove_interface_from_zone(u, 'interface1', "lan")
+    assert(not 'interface1' in  u.get_all('firewall', 'lan1', 'network'))
+
 def test_add_device_to_zone(tmp_path):
     u = _setup_db(tmp_path)
     z1 = firewall.add_device_to_zone(u, "vnet1", "lan")

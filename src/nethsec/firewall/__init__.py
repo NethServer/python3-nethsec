@@ -78,6 +78,37 @@ def add_interface_to_zone(uci, interface, zone):
     return None
 
 
+def remove_interface_from_zone(uci, interface, zone):
+    '''
+    Remove the given interface from a firewall zone.
+    The operation always succeed if the zone does not exists
+
+    Changes are saved to staging area.
+
+    Arguments:
+      - uci -- EUci pointer
+      - interface -- Interface name
+      - zone -- Firewall zone name
+
+    Returns:
+      - If the firewall zone exists, the name of the section where the device has been removed.
+      - None, otherwise.
+    '''
+ 
+    for z in utils.get_all_by_type(uci, 'firewall', 'zone'):
+        if uci.get('firewall', z, 'name') == zone:
+            try:
+                networks = list(uci.get_all("firewall", z, "network"))
+            except:
+                networks = []
+            if interface in networks:
+                networks.remove(interface)
+                uci.set("firewall", z, "network", networks)
+                uci.save("firewall")
+                return z
+    return None
+
+
 def add_device_to_lan(uci, device):
     '''
     Shortuct to add a device to lan zone
