@@ -218,6 +218,11 @@ def test_add_device_to_wan(tmp_path):
     assert firewall.add_device_to_wan(u, "vnet2") == 'wan1f'
     assert 'vnet2' in u.get_all('firewall', 'wan1f', 'device')
 
+def test_remove_device_from_zone(tmp_path):
+    u = _setup_db(tmp_path)
+    firewall.remove_device_from_zone(u, 'vnet1', "lan")
+    assert(not 'vnet2' in  u.get_all('firewall', 'lan1', 'device'))
+
 def test_add_service(tmp_path):
     u = _setup_db(tmp_path)
     rule = firewall.add_service(u, "my_service", "443", "tcp", "nginx/_lan")
