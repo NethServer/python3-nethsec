@@ -207,6 +207,13 @@ protocol_output = """
    130: HTTP/Connect
 """
 
+dpi_minimal_db = """
+config main 'config'
+    option log_blocked '0'
+    option firewall_exemption '0'
+    option enabled '0'
+"""
+
 dpi_db = """
 config main 'config'
     option log_blocked '0'
@@ -326,7 +333,7 @@ def e_uci(tmp_path: pathlib.Path) -> EUci:
     save_dir = tmp_path.joinpath('save')
     save_dir.mkdir()
     with conf_dir.joinpath('dpi').open('w') as fp:
-        fp.write("")
+        fp.write(dpi_minimal_db)
     with conf_dir.joinpath('network').open('w') as fp:
         fp.write(network_config)
     with conf_dir.joinpath('firewall').open('w') as fp:
@@ -770,6 +777,7 @@ def test_store_rule(e_uci, mock_load):
             ]
         }
     ]
+    assert(e_uci.get("dpi", "config", "enabled") == "1")
 
 
 def test_delete_rule(e_uci_with_data, mock_load):
@@ -794,6 +802,9 @@ def test_delete_rule(e_uci_with_data, mock_load):
             ]
         }
     ]
+    dpi.delete_rule(e_uci_with_data, 'rule2')
+    dpi.delete_rule(e_uci_with_data, 'rule3')
+    assert(e_uci_with_data.get("dpi", "config", "enabled") == "0")
 
 
 def test_edit_rule(e_uci_with_data, mock_load):
