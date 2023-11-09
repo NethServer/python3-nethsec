@@ -379,6 +379,29 @@ def get_unassigned_devices(uci):
             free = False
         if free:
             unassigned.append(ifname)
+
+    for d in u_devices:
+        free = True
+        d_name = uci.get('network', d, 'name', default=None)
+        # skip a device which is already up and visibile inside ip command
+        # check if the device is used inside and interface
+        if get_interface_from_device(uci, d_name):
+            continue
+        # check if the device is used inside a zone
+        for z in get_all_by_type(uci, 'firewall', 'zone'):
+            try:
+                z_devices = uci.get_all('firewall', z, 'device')
+            except:
+                z_devices = []
+            try:
+                z_networks = uci.get_all('firewall', z, 'network')
+            except:
+                z_networks = []
+            if d_name in z_devices or d_name in z_networks:
+                free = False
+                continue
+        if free:
+            unassigned.append(d_name)
     return unassigned
 
 

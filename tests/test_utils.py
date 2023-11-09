@@ -38,6 +38,7 @@ config zone wan1
 config zone
 	option name 'lan'
 	list network 'lan'
+	list network 'br-lan'
 	option input 'ACCEPT'
 	option output 'ACCEPT'
 	option forward 'ACCEPT'
@@ -77,6 +78,12 @@ config interface 'bond1'
 	option packets_per_slave '1'
 	option all_slaves_active '0'
 	option link_monitoring 'off'
+
+config device
+	option ifname 'eth0'
+	option name 'eth0.1'
+	option type '8021q'
+	option vid '45'
 """
 
 objects_db = """
@@ -269,4 +276,4 @@ def test_get_unassigned_devices(mock_run_ip, tmp_path):
     mock_run_ip.return_value = mock_ip_stdout
 
     u = _setup_db(tmp_path)
-    assert utils.get_unassigned_devices(u) == []
+    assert utils.get_unassigned_devices(u) == ['eth0.1']
