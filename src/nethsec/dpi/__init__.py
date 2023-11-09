@@ -335,6 +335,17 @@ def __save_rule_data(e_uci: EUci, config_name: str, enabled: bool, device: str, 
     e_uci.set('dpi', config_name, 'application', applications)
     e_uci.set('dpi', config_name, 'protocol', protocols)
 
+def __toggle_engine(e_uci: EUci):
+    count_enabled = 0
+    for section in e_uci.get_all('dpi'):
+        if e_uci.get('dpi', section, default="") == "rule" and e_uci.get('dpi', section, 'enabled', default="0") == "1":
+            count_enabled = count_enabled + 1
+
+    if count_enabled > 0:
+        print(e_uci.get_all('dpi'))
+        e_uci.set('dpi', 'config', 'enabled', '1')
+    else:
+        e_uci.set('dpi', 'config', 'enabled', '0')
 
 def add_rule(e_uci: EUci, enabled: bool, device: str, action: str, applications: list[str],
              protocols: list[str]) -> str:
@@ -356,6 +367,7 @@ def add_rule(e_uci: EUci, enabled: bool, device: str, action: str, applications:
     rule_name = utils.get_random_id()
     e_uci.set('dpi', rule_name, 'rule')
     __save_rule_data(e_uci, rule_name, enabled, device, action, applications, protocols)
+    __toggle_engine(e_uci)
     e_uci.save('dpi')
     return rule_name
 
@@ -369,6 +381,7 @@ def delete_rule(e_uci: EUci, config_name: str):
       - config_name: config name of the rule to delete
     """
     e_uci.delete('dpi', config_name)
+    __toggle_engine(e_uci)
     e_uci.save('dpi')
 
 
@@ -393,5 +406,6 @@ def edit_rule(e_uci: EUci, config_name: str, enabled: bool, device: str, action:
         raise ValidationError('config-name', 'invalid', config_name)
 
     __save_rule_data(e_uci, config_name, enabled, device, action, applications, protocols)
+    __toggle_engine(e_uci)
 
     e_uci.save('dpi')
