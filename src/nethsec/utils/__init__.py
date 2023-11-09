@@ -132,7 +132,7 @@ def get_interface_from_device(uci, device):
 
     Arguments:
       - uci -- EUci pointer
-      - hwaddr -- MAC address string
+      - device -- Device name
 
     Returns:
       - The device name as a string if the interface has been found, None otherwise
