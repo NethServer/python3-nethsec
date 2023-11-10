@@ -342,7 +342,6 @@ def __toggle_engine(e_uci: EUci):
             count_enabled = count_enabled + 1
 
     if count_enabled > 0:
-        print(e_uci.get_all('dpi'))
         e_uci.set('dpi', 'config', 'enabled', '1')
     else:
         e_uci.set('dpi', 'config', 'enabled', '0')
