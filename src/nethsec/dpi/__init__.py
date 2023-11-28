@@ -335,6 +335,11 @@ def __save_rule_data(e_uci: EUci, config_name: str, enabled: bool, device: str, 
     e_uci.set('dpi', config_name, 'application', applications)
     e_uci.set('dpi', config_name, 'protocol', protocols)
 
+def __save_exemption_data(e_uci: EUci, config_name: str, criteria: str, description: str, enabled: bool):
+    e_uci.set('dpi', config_name, 'enabled', enabled)
+    e_uci.set('dpi', config_name, 'criteria', criteria)
+    e_uci.set('dpi', config_name, 'description', description)
+
 def __toggle_engine(e_uci: EUci):
     count_enabled = 0
     for section in e_uci.get_all('dpi'):
@@ -407,4 +412,92 @@ def edit_rule(e_uci: EUci, config_name: str, enabled: bool, device: str, action:
     __save_rule_data(e_uci, config_name, enabled, device, action, applications, protocols)
     __toggle_engine(e_uci)
 
+    e_uci.save('dpi')
+
+def list_exemptions(e_uci: EUci) -> list[dict[str]]:
+    """
+    Index all global exemptions
+
+    Args:
+      - e_uci: euci instance
+
+    Returns:
+        list of dicts, each dict contains the property "config-name", "description", "enabled", "criteria"
+    """
+    exemptions = list[dict[str]]()
+    fetch_ex = utils.get_all_by_type(e_uci, 'dpi', 'exemption')
+
+    if not fetch_ex:
+        return exemptions
+    for ex_name in fetch_ex.keys():
+        # get content of exemption
+        ex = fetch_ex[ex_name]
+        # prepare the data to append to rules
+        data_ex = dict[str]()
+        data_ex['config-name'] = ex_name
+        data_ex['enabled'] = ex.get('enabled', '1') == '1'
+        data_ex['criteria'] = ex.get('criteria', '')
+        data_ex['description'] = ex.get('description', '')
+        # append exemption
+        exemptions.append(data_ex)
+
+    return exemptions
+
+
+def add_exemption(e_uci: EUci, criteria: str, description: str, enabled: bool):
+    """
+    Store a new global exemption
+
+    Args:
+      - e_uci: euci instance
+      - criteria: exemption criteria, usually it's an IP address
+      - description: description of the rule
+      - enabled: enable the exemption
+
+    Returns:
+        config name of the exemption created
+    """
+    ex_list = utils.get_all_by_type(e_uci, 'dpi', 'exemption')
+    for ex_name in ex_list:
+        ex = ex_list[ex_name]
+        if ex.get('criteria', '') == criteria:
+            raise ValidationError('criteria', 'criteria_already_exists', criteria)
+
+    ex_name = utils.get_random_id()
+    e_uci.set('dpi', ex_name, 'exemption')
+    __save_exemption_data(e_uci, ex_name, criteria, description, enabled)
+    e_uci.save('dpi')
+    return ex_name
+
+
+def delete_exemption(e_uci: EUci, config_name: str):
+    """
+    Delete a global exemption
+
+    Args:
+      - e_uci: euci instance
+      - config_name: config name of the rule to delete
+    """
+    e_uci.delete('dpi', config_name)
+    e_uci.save('dpi')
+
+
+def edit_exemption(e_uci: EUci, config_name: str, criteria: str, description: str, enabled: bool):
+    """
+    Edit a global exemption
+
+    Args:
+      - e_uci: euci instance
+      - config_name: rule to change
+      - criteria: exemption criteria, usually it's an IP address
+      - description: description of the rule
+      - enabled: enable the exemption
+
+    Raises
+        - ValidationError: if the config name is invalid
+    """
+    if e_uci.get('dpi', config_name, default=None) is None:
+        raise ValidationError('config-name', 'invalid', config_name)
+
+    __save_exemption_data(e_uci, config_name, criteria, description, enabled)
     e_uci.save('dpi')
