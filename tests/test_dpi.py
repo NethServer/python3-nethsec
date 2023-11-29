@@ -1027,6 +1027,8 @@ def test_add_exemption(e_uci):
             'description': 'my host2',
         }
     ]
+    with pytest.raises(ValidationError) as err:
+        dpi.add_exemption(e_uci, "192.168.2.2", 'duplicated', True)
 
 def test_edit_exemption(e_uci_with_data):
     dpi.edit_exemption(e_uci_with_data, 'exemp1', '192.168.1.3', 'my host 3', False)
