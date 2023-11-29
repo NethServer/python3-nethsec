@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>nethsec.ovpn</title>
+    <meta name="generator" content="pydoctor 23.9.1"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code class="thisobject"><a href="nethsec.ovpn.html" class="internal-link" title="This package">ovpn</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Functions</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#generate_random_network" class="internal-link" title="nethsec.ovpn.generate_random_network">generate<wbr></wbr>_random<wbr></wbr>_network</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_local_networks" class="internal-link" title="nethsec.ovpn.get_local_networks">get<wbr></wbr>_local<wbr></wbr>_networks</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#get_public_addresses" class="internal-link" title="nethsec.ovpn.get_public_addresses">get<wbr></wbr>_public<wbr></wbr>_addresses</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#is_used_network" class="internal-link" title="nethsec.ovpn.is_used_network">is<wbr></wbr>_used<wbr></wbr>_network</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#list_cipher" class="internal-link" title="nethsec.ovpn.list_cipher">list<wbr></wbr>_cipher</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#list_digest" class="internal-link" title="nethsec.ovpn.list_digest">list<wbr></wbr>_digest</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#opt2cidr" class="internal-link" title="nethsec.ovpn.opt2cidr">opt2cidr</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#random_ip" class="internal-link" title="nethsec.ovpn.random_ip">random<wbr></wbr>_ip</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#to_cidr" class="internal-link" title="nethsec.ovpn.to_cidr">to<wbr></wbr>_cidr</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#to_netmask" class="internal-link" title="nethsec.ovpn.to_netmask">to<wbr></wbr>_netmask</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code><a href="index.html" class="internal-link" title="The parent of this package">nethsec</a></code> 
+      </div>
+      
+      <div>
+        
+
+        <div class="childrenKindTitle">Modules</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.dpi.html" class="internal-link" title="nethsec.dpi">dpi</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.ipsec.html" class="internal-link" title="nethsec.ipsec">ipsec</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.mwan.html" class="internal-link" title="nethsec.mwan">mwan</a></code>
+            </div>
+        
+
+    </li><li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.ovpn.html" class="internal-link" title="nethsec.ovpn">ovpn</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+        
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapseSideBar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <div id="main" class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code><wbr></wbr>.<code><a href="nethsec.ovpn.html" class="internal-link" title="nethsec.ovpn">ovpn</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          package documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <a href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py" class="sourceLink">(source)</a>
+          <p></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p>Library for common VPN functions.</p></div>
+        </div>
+
+        <div id="splitTables">
+          
+          
+
+            <p class="fromInitPy">From <code>__init__.py</code>:</p><table class="children sortable" id="id6">
+  
+  
+  <tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#generate_random_network" class="internal-link" title="nethsec.ovpn.generate_random_network">generate<wbr></wbr>_random<wbr></wbr>_network</a></code></td>
+    <td>Generate a random network.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_local_networks" class="internal-link" title="nethsec.ovpn.get_local_networks">get<wbr></wbr>_local<wbr></wbr>_networks</a></code></td>
+    <td>Return a list of local networks.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_public_addresses" class="internal-link" title="nethsec.ovpn.get_public_addresses">get<wbr></wbr>_public<wbr></wbr>_addresses</a></code></td>
+    <td>Return a list of public addresses.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#is_used_network" class="internal-link" title="nethsec.ovpn.is_used_network">is<wbr></wbr>_used<wbr></wbr>_network</a></code></td>
+    <td>Check if a network is already used by another OpenVPN.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#list_cipher" class="internal-link" title="nethsec.ovpn.list_cipher">list<wbr></wbr>_cipher</a></code></td>
+    <td>Return a list of OpenVPN ciphers.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#list_digest" class="internal-link" title="nethsec.ovpn.list_digest">list<wbr></wbr>_digest</a></code></td>
+    <td>Return a list of OpenVPN digests.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#opt2cidr" class="internal-link" title="nethsec.ovpn.opt2cidr">opt2cidr</a></code></td>
+    <td>Convert an OpenVPN option to CIDR notation.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#random_ip" class="internal-link" title="nethsec.ovpn.random_ip">random<wbr></wbr>_ip</a></code></td>
+    <td>Generate a random private IP address.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#to_cidr" class="internal-link" title="nethsec.ovpn.to_cidr">to<wbr></wbr>_cidr</a></code></td>
+    <td>Convert a netmask to CIDR notation.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#to_netmask" class="internal-link" title="nethsec.ovpn.to_netmask">to<wbr></wbr>_netmask</a></code></td>
+    <td>Convert a CIDR notation to netmask.</td>
+  </tr>
+</table>
+        </div>
+
+        <div id="childList">
+          <div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.get_local_networks">
+    
+  </a>
+  <a name="get_local_networks">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_local_networks</span><span class="function-signature">(u)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L20">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_local_networks" title="nethsec.ovpn.get_local_networks">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return a list of local networks.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>u -- EUci instance</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a list of local networks</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.get_public_addresses">
+    
+  </a>
+  <a name="get_public_addresses">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_public_addresses</span><span class="function-signature">(u)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L43">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_public_addresses" title="nethsec.ovpn.get_public_addresses">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return a list of public addresses.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>u -- EUci instance</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a list of public addresses</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.to_cidr">
+    
+  </a>
+  <a name="to_cidr">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">to_cidr</span><span class="function-signature">(netmask)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L70">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#to_cidr" title="nethsec.ovpn.to_cidr">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Convert a netmask to CIDR notation.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>netmask -- netmask in dotted decimal notation</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>CIDR notation</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.to_netmask">
+    
+  </a>
+  <a name="to_netmask">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">to_netmask</span><span class="function-signature">(prefix)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L83">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#to_netmask" title="nethsec.ovpn.to_netmask">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Convert a CIDR notation to netmask.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>prefix -- CIDR notation</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>netmask in dotted decimal notation</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.generate_random_network">
+    
+  </a>
+  <a name="generate_random_network">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">generate_random_network</span><span class="function-signature">(u)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L95">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#generate_random_network" title="nethsec.ovpn.generate_random_network">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate a random network.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>u -- EUci instance</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a random unused network</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.random_ip">
+    
+  </a>
+  <a name="random_ip">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">random_ip</span><span class="function-signature">()</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L110">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#random_ip" title="nethsec.ovpn.random_ip">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate a random private IP address.</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a random private IP address</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.is_used_network">
+    
+  </a>
+  <a name="is_used_network">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">is_used_network</span><span class="function-signature">(u, network)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L119">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#is_used_network" title="nethsec.ovpn.is_used_network">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Check if a network is already used by another OpenVPN.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>u -- EUci instance</li>
+<li>network -- network to check</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>True if the network is already used, False otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.opt2cidr">
+    
+  </a>
+  <a name="opt2cidr">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">opt2cidr</span><span class="function-signature">(opt)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L142">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#opt2cidr" title="nethsec.ovpn.opt2cidr">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Convert an OpenVPN option to CIDR notation.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>opt -- OpenVPN option</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>CIDR notation</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.list_cipher">
+    
+  </a>
+  <a name="list_cipher">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_cipher</span><span class="function-signature">()</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L159">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_cipher" title="nethsec.ovpn.list_cipher">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return a list of OpenVPN ciphers.</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li><dl class="rst-first rst-docutils">
+<dt>a list of OpenVPN ciphers, each element is a dicttionary with the following keys:</dt>
+<dd><ul class="rst-first rst-last">
+<li>name: cipher name</li>
+<li>description: cipher description (weak or strong)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.list_digest">
+    
+  </a>
+  <a name="list_digest">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_digest</span><span class="function-signature">()</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a4bb55fe959c4389ebd6011075d83529b06a58a9/src/nethsec/ovpn/__init__.py#L189">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_digest" title="nethsec.ovpn.list_digest">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return a list of OpenVPN digests.</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a list of OpenVPN digests, each element is a dicttionary with the following keys:
+- name: digest name
+- description: digest description (weak or strong)</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    23.9.1 at 2023-11-29 16:45:10.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>
