@@ -257,6 +257,11 @@ config rule rule3
     list protocol 'HTTP/Connect'
     option device 'eth1'
     option enabled 1
+
+config exemption exemp1
+    option criteria '192.168.1.1'
+    option description 'my host'
+    option enabled 1
 """
 
 network_config = """
@@ -1001,3 +1006,39 @@ def test_list_popular_with_limits(e_uci_with_data, mock_load):
             'total': 7
         }
     }
+
+def test_list_exemptions(e_uci_with_data):
+    assert dpi.list_exemptions(e_uci_with_data) == [
+        {
+            'config-name': 'exemp1',
+            'enabled': True,
+            'criteria': '192.168.1.1',
+            'description': 'my host',
+        }
+    ]
+
+def test_add_exemption(e_uci):
+    ex_created = dpi.add_exemption(e_uci, "192.168.2.2", 'my host2', True)
+    assert dpi.list_exemptions(e_uci) == [
+        {
+            'config-name': ex_created,
+            'enabled': True,
+            'criteria': "192.168.2.2",
+            'description': 'my host2',
+        }
+    ]
+
+def test_edit_exemption(e_uci_with_data):
+    dpi.edit_exemption(e_uci_with_data, 'exemp1', '192.168.1.3', 'my host 3', False)
+    assert dpi.list_exemptions(e_uci_with_data) == [
+        {
+            'config-name': 'exemp1',
+            'enabled': False,
+            'criteria': "192.168.1.3",
+            'description': 'my host 3',
+        }
+    ]
+
+def test_delete_exemption(e_uci):
+    dpi.delete_exemption(e_uci, 'exemp1')
+    assert dpi.list_exemptions(e_uci) == []
