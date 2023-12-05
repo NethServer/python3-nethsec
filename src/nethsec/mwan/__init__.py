@@ -394,7 +394,7 @@ def index_rules(e_uci: EUci) -> list[dict]:
         rule_data['policy'] = {}
         rule_data['policy']['name'] = rule_value['use_policy']
         if e_uci.get('mwan3', rule_value['use_policy'], default=None) is not None:
-            rule_data['policy']['label'] = utils.get_all_by_type(e_uci, 'mwan3', 'policy')[rule_value['use_policy']]['label']
+            rule_data['policy']['label'] = utils.get_all_by_type(e_uci, 'mwan3', 'policy')[rule_value['use_policy']].get('label')
         if 'label' in rule_value:
             rule_data['label'] = rule_value['label']
         if 'proto' in rule_value:
