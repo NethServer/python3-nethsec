@@ -49,7 +49,7 @@ buildah run ${container} /bin/bash -c "apt-get -y install --no-install-recommend
     apt-get clean"
 
 echo "Install packages with pip"
-buildah run ${container} /bin/bash -c "pip install pytest==7.1.2 pyuci pytest-mock"
+buildah run ${container} /bin/bash -c "pip install pytest==7.1.2 pyuci pytest-mock passlib"
 
 echo "Setup image"
 buildah config --workingdir /root ${container}

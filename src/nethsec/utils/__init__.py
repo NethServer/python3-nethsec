@@ -9,6 +9,8 @@
 General utilities
 '''
 
+import os
+import base64
 import re
 import json
 import uuid
@@ -233,98 +235,6 @@ def get_all_lan_devices(uci):
     '''
     return get_all_devices_by_zone(uci, 'lan')
 
-def get_user_addresses(uci, user):
-    '''
-    Retrieve all IP addresses associated to given user
-
-    Arguments:
-      - uci -- EUci pointer
-      - user -- User object id (UCI section)
-
-    Returns a tuple of lists:
-      - first element is a list of IPv4 addresses
-      - second element is a list of IPv6 addresses
-    '''
-    ipv4 = []
-    ipv6 = []
-    # get addresses from plain ipaddr option
-    for ip in uci.get('objects', user, 'ipaddr', list=True, default=[]):
-        if ':' in ip:
-            ipv6.append(ip)
-        else:
-            ipv4.append(ip)
-    # get vpn reservation
-    for v in uci.get('objects', user, 'vpn', list=True, default=[]): # vpn reservation
-        ip = uci.get('openvpn', v, 'ipaddr', default='')
-        if not ip:
-            continue
-        if ':' in ip:
-            ipv6.append(ip)
-        else:
-            ipv4.append(ip)
-    # get address from DNS record and DHCP reservation
-    for st in ['host', 'domain']:
-        for h in uci.get('objects', user, st, list=True, default=[]): # dhcp reservation
-            ip = uci.get('dhcp', h, 'ip', default='')
-            if not ip:
-                continue
-            if ':' in ip:
-                ipv6.append(ip)
-            else:
-                ipv4.append(ip)
-
-    return (ipv4, ipv6)
-
-def get_user_macs(uci, user):
-    '''
-    Retrieve all MAC addresses associated to given user
-
-    Arguments:
-      - uci -- EUci pointer
-      - user -- User object id (UCI section)
-
-    Returns:
-      - A list of MAC addresses
-    '''
-    return list(uci.get('objects', user, 'macaddr', list=True, default=[]))
-
-def get_group_addresses(uci, group):
-    '''
-    Retrieve all IP addresses associated to given group
-
-    Arguments:
-      - uci -- EUci pointer
-      - user -- Group object id (UCI section)
-
-    Returns:
-      - A tuple of lists:
-        - first element is a list of IPv4 addresses
-        - second element is a list of IPv6 addresses
-    '''
-    ipv4 = []
-    ipv6 = []
-    for u in uci.get('objects', group, 'user', list=True, default=[]):
-        (uipv4, uipv6) = get_user_addresses(uci, u)
-        ipv4 = ipv4 + uipv4
-        ipv6 = ipv6 + uipv6
-    return (ipv4, ipv6)
-
-def get_group_macs(uci, group):
-    '''
-    Retrieve all MAC addresses associated to given user
-
-    Arguments:
-      - uci -- EUci pointer
-      - group -- Group object id (UCI section)
-
-    Returns:
-      - A list of MAC addresses
-    '''
-    macs = []
-    for u in uci.get('objects', group, 'user', list=True, default=[]):
-        macs = macs + get_user_macs(uci, u)
-    return macs
-
 def get_unassigned_devices(uci):
     '''
     Retrieve all unused/unassigned devices.
@@ -451,6 +361,52 @@ def generic_error(error):
     '''
     return {"error": error.strip().replace(" ", "_").lower()}
 
+def shadow_password(password):
+    '''
+    Generates a shadow password hash using SHA-512 algorithm.
+
+    Arguments:
+      - password (str) - the password to be hashed.
+
+    Returns:
+       - the shadow password hash as strin
+    '''
+    salt = base64.b64encode(os.urandom(12))
+    phash = base64.b64encode(hashlib.pbkdf2_hmac('sha512', bytes(password, 'UTF-8'), salt, 200000))
+    return f"$6${salt.decode('UTF-8')}${phash.decode('UTF-8')}"
+
+def check_password(password, shadow):
+    '''
+    Check if the given password matches the given shadow password hash.
+
+    Arguments:
+      - password (str) - the password to be checked.
+      - shadow (str) - the shadow password hash to be checked.
+
+    Returns:
+      - True if the password matches the hash, False otherwise
+    '''
+    (_, alg, salt, curhash) = shadow.split("$")
+    phash = base64.b64encode(hashlib.pbkdf2_hmac('sha512', bytes(password, 'UTF-8'), salt.encode("UTF-8"), 200000))
+    return phash.decode("UTF-8") == curhash
+
+def get_user_by_username(uci, username):
+    '''
+    Retrieve the user object id (UCI section) given the username
+
+    Arguments:
+      - uci -- EUci pointer
+      - username -- Username
+
+    Returns:
+      - The user object id (UCI section) if the user has been found, None otherwise
+    '''
+    users = get_all_by_type(uci, 'objects', 'user')
+    for user in get_all_by_type("users", "user"):
+        if users[user].get("username", "") == username:
+            users[user]["id"] = user
+            return users[user]
+    return None
 
 class ValidationError(ValueError):
     def __init__(self, parameter, message="", value=""):
