@@ -180,6 +180,14 @@
             <div class="kind">Package</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Library for common VPN functions.</div>
+          </li><li id="nethsec.users">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users</div>
+            <div class="url">nethsec.users.html</div>
+            <div class="type">Package</div>
+            <div class="kind">Package</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Library that handles users and groups</div>
           </li><li id="nethsec.utils">
             
             <div class="fullName">nethsec<wbr></wbr>.utils</div>
@@ -276,38 +284,6 @@
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Retrieve all devices associated to the lan zone</div>
-          </li><li id="nethsec.utils.get_user_addresses">
-            
-            <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.get<wbr></wbr>_user<wbr></wbr>_addresses</div>
-            <div class="url">nethsec.utils.html#get_user_addresses</div>
-            <div class="type">Function</div>
-            <div class="kind">Function</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieve all IP addresses associated to given user</div>
-          </li><li id="nethsec.utils.get_user_macs">
-            
-            <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.get<wbr></wbr>_user<wbr></wbr>_macs</div>
-            <div class="url">nethsec.utils.html#get_user_macs</div>
-            <div class="type">Function</div>
-            <div class="kind">Function</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieve all MAC addresses associated to given user</div>
-          </li><li id="nethsec.utils.get_group_addresses">
-            
-            <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.get<wbr></wbr>_group<wbr></wbr>_addresses</div>
-            <div class="url">nethsec.utils.html#get_group_addresses</div>
-            <div class="type">Function</div>
-            <div class="kind">Function</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieve all IP addresses associated to given group</div>
-          </li><li id="nethsec.utils.get_group_macs">
-            
-            <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.get<wbr></wbr>_group<wbr></wbr>_macs</div>
-            <div class="url">nethsec.utils.html#get_group_macs</div>
-            <div class="type">Function</div>
-            <div class="kind">Function</div>
-            <div class="privacy">PUBLIC</div>
-            <div class="summary">Retrieve all MAC addresses associated to given user</div>
           </li><li id="nethsec.utils.get_unassigned_devices">
             
             <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.get<wbr></wbr>_unassigned<wbr></wbr>_devices</div>
@@ -340,6 +316,30 @@
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Generate a generic error for the APIs.</div>
+          </li><li id="nethsec.utils.shadow_password">
+            
+            <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.shadow<wbr></wbr>_password</div>
+            <div class="url">nethsec.utils.html#shadow_password</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generates a shadow password hash using SHA-512 algorithm.</div>
+          </li><li id="nethsec.utils.check_password">
+            
+            <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.check<wbr></wbr>_password</div>
+            <div class="url">nethsec.utils.html#check_password</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Check if the given password matches the given shadow password hash.</div>
+          </li><li id="nethsec.utils.get_user_by_username">
+            
+            <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.get<wbr></wbr>_user<wbr></wbr>_by<wbr></wbr>_username</div>
+            <div class="url">nethsec.utils.html#get_user_by_username</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve the user object id (UCI section) given the username</div>
           </li><li id="nethsec.utils.ValidationError">
             
             <div class="fullName">nethsec<wbr></wbr>.utils<wbr></wbr>.<wbr></wbr>Validation<wbr></wbr>Error</div>
@@ -996,6 +996,262 @@
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Return a list of OpenVPN digests.</div>
+          </li><li id="nethsec.users.get_database_type">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.get<wbr></wbr>_database<wbr></wbr>_type</div>
+            <div class="url">nethsec.users.html#get_database_type</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve database type</div>
+          </li><li id="nethsec.users.get_user_by_name">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.get<wbr></wbr>_user<wbr></wbr>_by<wbr></wbr>_name</div>
+            <div class="url">nethsec.users.html#get_user_by_name</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve a user by name</div>
+          </li><li id="nethsec.users.get_group_by_name">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.get<wbr></wbr>_group<wbr></wbr>_by<wbr></wbr>_name</div>
+            <div class="url">nethsec.users.html#get_group_by_name</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve a group by name</div>
+          </li><li id="nethsec.users.get_user_addresses">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.get<wbr></wbr>_user<wbr></wbr>_addresses</div>
+            <div class="url">nethsec.users.html#get_user_addresses</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve all IP addresses associated to given user</div>
+          </li><li id="nethsec.users.get_user_macs">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.get<wbr></wbr>_user<wbr></wbr>_macs</div>
+            <div class="url">nethsec.users.html#get_user_macs</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve all MAC addresses associated to given user</div>
+          </li><li id="nethsec.users.get_group_addresses">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.get<wbr></wbr>_group<wbr></wbr>_addresses</div>
+            <div class="url">nethsec.users.html#get_group_addresses</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve all IP addresses associated to given group</div>
+          </li><li id="nethsec.users.get_group_macs">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.get<wbr></wbr>_group<wbr></wbr>_macs</div>
+            <div class="url">nethsec.users.html#get_group_macs</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve all MAC addresses associated to given group</div>
+          </li><li id="nethsec.users.list_users">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.list<wbr></wbr>_users</div>
+            <div class="url">nethsec.users.html#list_users</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve all users</div>
+          </li><li id="nethsec.users.add_ldap_database">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.add<wbr></wbr>_ldap<wbr></wbr>_database</div>
+            <div class="url">nethsec.users.html#add_ldap_database</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Add a new LDAP database</div>
+          </li><li id="nethsec.users.edit_ldap_database">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.edit<wbr></wbr>_ldap<wbr></wbr>_database</div>
+            <div class="url">nethsec.users.html#edit_ldap_database</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Edit an existing LDAP database</div>
+          </li><li id="nethsec.users.delete_ldap_database">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.delete<wbr></wbr>_ldap<wbr></wbr>_database</div>
+            <div class="url">nethsec.users.html#delete_ldap_database</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Delete an existing LDAP database</div>
+          </li><li id="nethsec.users.add_local_database">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.add<wbr></wbr>_local<wbr></wbr>_database</div>
+            <div class="url">nethsec.users.html#add_local_database</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Add a new local database</div>
+          </li><li id="nethsec.users.edit_local_database">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.edit<wbr></wbr>_local<wbr></wbr>_database</div>
+            <div class="url">nethsec.users.html#edit_local_database</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Edit an existing local database</div>
+          </li><li id="nethsec.users.delete_local_database">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.delete<wbr></wbr>_local<wbr></wbr>_database</div>
+            <div class="url">nethsec.users.html#delete_local_database</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Delete an existing local database</div>
+          </li><li id="nethsec.users.list_databases">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.list<wbr></wbr>_databases</div>
+            <div class="url">nethsec.users.html#list_databases</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve all databases</div>
+          </li><li id="nethsec.users.add_local_user">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.add<wbr></wbr>_local<wbr></wbr>_user</div>
+            <div class="url">nethsec.users.html#add_local_user</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Add a new local user</div>
+          </li><li id="nethsec.users.edit_local_user">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.edit<wbr></wbr>_local<wbr></wbr>_user</div>
+            <div class="url">nethsec.users.html#edit_local_user</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Edit an existing local user</div>
+          </li><li id="nethsec.users.delete_local_user">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.delete<wbr></wbr>_local<wbr></wbr>_user</div>
+            <div class="url">nethsec.users.html#delete_local_user</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Delete an existing local user</div>
+          </li><li id="nethsec.users.add_local_group">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.add<wbr></wbr>_local<wbr></wbr>_group</div>
+            <div class="url">nethsec.users.html#add_local_group</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Add a new local group</div>
+          </li><li id="nethsec.users.edit_local_group">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.edit<wbr></wbr>_local<wbr></wbr>_group</div>
+            <div class="url">nethsec.users.html#edit_local_group</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Edit an existing local group</div>
+          </li><li id="nethsec.users.delete_local_group">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.delete<wbr></wbr>_local<wbr></wbr>_group</div>
+            <div class="url">nethsec.users.html#delete_local_group</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Delete an existing local group</div>
+          </li><li id="nethsec.users.add_remote_user">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.add<wbr></wbr>_remote<wbr></wbr>_user</div>
+            <div class="url">nethsec.users.html#add_remote_user</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Add a new remote user</div>
+          </li><li id="nethsec.users.edit_remote_user">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.edit<wbr></wbr>_remote<wbr></wbr>_user</div>
+            <div class="url">nethsec.users.html#edit_remote_user</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Edit an existing remote user</div>
+          </li><li id="nethsec.users.delete_remote_user">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.delete<wbr></wbr>_remote<wbr></wbr>_user</div>
+            <div class="url">nethsec.users.html#delete_remote_user</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Delete an existing remote user</div>
+          </li><li id="nethsec.users.get_ldap_defaults">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.get<wbr></wbr>_ldap<wbr></wbr>_defaults</div>
+            <div class="url">nethsec.users.html#get_ldap_defaults</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Retrieve default LDAP settings from given URI</div>
+          </li><li id="nethsec.users.shadow_password">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.shadow<wbr></wbr>_password</div>
+            <div class="url">nethsec.users.html#shadow_password</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Generate a shadow password</div>
+          </li><li id="nethsec.users.check_password">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.check<wbr></wbr>_password</div>
+            <div class="url">nethsec.users.html#check_password</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Check a shadow password</div>
+          </li><li id="nethsec.users.ldif2users">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.ldif2users</div>
+            <div class="url">nethsec.users.html#ldif2users</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Parse an LDIF file and return a list of users</div>
+          </li><li id="nethsec.users.list_remote_users">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.list<wbr></wbr>_remote<wbr></wbr>_users</div>
+            <div class="url">nethsec.users.html#list_remote_users</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Test LDAP connection</div>
+          </li><li id="nethsec.users.set_admin">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.set<wbr></wbr>_admin</div>
+            <div class="url">nethsec.users.html#set_admin</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Set a user as admin by creating a login record in rpcd configuration database</div>
+          </li><li id="nethsec.users.remove_admin">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.remove<wbr></wbr>_admin</div>
+            <div class="url">nethsec.users.html#remove_admin</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Remove a user from rpcd configuration database</div>
+          </li><li id="nethsec.users.is_admin">
+            
+            <div class="fullName">nethsec<wbr></wbr>.users<wbr></wbr>.is<wbr></wbr>_admin</div>
+            <div class="url">nethsec.users.html#is_admin</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Check if a user is admin</div>
           </li>
        </ul>
     </div>
