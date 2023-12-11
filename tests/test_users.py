@@ -11,6 +11,9 @@ config local 'main'
 config local 'second'
 	option description 'Secondary local database'
 
+config local 'third'
+    option description 'Third local database'
+
 config ldap 'ldap1'
 	option description 'Remote OpenLDAP server'
 	option uri 'ldaps://192.168.100.234'
@@ -99,12 +102,16 @@ config domain 'ns_goofy_pc_nethserver_org'
     option description 'Goofy Workstation'
 """
 
+rpcd_db = ""
+
 def _setup_db(tmp_path):
      # setup fake db
     with tmp_path.joinpath('users').open('w') as fp:
         fp.write(users_db)
     with tmp_path.joinpath('dhcp').open('w') as fp:
         fp.write(dhcp_db)
+    with tmp_path.joinpath('rpcd').open('w') as fp:
+        fp.write(rpcd_db)
 
     return EUci(confdir=tmp_path.as_posix())
 
@@ -168,6 +175,7 @@ def test_get_user_by_name(tmp_path):
         "host": ["ns_goofy_pc"],
         "openvpn_ipaddr": "10.9.9.38",
         "local": True,
+        "admin": False,
         "id": "u1",
     })
 
@@ -176,6 +184,7 @@ def test_get_user_by_name(tmp_path):
         "description": "Another Goofy",
         "database": "second",
         "local": True,
+        "admin": False,
         "id": "u3"
     })
 
@@ -288,6 +297,7 @@ def test_add_local_user(tmp_path):
         "description": "mydesc",
         "database": "second",
         "local": True,
+        "admin": False,
         "id": id,
         "openvpn_ipaddr": "1.2.3.4"
     }
@@ -302,6 +312,7 @@ def test_edit_local_user(tmp_path):
         "description": "mydesc2",
         "database": "second",
         "local": True,
+        "admin": False,
         "id": id,
         "openvpn_ipaddr": "1.2.3.5",
         "openvpn_enabled": "1"
@@ -422,3 +433,34 @@ result: 0 Success
 """
     assert users.ldif2users(ldif_data) == [{"name": "admin", "description": "admin"},{"name":"pluto", "description": "Pluto Rossi"}]
     
+def test_set_admin_user(tmp_path):
+    u = _setup_db(tmp_path)
+    users.add_local_user(u, "admin2", password="nethesis", description="mydesc", database="third")
+    admin_id_rpcd = users.set_admin(u, "admin2", "third")
+    for user in utils.get_all_by_type(u, "rpcd", "login"):
+        if user == admin_id_rpcd:
+            assert u.get('rpcd', admin_id_rpcd, "username") == "admin2"
+            assert users.check_password("nethesis", u.get('rpcd', admin_id_rpcd, "password"))
+
+def test_is_admin(tmp_path):
+    u = _setup_db(tmp_path)
+    assert users.is_admin(u, "admin2")
+    user = users.get_user_by_name(u, "admin2", 'third')
+    assert user.get("admin")
+
+def test_change_admin_password(tmp_path):
+    u = _setup_db(tmp_path)
+    local_id = users.edit_local_user(u, "admin2", password="nethesis", description="mydesc", database="third")
+    logins = utils.get_all_by_type(u, "rpcd", "login")
+    for l in logins:
+        if logins[l].get("username") == "admin2":
+            assert logins[l].get("password") == u.get("users", local_id, "password")
+  
+def test_remove_admin_user(tmp_path):
+    u = _setup_db(tmp_path)
+    users.remove_admin(u, "admin2")
+    found = False
+    for user in utils.get_all_by_type(u, "rpcd", "login"):
+        if user.get("username") == "admin2":
+            found = True
+    assert not found

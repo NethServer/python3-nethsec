@@ -14,8 +14,10 @@ import hashlib
 import ipaddress
 import os
 import subprocess
+import secrets
 from nethsec import utils
 from urllib.parse import urlparse
+from passlib import hash
 
 def get_database_type(uci, database):
     '''
@@ -53,6 +55,10 @@ def get_user_by_name(uci, name, database="main"):
                     # convert tuple to list
                     if type(user[opt]) is tuple:
                         user[opt] = list(user[opt])
+                if user["local"]:
+                  user["admin"] = is_admin(uci, name)
+                else:
+                  user["admin"] = False
                 user['id'] = u
                 return user
     return None
@@ -202,12 +208,13 @@ def list_users(uci, database='main'):
             if uci.get('users', u, default='') == "user":
                 username = uci.get('users', u, 'name', default='')
                 user = get_user_by_name(uci, username, database)
-                users.append(get_user_by_name(uci, username, database))
+                users.append(user)
     elif dbtype == "ldap":
 
         users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), dbconf.get('user_cn'), dbconf.get('start_tls'), dbconf.get('tls_reqcert'))
         for u in users:
             u['local'] = False
+            u['admin'] = False
             u['database'] = database
             u['id'] = u['name']
         pass
@@ -441,7 +448,14 @@ def edit_local_user(uci, name, password="", description="", database="main", ext
     if get_database_type(uci, database) != "local":
         raise utils.ValidationError('database', 'db_not_local', database)
     if password:
-      uci.set('users', user["id"], 'password', shadow_password(password))
+      shadow = shadow_password(password)
+      uci.set('users', user["id"], 'password', shadow)
+      # update password inside the rpcd configuration database
+      if is_admin(uci, name):
+          for l in utils.get_all_by_type(uci, 'rpcd', 'login'):
+              if uci.get('rpcd', l, 'username', default='') == name:
+                  uci.set('rpcd', l, 'password', shadow)
+                  uci.save("rpcd")
     uci.set('users', user["id"], 'description', description)
     for key in uci.get_all('users', user["id"]):
         if not key in ["name", "description", "password", "database"]:
@@ -479,6 +493,8 @@ def delete_local_user(uci, name, database="main"):
                 uci.set('users', g, 'user', gusers) # the user field may be deleted by uci if the list is empty
     uci.delete('users', user["id"])
     uci.save("users")
+    if is_admin(uci, name):
+        remove_admin(uci, name)
     return True
 
 def add_local_group(uci, name, users=[], description="", database="main"):
@@ -667,11 +683,9 @@ def shadow_password(password):
       - password -- Clear text password
 
     Returns:
-      - A shadow password, format: $6$salt$hash
+      - A shadow password in crypt(3) format, as generate by mkpasswd. Format: $6$salt$hash
     '''
-    salt = base64.b64encode(os.urandom(12))
-    phash = base64.b64encode(hashlib.pbkdf2_hmac('sha512', bytes(password, 'UTF-8'), salt, 200000))
-    return f"$6${salt.decode('UTF-8')}${phash.decode('UTF-8')}"
+    return hash.sha512_crypt.using(salt=secrets.token_hex(8), rounds=5000).hash(password)
 
 def check_password(password, shadow):
     '''
@@ -679,14 +693,12 @@ def check_password(password, shadow):
 
     Arguments:
       - password -- Clear text password
-      - shadow -- Shadow password
+      - shadow -- Shadow password in crypt(3) format
 
     Returns:
       - True if password matches, False otherwise
     '''
-    (_, alg, salt, curhash) = shadow.split("$")
-    phash = base64.b64encode(hashlib.pbkdf2_hmac('sha512', bytes(password, 'UTF-8'), salt.encode("UTF-8"), 200000))
-    return phash.decode("UTF-8") == curhash
+    return hash.sha512_crypt.verify(password, shadow)
 
 def ldif2users(ldif_data, user_attr="uid", user_cn="cn"):
     '''
@@ -745,3 +757,69 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
         return ldif2users(p.stdout, user_attr, user_cn)
     except subprocess.CalledProcessError as e:
         return []
+    
+def set_admin(uci, username, database):
+    '''
+    Set a user as admin by creating a login record in rpcd configuration database
+
+    Arguments:
+      - uci -- EUci pointer
+      - username -- User name
+      - database -- Database identifier
+
+    Returns:
+      - The user identifier inside the rpcd configuration database
+    '''
+    user = get_user_by_name(uci, username, database)
+    if not user:
+        raise utils.ValidationError('name', 'user_not_found', username)
+    logins = utils.get_all_by_type(uci, 'rpcd', 'login')
+    for l in logins:
+        if logins[l].get("username") == username:
+            raise utils.ValidationError('name', 'admin_user_already_exists', username)
+    id = utils.get_random_id()
+    uci.set('rpcd', id, 'login')
+    uci.set('rpcd', id, 'username', username)
+    uci.set('rpcd', id, 'password', user["password"])
+    uci.set('rpcd', id, 'read', '*')
+    uci.set('rpcd', id, 'write', '*')
+    uci.save("rpcd")
+    return id
+
+def remove_admin(uci, username):
+    '''
+    Remove a user from rpcd configuration database
+
+    Arguments:
+      - uci -- EUci pointer
+      - username -- User name
+
+    Returns:
+      - True if successful
+    '''
+    logins = utils.get_all_by_type(uci, 'rpcd', 'login')
+    for l in logins:
+        if logins[l].get("username") == username:
+            uci.delete('rpcd', l)
+            uci.save("rpcd")
+            return True
+    raise utils.ValidationError('name', 'admin_user_not_found', username)
+
+def is_admin(uci, username):
+    '''
+    Check if a user is admin
+
+    Arguments:
+      - uci -- EUci pointer
+      - username -- User name
+
+    Returns:
+      - True if user is admin, False otherwise
+    '''
+    logins = utils.get_all_by_type(uci, 'rpcd', 'login')
+    if logins is None:
+        return False
+    for l in logins:
+        if logins[l].get("username") == username:
+            return True
+    return False
