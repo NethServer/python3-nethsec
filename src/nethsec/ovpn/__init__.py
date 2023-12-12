@@ -102,17 +102,17 @@ def generate_random_network(u):
     Returns:
      - a random unused network
     """
-    network = random_ip()
+    network = random_network()
     while is_used_network(u, network):
-        network = random_ip()
+        network = random_network()
     return network
 
-def random_ip():
+def random_network():
     """
-    Generate a random private IP address.
+    Generate a random private network address.
 
     Returns:
-      - a random private IP address
+      - a random private network address
     """
     return f"10.{random.randint(0, 254)}.{random.randint(0, 254)}.0/24"
 
@@ -133,10 +133,20 @@ def is_used_network(u, network):
         return False
 
     for v in openvpn:
-        ifconfig = opt2cidr(u.get('openvpn', v, 'ifconfig', default=""))
+        ifconfig = u.get('openvpn', v, 'ifconfig', default="")
+        if ifconfig:
+            ifnet = f'{ifconfig.split(" ")[0]}/24' # assume /24
+            if ipaddress.ip_network(ifnet, strict=False) == ipaddress.ip_network(network):
+                return True
+
         server = opt2cidr(u.get('openvpn', v, 'server', default=""))
-        if network == ifconfig or network == server:
+        if server and server == network:
             return True
+
+        server_bridge = opt2cidr(u.get('openvpn', v, 'server_bridge', default=""))
+        if server_bridge:
+            if ipaddress.ip_network(server_bridge, strict=False) == ipaddress.ip_network(network):
+                return True
     return False
 
 def opt2cidr(opt):
@@ -210,3 +220,38 @@ def list_digest():
     except:
         return {"digests": []}
     return {"digests": ret}
+
+def generate_random_port(uci, limit_min, limit_max):
+    '''
+    Generate a random port.
+
+    Arguments:
+        - uci -- EUci instance
+        - limit_min -- minimum port number
+        - limit_max -- maximum port number
+
+    Returns:
+        - a random port number
+    '''
+    port = random.randint(limit_min, limit_max)
+    while is_used_port(uci, port):
+        port = random.randint(limit_min, limit_max)
+    return port
+
+def is_used_port(uci, port):
+    '''
+    Check if a port is already used by another OpenVPN.
+
+    Arguments:
+        - uci -- EUci instance
+        - port -- port to check
+
+    Returns:
+        - True if the port is already used, False otherwise
+    '''
+    for v in uci.get_all('openvpn'):
+        rport = int(uci.get('openvpn', v, 'port', default="0"))
+        lport = int(uci.get('openvpn', v, 'lport', default="0"))
+        if port == rport or port == lport:
+            return True
+    return False
