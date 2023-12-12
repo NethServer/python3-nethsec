@@ -203,10 +203,10 @@ def test_get_group_by_name(tmp_path):
     
 def test_list_databases(tmp_path):
     db_list = users.list_databases(_setup_db(tmp_path))
-    assert {"id": "main", "description": "Main local database", "type": "local"} in db_list
-    assert {"id": "second", "description": "Secondary local database", "type": "local"} in db_list
-    assert {"id": "ldap1", "description": "Remote OpenLDAP server", "type": "ldap", "schema": "rfc2307"} in db_list
-    assert {"id": "ad1", "description": "Remote AD server", "type": "ldap", "schema": "ad"} in db_list
+    assert {"name": "main", "description": "Main local database", "type": "local"} in db_list
+    assert {"name": "second", "description": "Secondary local database", "type": "local"} in db_list
+    assert {"name": "ldap1", "description": "Remote OpenLDAP server", "type": "ldap", "schema": "rfc2307", "uri": "ldaps://192.168.100.234"} in db_list
+    assert {"name": "ad1", "description": "Remote AD server", "type": "ldap", "schema": "ad", "uri": "ldaps://ad.nethserver.org"} in db_list
 
 def test_add_local_database(tmp_path):
     u = _setup_db(tmp_path)
