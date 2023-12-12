@@ -173,6 +173,16 @@
         
 
         
+            <div class="itemName"><code><a href="#generate_random_port" class="internal-link" title="nethsec.ovpn.generate_random_port">generate<wbr></wbr>_random<wbr></wbr>_port</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
             <div class="itemName"><code><a href="#get_local_networks" class="internal-link" title="nethsec.ovpn.get_local_networks">get<wbr></wbr>_local<wbr></wbr>_networks</a></code>
             </div>
         
@@ -194,6 +204,16 @@
 
         
             <div class="itemName"><code><a href="#is_used_network" class="internal-link" title="nethsec.ovpn.is_used_network">is<wbr></wbr>_used<wbr></wbr>_network</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#is_used_port" class="internal-link" title="nethsec.ovpn.is_used_port">is<wbr></wbr>_used<wbr></wbr>_port</a></code>
             </div>
         
 
@@ -233,7 +253,7 @@
         
 
         
-            <div class="itemName"><code><a href="#random_ip" class="internal-link" title="nethsec.ovpn.random_ip">random<wbr></wbr>_ip</a></code>
+            <div class="itemName"><code><a href="#random_network" class="internal-link" title="nethsec.ovpn.random_network">random<wbr></wbr>_network</a></code>
             </div>
         
 
@@ -401,7 +421,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -424,6 +444,11 @@
   </tr><tr class="function">
     
     <td>Function</td>
+    <td><code><a href="#generate_random_port" class="internal-link" title="nethsec.ovpn.generate_random_port">generate<wbr></wbr>_random<wbr></wbr>_port</a></code></td>
+    <td>Generate a random port.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
     <td><code><a href="#get_local_networks" class="internal-link" title="nethsec.ovpn.get_local_networks">get<wbr></wbr>_local<wbr></wbr>_networks</a></code></td>
     <td>Return a list of local networks.</td>
   </tr><tr class="function">
@@ -436,6 +461,11 @@
     <td>Function</td>
     <td><code><a href="#is_used_network" class="internal-link" title="nethsec.ovpn.is_used_network">is<wbr></wbr>_used<wbr></wbr>_network</a></code></td>
     <td>Check if a network is already used by another OpenVPN.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#is_used_port" class="internal-link" title="nethsec.ovpn.is_used_port">is<wbr></wbr>_used<wbr></wbr>_port</a></code></td>
+    <td>Check if a port is already used by another OpenVPN.</td>
   </tr><tr class="function">
     
     <td>Function</td>
@@ -454,8 +484,8 @@
   </tr><tr class="function">
     
     <td>Function</td>
-    <td><code><a href="#random_ip" class="internal-link" title="nethsec.ovpn.random_ip">random<wbr></wbr>_ip</a></code></td>
-    <td>Generate a random private IP address.</td>
+    <td><code><a href="#random_network" class="internal-link" title="nethsec.ovpn.random_network">random<wbr></wbr>_network</a></code></td>
+    <td>Generate a random private network address.</td>
   </tr><tr class="function">
     
     <td>Function</td>
@@ -484,7 +514,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_local_networks</span><span class="function-signature">(u)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L20">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L20">
       
       (source)
     </a>
@@ -524,7 +554,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_public_addresses</span><span class="function-signature">(u)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L43">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L43">
       
       (source)
     </a>
@@ -564,7 +594,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">to_cidr</span><span class="function-signature">(netmask)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L70">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L70">
       
       (source)
     </a>
@@ -604,7 +634,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">to_netmask</span><span class="function-signature">(prefix)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L83">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L83">
       
       (source)
     </a>
@@ -644,7 +674,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">generate_random_network</span><span class="function-signature">(u)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L95">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L95">
       
       (source)
     </a>
@@ -674,21 +704,21 @@
 </div><div class="basefunction">
   
   
-  <a name="nethsec.ovpn.random_ip">
+  <a name="nethsec.ovpn.random_network">
     
   </a>
-  <a name="random_ip">
+  <a name="random_network">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">random_ip</span><span class="function-signature">()</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L110">
+    <span class="py-keyword">def</span> <span class="py-defname">random_network</span><span class="function-signature">()</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L110">
       
       (source)
     </a>
-    <a class="headerLink" href="#random_ip" title="nethsec.ovpn.random_ip">
+    <a class="headerLink" href="#random_network" title="nethsec.ovpn.random_network">
       
       
       ¶
@@ -696,11 +726,11 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Generate a random private IP address.</p>
+    <div><p>Generate a random private network address.</p>
 <dl class="rst-docutils">
 <dt>Returns:</dt>
 <dd><ul class="rst-first rst-last rst-simple">
-<li>a random private IP address</li>
+<li>a random private network address</li>
 </ul>
 </dd>
 </dl>
@@ -719,7 +749,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">is_used_network</span><span class="function-signature">(u, network)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L119">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L119">
       
       (source)
     </a>
@@ -760,7 +790,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">opt2cidr</span><span class="function-signature">(opt)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L142">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L152">
       
       (source)
     </a>
@@ -800,7 +830,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">list_cipher</span><span class="function-signature">()</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L159">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L169">
       
       (source)
     </a>
@@ -843,7 +873,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">list_digest</span><span class="function-signature">()</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b0db1db2c50d2c9e17ef0c33cc8c067e5b1fe66e/src/nethsec/ovpn/__init__.py#L189">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L199">
       
       (source)
     </a>
@@ -867,6 +897,89 @@
 </dl>
 </div>
   </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.generate_random_port">
+    
+  </a>
+  <a name="generate_random_port">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">generate_random_port</span><span class="function-signature">(uci, limit_min, limit_max)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L224">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#generate_random_port" title="nethsec.ovpn.generate_random_port">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate a random port.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci instance</li>
+<li>limit_min -- minimum port number</li>
+<li>limit_max -- maximum port number</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>a random port number</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.ovpn.is_used_port">
+    
+  </a>
+  <a name="is_used_port">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">is_used_port</span><span class="function-signature">(uci, port)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/7de1b20c4ec4510ed1e943db30bec7d817cb0aba/src/nethsec/ovpn/__init__.py#L241">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#is_used_port" title="nethsec.ovpn.is_used_port">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Check if a port is already used by another OpenVPN.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci -- EUci instance</li>
+<li>port -- port to check</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>True if the port is already used, False otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
 </div>
         </div>
       
@@ -879,7 +992,7 @@
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.9.1 at 2023-12-11 16:54:59.
+    23.9.1 at 2023-12-12 10:31:53.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
