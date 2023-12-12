@@ -42,7 +42,7 @@ config ldap 'ad1'
 	option tls_reqcert 'always'
 	option base_dn 'dc=ad,dc=nethserver,dc=org'
 	option user_dn 'cn=users,dc=ad,dc=nethserver,dc=org'
-	option user_attr 'cn'
+	option user_cn 'cn'
 	option user_attr 'uid'
     option starttls '0'
    	option schema 'ad'
@@ -464,3 +464,25 @@ def test_remove_admin_user(tmp_path):
         if user.get("username") == "admin2":
             found = True
     assert not found
+
+def test_get_database(tmp_path):
+    u = _setup_db(tmp_path)
+    assert users.get_database(u, "third") == {
+        "name": "third",
+        "description": "Third local database",
+        "type": "local"
+    }
+
+    assert users.get_database(u, "ad1") == {
+        "name": "ad1",
+        "description": "Remote AD server",
+        "type": "ldap",
+        "schema": "ad",
+        "uri": "ldaps://ad.nethserver.org",
+        "tls_reqcert": "always",
+        "base_dn": "dc=ad,dc=nethserver,dc=org",
+        "user_dn": "cn=users,dc=ad,dc=nethserver,dc=org",
+        "user_attr": "uid",
+        "user_cn": "cn",
+        "starttls": "0"
+    }

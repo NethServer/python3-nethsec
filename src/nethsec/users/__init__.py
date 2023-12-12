@@ -398,6 +398,25 @@ def list_databases(uci):
                         "uri": uci.get('users', db, 'uri', default='')})
     return ret
 
+def get_database(uci, name):
+    '''
+    Retrieve a database by name
+
+    Arguments:
+      - uci -- EUci pointer
+      - name -- Database identifier
+
+    Returns:
+      - A database object or None if not found
+    '''
+    try:
+        db = uci.get_all('users', name)
+    except:
+        return None
+    db["name"] = name
+    db["type"] = get_database_type(uci, name)
+    return db
+
 def add_local_user(uci, name, password="", description="", database="main", extra_fields={}):
     '''
     Add a new local user
