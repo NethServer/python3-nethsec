@@ -384,17 +384,38 @@ def list_databases(uci):
 
     Returns:
       - A list of database objects, each one containing:
-        - id: database identifier
+        - name: database identifier
         - type: database type (local or ldap)
         - description: database description
     '''
     ret = []
     for db in uci.get_all('users'):
         if uci.get('users', db, default='') == "local":
-            ret.append({"id": db, "type": "local", "description": uci.get('users', db, 'description', default='')})           
+            ret.append({"name": db, "type": "local", "description": uci.get('users', db, 'description', default='')})
         elif uci.get('users', db, default='') == "ldap":
-            ret.append({"id": db, "type": "ldap", "description": uci.get('users', db, 'description', default=''), "schema": uci.get('users', db, 'schema', default='')})
+            ret.append({"name": db, "type": "ldap", "description": uci.get('users', db, 'description', default=''),
+                        "schema": uci.get('users', db, 'schema', default=''),
+                        "uri": uci.get('users', db, 'uri', default='')})
     return ret
+
+def get_database(uci, name):
+    '''
+    Retrieve a database by name
+
+    Arguments:
+      - uci -- EUci pointer
+      - name -- Database identifier
+
+    Returns:
+      - A database object or None if not found
+    '''
+    try:
+        db = uci.get_all('users', name)
+    except:
+        return None
+    db["name"] = name
+    db["type"] = get_database_type(uci, name)
+    return db
 
 def add_local_user(uci, name, password="", description="", database="main", extra_fields={}):
     '''
