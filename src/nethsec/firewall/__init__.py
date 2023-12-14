@@ -354,7 +354,7 @@ def apply(uci):
     subprocess.run(["/etc/init.d/firewall", "reload"], check=True)
 
 
-def add_template_forwarding(uci, name):
+def add_template_forwarding(uci, name, link = ""):
     '''
     Create a forwarding from templates database.
     Changes are saved to staging area.
@@ -362,6 +362,7 @@ def add_template_forwarding(uci, name):
     Arguments:
       - uci -- EUci pointer
       - name -- Name of the template forwarding from the templates database
+      - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
     Returns a tuple:
       - The name of the configuration section for the forwarding or None in case of error
@@ -373,6 +374,8 @@ def add_template_forwarding(uci, name):
     for section in frecord:
         uci.set("firewall", fname, section, frecord[section])
     uci.set("firewall", fname, "ns_tag", ["automated"])
+    if link:
+        uci.set("firewall", fname, "ns_link", link)
 
     uci.save("firewall")
     return fname
@@ -412,7 +415,7 @@ def add_template_zone(uci, name, networks = [], link = ""):
         uci.set("firewall", zname, "ns_link", link)
 
     for forward in forward_list:
-        forwardings.append(add_template_forwarding(uci, forward))
+        forwardings.append(add_template_forwarding(uci, forward, link))
 
     uci.save("firewall")
     return (zname, forwardings)

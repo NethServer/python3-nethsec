@@ -355,6 +355,7 @@ def test_add_template_zone(tmp_path):
         assert u.get("firewall", f) == "forwarding"
         assert u.get("firewall", f, "ns_tag") == "automated"
         assert u.get("firewall", f, "src") == "blue" or u.get("firewall", f, "dest") == "blue"
+        assert u.get("firewall", f, "ns_link", default='') == "mydb/mykey"
     (zone, forwardings) = firewall.add_template_zone(u, 'ns_blue')
     assert zone is None
     assert forwardings is None
