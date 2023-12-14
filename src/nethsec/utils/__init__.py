@@ -261,8 +261,8 @@ def get_unassigned_devices(uci):
         # exclude special devices
         if not ifname or ifname == "lo" or ifname.startswith("ifb-"):
             continue
-        # exclude tun devices
-        if ip_device.get("link_type", "ether") == "none":
+        # exclude tun devices and ppp devices
+        if ip_device.get("link_type", "ether") == "none" or ip_device.get("link_type", "ether") == "ppp": 
             continue
         # search among UCI devices
         for d in u_devices:
