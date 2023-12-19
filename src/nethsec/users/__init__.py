@@ -210,13 +210,16 @@ def list_users(uci, database='main'):
                 user = get_user_by_name(uci, username, database)
                 users.append(user)
     elif dbtype == "ldap":
-
         users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), dbconf.get('user_cn'), dbconf.get('start_tls'), dbconf.get('tls_reqcert'))
         for u in users:
+            user = get_user_by_name(uci, u['name'], database)
+            if user:
+                u.update(user)
+            else:
+                u['id'] = None
             u['local'] = False
             u['admin'] = False
             u['database'] = database
-            u['id'] = u['name']
         pass
 
     return users
