@@ -255,3 +255,21 @@ def is_used_port(uci, port):
         if port == rport or port == lport:
             return True
     return False
+
+def list_connected_clients(openvpninstance, type="subnet"):
+    """
+    List connected clients.
+
+    Arguments:
+        - openvpninstance -- OpenVPN instance name
+        - type -- type of list (subnet or p2p)
+
+    Returns:
+        - a list of connected clients
+    """
+    try:
+        p = subprocess.run(["/usr/bin/openvpn-status", "-t", type, f"/var/run/openvpn_{openvpninstance}.socket"], check=True, capture_output=True, text=True)
+    except Exception as e:
+        print(e, file=sys.stderr)
+        return {}
+    return json.loads(p.stdout)
