@@ -302,6 +302,19 @@ def test_add_trusted_zone(tmp_path):
     assert u.get("firewall", forwardings[1], 'ns_link') == link
     assert u.get("firewall", forwardings[2], 'ns_link') == link
 
+def test_duplicated_add_trusted_zone(tmp_path):
+    u = _setup_db(tmp_path)
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mytrusted')
+    assert zone is None
+    assert forwardings is None
+
+    trusted = 0
+    for s in u.get_all('firewall'):
+        if u.get('firewall', s) == 'forwarding':
+            if u.get('firewall', s, 'src', default='') == "mytrusted" and u.get('firewall', s, 'dest', default='') == "lan":
+                trusted = trusted + 1
+    assert trusted == 1
+ 
 def test_add_trusted_zone_with_networks(tmp_path):
     u = _setup_db(tmp_path)
     interface = firewall.add_vpn_interface(u, 'testvpn2', 'tuntest2')
@@ -394,7 +407,7 @@ def test_get_all_linked(tmp_path):
     sections = firewall.add_template_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
     rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
     interface = firewall.add_vpn_interface(u, 'p2p', 'ppp10', link=link)
-    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked', link=link)
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked2', link=link)
     linked = firewall.get_all_linked(u, link)
     for s in sections:
         assert s in linked['firewall']
@@ -411,7 +424,7 @@ def test_disable_linked_rules(tmp_path):
     sections = firewall.add_template_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
     rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
     interface = firewall.add_vpn_interface(u, 'p2p', 'ppp10', link=link)
-    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked', link=link)
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked4', link=link)
     disabled = firewall.disable_linked_rules(u, link)
     for s in sections:
         assert u.get("firewall", s, "enabled") == "0"
@@ -429,7 +442,7 @@ def test_delete_linked_sections(tmp_path):
     sections = firewall.add_template_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
     rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
     interface = firewall.add_vpn_interface(u, 'p2p', 'ppp10', link=link)
-    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked', link=link)
+    (zone, forwardings) = firewall.add_trusted_zone(u, 'mylinked3', link=link)
     deleted = firewall.delete_linked_sections(u, link)
     assert len(deleted) > 0
     with pytest.raises(UciExceptionNotFound):

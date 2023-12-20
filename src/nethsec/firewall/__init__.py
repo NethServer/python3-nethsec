@@ -195,6 +195,7 @@ def add_trusted_zone(uci, name, networks = [], link = ""):
       - be able to access lan and wan zone
       - be accessible from lan zone
 
+    If a zone with the same name already exists, do not recreate it.
     Changes are saved to staging area.
 
     Arguments:
@@ -211,6 +212,11 @@ def add_trusted_zone(uci, name, networks = [], link = ""):
     if len(name) > 12:
         return None, None
 
+    # avoid duplicated zones
+    zones = utils.get_all_by_type(uci, 'firewall', 'zone')
+    for z in zones:
+        if zones[z].get("name", "") == name:
+            return None, None
     forwardings = list()
     zname = utils.get_random_id()
     name = utils.sanitize(name)
