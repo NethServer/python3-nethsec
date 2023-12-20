@@ -50,7 +50,7 @@ def get_public_addresses(u):
     Returns:
       - a list of public addresses
     """
-    ret = []
+    ret = {}
     for w in utils.get_all_wan_devices(u):
         try:
              data = json.loads(subprocess.run(["ip", "--json", "address", "show", "dev", w], capture_output=True, text=True, check=True).stdout)
@@ -62,10 +62,10 @@ def get_public_addresses(u):
                     try:
                         cmd = f"/usr/bin/dig -b {addr.get('local')} +short +time=1 myip.opendns.com @resolver1.opendns.com".split(" ")
                         output = subprocess.check_output(cmd, timeout=5)
-                        ret.append(output.decode().strip())
+                        ret[output.decode().strip()] = 1
                     except:
                         pass
-    return ret
+    return list(ret.keys())
 
 def to_cidr(netmask):
     """
