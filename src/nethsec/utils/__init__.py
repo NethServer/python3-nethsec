@@ -264,6 +264,9 @@ def get_unassigned_devices(uci):
         # exclude tun devices and ppp devices
         if ip_device.get("link_type", "ether") == "none" or ip_device.get("link_type", "ether") == "ppp": 
             continue
+        # skip bridged interfaces
+        if not ip_device.get("master") is None:
+            continue
         # search among UCI devices
         for d in u_devices:
             # ports are present on bridge devices
@@ -290,6 +293,25 @@ def get_unassigned_devices(uci):
         if free:
             unassigned.append(ifname)
 
+    # prepare list of devices used in bridges
+    used = {}
+    for d in u_devices:
+        try:
+            for p in uci.get_all('network', d, 'ports'):
+                used[p] = 1
+        except:
+            pass
+    # prepare list of devices used in bonds
+    bonds = get_all_by_type(uci, 'network', 'interface')
+    for b in bonds:
+        try:
+            for s in uci.get_all('network', b, 'slaves'):
+                used[s] = 1
+        except:
+            pass
+
+    used = list(used.keys())
+
     for d in u_devices:
         free = True
         d_name = uci.get('network', d, 'name', default=None)
@@ -307,7 +329,7 @@ def get_unassigned_devices(uci):
                 z_networks = uci.get_all('firewall', z, 'network')
             except:
                 z_networks = []
-            if d_name in z_devices or d_name in z_networks:
+            if d_name in z_devices or d_name in z_networks or d_name in used:
                 free = False
                 continue
         if free:
