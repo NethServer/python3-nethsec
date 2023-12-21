@@ -42,6 +42,8 @@ config zone
 	option input 'ACCEPT'
 	option output 'ACCEPT'
 	option forward 'ACCEPT'
+	list device 'tunrw1'
+	list device 'ipsec2'
 """
 
 network_db = """

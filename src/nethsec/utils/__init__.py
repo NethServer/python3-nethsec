@@ -225,7 +225,7 @@ def get_all_wan_devices(uci):
 
 def get_all_lan_devices(uci):
     '''
-    Retrieve all devices associated to the lan zone
+    Retrieve all devices associated to the lan zone, except for VPN ones
 
     Arguments:
       - uci -- EUci pointer
@@ -233,7 +233,8 @@ def get_all_lan_devices(uci):
     Returns:
       - A list of device names
     '''
-    return get_all_devices_by_zone(uci, 'lan')
+     # exclude tun and ipsec devices
+    return list(filter(lambda d: not d.startswith("ipsec") and not d.startswith("tun"),  get_all_devices_by_zone(uci, 'lan')))
 
 def get_unassigned_devices(uci):
     '''
