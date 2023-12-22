@@ -690,6 +690,25 @@ def get_zone_by_name(uci, name: str) -> str:
             return (z, zones[z])
     return (None, None)
 
+def get_rule_by_name(uci, name: str) -> str:
+    """
+    Get rule config name by rule name.
+    Assume there is only one rule with the same name.
+
+    Args:
+        uci: EUci pointer
+        name: rule name
+
+    Returns:
+        tuple of rule config name and rule config if rule with name name exists, (None, None) otherwise
+    """
+    rules = utils.get_all_by_type(uci, 'firewall', 'rule')
+    for r in rules:
+        if uci.get('firewall', r, 'name', default='') == name:
+            return (r, rules[r])
+    return (None, None)
+
+
 def zone_exists(u, zone_name):
     """
     Check if a zone with name zone_name already exists

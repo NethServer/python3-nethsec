@@ -538,3 +538,11 @@ def test_delete_zone(tmp_path):
         "ns_new_zone", {"ns_new_zone2lan", "ns_guest2new_zone", "ns_lan2new_zone"})
     with pytest.raises(Exception) as e:
         firewall.delete_zone(u, "not_a_zone")
+
+def test_get_rule_by_name(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.get_rule_by_name(u, "Allow-DHCPv6") == (
+        "v6rule",
+        {"name": "Allow-DHCPv6", "src": "wan", "proto": "udp", "dest_port": "546", "family": "ipv6", "target": "ACCEPT", "enabled": "0"}
+    )
+    assert firewall.get_rule_by_name(u, "not_a_rule") == (None, None)
