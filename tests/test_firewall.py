@@ -48,6 +48,14 @@ config rule 'v6rule'
     option dest_port '546'
     option family 'ipv6'
     option target 'ACCEPT'
+
+config rule 'manrule'
+    option name 'Not-Automated'
+    option src 'wan'
+    option proto 'tcp'
+    option dest_port '1234'
+    option family 'ipv4'
+    option target 'ACCEPT'
 """
 
 network_db = """
@@ -128,6 +136,8 @@ config template_rule 'ns_test_rule'
 	option target 'ACCEPT'
 	option enabled '1'
 
+# IPv6 rules
+
 config template_rule 'ip6_dhcp'
 	option name 'Allow-DHCPv6'
 	option src 'wan'
@@ -135,6 +145,54 @@ config template_rule 'ip6_dhcp'
 	option dest_port '546'
 	option family 'ipv6'
 	option target 'ACCEPT'
+
+config template_rule 'ip6_mld'
+	option name 'Allow-MLD'
+	option src 'wan'
+	option proto 'icmp'
+	option src_ip 'fe80::/10'
+	list icmp_type '130/0'
+	list icmp_type '131/0'
+	list icmp_type '132/0'
+	list icmp_type '143/0'
+	option family 'ipv6'
+	option target 'ACCEPT'
+
+config template_rule 'ip6_icmp'
+	option name 'Allow-ICMPv6-Input'
+	option src 'wan'
+	option proto 'icmp'
+	list icmp_type 'echo-request'
+	list icmp_type 'echo-reply'
+	list icmp_type 'destination-unreachable'
+	list icmp_type 'packet-too-big'
+	list icmp_type 'time-exceeded'
+	list icmp_type 'bad-header'
+	list icmp_type 'unknown-header-type'
+	list icmp_type 'router-solicitation'
+	list icmp_type 'neighbour-solicitation'
+	list icmp_type 'router-advertisement'
+	list icmp_type 'neighbour-advertisement'
+	option limit '1000/sec'
+	option family 'ipv6'
+	option target 'ACCEPT'
+
+config template_rule 'ip6_icmp_forward'
+	option name 'Allow-ICMPv6-Forward'
+	option src 'wan'
+	option dest '*'
+	option proto 'icmp'
+	list icmp_type 'echo-request'
+	list icmp_type 'echo-reply'
+	list icmp_type 'destination-unreachable'
+	list icmp_type 'packet-too-big'
+	list icmp_type 'time-exceeded'
+	list icmp_type 'bad-header'
+	list icmp_type 'unknown-header-type'
+	option limit '1000/sec'
+	option family 'ipv6'
+	option target 'ACCEPT'
+
 """
 
 zone_testing_db = """
@@ -538,3 +596,22 @@ def test_delete_zone(tmp_path):
         "ns_new_zone", {"ns_new_zone2lan", "ns_guest2new_zone", "ns_lan2new_zone"})
     with pytest.raises(Exception) as e:
         firewall.delete_zone(u, "not_a_zone")
+
+def test_get_rule_by_name(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.get_rule_by_name(u, "Allow-DHCPv6") == (
+        "v6rule",
+        {"name": "Allow-DHCPv6", "src": "wan", "proto": "udp", "dest_port": "546", "family": "ipv6", "target": "ACCEPT", "enabled": "0"}
+    )
+    assert firewall.get_rule_by_name(u, "Not-Automated") == (
+        "manrule",
+        {"name": "Not-Automated", "src": "wan", "proto": "tcp", "dest_port": "1234", "family": "ipv4", "target": "ACCEPT"}
+    )
+    assert firewall.get_rule_by_name(u, "not_a_rule") == (None, None)
+    assert firewall.get_rule_by_name(u, "Not-Automated", "automated") == (None, None)
+
+def test_add_default_ipv6_rules(tmp_path):
+    u = _setup_db(tmp_path)
+    # one rule should be skipped because it already exists
+    assert len(firewall.add_default_ipv6_rules(u)) == 3
+    assert firewall.add_default_ipv6_rules(u) == []

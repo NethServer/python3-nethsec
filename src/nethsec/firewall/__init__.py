@@ -690,6 +690,27 @@ def get_zone_by_name(uci, name: str) -> str:
             return (z, zones[z])
     return (None, None)
 
+def get_rule_by_name(uci, name: str, tag = "") -> str:
+    """
+    Get rule config name and rule data by rule name, optionally filtered by tag.
+    Assume there is only one rule with the same name.
+
+    Args:
+        uci: EUci pointer
+        name: rule name
+        tag: optional tag to filter rules
+
+    Returns:
+        tuple of rule config name and rule config if rule with name name exists, (None, None) otherwise
+    """
+    rules = utils.get_all_by_type(uci, 'firewall', 'rule')
+    for r in rules:
+        if uci.get('firewall', r, 'name', default='') == name:
+            if not tag or tag in uci.get('firewall', r, 'ns_tag', default=[]):
+                return (r, rules[r])
+    return (None, None)
+
+
 def zone_exists(u, zone_name):
     """
     Check if a zone with name zone_name already exists
@@ -845,3 +866,21 @@ def delete_zone(uci, zone_config_name: str) -> {str, set[str]}:
     uci.delete('firewall', zone_config_name)
     uci.save('firewall')
     return zone_config_name, to_delete_forwardings
+
+def add_default_ipv6_rules(uci):
+    """
+    Add default ipv6 rules to firewall config, if they don't exist already.
+
+    Args:
+        uci: EUci pointer
+    
+    Returns:
+        list of added rule config names
+    """
+    ret = list()
+    rules = {"ip6_dhcp" : "Allow-DHCPv6", "ip6_mld" : "Allow-MLD", "ip6_icmp" : "Allow-ICMPv6-Input", "ip6_icmp_forward" : "Allow-ICMPv6-Forward"}
+    for r in rules:
+        (rule_name, rule) = get_rule_by_name(uci, rules[r], tag="automated")
+        if rule_name is None:
+            ret.append(add_template_rule(uci, r))
+    return ret
