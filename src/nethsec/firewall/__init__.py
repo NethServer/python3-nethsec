@@ -690,14 +690,15 @@ def get_zone_by_name(uci, name: str) -> str:
             return (z, zones[z])
     return (None, None)
 
-def get_rule_by_name(uci, name: str) -> str:
+def get_rule_by_name(uci, name: str, tag = "") -> str:
     """
-    Get rule config name by rule name.
+    Get rule config name and rule data by rule name, optionally filtered by tag.
     Assume there is only one rule with the same name.
 
     Args:
         uci: EUci pointer
         name: rule name
+        tag: optional tag to filter rules
 
     Returns:
         tuple of rule config name and rule config if rule with name name exists, (None, None) otherwise
@@ -705,7 +706,8 @@ def get_rule_by_name(uci, name: str) -> str:
     rules = utils.get_all_by_type(uci, 'firewall', 'rule')
     for r in rules:
         if uci.get('firewall', r, 'name', default='') == name:
-            return (r, rules[r])
+            if not tag or tag in uci.get('firewall', r, 'ns_tag', default=[]):
+                return (r, rules[r])
     return (None, None)
 
 
@@ -878,6 +880,7 @@ def add_default_ipv6_rules(uci):
     ret = list()
     rules = {"ip6_dhcp" : "Allow-DHCPv6", "ip6_mld" : "Allow-MLD", "ip6_icmp" : "Allow-ICMPv6-Input", "ip6_icmp_forward" : "Allow-ICMPv6-Forward"}
     for r in rules:
-        if not get_rule_by_name(uci, rules[r])[0]:
+        (rule_name, rule) = get_rule_by_name(uci, rules[r], tag="automated")
+        if rule_name is None:
             ret.append(add_template_rule(uci, r))
     return ret

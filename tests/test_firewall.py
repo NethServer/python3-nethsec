@@ -48,6 +48,14 @@ config rule 'v6rule'
     option dest_port '546'
     option family 'ipv6'
     option target 'ACCEPT'
+
+config rule 'manrule'
+    option name 'Not-Automated'
+    option src 'wan'
+    option proto 'tcp'
+    option dest_port '1234'
+    option family 'ipv4'
+    option target 'ACCEPT'
 """
 
 network_db = """
@@ -595,7 +603,12 @@ def test_get_rule_by_name(tmp_path):
         "v6rule",
         {"name": "Allow-DHCPv6", "src": "wan", "proto": "udp", "dest_port": "546", "family": "ipv6", "target": "ACCEPT", "enabled": "0"}
     )
+    assert firewall.get_rule_by_name(u, "Not-Automated") == (
+        "manrule",
+        {"name": "Not-Automated", "src": "wan", "proto": "tcp", "dest_port": "1234", "family": "ipv4", "target": "ACCEPT"}
+    )
     assert firewall.get_rule_by_name(u, "not_a_rule") == (None, None)
+    assert firewall.get_rule_by_name(u, "Not-Automated", "automated") == (None, None)
 
 def test_add_default_ipv6_rules(tmp_path):
     u = _setup_db(tmp_path)
