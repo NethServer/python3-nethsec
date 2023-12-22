@@ -864,3 +864,20 @@ def delete_zone(uci, zone_config_name: str) -> {str, set[str]}:
     uci.delete('firewall', zone_config_name)
     uci.save('firewall')
     return zone_config_name, to_delete_forwardings
+
+def add_default_ipv6_rules(uci):
+    """
+    Add default ipv6 rules to firewall config, if they don't exist already.
+
+    Args:
+        uci: EUci pointer
+    
+    Returns:
+        list of added rule config names
+    """
+    ret = list()
+    rules = {"ip6_dhcp" : "Allow-DHCPv6", "ip6_mld" : "Allow-MLD", "ip6_icmp" : "Allow-ICMPv6-Input", "ip6_icmp_forward" : "Allow-ICMPv6-Forward"}
+    for r in rules:
+        if not get_rule_by_name(uci, rules[r])[0]:
+            ret.append(add_template_rule(uci, r))
+    return ret
