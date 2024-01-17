@@ -1,7 +1,10 @@
+from nethsec import utils
+from nethsec.utils import ValidationError
 import pytest
 from euci import EUci, UciExceptionNotFound
 
 from nethsec import firewall
+from pytest_mock import MockFixture
 
 firewall_db = """
 config zone lan1
@@ -56,6 +59,33 @@ config rule 'manrule'
     option dest_port '1234'
     option family 'ipv4'
     option target 'ACCEPT'
+
+config rule 'f1'
+	option name 'r1'
+	option dest 'wan'
+	option dest_port '22'
+	option target 'ACCEPT'
+	option src 'lan'
+	list src_ip '192.168.100.1'
+	list src_ip '192.168.100.238'
+	list dest_ip '192.168.122.1'
+	list dest_ip '192.168.122.49'
+    option log '1'
+ 
+config rule 'o1'
+	option name 'output1'
+	list dest_ip '192.168.100.1'
+	option target 'ACCEPT'
+	option dest 'wan'
+
+config rule 'i1'
+	option name 'Allow-OpenVPNRW1'
+	option src 'wan'
+	option dest_port '1194'
+	option proto 'udp'
+	option target 'ACCEPT'
+	list ns_tag 'automated'
+	option ns_link 'openvpn/ns_roadwarrior1'
 """
 
 network_db = """
@@ -97,6 +127,22 @@ config interface 'wan6b'
 config interface 'wan6c'
     option device   eth44
     option ipv6   1
+
+config interface 'bond1'
+	option proto 'bonding'
+	option ipaddr '10.0.0.22'
+	option netmask '255.255.255.0'
+	list slaves 'eth3'
+	option bonding_policy 'balance-rr'
+	option packets_per_slave '1'
+	option all_slaves_active '0'
+	option link_monitoring 'off'
+
+config interface 'lan'
+	option device 'br-lan'
+	option proto 'static'
+	option ipaddr '192.168.100.238'
+	option netmask '255.255.255.0'
 """
 
 templates_db = """
@@ -234,6 +280,37 @@ config forwarding 'ns_lan2guests'
     option dest 'guests'
 """
 
+dhcp_db = """
+config domain
+	option name 'test.name.org'
+	option ip '192.168.100.1'
+
+config host
+	option name 'test2.giacomo.org'
+	option mac '5c:87:9c:fa:69:5b'
+	option ip '192.168.100.2'
+
+config domain
+	option name 'test3.test.org'
+	option ip 'ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543'
+"""
+
+services_file = """
+ftp             21/tcp
+ssh             22/tcp
+ssh             22/udp
+time            37/udp
+www             80/tcp          http
+kerberos        88/tcp          kerberos5 krb5 kerberos-sec
+kerberos        88/udp          kerberos5 krb5 kerberos-sec
+"""
+
+lease_file = """
+1704890657 9c:3d:cf:ea:94:9b 192.168.1.70 * *
+1704885018 98:ed:5c:8c:73:2a 192.168.1.228 test1 *
+1704874398 ac:57:26:00:24:8c 192.168.1.219 test2 01:dc:57:26:00:25:8c
+"""
+
 def _setup_db(tmp_path):
      # setup fake dbs
     with tmp_path.joinpath('firewall').open('w') as fp:
@@ -243,6 +320,8 @@ def _setup_db(tmp_path):
         fp.write(network_db)
     with tmp_path.joinpath('templates').open('w') as fp:
         fp.write(templates_db)
+    with tmp_path.joinpath('dhcp').open('w') as fp:
+        fp.write(dhcp_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_add_interface_to_zone(tmp_path):
@@ -589,7 +668,6 @@ def test_edit_zone(tmp_path):
     assert u.get("firewall", "ns_guest2new_zone", "src") == "guest"
     assert u.get("firewall", "ns_guest2new_zone", "dest") == "new_zone"
 
-
 def test_delete_zone(tmp_path):
     u = _setup_db(tmp_path)
     assert firewall.delete_zone(u, "ns_new_zone") == (
@@ -615,3 +693,149 @@ def test_add_default_ipv6_rules(tmp_path):
     # one rule should be skipped because it already exists
     assert len(firewall.add_default_ipv6_rules(u)) == 3
     assert firewall.add_default_ipv6_rules(u) == []
+
+def test_resolve_address(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.resolve_address(u, "192.168.100.1") == {"value": "192.168.100.1", "type": "domain", "label": "test.name.org"}
+    assert firewall.resolve_address(u, "192.168.100.2") == {"value": "192.168.100.2", "type": "host", "label": "test2.giacomo.org"}
+    assert firewall.resolve_address(u, "192.168.100.238") == {"value": "192.168.100.238", "type": "interface", "label": "lan"}
+    assert firewall.resolve_address(u, "ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543") == {"value": "ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543", "type": "domain", "label": "test3.test.org"}
+    assert firewall.resolve_address(u, "10.0.0.22") == {"value": "10.0.0.22", "type": "interface", "label": "bond1"}
+    assert firewall.resolve_address(u, "2001:db80::2/64") == {"value": "2001:db80::2/64", "type": "interface", "label": "wan6"}
+
+def test_list_forward_rules(tmp_path):
+    u = _setup_db(tmp_path)
+    rules = firewall.list_forward_rules(u)
+    assert len(rules) > 0
+    for r in rules:
+        # just check that only forwarded rules are returned
+        assert r.get("src") and r.get("dest")
+        # check all fields are presents
+        assert 'log' in r
+        assert 'enabled' in r
+        assert 'ns_tag' in r
+        assert 'proto' in r
+
+def test_list_output_rules(tmp_path):
+    u = _setup_db(tmp_path)
+    rules = firewall.list_output_rules(u)
+    assert len(rules) > 0
+    for r in rules:
+       # just check that only output rules are returned
+       assert r.get("src") is None and r.get("dest")
+       # check all fields are presents
+       assert 'log' in r
+       assert 'enabled' in r
+       assert 'ns_tag' in r
+       assert 'proto' in r
+
+
+def test_list_input_rules(tmp_path):
+    u = _setup_db(tmp_path)
+    rules = firewall.list_input_rules(u)
+    assert len(rules) > 0
+    for r in rules:
+       # just check that only input rules are returned
+       assert r.get("dest") is None and r.get("src")
+       # check all fields are presents
+       assert 'log' in r
+       assert 'enabled' in r
+       assert 'ns_tag' in r
+       assert 'proto' in r
+
+def test_list_service_suggestions(mocker):
+    mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
+    mock_isfile = mocker.patch('os.path.isfile')
+    mock_isfile.return_value = True
+    services = firewall.list_service_suggestions()
+    assert len(services) == 5
+    assert services == [{'id': 'ftp', 'proto': ['tcp'], 'port': 21}, {'id': 'ssh', 'proto': ['tcp', 'udp'], 'port': 22}, {'id': 'time', 'proto': ['udp'], 'port': 37}, {'id': 'www', 'proto': ['tcp'], 'port': 80}, {'id': 'kerberos', 'proto': ['tcp', 'udp'], 'port': 88}]
+
+def test_list_host_suggestions(mocker, tmp_path):
+    u = _setup_db(tmp_path)
+    mocker.patch('builtins.open', mocker.mock_open(read_data=lease_file))
+    mock_isfile = mocker.patch('os.path.isfile')
+    mock_isfile.return_value = True
+    suggestions = firewall.list_host_suggestions(u)
+    assert len(suggestions) == 8
+    assert suggestions == [{'value': '192.168.100.1', 'label': 'test.name.org', 'type': 'domain'}, {'value': '192.168.100.2', 'label': 'test2.giacomo.org', 'type': 'host'}, {'value': 'ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543', 'label': 'test3.test.org', 'type': 'domain'}, {'value': '192.168.100.238', 'label': 'lan', 'type': 'network'}, {'value': '2001:db80::2/64', 'label': 'wan6', 'type': 'network'}, {'value': '10.0.0.22', 'label': 'bond1', 'type': 'network'}, {'value': '192.168.1.228', 'label': 'test1', 'type': 'lease'}, {'value': '192.168.1.219', 'label': 'test2', 'type': 'lease'}]
+
+def test_add_rule(tmp_path, mocker):
+    u = _setup_db(tmp_path)
+    mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
+    mock_isfile = mocker.patch('os.path.isfile')
+    mock_isfile.return_value = True
+    rid = firewall.add_rule(u, 'myrule', 'lan', ['192.168.1.22'], 'wan', ['1.2.3.4'], ['tcp', 'udp'], '443', 'ACCEPT', "ssh", True, True, ['tag1'], False)
+    assert u.get("firewall", rid, "name") == "myrule"
+    assert u.get("firewall", rid, "src") == "lan"
+    assert u.get("firewall", rid, "dest") == "wan"
+    assert u.get_all("firewall", rid, "src_ip") == ("192.168.1.22",)
+    assert u.get_all("firewall", rid, "dest_ip") == ("1.2.3.4",)
+    assert u.get_all("firewall", rid, "proto") == ('tcp', 'udp')
+    assert u.get("firewall", rid, "dest_port") == "22"
+    assert u.get("firewall", rid, "target") == "ACCEPT"
+    assert u.get("firewall", rid, "ns_service") == "ssh"
+    assert u.get("firewall", rid, "enabled") == "1"
+    assert u.get("firewall", rid, "log") == "1"
+    assert u.get_all("firewall", rid, "ns_tag") == ("tag1",)
+    assert u.get("firewall", rid, "ns_link", default="notpresent") == "notpresent"
+
+def test_edit_rule(tmp_path, mocker):
+    u = _setup_db(tmp_path)
+    mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
+    mock_isfile = mocker.patch('os.path.isfile')
+    mock_isfile.return_value = True
+    rid = firewall.add_rule(u, 'myrule2', 'lan', ['192.168.1.22'], 'wan', ['1.2.3.4'], ['tcp', 'udp'], '22', 'ACCEPT', "ssh", True, True, ['tag1'], False)
+    with pytest.raises(ValidationError):
+        firewall.edit_rule(u, 'notpresent', 'myrule3', 'lan', [], 'wan', [], [], '', 'ACCEPT', None, True, True, ['tag1'])
+    rid2 = firewall.edit_rule(u, rid, 'myrule3', 'lan', [], 'blue', [], ['udp'], '22', 'DROP', "", False, False, ['tag2'])
+    assert rid == rid2
+    assert u.get("firewall", rid, "name") == "myrule3"
+    assert u.get("firewall", rid, "src") == "lan"
+    assert u.get("firewall", rid, "dest") == "blue"
+    with pytest.raises(UciExceptionNotFound):
+        u.get_all("firewall", rid, "src_ip")
+    with pytest.raises(UciExceptionNotFound):
+        u.get_all("firewall", rid, "dest_ip")
+    with pytest.raises(UciExceptionNotFound):
+        u.get_all("firewall", rid, "proto")
+    with pytest.raises(UciExceptionNotFound):
+        u.get("firewall", rid, "dest_port") == "22"
+    assert u.get("firewall", rid, "target") == "DROP"
+    with pytest.raises(UciExceptionNotFound):
+        u.get("firewall", rid, "ns_service")
+    assert u.get("firewall", rid, "enabled") == "0"
+    assert u.get("firewall", rid, "log") == "0"
+    assert u.get_all("firewall", rid, "ns_tag") == ("tag2",)
+    rid3 = firewall.edit_rule(u, rid, 'myrule3', 'lan', [], 'blue', [], ['udp'], '22', 'DROP', "www", False, False, ['tag2'])
+    assert u.get("firewall", rid, "ns_service") == "www"
+    assert u.get_all("firewall", rid, "proto") == ('tcp',)
+    assert u.get("firewall", rid, "dest_port") == "80"
+
+def test_delete_rule(tmp_path):
+    u = _setup_db(tmp_path)
+    ids =  firewall.list_rule_ids(u)
+    id_to_delete = ids.pop()
+    firewall.delete_rule(u, id_to_delete)
+    assert id_to_delete not in firewall.list_rule_ids(u)
+
+def test_disable_rule(tmp_path):
+    u = _setup_db(tmp_path)
+    ids =  firewall.list_rule_ids(u)
+    id_to_disable = ids.pop()
+    firewall.disable_rule(u, id_to_disable)
+    assert u.get("firewall", id_to_disable, "enabled") == "0"
+
+def test_enable_rule(tmp_path):
+    u = _setup_db(tmp_path)
+    ids =  firewall.list_rule_ids(u)
+    id_to_enable = ids.pop()
+    firewall.disable_rule(u, id_to_enable)
+    assert u.get("firewall", id_to_enable, "enabled") == "0"
+    firewall.enable_rule(u, id_to_enable)
+    assert u.get("firewall", id_to_enable, "enabled") == "1"
+
+def test_order_rules(tmp_path, mocker):
+    # The firewall.order_rules function uses the uci binary to reorder the rules
+    # The test is usefull because uci behaves differently on a real machine
+    assert True

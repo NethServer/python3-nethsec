@@ -8,10 +8,15 @@
 '''
 Firewall utilities
 '''
+import ipaddress
+import json
+import os
 import subprocess
 
 from nethsec import utils
 
+PROTOCOLS = ['tcp', 'udp', 'udplite', 'icmp', 'esp', 'ah', 'sctp']
+TARGETS = ['ACCEPT', 'DROP', 'REJECT']
 
 def add_device_to_zone(uci, device, zone):
     '''
@@ -257,8 +262,8 @@ def add_trusted_zone(uci, name, networks = [], link = ""):
     if link:
         uci.set("firewall", flan, "ns_link", link)
     forwardings.append(flan)
+    reorder_firewall_config(uci)
 
-    uci.save("firewall")
     return zname, forwardings
 
 def add_service(uci, name, port, proto, link = ""):
@@ -287,7 +292,8 @@ def add_service(uci, name, port, proto, link = ""):
     uci.set("firewall", rname, "ns_tag", ["automated"])
     if link:
         uci.set("firewall", rname, "ns_link", link)
-    uci.save("firewall")
+    reorder_firewall_config(uci)
+
     return rname
 
 def remove_service(uci, name):
@@ -304,7 +310,8 @@ def remove_service(uci, name):
     '''
     rname = utils.get_id(f"allow_{name}")
     uci.delete("firewall", rname)
-    uci.save("firewall")
+    reorder_firewall_config(uci)
+
     return rname
 
 def disable_service(uci, name):
@@ -382,8 +389,8 @@ def add_template_forwarding(uci, name, link = ""):
     uci.set("firewall", fname, "ns_tag", ["automated"])
     if link:
         uci.set("firewall", fname, "ns_link", link)
+    reorder_firewall_config(uci)
 
-    uci.save("firewall")
     return fname
 
 def add_template_zone(uci, name, networks = [], link = ""):
@@ -422,8 +429,7 @@ def add_template_zone(uci, name, networks = [], link = ""):
 
     for forward in forward_list:
         forwardings.append(add_template_forwarding(uci, forward, link))
-
-    uci.save("firewall")
+    reorder_firewall_config(uci)
     return (zname, forwardings)
 
 def add_template_service_group(uci, name, src='lan', dest='wan', link=""):
@@ -474,8 +480,7 @@ def add_template_service_group(uci, name, src='lan', dest='wan', link=""):
         if link:
             uci.set("firewall", sname, "ns_link", link)
         sections.append(sname)
-
-    uci.save("firewall")
+    reorder_firewall_config(uci)
     return sections
 
 def add_template_rule(uci, name, proto="", port="", link=""):
@@ -506,8 +511,7 @@ def add_template_rule(uci, name, proto="", port="", link=""):
     uci.set("firewall", rname, "ns_tag", ["automated"])
     if link:
         uci.set("firewall", rname, "ns_link", link)
-
-    uci.save("firewall")
+    reorder_firewall_config(uci)
     return rname
 
 def get_all_linked(uci, link):
@@ -773,8 +777,7 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
     if forwards_from is not None:
         for forward_from in forwards_from:
             forwardings_added.add(add_forwarding(uci, forward_from, name))
-
-    uci.save('firewall')
+    reorder_firewall_config(uci)
     return zone_config_name, forwardings_added
 
 
@@ -862,9 +865,8 @@ def delete_zone(uci, zone_config_name: str) -> {str, set[str]}:
 
     for to_delete_forwarding in to_delete_forwardings:
         uci.delete('firewall', to_delete_forwarding)
-
     uci.delete('firewall', zone_config_name)
-    uci.save('firewall')
+    reorder_firewall_config(uci)
     return zone_config_name, to_delete_forwardings
 
 def add_default_ipv6_rules(uci):
@@ -884,3 +886,701 @@ def add_default_ipv6_rules(uci):
         if rule_name is None:
             ret.append(add_template_rule(uci, r))
     return ret
+
+def delete_rule(uci, id: str) -> str:
+    """
+    Delete rule from firewall config.
+
+    Args:
+        uci: EUci pointer
+        id: name of rule config to delete
+
+    Returns:
+        name of rule config that was deleted
+
+    Raises:
+        ValueError: if id is not a valid rule config name
+    """
+    if id not in list_rule_ids(uci):
+        raise utils.ValidationError('id', 'rule_not_found', id)
+    uci.delete('firewall', id)
+    reorder_firewall_config(uci)
+    return id
+
+def disable_rule(uci, id: str) -> str:
+    """
+    Disable rule from firewall config.
+
+    Args:
+        uci: EUci pointer
+        id: name of rule config to disable
+
+    Returns:
+        name of rule config that was disabled
+
+    Raises:
+        ValueError: if id is not a valid rule config name
+    """
+    if id not in list_rule_ids(uci):
+        raise utils.ValidationError('id', 'rule_not_found', id)
+    uci.set('firewall', id, 'enabled', '0')
+    uci.save('firewall')
+    return id
+
+def enable_rule(uci, id: str) -> str:
+    """
+    Enable rule from firewall config.
+
+    Args:
+        uci: EUci pointer
+        id: name of rule config to enable
+
+    Returns:
+        name of rule config that was enabled
+
+    Raises:
+        ValueError: if id is not a valid rule config name
+    """
+    if id not in list_rule_ids(uci):
+        raise utils.ValidationError('id', 'rule_not_found', id)
+    uci.set('firewall', id, 'enabled', '1')
+    uci.save('firewall')
+    return id
+
+def list_rule_ids (uci) -> list[str]:
+    """
+    Get all rule ids from firewall config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        list of all rule ids
+    """
+    return list(utils.get_all_by_type(uci, 'firewall', 'rule').keys())
+
+def order_rules(uci, rule_type: str, order: list[str]) -> list[str]:
+    """
+    Orders firewall rules, moves everything else but rules to the end of the list.
+
+    Args:
+        e_uci: euci instance
+        rule_type: type of rule to order, must be 'input', 'output' or 'forward'
+        rules: which order to put rules
+
+    Returns:
+        list of ordered rules entries
+
+    Raises:
+        ValidationError: if a rule is not present in /etc/config/firewall
+    """
+    rules = []
+    if not rule_type in ['input', 'output', 'forward']:
+        raise utils.ValidationError('rule_type', 'invalid_rule_type', rule_type)
+    
+    (defaults, zones, forwardings, other_rules, forward_rules, output_rules, input_rules) = split_firewall_config(uci)
+
+    if rule_type == 'input':
+        rules = input_rules
+    elif rule_type == 'output':
+        rules = output_rules
+    elif rule_type == 'forward':
+        rules = forward_rules
+
+    for r in rules:
+        if r not in order:
+            raise utils.ValidationError('order', 'invalid_order', r)
+
+    if rule_type == 'input':
+        final_order = defaults + zones + forwardings + other_rules + forward_rules + output_rules + order
+    elif rule_type == 'output':
+        final_order = defaults + zones + forwardings + other_rules + forward_rules + order + input_rules
+    elif rule_type == 'forward':
+        final_order = defaults + zones + forwardings + other_rules + order + output_rules + input_rules
+    
+    # enforce new order
+    index = 0
+    for section in final_order:
+        subprocess.run(["uci", "-c", uci.confdir(), "-t", uci.savedir(), "reorder", f"firewall.{section}={index}"])
+        index = index + 1
+    uci.save('firewall')
+
+    return order
+
+def resolve_address(uci, address: str) -> str:
+    """
+    Resolve address to a more human-redeable name.
+
+    Args:
+        uci: EUci pointer
+        address: address to resolve
+
+    Returns:
+        resolved address as a dict with keys value, label and type
+    """
+    for section in uci.get_all("dhcp"):
+        if uci.get("dhcp", section, "ip", default='') == address:
+            return {"value": address, "label": uci.get("dhcp", section, "name", default=address), "type": uci.get("dhcp", section)}
+
+    for section in uci.get_all("network"):
+        if uci.get("network", section, "ipaddr", default='') == address:
+            return {"value": address, "label": section, "type": uci.get("network", section)}
+        if uci.get("network", section, "ip6addr", default='') == address:
+            return {"value": address, "label": section, "type": uci.get("network", section)}
+
+    return {"value": address, "label": None, "type": None}
+
+def enrich_rule(uci, rule: dict) -> dict:
+    """
+    Enrich rule with more human-readable data and missing fields
+
+    Args:
+        uci: EUci pointer
+        rule: rule to enrich
+
+    Returns:
+        enriched rule
+    """
+    if 'automated' in rule.get('ns_tag', []):
+        rule['system_rule'] = True
+    else:
+        rule['system_rule'] = False
+    if not 'src_ip' in rule:
+        rule['src_ip'] = []
+    else:
+        if type(rule['src_ip'] ) == tuple:
+            rule['src_ip'] = list(rule['src_ip'])
+        elif type(rule['src_ip'] ) == str:
+            rule['src_ip'] = [rule['src_ip']]
+    if not 'dest_ip' in rule:
+        rule['dest_ip'] = []
+    else:
+        if type(rule['dest_ip'] ) == tuple:
+            rule['dest_ip'] = list(rule['dest_ip'])
+        elif type(rule['dest_ip'] ) == str:
+            rule['dest_ip'] = [rule['dest_ip']]
+    # try to gather info on src_ip and dest_ip
+    for key in ['src_ip', 'dest_ip']:
+        tmp = []
+        for ip in rule.get(key, []):
+            if ip:
+                tmp.append(resolve_address(uci, ip))
+        rule[key] = tmp
+    proto = rule.get('proto', "")
+    if not proto:
+        rule['proto'] = ['udp', 'tcp']
+    else:
+        if type(proto) == tuple:
+            rule['proto'] = list(proto)
+        elif type(proto) == str:
+            rule['proto'] = [proto]
+    dest_port = rule.get('dest_port', "")
+    if not dest_port:
+        rule['dest_port'] = []
+    else:
+        if type(dest_port) != list:
+            rule['dest_port'] = dest_port.split(" ")
+    if not 'ns_service' in rule:
+        rule['ns_service'] = ''
+    if not 'ns_tag' in rule:
+        rule['ns_tag'] = []
+    rule['log'] = True if rule.get('log', '0') == '1' else False
+    rule['enabled'] = True if rule.get('enabled', '1') == '1' else False
+    return rule
+
+def is_forward_rule(rule: dict) -> bool:
+    """
+    Check if rule is a forward rule
+
+    Args:
+        rule: rule to check
+
+    Returns:
+        True if rule is a forward rule, False otherwise
+    """
+    if rule.get('dest') and rule.get('src'):
+        return True
+    return False
+
+def is_input_rule(rule: dict) -> bool:
+    """
+    Check if rule is an input rule
+
+    Args:
+        rule: rule to check
+
+    Returns:
+        True if rule is an input rule, False otherwise
+    """
+    if not rule.get('dest') and rule.get('src'):
+        return True
+    return False
+
+def is_output_rule(rule: dict) -> bool:
+    """
+    Check if rule is an output rule
+
+    Args:
+        rule: rule to check
+
+    Returns:
+        True if rule is an output rule, False otherwise
+    """
+    if rule.get('dest') and not rule.get('src'):
+        return True
+    return False
+
+def list_rules(uci, rule_type = None) -> list:
+    """
+    Get all rules from firewall config
+
+    Args:
+        uci: EUci pointer
+        rule_type: optional rule type to filter, must be one of 'input', 'output' or 'forward'
+
+    Returns:
+        a list of all rules
+    """
+    rules = []
+    i = 0
+    for section in uci.get_all("firewall"):
+        if uci.get('firewall', section) == 'rule':
+            rule = uci.get_all('firewall', section)
+            rule['id'] = section
+            rule['index'] = i
+            if not rule_type:
+                rules.append(enrich_rule(uci, rule))
+            else:
+                if rule_type =='forward' and is_forward_rule(rule):
+                   rules.append(enrich_rule(uci, rule))
+                elif rule_type =='input' and is_input_rule(rule):
+                   rules.append(enrich_rule(uci, rule))
+                elif rule_type =='output' and is_output_rule(rule):
+                   rules.append(enrich_rule(uci, rule))
+        i += 1
+    return rules
+
+def list_forward_rules(uci) -> list:
+    """
+    Get all forward rules from firewall config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        a list of all forward rules
+    """
+    return list_rules(uci, 'forward')
+
+
+def list_output_rules(uci) -> list:
+    """
+    Get all output rules from firewall config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        a list of all output rules
+    """
+    return list_rules(uci, 'output')
+
+
+def list_input_rules(uci) -> list:
+    """
+    Get all input rules from firewall config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        a list of all input rules
+    """
+    return list_rules(uci, 'input')
+
+
+def list_service_suggestions():
+    """
+    Get all services from /etc/services
+
+    Returns:
+        a list of all services, each service is a dict with keys id, port, proto
+    """
+    services = {}
+    if os.path.isfile('/etc/services'):
+        with open('/etc/services', 'r') as fp:
+            for line in fp:
+                if line.startswith('#'):
+                    continue
+                try:
+                    tmp = line.split()
+                    name = tmp[0]
+                    (port, proto) = tmp[1].split('/')
+                except Exception as e:
+                    continue
+                if port not in services:
+                    services[port] = {"id": name, "proto": [proto]}
+                else:
+                    services[port]['proto'].append(proto)
+    else:
+        return []
+    ret = []
+    for port in services:
+        service = services[port]
+        service['port'] = int(port)
+        ret.append(service)
+    return ret
+
+def list_active_leases():
+    """
+    Get all active leases from /tmp/dhcp.leases
+
+    Returns:
+        a list of all active leases, each lease is a dict with keys value, label, type
+    """
+    ret = []
+    if os.path.isfile("/tmp/dhcp.leases"):
+        with open("/tmp/dhcp.leases", "r") as fp:
+            for line in fp.readlines():
+                line = line.strip()
+                if not line:
+                    continue
+                tmp = line.split(" ")
+                if tmp[3] != "*":
+                    ret.append({"value": tmp[2], "label": tmp[3], 'type': 'lease'})
+    return ret
+
+def list_host_suggestions(uci):
+    """
+    Get all hosts from dhcp and network config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        a list of all hosts, each host is a dict with keys value, label, type
+    """
+    ret = []
+    for section in uci.get_all("dhcp"):
+        if uci.get("dhcp", section, "ip", default=None):
+            ret.append({"value": uci.get("dhcp", section, "ip"), "label": uci.get("dhcp", section, "name"), "type": uci.get("dhcp", section)})
+    for section in uci.get_all("network"):
+        ip = uci.get("network", section, "ipaddr", default=None)
+        if ip and ip != '127.0.0.1':
+            ret.append({"value": uci.get("network", section, "ipaddr"), "label": section, "type": "network"})
+        if uci.get("network", section, "ip6addr", default=None):
+            ret.append({"value": uci.get("network", section, "ip6addr"), "label": section, "type": "network"})
+    ret = ret + list_active_leases()
+    return ret
+
+def validate_address_format(address: str) -> bool:
+    """
+    Validate address format.
+    Valid formats are:
+    - ip address
+    - ip range like 192.168.100.1-192.168.100.10
+    - ip cidr
+
+    Args:
+        address: address to validate
+
+    Returns:
+        True if address is valid, False otherwise
+    """
+    if not address:
+        return True
+    try:
+        if '/' in address:
+            (ip, cidr) = address.split('/')
+            ipaddress.ip_address(ip)
+            cidr = int(cidr)
+            if cidr < 0 or cidr > 32:
+                return False
+        elif '-' in address:
+            (start, end) = address.split('-')
+            start = ipaddress.ip_address(start)
+            end = ipaddress.ip_address(end)
+            if start > end:
+                return False
+        else:
+            ipaddress.ip_address(address)
+    except:
+        return False
+    return True
+
+def validate_port_format(port: str) -> bool:
+    """
+    Validate port format.
+
+    Args:
+        port: port to validate
+
+    Returns:
+        True if port is valid, False otherwise
+    """
+    if not port:
+        return True
+    try:
+        if '-' in port:
+            (start, end) = port.split('-')
+            start = int(start)
+            end = int(end)
+            if start < 0 or start > 65535:
+                return False
+            if end < 0 or end > 65535:
+                return False
+            if start > end:
+                return False
+        elif ',' in port:
+            for p in port.split(','):
+                p = int(p)
+                if p < 0 or p > 65535:
+                    return False
+        else:
+            port = int(port)
+            if port < 0 or port > 65535:
+                return False
+    except:
+        return False
+    return True
+
+def validate_rule(src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str):
+    """
+    Validate rule.
+
+    Args:
+        src: source zone, must be zone name, not config name
+        src_ip: a list of source ip
+        dest: destination zone, must be zone name, not config name
+        dest_ip: a list of destination ip
+        proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
+        dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
+        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        service: service name
+
+    Raises:
+        ValidationError: if rule is invalid
+    """
+    for s in src_ip:
+        if not validate_address_format(s):
+            raise utils.ValidationError('src_ip', 'invalid_format', s)
+    for d in dest_ip:
+        if not validate_address_format(d):
+            raise utils.ValidationError('dest_ip', 'invalid_format', d)
+    if src == dest:
+        raise utils.ValidationError('dest', 'same_zone', dest)
+    if target not in TARGETS:
+        raise utils.ValidationError('target', 'invalid_target', target)
+    if service and service != '*':
+        if service == 'custom':
+            for p in proto:
+                if p not in PROTOCOLS:
+                    raise utils.ValidationError('proto', 'invalid_proto', p)
+            for port in dest_port:
+                if not validate_port_format(port):
+                    raise utils.ValidationError('dest_port', 'invalid_port', port)
+        else:
+            services = list(map(lambda x: x['id'], list_service_suggestions()))
+            if services and service not in services:
+                raise utils.ValidationError('ns_service', 'invalid_service', service)
+
+def get_service_by_name(name: str) -> dict:
+    """
+    Get service by name.
+
+    Args:
+        name: service name
+
+    Returns:
+        service dict if service with name name exists, None otherwise
+    """
+    for service in list_service_suggestions():
+        if service['id'] == name:
+            return service
+    return None
+
+def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str,
+                enabled: bool = True, log: bool = False, tag = []) -> None:
+    """
+    Set up a rule in the firewall config.
+
+    Args:
+            uci: EUci pointer
+            id: id of the rule
+            name: name of the rule
+            src: source zone, must be zone name, not config name
+            src_ip: a list of source IP addresses
+            dest: destination zone, must be zone name, not config name
+            dest_ip: a list of destination IP addresses
+            proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
+            dest_port: a list of destination ports, each element can be a port number, a comma-separated list of port numbers, or a range with `-` (e.g., 80-90)
+            target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+            service: service name
+            enabled: if True, rule is enabled; if False, rule is disabled
+            log: if True, log traffic
+            tag: list of optional tags
+    """
+    uci.set('firewall', id, 'name', name)
+    uci.set('firewall', id, 'src', src)
+    uci.set('firewall', id, 'src_ip', src_ip)
+    uci.set('firewall', id, 'dest', dest)
+    uci.set('firewall', id, 'dest_ip', dest_ip)
+    
+    uci.set('firewall', id, 'target', target)
+    if service and service != '*':
+        if service == 'custom':
+            uci.set('firewall', id, 'ns_service', '')
+            uci.set('firewall', id, 'proto', proto)
+            uci.set('firewall', id, 'dest_port', " ".join(dest_port))
+        else:
+            uci.set('firewall', id, 'ns_service', service)
+            service = get_service_by_name(service)
+            uci.set('firewall', id, 'proto', service['proto'])
+            uci.set('firewall', id, 'dest_port', service['port'])
+    else:
+        try:
+            uci.delete('firewall', id, 'ns_service')
+            uci.delete('firewall', id, 'proto')
+            uci.delete('firewall', id, 'dest_port')
+        except:
+            pass
+
+    uci.set('firewall', id, 'enabled', '1' if enabled else '0')
+    uci.set('firewall', id, 'log', '1' if log else '0')
+    uci.set('firewall', id, 'ns_tag', tag)
+    uci.save('firewall')
+
+def split_firewall_config(uci):
+    """
+    Split firewall config into sections.
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        tuple of lists of sections, in the following order: defaults, zones, forwardings, other_rules, forward_rules, output_rules, input_rules
+    """
+    forward_rules = []
+    output_rules = []
+    input_rules = []
+    other_rules = []
+    zones = []
+    forwardings = []
+    defaults = []
+    for section in uci.get_all("firewall"):
+        record = uci.get_all("firewall", section)
+        if uci.get('firewall', section) == 'rule':
+            if is_forward_rule(record):
+                forward_rules.append(section)
+            elif is_input_rule(record):
+                input_rules.append(section)
+            elif is_output_rule(record):
+                output_rules.append(section)
+            else:
+                other_rules.append(section)
+        elif uci.get('firewall', section) == 'zone':
+            zones.append(section)
+        elif uci.get('firewall', section) == 'forwarding':
+            forwardings.append(section)
+        else:
+            defaults.append(section)
+
+    return (defaults, zones, forwardings, other_rules, forward_rules, output_rules, input_rules)
+
+
+def reorder_firewall_config(uci):
+    """
+    Reorder firewall config, moving all rules at the bottom.
+    The order in the file will be:
+    - defaults and includes
+    - zones
+    - forwardings
+    - forward rules
+    - output rules
+    - input rules
+
+    Args:
+        uci: EUci pointer
+    """
+    (defaults, zones, forwardings, other_rules, forward_rules, output_rules, input_rules) = split_firewall_config(uci)
+
+    order = defaults + zones + forwardings + other_rules + forward_rules + output_rules + input_rules
+    index = 0
+    for section in order:
+        subprocess.run(["uci", "-t", uci.savedir(), "-c", uci.confdir(), "reorder", f"firewall.{section}={index}"])
+        index = index + 1
+    uci.save('firewall')
+
+def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str,
+            enabled: bool = True, log: bool = False, tag = [], add_to_top: bool = False) -> str:
+    """
+    Add rule to firewall config.
+
+    Args:
+        uci: EUci pointer
+        id: id of rule to edit
+        name: name of rule
+        src: source zone, must be zone name, not config name
+        src_ip: a list of source ip
+        dest: destination zone, must be zone name, not config name
+        dest_ip: a list of destination ip
+        proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
+        dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
+        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        service: service name
+        enabled: if True, rule is enabled, if False, rule is disabled
+        log: if True, log traffic
+        tag: list of optional tags
+        add_to_top: if True, add rule to the top of the list, otherwise add to the bottom
+
+    Returns:
+        name of rule config that was added
+    """
+    validate_rule(src, src_ip, dest, dest_ip, proto, dest_port, target, service)
+    rule = utils.get_random_id()
+    uci.set('firewall', rule, 'rule')
+    setup_rule(uci, rule, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag)
+    reorder_firewall_config(uci)
+
+    if add_to_top:
+        rule_type = uci.get_all('firewall', rule)
+        if is_forward_rule(rule_type):
+            ids = list(map(lambda x: x['id'], list_forward_rules(uci)))
+            order_rules(uci, 'forward', [rule] + ids[:-1] )
+        elif is_input_rule(rule_type):
+            ids = list(map(lambda x: x['id'], list_input_rules(uci)))
+            order_rules(uci, 'input', [rule] + ids[:-1] )
+        elif is_output_rule(rule_type):
+            ids = list(map(lambda x: x['id'], list_output_rules(uci)))
+            order_rules(uci, 'output', [rule] + ids[:-1] )
+    return rule
+
+def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str, 
+            enabled: bool = True, log: bool = False, tag = []) -> str:
+    """
+    Edit rule in firewall config.
+
+    Args:
+        uci: EUci pointer
+        id: id of rule to edit
+        name: name of rule
+        src: source zone, must be zone name, not config name
+        src_ip: a list of source ip
+        dest: destination zone, must be zone name, not config name
+        dest_ip: a list of destination ip
+        proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
+        dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
+        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        service: service name
+        enabled: if True, rule is enabled, if False, rule is disabled
+        log: if True, log traffic
+        tag: list of optional tags
+
+    Returns:
+        name of rule config that was edited
+    """
+    if not uci.get('firewall', id, default=None):
+        raise utils.ValidationError("id", "rule_does_not_exists", id)  
+    validate_rule(src, src_ip, dest, dest_ip, proto, dest_port, target, service)         
+    setup_rule(uci, id, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag)
+    return id
