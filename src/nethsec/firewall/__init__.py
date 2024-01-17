@@ -262,6 +262,7 @@ def add_trusted_zone(uci, name, networks = [], link = ""):
     if link:
         uci.set("firewall", flan, "ns_link", link)
     forwardings.append(flan)
+    uci.save('firewall')
     reorder_firewall_config(uci)
 
     return zname, forwardings
@@ -292,6 +293,7 @@ def add_service(uci, name, port, proto, link = ""):
     uci.set("firewall", rname, "ns_tag", ["automated"])
     if link:
         uci.set("firewall", rname, "ns_link", link)
+    uci.save('firewall')
     reorder_firewall_config(uci)
 
     return rname
@@ -310,6 +312,7 @@ def remove_service(uci, name):
     '''
     rname = utils.get_id(f"allow_{name}")
     uci.delete("firewall", rname)
+    uci.save('firewall')
     reorder_firewall_config(uci)
 
     return rname
@@ -389,6 +392,7 @@ def add_template_forwarding(uci, name, link = ""):
     uci.set("firewall", fname, "ns_tag", ["automated"])
     if link:
         uci.set("firewall", fname, "ns_link", link)
+    uci.save('firewall')
     reorder_firewall_config(uci)
 
     return fname
@@ -429,6 +433,7 @@ def add_template_zone(uci, name, networks = [], link = ""):
 
     for forward in forward_list:
         forwardings.append(add_template_forwarding(uci, forward, link))
+    uci.save('firewall')
     reorder_firewall_config(uci)
     return (zname, forwardings)
 
@@ -480,6 +485,7 @@ def add_template_service_group(uci, name, src='lan', dest='wan', link=""):
         if link:
             uci.set("firewall", sname, "ns_link", link)
         sections.append(sname)
+    uci.save('firewall')
     reorder_firewall_config(uci)
     return sections
 
@@ -511,6 +517,7 @@ def add_template_rule(uci, name, proto="", port="", link=""):
     uci.set("firewall", rname, "ns_tag", ["automated"])
     if link:
         uci.set("firewall", rname, "ns_link", link)
+    uci.save('firewall')
     reorder_firewall_config(uci)
     return rname
 
@@ -777,6 +784,7 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
     if forwards_from is not None:
         for forward_from in forwards_from:
             forwardings_added.add(add_forwarding(uci, forward_from, name))
+    uci.save('firewall')
     reorder_firewall_config(uci)
     return zone_config_name, forwardings_added
 
@@ -866,6 +874,7 @@ def delete_zone(uci, zone_config_name: str) -> {str, set[str]}:
     for to_delete_forwarding in to_delete_forwardings:
         uci.delete('firewall', to_delete_forwarding)
     uci.delete('firewall', zone_config_name)
+    uci.save('firewall')
     reorder_firewall_config(uci)
     return zone_config_name, to_delete_forwardings
 
@@ -904,6 +913,7 @@ def delete_rule(uci, id: str) -> str:
     if id not in list_rule_ids(uci):
         raise utils.ValidationError('id', 'rule_not_found', id)
     uci.delete('firewall', id)
+    uci.save('firewall')
     reorder_firewall_config(uci)
     return id
 
@@ -1540,6 +1550,7 @@ def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: li
     rule = utils.get_random_id()
     uci.set('firewall', rule, 'rule')
     setup_rule(uci, rule, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag)
+    uci.save('firewall')
     reorder_firewall_config(uci)
 
     if add_to_top:
