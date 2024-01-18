@@ -275,7 +275,7 @@ def add_service(uci, name, port, proto, link = ""):
     Arguments:
       - uci -- EUci pointer
       - name -- Service name
-      - port -- Service port number as string
+      - port -- Service port number as string or array
       - proto -- List of service protocols
       - link -- A reference to an existing key in the format <database>/<keyname> (optional)
 
@@ -287,6 +287,8 @@ def add_service(uci, name, port, proto, link = ""):
     uci.set("firewall", rname, "name", f"Allow-{name}")
     uci.set("firewall", rname, "src", "wan")
     uci.set("firewall", rname, "dest_port", port)
+    if type(proto) is str:
+        proto = [proto]
     uci.set("firewall", rname, "proto", proto)
     uci.set("firewall", rname, "target", "ACCEPT")
     uci.set("firewall", rname, "enabled", "1")
