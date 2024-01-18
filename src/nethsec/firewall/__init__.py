@@ -1439,7 +1439,7 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
     uci.set('firewall', id, 'target', target)
     if service and service != '*':
         if service == 'custom':
-            uci.set('firewall', id, 'ns_service', '')
+            uci.set('firewall', id, 'ns_service', 'custom')
             uci.set('firewall', id, 'proto', proto)
             uci.set('firewall', id, 'dest_port', " ".join(dest_port))
         else:
