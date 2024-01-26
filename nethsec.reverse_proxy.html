@@ -6,7 +6,7 @@
 
   <head>
     
-    <title>nethsec.ipsec</title>
+    <title>nethsec.reverse_proxy</title>
     <meta name="generator" content="pydoctor 23.9.1"> 
         
     </meta>
@@ -142,7 +142,7 @@
 
       <div class="thingTitle">
         <span>Package</span>
-        <code class="thisobject"><a href="nethsec.ipsec.html" class="internal-link" title="This package">ipsec</a></code> 
+        <code class="thisobject"><a href="nethsec.reverse_proxy.html" class="internal-link" title="This package">reverse<wbr></wbr>_proxy</a></code> 
       </div>
       
       <div>
@@ -163,7 +163,7 @@
         
 
         
-            <div class="itemName"><code><a href="#add_trusted_interface" class="internal-link" title="nethsec.ipsec.add_trusted_interface">add<wbr></wbr>_trusted<wbr></wbr>_interface</a></code>
+            <div class="itemName"><code><a href="#add_domain" class="internal-link" title="nethsec.reverse_proxy.add_domain">add<wbr></wbr>_domain</a></code>
             </div>
         
 
@@ -173,7 +173,7 @@
         
 
         
-            <div class="itemName"><code><a href="#init_ipsec" class="internal-link" title="nethsec.ipsec.init_ipsec">init<wbr></wbr>_ipsec</a></code>
+            <div class="itemName"><code><a href="#add_path" class="internal-link" title="nethsec.reverse_proxy.add_path">add<wbr></wbr>_path</a></code>
             </div>
         
 
@@ -183,7 +183,27 @@
         
 
         
-            <div class="itemName"><code><a href="#open_firewall_ports" class="internal-link" title="nethsec.ipsec.open_firewall_ports">open<wbr></wbr>_firewall<wbr></wbr>_ports</a></code>
+            <div class="itemName"><code><a href="#certificate_list" class="internal-link" title="nethsec.reverse_proxy.certificate_list">certificate<wbr></wbr>_list</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#create_location" class="internal-link" title="nethsec.reverse_proxy.create_location">create<wbr></wbr>_location</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#set_proxy_pass" class="internal-link" title="nethsec.reverse_proxy.set_proxy_pass">set<wbr></wbr>_proxy<wbr></wbr>_pass</a></code>
             </div>
         
 
@@ -193,21 +213,8 @@
         
          
 
-        <div class="childrenKindTitle">Variables</div>
-        <ul>
-    
-    <li class="">
         
-        
-        
-
-        
-            <div class="itemName"><code><a href="#IPSEC_ZONE" class="internal-link" title="nethsec.ipsec.IPSEC_ZONE">IPSEC<wbr></wbr>_ZONE</a></code>
-            </div>
-        
-
-    </li>
-</ul> 
+         
 
         
          
@@ -246,7 +253,7 @@
             </div>
         
 
-    </li><li class=" thisobject">
+    </li><li class="">
         
         
         
@@ -276,7 +283,7 @@
             </div>
         
 
-    </li><li class="">
+    </li><li class=" thisobject">
         
         
         
@@ -343,7 +350,7 @@
         
 
         <div class="page-header">
-          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code><wbr></wbr>.<code><a href="nethsec.ipsec.html" class="internal-link" title="nethsec.ipsec">ipsec</a></code></code></h1>
+          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code><wbr></wbr>.<code><a href="nethsec.reverse_proxy.html" class="internal-link" title="nethsec.reverse_proxy">reverse_proxy</a></code></code></h1>
           <div id="showPrivate">
             <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
           </div>
@@ -354,91 +361,72 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/ipsec/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/reverse_proxy/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
         <div class="moduleDocstring">
-          <div><p>IPSec utilities</p></div>
+          <div><p>Reverse proxy helper functions</p>
+<p>All the functions in this module are meant to be used by the reverse proxy api and migration script.
+Be careful when using them in other contexts.</p>
+</div>
         </div>
 
         <div id="splitTables">
           
           
 
-            <p class="fromInitPy">From <code>__init__.py</code>:</p><table class="children sortable" id="id4">
+            <p class="fromInitPy">From <code>__init__.py</code>:</p><table class="children sortable" id="id7">
   
   
   <tr class="function">
     
     <td>Function</td>
-    <td><code><a href="#add_trusted_interface" class="internal-link" title="nethsec.ipsec.add_trusted_interface">add<wbr></wbr>_trusted<wbr></wbr>_interface</a></code></td>
-    <td>Add the interface to the 'ipsec' trusted zone. The function also creates the trusted zone, if needed.</td>
+    <td><code><a href="#add_domain" class="internal-link" title="nethsec.reverse_proxy.add_domain">add<wbr></wbr>_domain</a></code></td>
+    <td>Add a new server to the nginx config.</td>
   </tr><tr class="function">
     
     <td>Function</td>
-    <td><code><a href="#init_ipsec" class="internal-link" title="nethsec.ipsec.init_ipsec">init<wbr></wbr>_ipsec</a></code></td>
-    <td>Initialize IPSec global configuration, if needed.</td>
+    <td><code><a href="#add_path" class="internal-link" title="nethsec.reverse_proxy.add_path">add<wbr></wbr>_path</a></code></td>
+    <td>Add a new location to the _lan server.</td>
   </tr><tr class="function">
     
     <td>Function</td>
-    <td><code><a href="#open_firewall_ports" class="internal-link" title="nethsec.ipsec.open_firewall_ports">open<wbr></wbr>_firewall<wbr></wbr>_ports</a></code></td>
-    <td>Open firewall ports for IPSec tunnels, if need.</td>
-  </tr><tr class="constant">
+    <td><code><a href="#certificate_list" class="internal-link" title="nethsec.reverse_proxy.certificate_list">certificate<wbr></wbr>_list</a></code></td>
+    <td>List all the certificates in the system.</td>
+  </tr><tr class="function">
     
-    <td>Constant</td>
-    <td><code><a href="#IPSEC_ZONE" class="internal-link" title="nethsec.ipsec.IPSEC_ZONE">IPSEC<wbr></wbr>_ZONE</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td>Function</td>
+    <td><code><a href="#create_location" class="internal-link" title="nethsec.reverse_proxy.create_location">create<wbr></wbr>_location</a></code></td>
+    <td>Create a new location in the nginx config.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#set_proxy_pass" class="internal-link" title="nethsec.reverse_proxy.set_proxy_pass">set<wbr></wbr>_proxy<wbr></wbr>_pass</a></code></td>
+    <td>Set the proxy pass for the specified location. This function is a mere workaround for nginx to allow non-resolvable domains to be used as proxy_pass.</td>
   </tr>
 </table>
         </div>
 
         <div id="childList">
-          <div class="baseconstant">
+          <div class="basefunction">
   
   
-  <a name="nethsec.ipsec.IPSEC_ZONE">
+  <a name="nethsec.reverse_proxy.set_proxy_pass">
     
   </a>
-  <a name="IPSEC_ZONE">
-    
-  </a>
-  <div class="functionHeader">
-    
-    <span class="py-defname">IPSEC_ZONE</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/ipsec/__init__.py#L15">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#IPSEC_ZONE" title="nethsec.ipsec.IPSEC_ZONE">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="functionBody">
-    
-    <div><p class="undocumented">Undocumented</p></div>
-    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'</span><span class="rst-variable-string">ipsec</span><span class="rst-variable-quote">'</span></code></pre></td></tr></table>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.ipsec.init_ipsec">
-    
-  </a>
-  <a name="init_ipsec">
+  <a name="set_proxy_pass">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">init_ipsec</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/ipsec/__init__.py#L17">
+    <span class="py-keyword">def</span> <span class="py-defname">set_proxy_pass</span><span class="function-signature">(e_uci, location, proxy_pass)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/reverse_proxy/__init__.py#L24">
       
       (source)
     </a>
-    <a class="headerLink" href="#init_ipsec" title="nethsec.ipsec.init_ipsec">
+    <a class="headerLink" href="#set_proxy_pass" title="nethsec.reverse_proxy.set_proxy_pass">
       
       
       ¶
@@ -446,12 +434,14 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Initialize IPSec global configuration, if needed.</p>
-<p>Changes are saved to staging area.</p>
+    <div><p>Set the proxy pass for the specified location.
+This function is a mere workaround for nginx to allow non-resolvable domains to be used as proxy_pass.</p>
 <dl class="rst-docutils">
-<dt>Arguments:</dt>
+<dt>Args:</dt>
 <dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
+<li>e_uci: EUci object</li>
+<li>location: nginx config location id</li>
+<li>proxy_pass: string of the proxy pass to set</li>
 </ul>
 </dd>
 </dl>
@@ -460,21 +450,21 @@
 </div><div class="basefunction">
   
   
-  <a name="nethsec.ipsec.open_firewall_ports">
+  <a name="nethsec.reverse_proxy.create_location">
     
   </a>
-  <a name="open_firewall_ports">
+  <a name="create_location">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">open_firewall_ports</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/ipsec/__init__.py#L40">
+    <span class="py-keyword">def</span> <span class="py-defname">create_location</span><span class="function-signature">(e_uci, uci_server, location, proxy_pass, domain=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/reverse_proxy/__init__.py#L51">
       
       (source)
     </a>
-    <a class="headerLink" href="#open_firewall_ports" title="nethsec.ipsec.open_firewall_ports">
+    <a class="headerLink" href="#create_location" title="nethsec.reverse_proxy.create_location">
       
       
       ¶
@@ -482,12 +472,55 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Open firewall ports for IPSec tunnels, if need.</p>
-<p>Changes are saved to staging area.</p>
+    <div><p>Create a new location in the nginx config.</p>
 <dl class="rst-docutils">
-<dt>Arguments:</dt>
+<dt>Args:</dt>
 <dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
+<li>e_uci: EUci object</li>
+<li>uci_server: where the location is defined</li>
+<li>location: path where the location will answer</li>
+<li>proxy_pass: where the location will proxy to</li>
+<li>domain: optional domain to set in the Host header</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>location id of the created location</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.reverse_proxy.add_path">
+    
+  </a>
+  <a name="add_path">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_path</span><span class="function-signature">(path, destination, description, allow)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/reverse_proxy/__init__.py#L87">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_path" title="nethsec.reverse_proxy.add_path">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Add a new location to the _lan server.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>path: path where the location will answer</li>
+<li>destination: destination endpoint</li>
+<li>description: description of the location</li>
+<li>allow: array of allowed ip addresses</li>
 </ul>
 </dd>
 </dl>
@@ -496,21 +529,21 @@
 </div><div class="basefunction">
   
   
-  <a name="nethsec.ipsec.add_trusted_interface">
+  <a name="nethsec.reverse_proxy.add_domain">
     
   </a>
-  <a name="add_trusted_interface">
+  <a name="add_domain">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">add_trusted_interface</span><span class="function-signature">(uci, interface)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/ipsec/__init__.py#L82">
+    <span class="py-keyword">def</span> <span class="py-defname">add_domain</span><span class="function-signature">(domain, destination, certificate, description, allow)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/reverse_proxy/__init__.py#L113">
       
       (source)
     </a>
-    <a class="headerLink" href="#add_trusted_interface" title="nethsec.ipsec.add_trusted_interface">
+    <a class="headerLink" href="#add_domain" title="nethsec.reverse_proxy.add_domain">
       
       
       ¶
@@ -518,12 +551,50 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Add the interface to the 'ipsec' trusted zone. The function also creates the trusted zone, if needed.</p>
-<p>Changes are saved to staging area.</p>
+    <div><p>Add a new server to the nginx config.</p>
 <dl class="rst-docutils">
-<dt>Arguments:</dt>
+<dt>Args:</dt>
 <dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
+<li>domain: domain to answer to</li>
+<li>destination: where to proxy the request to</li>
+<li>certificate: certificate to be used, beware the certificate must be in the list of certificates</li>
+<li>description: easy description of the server</li>
+<li>allow: ip addresses allowed to access the server</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.reverse_proxy.certificate_list">
+    
+  </a>
+  <a name="certificate_list">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">certificate_list</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/dcc994ff05ae9ee0ca8bf1b27f0a9ccf5a2069ce/src/nethsec/reverse_proxy/__init__.py#L151">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#certificate_list" title="nethsec.reverse_proxy.certificate_list">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>List all the certificates in the system.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-first rst-last rst-simple">
+<li>uci: euci object</li>
 </ul>
 </dd>
 </dl>
