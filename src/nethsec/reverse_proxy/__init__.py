@@ -6,7 +6,8 @@
 #
 
 """
-Reverse proxy helper functions.
+Reverse proxy helper functions
+
 All the functions in this module are meant to be used by the reverse proxy api and migration script.
 Be careful when using them in other contexts.
 """
@@ -24,10 +25,11 @@ def set_proxy_pass(e_uci, location, proxy_pass):
     """
     Set the proxy pass for the specified location.
     This function is a mere workaround for nginx to allow non-resolvable domains to be used as proxy_pass.
+
     Args:
-        e_uci: EUci object
-        location: nginx config location id
-        proxy_pass: string of the proxy pass to set
+      - e_uci: EUci object
+      - location: nginx config location id
+      - proxy_pass: string of the proxy pass to set
     """
     prefix = proxy_pass.split('://')[0]
     destination = proxy_pass.split('://')[1]
@@ -49,15 +51,16 @@ def set_proxy_pass(e_uci, location, proxy_pass):
 def create_location(e_uci, uci_server, location, proxy_pass, domain=''):
     """
     Create a new location in the nginx config.
+
     Args:
-        e_uci: EUci object
-        uci_server: where the location is defined
-        location: path where the location will answer
-        proxy_pass: where the location will proxy to
-        domain: optional domain to set in the Host header
+      - e_uci: EUci object
+      - uci_server: where the location is defined
+      - location: path where the location will answer
+      - proxy_pass: where the location will proxy to
+      - domain: optional domain to set in the Host header
 
-    Returns: location id of the created location
-
+    Returns:
+        location id of the created location
     """
     location_id = utils.get_random_id()
     e_uci.set('nginx', location_id, 'location')
@@ -84,11 +87,12 @@ def create_location(e_uci, uci_server, location, proxy_pass, domain=''):
 def add_path(path, destination, description, allow):
     """
     Add a new location to the _lan server.
+
     Args:
-        path: path where the location will answer
-        destination: destination endpoint
-        description: description of the location
-        allow: array of allowed ip addresses
+      - path: path where the location will answer
+      - destination: destination endpoint
+      - description: description of the location
+      - allow: array of allowed ip addresses
     """
     e_uci = EUci()
     location = create_location(e_uci, '_lan', path, destination)
@@ -111,11 +115,11 @@ def add_domain(domain, destination, certificate, description, allow):
     Add a new server to the nginx config.
 
     Args:
-        domain: domain to answer to
-        destination: where to proxy the request to
-        certificate: certificate to be used, beware the certificate must be in the list of certificates
-        description: easy description of the server
-        allow: ip addresses allowed to access the server
+      - domain: domain to answer to
+      - destination: where to proxy the request to
+      - certificate: certificate to be used, beware the certificate must be in the list of certificates
+      - description: easy description of the server
+      - allow: ip addresses allowed to access the server
     """
     e_uci = EUci()
     # create server instance
@@ -147,8 +151,9 @@ def add_domain(domain, destination, certificate, description, allow):
 def certificate_list(uci: EUci):
     """
     List all the certificates in the system.
+
     Args:
-        uci: euci object
+      - uci: euci object
     """
     default_certificate = uci.get('nginx', '_lan', 'ssl_certificate')
 
