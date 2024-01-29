@@ -148,6 +148,7 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
     e_uci.set('mwan3', rule_config_name, 'rule')
     e_uci.set('mwan3', rule_config_name, 'label', name)
     e_uci.set('mwan3', rule_config_name, 'use_policy', policy)
+    e_uci.set('mwan3', rule_config_name, 'sticky', '1')
     if protocol is not None:
         e_uci.set('mwan3', rule_config_name, 'proto', protocol)
     if source_address is not None:
