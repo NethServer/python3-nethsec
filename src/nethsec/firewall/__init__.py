@@ -285,6 +285,7 @@ def add_service(uci, name, port, proto, link = ""):
     rname = utils.get_id(f"allow_{name}")
     uci.set("firewall", rname, "rule")
     uci.set("firewall", rname, "name", f"Allow-{name}")
+    uci.set("firewall", rname, "ns_service", "custom")
     uci.set("firewall", rname, "src", "wan")
     uci.set("firewall", rname, "dest_port", port)
     if type(proto) is str:
