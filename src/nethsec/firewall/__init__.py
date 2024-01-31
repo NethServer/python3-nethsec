@@ -1093,7 +1093,10 @@ def enrich_rule(uci, rule: dict) -> dict:
         if type(dest_port) != list:
             rule['dest_port'] = dest_port.split(" ")
     if not 'ns_service' in rule:
-        rule['ns_service'] = ''
+        if rule.get('proto') != None or rule.get('dest_port') != None:
+            rule['ns_service'] = 'custom'
+        else:
+            rule['ns_service'] = ''
     if not 'ns_tag' in rule:
         rule['ns_tag'] = []
     rule['log'] = True if rule.get('log', '0') == '1' else False
