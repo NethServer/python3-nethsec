@@ -264,6 +264,18 @@ config exemption exemp1
     option enabled 1
 """
 
+netifyd_config = """
+config netifyd
+	option enabled '1'
+	option autoconfig '0'
+	list internal_if 'br-lan'
+	list internal_if 'eth0'
+	list internal_if 'eth4'
+	list internal_if 'tunrw1'
+	list external_if 'eth2'
+	list external_if 'eth1'
+"""
+
 network_config = """
 config interface 'RED_1'
         option proto 'dhcp'
@@ -293,6 +305,13 @@ config interface 'GREEN_2'
         option ipaddr '10.0.3.1'
         option netmask '255.255.255.0'
         option gateway '10.0.3.0'
+
+config interface 'GREEN_3'
+        option proto 'static'
+        option device 'br_lan'
+        option ipaddr '10.1.1.1'
+        option netmask '255.255.255.0'
+        option gateway '10.1.1.0'
 """
 
 firewall_config = """
@@ -350,6 +369,8 @@ def e_uci(tmp_path: pathlib.Path) -> EUci:
 def e_uci_with_data(e_uci: EUci):
     with pathlib.Path(e_uci.confdir()).joinpath('dpi').open('w') as fp:
         fp.write(dpi_db)
+    with pathlib.Path(e_uci.confdir()).joinpath('netifyd').open('w') as fp:
+        fp.write(netifyd_config)
     return e_uci
 
 
