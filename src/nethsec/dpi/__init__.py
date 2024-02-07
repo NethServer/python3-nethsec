@@ -169,7 +169,8 @@ def list_devices(e_uci: EUci):
     config = e_uci.get_all("netifyd")
     cname = list(config.keys())[0]
 
-    for device in config[cname].get('internal_if') + config[cname].get('external_if'):
+    # exclude wan devices
+    for device in config[cname].get('internal_if') :
         interface = utils.get_interface_from_device(e_uci, device)
         ret.append({
             'interface': interface if interface is not None else device,

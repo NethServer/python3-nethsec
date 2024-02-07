@@ -339,7 +339,6 @@ config zone 'ns_guests'
         option input 'REJECT'
         option output 'ACCEPT'
         option forward 'REJECT'
-        list network 'RED_1'
         list network 'GREEN_1'
         
 config zone 'ns_empty'
@@ -914,10 +913,11 @@ def test_list_interfaces(e_uci_with_data):
         'interface': 'GREEN_2',
         'device': 'eth4'
     }) != -1
-    assert dpi.list_devices(e_uci_with_data).index({
-        'interface': 'RED_1',
-        'device': 'eth1'
-    }) != -1
+    with pytest.raises(ValueError):
+        assert dpi.list_devices(e_uci_with_data).index({
+            'interface': 'RED_1',
+            'device': 'eth1'
+        })
 
 
 def test_list_popular(e_uci_with_data, mock_load):
