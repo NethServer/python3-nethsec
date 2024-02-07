@@ -165,28 +165,19 @@ def list_devices(e_uci: EUci):
     Returns:
         list of dicts, each dict contains the property "interface" and "device"
     """
-    zones = firewall.list_zones(e_uci)
+    ret = []
+    config = e_uci.get_all("netifyd")
+    cname = list(config.keys())[0]
 
-    # filter out wan zone
-    zones = [zone['name'] for zone in zones.values() if zone['name'] != 'wan']
-
-    # get all devices from zones
-    devices = set()
-    for zone in zones:
-        for device in utils.get_all_devices_by_zone(e_uci, zone):
-            devices.add(device)
-
-    filtered_devices = []
-    # get all interfaces from network
-    for device in devices:
+    # exclude wan devices
+    for device in config[cname].get('internal_if') :
         interface = utils.get_interface_from_device(e_uci, device)
-        if interface is not None:
-            filtered_devices.append({
-                'interface': interface,
-                'device': device
-            })
+        ret.append({
+            'interface': interface if interface is not None else device,
+            'device': device
+        })
 
-    return filtered_devices
+    return ret
 
 
 def list_applications(search: str = None, limit: int = None, page: int = 1) -> dict:
