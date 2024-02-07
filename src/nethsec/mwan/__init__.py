@@ -517,3 +517,17 @@ def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = N
 
     e_uci.save('mwan3')
     return f'mwan3.{name}'
+
+
+def clear_config(e_uci: EUci):
+    """
+    Clears mwan3 configuration.
+
+    Args:
+        e_uci: euci instance
+    """
+    for entry in e_uci.get_all('mwan3'):
+        if entry != 'globals':
+            e_uci.delete('mwan3', entry)
+
+    e_uci.save('mwan3')
