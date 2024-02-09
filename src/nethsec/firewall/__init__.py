@@ -1601,3 +1601,103 @@ def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, d
     validate_rule(src, src_ip, dest, dest_ip, proto, dest_port, target, service)         
     setup_rule(uci, id, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag)
     return id
+
+def list_nat_rules(uci) -> list:
+    """
+    Get all nat rules from firewall config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        a list of all nat rules
+    """
+    rules = []
+    for section in uci.get_all("firewall"):
+        if uci.get('firewall', section) == 'nat':
+            rule = uci.get_all('firewall', section)
+            rule['id'] = section
+            rule.pop('proto', None)
+            rules.append(rule)
+    return rules
+
+def add_nat_rule(uci, name: str, target: str, src: str = '*', src_ip: str = '', dest_ip: str = '', snat_ip: str = '') -> str:
+    """
+    Add nat rule to firewall config.
+
+    Args:
+        uci: EUci pointer
+        name: name of rule
+        target: target, must be one of 'SNAT', 'DNAT'
+        src: source zone, must be zone name, not config name
+        src_ip: source ip
+        dest_ip: destination ip
+        snat_ip: snat ip
+
+    Returns:
+        name of rule config that was added
+    """
+    if len(name) > 120:
+        raise utils.ValidationError('name', 'name_too_long', name)
+    if target not in ["ACCEPT", "MASQUERADE", "SNAT"]:
+        raise utils.ValidationError('target', 'invalid_target', target)
+    rule = utils.get_random_id()
+    uci.set('firewall', rule, 'nat')
+    uci.set('firewall', rule, 'name', name)
+    uci.set('firewall', rule, 'target', target)
+    uci.set('firewall', rule, 'src', src)
+    uci.set('firewall', rule, 'src_ip', src_ip)
+    uci.set('firewall', rule, 'dest_ip', dest_ip)
+    uci.set('firewall', rule, 'snat_ip', snat_ip)
+    uci.set('firewall', rule, 'proto', ["all"])
+    uci.save('firewall')
+    return rule
+
+def edit_nat_rule(uci, id: str, name: str, target: str, src: str = '*', src_ip: str = '', dest_ip: str = '', snat_ip: str = '') -> str:
+    """
+    Edit nat rule in firewall config.
+
+    Args:
+        uci: EUci pointer
+        id: id of rule to edit
+        name: name of rule
+        target: target, must be one of 'SNAT', 'DNAT'
+        src: source zone, must be zone name, not config name
+        src_ip: source ip
+        dest_ip: destination ip
+        snat_ip: snat ip
+
+    Returns:
+        name of rule config that was edited
+    """
+    if not uci.get('firewall', id, default=None):
+        raise utils.ValidationError("id", "rule_does_not_exists", id)
+    if len(name) > 120:
+        raise utils.ValidationError('name', 'name_too_long', name)
+    if target not in ["ACCEPT", "MASQUERADE", "SNAT"]:
+        raise utils.ValidationError('target', 'invalid_target', target)
+    uci.set('firewall', id, 'name', name)
+    uci.set('firewall', id, 'target', target)
+    uci.set('firewall', id, 'src', src)
+    uci.set('firewall', id, 'src_ip', src_ip)
+    uci.set('firewall', id, 'dest_ip', dest_ip)
+    uci.set('firewall', id, 'snat_ip', snat_ip)
+    uci.save('firewall')
+    return id
+
+def delete_nat_rule(uci, id: str) -> str:
+    """
+    Delete nat rule from firewall config.
+
+    Args:
+        uci: EUci pointer
+        id: id of rule to delete
+
+    Returns:
+        name of rule config that was deleted
+    """
+    if not uci.get('firewall', id, default=None):
+        raise utils.ValidationError("id", "rule_does_not_exists", id)
+    uci.delete('firewall', id)
+    uci.save('firewall')
+    return id
