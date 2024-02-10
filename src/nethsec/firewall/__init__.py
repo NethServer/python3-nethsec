@@ -1455,8 +1455,8 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
             uci.set('firewall', id, 'dest_port', service['port'])
     else:
         try:
-            uci.delete('firewall', id, 'ns_service')
-            uci.delete('firewall', id, 'proto')
+            uci.set('firewall', id, 'ns_service', '*')
+            uci.set('firewall', id, 'proto', 'all')
             uci.delete('firewall', id, 'dest_port')
         except:
             pass
