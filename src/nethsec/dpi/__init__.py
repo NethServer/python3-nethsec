@@ -169,13 +169,21 @@ def list_devices(e_uci: EUci):
     config = e_uci.get_all("netifyd")
     cname = list(config.keys())[0]
 
-    # exclude wan devices
-    for device in config[cname].get('internal_if') :
-        interface = utils.get_interface_from_device(e_uci, device)
-        ret.append({
-            'interface': interface if interface is not None else device,
-            'device': device
-        })
+    if not config[cname].get('internal_if'):
+        # netify has not been configured yet
+        for device in utils.get_all_lan_devices(e_uci):
+            interface = utils.get_interface_from_device(e_uci, device)
+            ret.append({
+                'interface': interface if interface is not None else device,
+                'device': device
+            })
+    else:
+        for device in config[cname].get('internal_if'):
+            interface = utils.get_interface_from_device(e_uci, device)
+            ret.append({
+                'interface': interface if interface is not None else device,
+                'device': device
+            })
 
     return ret
 
