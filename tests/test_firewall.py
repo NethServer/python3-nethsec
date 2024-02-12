@@ -793,17 +793,15 @@ def test_edit_rule(tmp_path, mocker):
     assert u.get("firewall", rid, "name") == "myrule3"
     assert u.get("firewall", rid, "src") == "lan"
     assert u.get("firewall", rid, "dest") == "blue"
+    assert u.get_all("firewall", rid, "proto") == "all"
+    assert u.get("firewall", rid, "ns_service") == "*"
     with pytest.raises(UciExceptionNotFound):
         u.get_all("firewall", rid, "src_ip")
     with pytest.raises(UciExceptionNotFound):
         u.get_all("firewall", rid, "dest_ip")
     with pytest.raises(UciExceptionNotFound):
-        u.get_all("firewall", rid, "proto")
-    with pytest.raises(UciExceptionNotFound):
         u.get("firewall", rid, "dest_port") == "22"
     assert u.get("firewall", rid, "target") == "DROP"
-    with pytest.raises(UciExceptionNotFound):
-        u.get("firewall", rid, "ns_service")
     assert u.get("firewall", rid, "enabled") == "0"
     assert u.get("firewall", rid, "log") == "0"
     assert u.get_all("firewall", rid, "ns_tag") == ("tag2",)
