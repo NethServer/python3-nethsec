@@ -1701,3 +1701,122 @@ def delete_nat_rule(uci, id: str) -> str:
     uci.delete('firewall', id)
     uci.save('firewall')
     return id
+
+def list_netmap_rules(uci) -> list:
+    """
+    Get all netmap rules from netmap config
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        a list of all netmap rules
+    """
+    rules = []
+    for section in uci.get_all("netmap"):
+        if uci.get('netmap', section) == 'rule':
+            rule = uci.get_all('netmap', section)
+            rule['id'] = section
+            rules.append(rule)
+    return rules
+
+def validate_netmap_rule(name: str, src: str, dest: str, map_from: str, map_to: str):
+    if len(name) > 120:
+        raise utils.ValidationError('name', 'name_too_long', name)
+    if src and dest:
+        raise utils.ValidationError('src', 'src_or_dest', src)
+    try:
+        ipaddress.ip_network(map_from)
+    except:
+        raise utils.ValidationError('map_from', 'map_from_invalid_format', map_from)
+    try:
+        ipaddress.ip_network(map_to)
+    except:
+        raise utils.ValidationError('map_to', 'map_to_invalid_format', map_to)
+    if src:
+        try:
+            ipaddress.ip_network(src)
+        except:
+            raise utils.ValidationError('src', 'src_invalid_format', src)
+    if dest:
+        try:
+            ipaddress.ip_network(dest)
+        except:
+            raise utils.ValidationError('dest', 'dest_invalid_format', dest)
+
+
+def add_netmap_rule(uci, name: str, src: str, dest: str, device_in: list[str], device_out: list[str], map_from: str, map_to: str) -> str:
+    """
+    Add netmap rule to netmap config.
+
+    Args:
+        uci: EUci pointer
+        name: name of rule
+        src: source zone, must be zone name, not config name
+        dest: destination zone, must be zone name, not config name
+        device_in: list of incoming network interfaces
+        device_out: list of outgoing network interfaces
+        map_from: source network address
+        map_to: destination network address
+
+    Returns:
+        name of rule config that was added
+    """
+    validate_netmap_rule(name, src, dest, map_from, map_to)
+    rule = utils.get_random_id()
+    uci.set('netmap', rule, 'rule')
+    uci.set('netmap', rule, 'name', name)
+    uci.set('netmap', rule, 'src', src)
+    uci.set('netmap', rule, 'dest', dest)
+    uci.set('netmap', rule, 'device_in', device_in)
+    uci.set('netmap', rule, 'device_out', device_out)
+    uci.set('netmap', rule, 'map_from', map_from)
+    uci.set('netmap', rule, 'map_to', map_to)
+    uci.save('netmap')
+    return rule
+
+def edit_netmap_rule(uci, id: str, name: str, src: str, dest: str, device_in: list[str], device_out: list[str], map_from: str, map_to: str) -> str:
+    """
+    Edit netmap rule in netmap config.
+
+    Args:
+        uci: EUci pointer
+        id: id of rule to edit
+        name: name of rule
+        src: source zone, must be zone name, not config name
+        dest: destination zone, must be zone name, not config name
+        device_in: list of incoming network interfaces
+        device_out: list of outgoing network interfaces
+        map_from: source network address
+        map_to: destination network address
+
+    Returns:
+        name of rule config that was edited
+    """
+    validate_netmap_rule(name, src, dest, map_from, map_to)
+    uci.set('netmap', id, 'name', name)
+    uci.set('netmap', id, 'src', src)
+    uci.set('netmap', id, 'dest', dest)
+    uci.set('netmap', id, 'device_in', device_in)
+    uci.set('netmap', id, 'device_out', device_out)
+    uci.set('netmap', id, 'map_from', map_from)
+    uci.set('netmap', id, 'map_to', map_to)
+    uci.save('netmap')
+    return id
+
+def delete_netmap_rule(uci, id: str) -> str:
+    """
+    Delete netmap rule from netmap config.
+
+    Args:
+        uci: EUci pointer
+        id: id of rule to delete
+
+    Returns:
+        name of rule config that was deleted
+    """
+    if not uci.get('netmap', id, default=None):
+        raise utils.ValidationError("id", "rule_does_not_exists", id)
+    uci.delete('netmap', id)
+    uci.save('netmap')
+    return id

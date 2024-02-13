@@ -328,6 +328,23 @@ config domain
 	option ip 'ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543'
 """
 
+netmap_db = """
+config rule
+	option name 'source_nat1'
+	option dest '10.50.50.0/24'
+	list device_in 'eth0'
+	list device_in 'eth1'
+	list device_out 'tunrw'
+	option map_from '192.168.1.0/24'
+	option map_to '192.168.57.0/24'
+
+config rule
+	option name 'dest_nat1'
+	option src '10.50.50.0/24'
+	option map_from '192.168.1.0/24'
+	option map_to '192.168.57.0/24'
+"""
+
 services_file = """
 ftp             21/tcp
 ssh             22/tcp
@@ -355,6 +372,8 @@ def _setup_db(tmp_path):
         fp.write(templates_db)
     with tmp_path.joinpath('dhcp').open('w') as fp:
         fp.write(dhcp_db)
+    with tmp_path.joinpath('netmap').open('w') as fp:
+        fp.write(netmap_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_add_interface_to_zone(tmp_path):
@@ -921,3 +940,55 @@ def test_delete_nat_rule(tmp_path):
         firewall.delete_nat_rule(u, "notpresent")
     id = firewall.add_nat_rule(u, "myrule5", "SNAT", "lan", "1.2.3.4", "6.7.8.9", "1.1.1.1")
     assert firewall.delete_rule(u, id) == id
+
+def test_list_netmap_rules(tmp_path):
+    u = _setup_db(tmp_path)
+    names = []
+    for r in firewall.list_netmap_rules(u):
+        names.append(r.get("name"))
+    assert "source_nat1" in names
+    assert "dest_nat1" in names
+
+def test_add_netmap_rule(tmp_path):
+    u = _setup_db(tmp_path)
+    with pytest.raises(ValidationError):
+        id1 = firewall.add_netmap_rule(u, "myrule", "10.50.51.0/24", "10.50.50.0/24", ["eth0"], ["eth1"], "10.10.10.0/24", "192.168.1.0/24")
+    id1 = firewall.add_netmap_rule(u, "myrule", "10.50.51.0/24", "", ["eth0"], ["eth1"], "10.10.10.0/24", "192.168.1.0/24")
+    assert u.get("netmap", id1, "name") == "myrule"
+    assert u.get("netmap", id1, "src") == "10.50.51.0/24"
+    assert u.get_all("netmap", id1, "device_in") == ("eth0",)
+    assert u.get_all("netmap", id1, "device_out") == ("eth1",)
+    assert u.get("netmap", id1, "map_from") == "10.10.10.0/24"
+    assert u.get("netmap", id1, "map_to") == "192.168.1.0/24"
+    id2 = firewall.add_netmap_rule(u, "myrule2", "", "10.50.50.0/24", ["eth0"], [], "10.10.10.0/24", "192.168.1.0/24")
+    assert u.get("netmap", id2, "name") == "myrule2"
+    with pytest.raises(UciExceptionNotFound):
+        u.get("netmap", id2, "src")
+    assert u.get("netmap", id2, "dest") == "10.50.50.0/24"
+    assert u.get_all("netmap", id2, "device_in") == ("eth0",)
+    with pytest.raises(UciExceptionNotFound):
+        u.get_all("netmap", id2, "device_out")
+    assert u.get("netmap", id2, "map_from") == "10.10.10.0/24"
+    assert u.get("netmap", id2, "map_to") == "192.168.1.0/24"
+
+def test_edit_netmap_rule(tmp_path):
+    u = _setup_db(tmp_path)
+    id = firewall.add_netmap_rule(u, "myrule3", "", "10.50.50.0/24", ["eth0"], ["eth1"], "10.10.10.0/24", "192.168.1.0/24")
+    firewall.edit_netmap_rule(u, id, "myrule3b", "", "10.50.51.0/24", [], [], "10.10.11.0/24", "192.168.2.0/24")
+    assert u.get("netmap", id, "name") == "myrule3b"
+    with pytest.raises(UciExceptionNotFound):
+        u.get("netmap", id, "src")
+    assert u.get("netmap", id, "dest") == "10.50.51.0/24"
+    with pytest.raises(UciExceptionNotFound):
+        u.get_all("netmap", id, "device_out")
+    with pytest.raises(UciExceptionNotFound):
+        u.get_all("netmap", id, "device_in")
+    assert u.get("netmap", id, "map_from") == "10.10.11.0/24"
+    assert u.get("netmap", id, "map_to") == "192.168.2.0/24"
+
+def test_delete_netmap_rule(tmp_path):
+    u = _setup_db(tmp_path)
+    with pytest.raises(ValidationError):
+        firewall.delete_netmap_rule(u, "notpresent")
+    id = firewall.add_netmap_rule(u, "myrule3b", "", "10.50.51.0/24", None, None, "10.10.11.0/24", "192.168.2.0/24")
+    assert firewall.delete_netmap_rule(u, id) == id
