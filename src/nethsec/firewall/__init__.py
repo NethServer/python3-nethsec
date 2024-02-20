@@ -1820,3 +1820,24 @@ def delete_netmap_rule(uci, id: str) -> str:
     uci.delete('netmap', id)
     uci.save('netmap')
     return id
+
+def list_netmap_devices(uci) -> list:
+    """
+    Get all network devices from ip command
+
+    Args:
+        uci: EUci pointer
+
+    Returns:
+        a list of all network devices
+    """
+    devices = []
+    try:
+        output = subprocess.run(["ip", "-j", "link", "show"], capture_output=True, text=True)
+        data = json.loads(output.stdout)
+        for device in data:
+            if device.get('ifname') != 'lo' and not device.get('ifname').startswith('ifb-'):
+                devices.append({"device": device['ifname'], "interface": utils.get_interface_from_device(uci, device['ifname'])})
+    except:
+        pass
+    return devices
