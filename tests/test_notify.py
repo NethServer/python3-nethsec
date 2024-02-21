@@ -46,8 +46,6 @@ def test_add_notification_without_payload():
     notification = get_notification(result["id"])
     assert notification['id'] == result['id']
     assert notification['payload'] == {}
-
-    print(result)
     assert notification['priority'] == "high"
 
 def test_add_notification_with_invalid_priority():
@@ -59,6 +57,28 @@ def test_mark_as_read():
     result = mark_as_read(1)
     notification = get_notification(1)
     assert notification['active'] == False
+
+def list_notifications_with_filter():
+    result = list_notifications({"priority": "high"})
+    assert len(result) == 1
+    assert result[0]["id"] == 2
+    assert result[0]["priority"] == "high"
+    assert result[0]["title"] == "test_notify"
+    assert result[0]["payload"] == {}
+    assert result[0]["active"] == True
+    assert result[0]["timestamp"] > 0
+
+def list_notifications_with_order_by():
+    result = list_notifications(order_by="timestamp")
+    assert len(result) == 2
+    assert result[0]["id"] == 2
+    assert result[1]["id"] == 1
+
+def list_notifications_with_descendent():
+    result = list_notifications(descendent=True, order_by="timestamp")
+    assert len(result) == 2
+    assert result[0]["id"] == 2
+    assert result[1]["id"] == 1
 
 def test_mark_as_read_with_invalid_id():
     with pytest.raises(ValueError) as e:

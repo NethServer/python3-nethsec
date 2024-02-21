@@ -114,9 +114,15 @@ def get_notification(id):
     conn.close()
     return decorate_notification(row)
 
-def list_notifications():
+def list_notifications(filter={}, order_by=None, descendent=False, limit=None):
     '''
     Retrieve a list of all existing notifications, including their "active" or "not active" state.
+
+    Args:
+        filter (dict, optional): A dictionary containing key-value pairs to filter notifications by. Defaults to empty dict.
+        order_by (str, optional): The field to order the notifications by. Defaults to None.
+        descendent (bool, optional): Whether to order the notifications in descending order. Defaults to False.
+        limit (int, optional): The maximum number of notifications to return. Defaults to None (no limit).
 
     Returns:
         list: A list of dictionaries representing all existing notifications.
@@ -127,7 +133,23 @@ def list_notifications():
     # Retrieve notifications from SQLite database
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
-    c.execute('SELECT * FROM notifications')
+    query = 'SELECT * FROM notifications'
+    if filter:
+        query += ' WHERE'
+        for key, value in filter.items():
+            query += f' {key} = {value}'
+            if key != list(filter.keys())[-1]:
+                query += ' AND'
+    if order_by and order_by not in ['id', 'priority', 'title', 'timestamp']:
+        raise ValueError("Invalid order_by value")
+    if order_by:
+        query += f' ORDER BY {order_by}'
+        if descendent:
+            query += ' DESC'
+    if limit:
+        query += f' LIMIT {limit}'
+    c.execute(query)
+
     for row in c.fetchall():
         notifications.append(decorate_notification(row))
 
