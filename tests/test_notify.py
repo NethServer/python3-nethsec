@@ -1,5 +1,6 @@
 import os
 import pytest
+from nethsec import notify
 from nethsec.notify import add_notification, get_notification, list_notifications, mark_as_read, mark_as_unread, delete_notification
 
 def test_list_notifications_with_no_existing_notifications():
@@ -7,10 +8,10 @@ def test_list_notifications_with_no_existing_notifications():
     assert not result
 
 def test_add_notification_with_message_and_payload():
-    priority = "low"
+    level = notify.LEVEL_NOTICE
     title = "test_notify"
     payload = {"key": "value"}
-    result = add_notification(title, priority, payload)
+    result = add_notification(title, level, payload)
     assert isinstance(result, dict)
     assert "id" in result
     assert "errors" in result
@@ -24,7 +25,7 @@ def test_get_notification():
     result = get_notification(id)
     assert isinstance(result, dict)
     assert result["id"] == 1
-    assert result["priority"] == "low"
+    assert result["level"] == notify.LEVEL_NOTICE
     assert result["title"] == "test_notify"
     assert result["payload"] == {"key": "value"}
     assert result["active"] == True
@@ -34,7 +35,7 @@ def test_list_notifications_with_existing_notifications():
     result = list_notifications()
     assert isinstance(result, list)
     assert result[0]["id"] == 1
-    assert result[0]["priority"] == "low"
+    assert result[0]["level"] == notify.LEVEL_NOTICE
     assert result[0]["title"] == "test_notify"
     assert result[0]["payload"] == {"key": "value"}
     assert result[0]["active"] == True
@@ -42,16 +43,15 @@ def test_list_notifications_with_existing_notifications():
 
 def test_add_notification_without_payload():
     title = "test_notify"
-    result = add_notification(title, "high")
+    result = add_notification(title, notify.LEVEL_WARNING)
     notification = get_notification(result["id"])
     assert notification['id'] == result['id']
     assert notification['payload'] == {}
-    assert notification['priority'] == "high"
+    assert notification['level'] == notify.LEVEL_WARNING
 
-def test_add_notification_with_invalid_priority():
-    title = "test_notify"
+def test_add_notification_with_invalid_level():
     with pytest.raises(ValueError) as e:
-      add_notification("badprio", title)
+      add_notification("test_notify", level=10)
 
 def test_mark_as_read():
     result = mark_as_read(1)
@@ -59,10 +59,10 @@ def test_mark_as_read():
     assert notification['active'] == False
 
 def list_notifications_with_filter():
-    result = list_notifications({"priority": "high"})
+    result = list_notifications({"level": notify.LEVEL_ALERT})
     assert len(result) == 1
     assert result[0]["id"] == 2
-    assert result[0]["priority"] == "high"
+    assert result[0]["level"] == notify.LEVEL_ALERT
     assert result[0]["title"] == "test_notify"
     assert result[0]["payload"] == {}
     assert result[0]["active"] == True

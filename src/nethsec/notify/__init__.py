@@ -18,11 +18,14 @@ import subprocess
 
 BASE_DIR = '/var/spool/notify'
 DB_FILE = os.path.join(BASE_DIR, 'notifications.db')
-NO_PRIO = 0
-LOW = 1
-MEDIUM = 2
-HIGH = 3
-PRIORITIES = {NO_PRIO: "no_prio", LOW: "low", MEDIUM: "medium", HIGH: "high"}
+LEVEL_DEBUG = 0
+LEVEL_INFO = 1
+LEVEL_NOTICE = 2
+LEVEL_WARNING = 3
+LEVEL_ERR = 4
+LEVEL_CRIT = 5
+LEVEL_ALERT = 6
+LEVEL_EMERG = 7
 
 def execute_hook(directory, notification):
     if not os.path.exists(directory):
@@ -57,7 +60,7 @@ def setup():
         c.execute('''
             CREATE TABLE IF NOT EXISTS notifications (
                 id INTEGER PRIMARY KEY,
-                priority INTEGER default 1,
+                level INTEGER default 1,
                 title TEXT NOT NULL,
                 payload TEXT default '',
                 timestamp INTEGER default (strftime('%s', 'now')),
@@ -77,14 +80,14 @@ def decorate_notification(row):
     Returns:
         dict: A dictionary representing the notification.
     '''
-    priority = PRIORITIES.get(row[1], NO_PRIO)
+
     try:
         payload = json.loads(row[3])
     except json.JSONDecodeError:
         payload = {}
     return {
         'id': int(row[0]),
-        'priority': priority,
+        'level': row[1],
         'title': row[2],
         'payload': payload,
         'timestamp': int(row[4]),
@@ -140,7 +143,7 @@ def list_notifications(filter={}, order_by=None, descendent=False, limit=None):
             query += f' {key} = {value}'
             if key != list(filter.keys())[-1]:
                 query += ' AND'
-    if order_by and order_by not in ['id', 'priority', 'title', 'timestamp']:
+    if order_by and order_by not in ['id', 'level', 'title', 'timestamp']:
         raise ValueError("Invalid order_by value")
     if order_by:
         query += f' ORDER BY {order_by}'
@@ -155,13 +158,13 @@ def list_notifications(filter={}, order_by=None, descendent=False, limit=None):
 
     return notifications
 
-def add_notification(title, priority="low", payload={}):
+def add_notification(title, level=2, payload={}):
     '''
     Create a new notification with specified content.
 
     Args:
         title (str): The main title of the notification.
-        priority (str): The importance level of the notification. Valid values are 'low', 'medium', and 'high'.
+        level (int): The importance level of the notification. Valid values are LEVEL_DEBUG (0), LEVEL_INFO (1), LEVEL_NOTICE (2), LEVEL_WARNING (3), LEVEL_ERR (4), LEVEL_CRIT (5), LEVEL_ALERT (6), and LEVEL_EMERG (7). Defaults to LEVEL_NOTICE.
         payload (dict, optional): Contains optional data specific to the notification. Defaults to empty dict.
     
     Returns:
@@ -170,13 +173,10 @@ def add_notification(title, priority="low", payload={}):
             * errors (list): A list of any errors that occurred.
 
     Raises:
-        ValueError: If an invalid priority is provided.
+        ValueError: If an invalid level is provided.
     '''
-    if priority not in PRIORITIES.values():
-        raise ValueError("Invalid priority")
-    else:
-        rev_prios = {v: k for k, v in PRIORITIES.items()}
-        priority = rev_prios[priority]
+    if level < LEVEL_DEBUG or level > LEVEL_EMERG:
+        raise ValueError("Invalid level")
 
     setup()
 
@@ -184,9 +184,9 @@ def add_notification(title, priority="low", payload={}):
     conn = sqlite3.connect(DB_FILE)
     c = conn.cursor()
     c.execute('''
-        INSERT INTO notifications (priority, title, payload)
+        INSERT INTO notifications (level, title, payload)
         VALUES (?, ?, ?)
-    ''', (priority, title, json.dumps(payload)))
+    ''', (level, title, json.dumps(payload)))
     id = c.lastrowid
     conn.commit()
     conn.close()
