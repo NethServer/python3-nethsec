@@ -74,7 +74,7 @@ def create_location(e_uci, uci_server, location, proxy_pass, domain=''):
         'Connection "upgrade"'
     ]
     if domain:
-        default_headers.append(f'Host {domain})')
+        default_headers.append(f'Host {domain}')
     e_uci.set('nginx', location_id, 'proxy_set_header', default_headers)
     # setup location
     e_uci.set('nginx', location_id, 'uci_server', uci_server)
