@@ -13,6 +13,8 @@ import json
 import os
 import subprocess
 
+from euci import EUci
+
 from nethsec import utils
 
 PROTOCOLS = ['tcp', 'udp', 'udplite', 'icmp', 'esp', 'ah', 'sctp']
@@ -653,6 +655,29 @@ def list_zones(uci) -> dict:
         dict with all zones
     """
     return utils.get_all_by_type(uci, 'firewall', 'zone')
+
+
+def list_zones_no_aliases(uci) -> dict:
+    """
+    Get all zones from firewall config, excluding aliases in network section
+    Args:
+      - uci: EUci pointer
+
+    Returns:
+        dict with all zones
+    """
+    zones = list_zones(uci)
+    for name, zone in zones.items():
+        result = []
+        networks = zone.get("network", [])
+        for network in networks:
+            config_network = uci.get("network", network, "device", default="", dtype=str)
+            if not config_network.startswith("@"):
+                result.append(network)
+
+        zone["network"] = result
+
+    return zones
 
 
 def list_forwardings(uci) -> dict:

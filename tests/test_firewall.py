@@ -177,6 +177,11 @@ config interface 'lan'
 	option proto 'static'
 	option ipaddr '192.168.100.238'
 	option netmask '255.255.255.0'
+
+config interface 'al_lan'
+    option proto 'static'
+    option device '@lan'
+    list ipaddr '10.0.0.1/24'
 """
 
 templates_db = """
@@ -282,6 +287,7 @@ config zone 'ns_lan'
     option output 'ACCEPT'
     option forward 'ACCEPT'
     list network 'GREEN_1'
+    list network 'al_lan'
 
 config zone 'ns_wan'
     option name 'wan'
@@ -678,12 +684,17 @@ def test_list_zones(tmp_path):
     assert firewall.list_zones(u)["ns_lan"]["input"] == "ACCEPT"
     assert firewall.list_zones(u)["ns_lan"]["output"] == "ACCEPT"
     assert firewall.list_zones(u)["ns_lan"]["forward"] == "ACCEPT"
-    assert firewall.list_zones(u)["ns_lan"]["network"] == ("GREEN_1",)
+    assert firewall.list_zones(u)["ns_lan"]["network"] == ("GREEN_1", "al_lan")
     assert firewall.list_zones(u)["ns_wan"]["name"] == "wan"
     assert firewall.list_zones(u)["ns_wan"]["input"] == "REJECT"
     assert firewall.list_zones(u)["ns_wan"]["output"] == "ACCEPT"
     assert firewall.list_zones(u)["ns_wan"]["forward"] == "REJECT"
     assert firewall.list_zones(u)["ns_wan"]["network"] == ("wan6", "RED_2", "RED_3", "RED_1")
+
+
+def list_zones_no_aliases(tmp_path):
+    u = _setup_db(tmp_path)
+    assert firewall.list_zones_no_aliases(u)["ns_lan"]["network"] == ("GREEN_1",)
 
 
 def test_list_forwardings(tmp_path):
@@ -815,8 +826,18 @@ def test_list_host_suggestions(mocker, tmp_path):
     mock_isfile = mocker.patch('os.path.isfile')
     mock_isfile.return_value = True
     suggestions = firewall.list_host_suggestions(u)
-    assert len(suggestions) == 8
-    assert suggestions == [{'value': '192.168.100.1', 'label': 'test.name.org', 'type': 'domain'}, {'value': '192.168.100.2', 'label': 'test2.giacomo.org', 'type': 'host'}, {'value': 'ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543', 'label': 'test3.test.org', 'type': 'domain'}, {'value': '192.168.100.238', 'label': 'lan', 'type': 'network'}, {'value': '2001:db80::2/64', 'label': 'wan6', 'type': 'network'}, {'value': '10.0.0.22', 'label': 'bond1', 'type': 'network'}, {'value': '192.168.1.228', 'label': 'test1', 'type': 'lease'}, {'value': '192.168.1.219', 'label': 'test2', 'type': 'lease'}]
+    assert len(suggestions) == 9
+    assert suggestions == [
+        {'value': '192.168.100.1', 'label': 'test.name.org', 'type': 'domain'},
+        {'value': '192.168.100.2', 'label': 'test2.giacomo.org', 'type': 'host'},
+        {'value': 'ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543', 'label': 'test3.test.org', 'type': 'domain'},
+        {'value': '192.168.100.238', 'label': 'lan', 'type': 'network'},
+        {'value': '2001:db80::2/64', 'label': 'wan6', 'type': 'network'},
+        {'value': '10.0.0.22', 'label': 'bond1', 'type': 'network'},
+        {'value': '10.0.0.1/24', 'label': 'al_lan', 'type': 'network'},
+        {'value': '192.168.1.228', 'label': 'test1', 'type': 'lease'},
+        {'value': '192.168.1.219', 'label': 'test2', 'type': 'lease'},
+    ]
 
 def test_add_rule(tmp_path, mocker):
     u = _setup_db(tmp_path)

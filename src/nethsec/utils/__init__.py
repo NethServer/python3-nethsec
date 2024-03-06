@@ -183,7 +183,7 @@ def get_all_by_option(uci, config, option, value, deep = True):
         return list(ret.keys())
 
 
-def get_all_devices_by_zone(uci, zone):
+def get_all_devices_by_zone(uci, zone, exclude_aliases=False):
     '''
     Retrieve all devices associated to the given zone
 
@@ -201,6 +201,8 @@ def get_all_devices_by_zone(uci, zone):
             networks = uci.get("firewall", section, "network", list=True, default=[])
             for network in networks:
                device = uci.get("network", network, "device", default="")
+               if exclude_aliases and device.startswith("@"):
+                   continue
                if device != "":
                    devices.append(device)
                else:
