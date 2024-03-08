@@ -213,17 +213,20 @@ def get_all_devices_by_zone(uci, zone, exclude_aliases=False):
     # remove duplicates
     return list(set(devices))
 
-def get_all_wan_devices(uci):
-    '''
+
+def get_all_wan_devices(uci, exclude_aliases=False):
+    """
     Retrieve all devices associated to the wan zone
 
     Arguments:
       - uci -- EUci pointer
+      - exclude_aliases -- If true, exclude devices starting with @
 
     Returns:
       - A list of device names
-    '''
-    return get_all_devices_by_zone(uci, 'wan')
+    """
+    return get_all_devices_by_zone(uci, 'wan', exclude_aliases)
+
 
 def get_all_lan_devices(uci):
     '''
