@@ -660,6 +660,7 @@ def list_zones(uci) -> dict:
 def list_zones_no_aliases(uci) -> dict:
     """
     Get all zones from firewall config, excluding aliases in network section
+
     Args:
       - uci: EUci pointer
 
