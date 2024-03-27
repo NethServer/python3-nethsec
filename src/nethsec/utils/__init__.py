@@ -436,6 +436,77 @@ def get_user_by_username(uci, username):
             return users[user]
     return None
 
+def get_all_device_ips():
+    '''
+    Retrieve all device IPs
+    '''
+    ret = {}
+    p = subprocess.run(["/sbin/ip", "-j", "address"], check=True, text=True, capture_output=True)
+    data = json.loads(p.stdout)
+    for interface in data:
+        ipaddr = []
+        name = interface.get("ifname")
+        for addr in interface.get("addr_info", []):
+            if name not in ret:
+                ret[name] = []
+            ret[name].append(addr.get('local', ''))
+    return ret
+
+
+def get_all_wan_ips(uci):
+    '''
+    List all WAN interfaces with their IP addresses
+    Exclude bond management IPs.
+
+    Arguments:
+      - uci -- EUci pointer
+
+    Returns:
+      - A list of dictionaries with device and IP address
+    '''
+    ret = []
+    seen = set() # track seen devices to avoid duplicates
+    ips = get_all_device_ips()
+    wans = get_all_wan_devices(uci)
+    # list configured static wans
+    for wan in wans:
+        interface = get_interface_from_device(uci, wan)
+        if interface:
+            try:
+                ipaddrs = uci.get_all('network', interface, 'ipaddr')
+            except:
+                continue
+            if type(ipaddrs) == str:
+                ipaddrs = [(ipaddrs)]
+            for ipaddr in ipaddrs:
+                # skip bond management IPs
+                if ipaddr.startswith("127"):
+                    continue
+                # strip mask to avoid duplicates
+                if ipaddr and '/' in ipaddr:
+                    ipaddr = ipaddr.split('/')[0]
+                if ipaddr and ipaddr not in seen:
+                    seen.add(ipaddr)
+                    device = wan
+                    if wan.startswith('@'):
+                         device = uci.get('network', wan[1:], 'device', default='')
+                    if device:
+                        device = f'({device})'
+                    ret.append({"device": f'{interface.replace("@","")} {device}', "ipaddr": ipaddr})
+    # list on-line wans, search also for dynamic IPs
+    for device in ips.keys():
+        if device in wans or device.startswith('pppoe'):
+            for ip in ips[device]:
+                # skip bond management IPs
+                if ip.startswith("127"):
+                    continue
+                if ip not in seen:
+                    seen.add(ip)
+                    interface = get_interface_from_device(uci, device)
+                    ret.append({"device": f'{interface.replace("@","")} ({device})', "ipaddr": ip})
+
+    return sorted(ret, key=lambda k: k['ipaddr'])
+
 class ValidationError(ValueError):
     def __init__(self, parameter, message="", value=""):
         self.parameter = parameter
