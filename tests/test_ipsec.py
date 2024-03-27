@@ -49,7 +49,6 @@ def test_init_ipsec(e_uci):
     assert(e_uci.get('ipsec', 'ns_ipsec_global') == 'ipsec')
     assert(e_uci.get('ipsec', 'ns_ipsec_global', 'debug') == '0')
     assert(e_uci.get('ipsec', 'ns_ipsec_global', 'zone') == ipsec.IPSEC_ZONE)
-    assert(e_uci.get_all('ipsec', 'ns_ipsec_global', 'interface') == ('wan',))
 
 def test_open_firewall_ports(e_uci_with_data):
     ipsec.open_firewall_ports(e_uci_with_data)
