@@ -34,7 +34,6 @@ def init_ipsec(uci):
         uci.set("ipsec", gsettings, IPSEC_ZONE)
         uci.set("ipsec", gsettings, "debug", '0')
         uci.set("ipsec", gsettings, "zone", 'ipsec')
-        uci.set("ipsec", gsettings, "interface", ['wan'])
         uci.commit('ipsec')
 
 def open_firewall_ports(uci):
