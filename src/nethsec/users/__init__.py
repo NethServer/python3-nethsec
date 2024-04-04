@@ -210,7 +210,7 @@ def list_users(uci, database='main'):
                 user = get_user_by_name(uci, username, database)
                 users.append(user)
     elif dbtype == "ldap":
-        users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), dbconf.get('user_cn'), dbconf.get('start_tls'), dbconf.get('tls_reqcert'))
+        users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), dbconf.get('user_cn'), dbconf.get('start_tls'), dbconf.get('tls_reqcert'), dbconf.get('bind_dn'), dbconf.get('bind_password'))
         for u in users:
             user = get_user_by_name(uci, u['name'], database)
             if user:
@@ -224,7 +224,7 @@ def list_users(uci, database='main'):
 
     return users
 
-def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description=""):
+def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None):
   '''
   Add a new LDAP database
 
@@ -240,6 +240,8 @@ def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_
     - start_tls -- Use TLS (default: False)
     - tls_reqcert -- TLS certificate validation (default: never)
     - description -- Database description (default: "")
+    - bind_dn -- LDAP bind DN
+    - bind_password -- LDAP bind password
 
   Returns:
     - The database identifier
@@ -256,10 +258,13 @@ def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_
   uci.set('users', name, 'start_tls', '1' if start_tls else '0')
   uci.set('users', name, 'tls_reqcert', tls_reqcert)
   uci.set('users', name, 'description', description)
+  if bind_dn and bind_password:
+      uci.set('users', name, 'bind_dn', bind_dn)
+      uci.set('users', name, 'bind_password', bind_password)
   uci.save("users")
   return ldap
 
-def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description=""):
+def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None):
   '''
   Edit an existing LDAP database
 
@@ -275,6 +280,8 @@ def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user
     - start_tls -- Use TLS (default: False)
     - tls_reqcert -- TLS certificate validation (default: never)
     - description -- Database description (default: "")
+    - bind_dn -- LDAP bind DN
+    - bind_password -- LDAP bind password
 
   Returns:
     - The database identifier
@@ -292,6 +299,15 @@ def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user
   uci.set('users', name, 'start_tls', '1' if start_tls else '0')
   uci.set('users', name, 'tls_reqcert', tls_reqcert)
   uci.set('users', name, 'description', description)
+  if bind_dn and bind_password:
+    uci.set('users', name, 'bind_dn', bind_dn)
+    uci.set('users', name, 'bind_password', bind_password)
+  else:
+      try:
+          uci.delete('users', name, 'bind_dn')
+          uci.delete('users', name, 'bind_password')
+      except:
+          pass
   uci.save("users")
   return True
 
@@ -754,7 +770,7 @@ def ldif2users(ldif_data, user_attr="uid", user_cn="cn"):
             user["description"] = line[len(user_cn)+1:].strip()
     return users
 
-def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert="never"):
+def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert="never", bind_dn=None, bind_password=None):
     '''
     Test LDAP connection
 
@@ -765,6 +781,8 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
       - user_cn -- LDAP user common name
       - start_tls -- Use TLS (default: False)
       - tls_reqcert -- TLS certificate validation (default: never)
+      - bind_dn -- LDAP bind DN
+      - bind_password -- LDAP bind password
 
     Returns:
       - A list of users, each one containing:
@@ -777,6 +795,9 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
         cmd = ["ldapsearch", "-x", "-H", uri, "-b", user_dn, "(objectClass=*)", user_cn]
         if start_tls:
             cmd.append("-ZZ")
+        if bind_dn and bind_password:
+            cmd.extend(["-D", bind_dn, "-w", bind_password])
+        print(" ".join(cmd))
         p = subprocess.run(cmd, env=env, capture_output=True, text=True)
         return ldif2users(p.stdout, user_attr, user_cn)
     except subprocess.CalledProcessError as e:

@@ -239,6 +239,11 @@ def test_add_ldap_database(tmp_path):
     assert u.get('users', 'testldap2', 'start_tls') == "1"
     assert u.get('users', 'testldap2', 'tls_reqcert') == "always"
 
+    users.add_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test,dc=org", "ou=People,dc=test,dc=org", "uid", "displayName", start_tls=True, tls_reqcert="always", description="mydesc", bind_dn="cn=admin,dc=test,dc=org", bind_password="12=34")
+    assert u.get('users', 'testldap3') != None
+    assert u.get('users', 'testldap3', 'bind_dn') == "cn=admin,dc=test,dc=org"
+    assert u.get('users', 'testldap3', 'bind_password') == "12=34"
+
 def test_list_users(tmp_path):
     u = _setup_db(tmp_path)
     user_list = users.list_users(_setup_db(tmp_path), "second")
@@ -258,6 +263,15 @@ def test_edit_ldap_database(tmp_path):
         "start_tls": "0",
         "tls_reqcert": "never"
     }
+
+    users.edit_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test2,dc=org2", "dc=test2,dc=org2", "uid", "cn", start_tls=False, tls_reqcert="never", description="mydesc2")
+    with pytest.raises(UciExceptionNotFound) as e:
+        assert u.get('users', 'testldap3', 'bind_dn')
+    with pytest.raises(UciExceptionNotFound) as e:
+        assert u.get('users', 'testldap3', 'bind_password')
+    users.edit_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test2,dc=org2", "dc=test2,dc=org2", "uid", "cn", start_tls=False, tls_reqcert="never", description="mydesc2", bind_dn="cn=admin2,dc=test,dc=org", bind_password="4567")
+    assert u.get('users', 'testldap3', 'bind_dn') == "cn=admin2,dc=test,dc=org"
+    assert u.get('users', 'testldap3', 'bind_password') == "4567"
 
 def test_delete_ldap_database(tmp_path):
     u = _setup_db(tmp_path)
