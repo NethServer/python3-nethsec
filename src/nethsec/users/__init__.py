@@ -797,7 +797,6 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
             cmd.append("-ZZ")
         if bind_dn and bind_password:
             cmd.extend(["-D", bind_dn, "-w", bind_password])
-        print(" ".join(cmd))
         p = subprocess.run(cmd, env=env, capture_output=True, text=True)
         return ldif2users(p.stdout, user_attr, user_cn)
     except subprocess.CalledProcessError as e:
