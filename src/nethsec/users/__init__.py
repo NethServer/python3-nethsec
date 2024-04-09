@@ -210,7 +210,7 @@ def list_users(uci, database='main'):
                 user = get_user_by_name(uci, username, database)
                 users.append(user)
     elif dbtype == "ldap":
-        users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), dbconf.get('user_cn'), dbconf.get('start_tls'), dbconf.get('tls_reqcert'), dbconf.get('bind_dn'), dbconf.get('bind_password'))
+        users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), dbconf.get('user_cn'), dbconf.get('start_tls') == '1', dbconf.get('tls_reqcert'), dbconf.get('bind_dn'), dbconf.get('bind_password'), dbconf.get('schema'))
         for u in users:
             user = get_user_by_name(uci, u['name'], database)
             if user:
@@ -764,13 +764,13 @@ def ldif2users(ldif_data, user_attr="uid", user_cn="cn"):
             continue
         if line.startswith('dn:'):
             dn = line[3:].strip()
-            if dn.startswith(f'{user_attr}='):
-                user["name"] = dn.split(",")[0].removeprefix(f'{user_attr}=')
-        if line.startswith(f'{user_cn}:') and dn:
+            if dn.lower().startswith(f'{user_attr.lower()}='):
+                user["name"] = dn.split(",")[0].removeprefix(f'{user_attr}=').removeprefix(f'{user_attr.upper()}=')
+        if line.lower().startswith(f'{user_cn.lower()}:') and dn:
             user["description"] = line[len(user_cn)+1:].strip()
     return users
 
-def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert="never", bind_dn=None, bind_password=None):
+def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert="never", bind_dn=None, bind_password=None, schema='ldap'):
     '''
     Test LDAP connection
 
@@ -783,6 +783,7 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
       - tls_reqcert -- TLS certificate validation (default: never)
       - bind_dn -- LDAP bind DN
       - bind_password -- LDAP bind password
+      - schema -- LDAP schema, 'ad' or 'ldap'
 
     Returns:
       - A list of users, each one containing:
@@ -792,11 +793,16 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
     env = os.environ.copy()
     env['LDAPTLS_REQCERT'] = tls_reqcert
     try:
-        cmd = ["ldapsearch", "-x", "-H", uri, "-b", user_dn, "(objectClass=*)", user_cn]
+        cmd = ["ldapsearch", "-x", "-H", uri, "-b", user_dn]
         if start_tls:
             cmd.append("-ZZ")
         if bind_dn and bind_password:
             cmd.extend(["-D", bind_dn, "-w", bind_password])
+        if schema == "ad":
+            cmd.append("(objectClass=person)")
+        else:
+            cmd.append("(objectClass=posixAccount)")
+        cmd.append(user_cn)
         p = subprocess.run(cmd, env=env, capture_output=True, text=True)
         return ldif2users(p.stdout, user_attr, user_cn)
     except subprocess.CalledProcessError as e:
