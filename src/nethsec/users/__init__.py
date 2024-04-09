@@ -740,13 +740,14 @@ def check_password(password, shadow):
     '''
     return hash.sha512_crypt.verify(password, shadow)
 
-def ldif2users(ldif_data, user_attr="uid", user_cn="cn"):
+def ldif2users(ldif_data, user_attr="uid", user_cn="cn", display_attr="cn"):
     '''
     Parse an LDIF file and return a list of users
 
     Arguments:
       - ldif_data -- LDIF data
       - user_attr -- User attribute (default: uid)
+      - display_attr -- Display name attr (default: cn)
 
     Returns:
       - A list of users
@@ -764,10 +765,17 @@ def ldif2users(ldif_data, user_attr="uid", user_cn="cn"):
             continue
         if line.startswith('dn:'):
             dn = line[3:].strip()
-            if dn.lower().startswith(f'{user_attr.lower()}='):
-                user["name"] = dn.split(",")[0].removeprefix(f'{user_attr}=').removeprefix(f'{user_attr.upper()}=')
-        if line.lower().startswith(f'{user_cn.lower()}:') and dn:
-            user["description"] = line[len(user_cn)+1:].strip()
+            if dn.lower().startswith(f'{user_cn.lower()}='):
+                user["dn"] = dn.split(",")[0].removeprefix(f'{user_cn}=').removeprefix(f'{user_cn.upper()}=')
+        elif line.lower().startswith(f'{user_attr.lower()}:') and dn: # text
+            user["name"] = line[len(user_attr)+1:].strip()
+        elif line.lower().startswith(f'{display_attr.lower()}::') and dn: # base64
+            try:
+                user["description"] = base64.b64decode(line[len(display_attr)+2:].strip()).decode()
+            except:
+                user["description"] = ""
+        elif line.lower().startswith(f'{display_attr.lower()}:') and dn: # text
+            user["description"] = line[len(display_attr)+1:].strip()
     return users
 
 def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert="never", bind_dn=None, bind_password=None, schema='ldap'):
@@ -800,9 +808,11 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
             cmd.extend(["-D", bind_dn, "-w", bind_password])
         if schema == "ad":
             cmd.append("(objectClass=person)")
+            display_attr = 'displayName'
         else:
             cmd.append("(objectClass=posixAccount)")
-        cmd.append(user_cn)
+            display_attr = 'cn'
+        cmd.extend([user_cn, user_attr, display_attr])
         p = subprocess.run(cmd, env=env, capture_output=True, text=True)
         return ldif2users(p.stdout, user_attr, user_cn)
     except subprocess.CalledProcessError as e:
