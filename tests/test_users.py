@@ -432,10 +432,12 @@ dn: ou=People,dc=directory,dc=nh
 
 # admin, People, directory.nh
 dn: uid=admin,ou=People,dc=directory,dc=nh
+uid: admin
 cn: admin
 
 # pluto, People, directory.nh
 dn: uid=pluto,ou=People,dc=directory,dc=nh
+uid: pluto
 cn: Pluto Rossi
 
 # search result
@@ -445,6 +447,7 @@ result: 0 Success
 # numResponses: 4
 # numEntries: 3
 """
+    print(users.ldif2users(ldif_data))
     assert users.ldif2users(ldif_data) == [{"name": "admin", "description": "admin"},{"name":"pluto", "description": "Pluto Rossi"}]
     
 def test_set_admin_user(tmp_path):
