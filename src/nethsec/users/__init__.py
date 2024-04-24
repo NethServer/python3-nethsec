@@ -209,6 +209,7 @@ def list_users(uci, database='main'):
                 username = uci.get('users', u, 'name', default='')
                 user = get_user_by_name(uci, username, database)
                 users.append(user)
+        users = sorted(users, key=lambda u: u['name'])
     elif dbtype == "ldap":
         users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), dbconf.get('user_cn'), dbconf.get('start_tls') == '1', dbconf.get('tls_reqcert'), dbconf.get('bind_dn'), dbconf.get('bind_password'), dbconf.get('schema'))
         for u in users:
@@ -800,19 +801,22 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
     '''
     env = os.environ.copy()
     env['LDAPTLS_REQCERT'] = tls_reqcert
+    omatch = ''
     try:
-        cmd = ["ldapsearch", "-x", "-H", uri, "-b", user_dn]
+        # -E option executes a paged search without user prompt
+        cmd = ["ldapsearch", "-x", "-H", uri, "-E", "pr=1000/noprompt", "-b", user_dn]
         if start_tls:
             cmd.append("-ZZ")
         if bind_dn and bind_password:
             cmd.extend(["-D", bind_dn, "-w", bind_password])
         if schema == "ad":
-            cmd.append("(objectClass=person)")
+            omatch = "(objectClass=person)"
             display_attr = 'displayName'
         else:
-            cmd.append("(objectClass=posixAccount)")
+            omatch = "(objectClass=posixAccount)"
             display_attr = 'cn'
-        cmd.extend([user_cn, user_attr, display_attr])
+        cmd.extend(["-S", user_attr]) # request sorting
+        cmd.extend([omatch, user_cn, user_attr, display_attr])
         p = subprocess.run(cmd, env=env, capture_output=True, text=True)
         return ldif2users(p.stdout, user_attr, user_cn)
     except subprocess.CalledProcessError as e:
