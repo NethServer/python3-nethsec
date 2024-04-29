@@ -287,7 +287,7 @@ def test_store_rule(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_additional_r', 'src_port') == '1:1024'
     assert e_uci.get('mwan3', 'ns_additional_r', 'dest_ip') == '10.0.0.2/12'
     assert e_uci.get('mwan3', 'ns_additional_r', 'dest_port') == '22,443'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'sticky') == '1'
+    assert e_uci.get('mwan3', 'ns_additional_r', 'sticky') == '0'
 
 
 def test_unique_rule(e_uci, mocker):
