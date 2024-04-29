@@ -818,7 +818,7 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
         cmd.extend(["-S", user_attr]) # request sorting
         cmd.extend([omatch, user_cn, user_attr, display_attr])
         p = subprocess.run(cmd, env=env, capture_output=True, text=True)
-        return ldif2users(p.stdout, user_attr, user_cn)
+        return ldif2users(p.stdout, user_attr, user_cn, display_attr)
     except subprocess.CalledProcessError as e:
         return []
     
