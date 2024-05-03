@@ -37,6 +37,24 @@ def __generate_metric(e_uci: EUci) -> int:
     return next_metric + 1
 
 
+def __set_interface_defaults(e_uci: EUci, name: str):
+    default_interface_config = e_uci.get_all('ns-api', 'defaults_mwan')
+    e_uci.set('mwan3', name, 'initial_state', default_interface_config['initial_state'])
+    e_uci.set('mwan3', name, 'family', default_interface_config['protocol'])
+    e_uci.set('mwan3', name, 'track_ip', default_interface_config['track_ip'])
+    e_uci.set('mwan3', name, 'track_method', default_interface_config['tracking_method'])
+    e_uci.set('mwan3', name, 'reliability', default_interface_config['tracking_reliability'])
+    e_uci.set('mwan3', name, 'count', default_interface_config['ping_count'])
+    e_uci.set('mwan3', name, 'size', default_interface_config['ping_size'])
+    e_uci.set('mwan3', name, 'max_ttl', default_interface_config['ping_max_ttl'])
+    e_uci.set('mwan3', name, 'timeout', default_interface_config['ping_timeout'])
+    e_uci.set('mwan3', name, 'interval', default_interface_config['ping_interval'])
+    e_uci.set('mwan3', name, 'failure_interval', default_interface_config['ping_failure_interval'])
+    e_uci.set('mwan3', name, 'recovery_interval', default_interface_config['ping_recovery_interval'])
+    e_uci.set('mwan3', name, 'down', default_interface_config['interface_down_threshold'])
+    e_uci.set('mwan3', name, 'up', default_interface_config['interface_up_threshold'])
+
+
 def __store_interface(e_uci: EUci, name: str) -> tuple[bool, bool]:
     """
     Stores interface configuration for mwan3 and network, not suited to be used outside store_policy.
@@ -63,23 +81,9 @@ def __store_interface(e_uci: EUci, name: str) -> tuple[bool, bool]:
     if e_uci.get('mwan3', name, default=None) is None:
         created_interface = True
         # fetch default configuration and set interface
-        default_interface_config = e_uci.get_all('ns-api', 'defaults_mwan')
         e_uci.set('mwan3', name, 'interface')
         e_uci.set('mwan3', name, 'enabled', '1')
-        e_uci.set('mwan3', name, 'initial_state', default_interface_config['initial_state'])
-        e_uci.set('mwan3', name, 'family', default_interface_config['protocol'])
-        e_uci.set('mwan3', name, 'track_ip', default_interface_config['track_ip'])
-        e_uci.set('mwan3', name, 'track_method', default_interface_config['tracking_method'])
-        e_uci.set('mwan3', name, 'reliability', default_interface_config['tracking_reliability'])
-        e_uci.set('mwan3', name, 'count', default_interface_config['ping_count'])
-        e_uci.set('mwan3', name, 'size', default_interface_config['ping_size'])
-        e_uci.set('mwan3', name, 'max_ttl', default_interface_config['ping_max_ttl'])
-        e_uci.set('mwan3', name, 'timeout', default_interface_config['ping_timeout'])
-        e_uci.set('mwan3', name, 'interval', default_interface_config['ping_interval'])
-        e_uci.set('mwan3', name, 'failure_interval', default_interface_config['ping_failure_interval'])
-        e_uci.set('mwan3', name, 'recovery_interval', default_interface_config['ping_recovery_interval'])
-        e_uci.set('mwan3', name, 'down', default_interface_config['interface_down_threshold'])
-        e_uci.set('mwan3', name, 'up', default_interface_config['interface_up_threshold'])
+        __set_interface_defaults(e_uci, name)
 
     added_metric = False
     # avoid adding metric if already present
@@ -531,3 +535,44 @@ def clear_config(e_uci: EUci):
             e_uci.delete('mwan3', entry)
 
     e_uci.save('mwan3')
+
+
+def set_default_config(e_uci: EUci, track_ip: list[str], ping_timeout: int, ping_interval: int,
+                       ping_failure_interval: int, interface_down_threshold: int, interface_up_threshold: int):
+    """
+    Sets default configuration for mwan3.
+
+    Args:
+        e_uci: euci instance
+        track_ip: list of IPs to track
+        ping_timeout: timeout for ping
+        ping_interval: interval between pings
+        ping_failure_interval: interval between failed pings
+        interface_down_threshold: threshold for interface down
+        interface_up_threshold: threshold for interface up
+    """
+    e_uci.set('ns-api', 'defaults_mwan', 'track_ip', track_ip)
+    e_uci.set('ns-api', 'defaults_mwan', 'ping_timeout', ping_timeout)
+    e_uci.set('ns-api', 'defaults_mwan', 'ping_interval', ping_interval)
+    e_uci.set('ns-api', 'defaults_mwan', 'ping_failure_interval', ping_failure_interval)
+    e_uci.set('ns-api', 'defaults_mwan', 'interface_down_threshold', interface_down_threshold)
+    e_uci.set('ns-api', 'defaults_mwan', 'interface_up_threshold', interface_up_threshold)
+
+    for interface in utils.get_all_by_type(e_uci, 'mwan3', 'interface'):
+        __set_interface_defaults(e_uci, interface)
+
+    e_uci.save('ns-api')
+    e_uci.save('mwan3')
+
+
+def get_default_config(e_uci: EUci) -> dict:
+    """
+    Returns default configuration for mwan3.
+
+    Args:
+        e_uci: euci instance
+
+    Returns:
+        dict with default configuration
+    """
+    return e_uci.get_all('ns-api', 'defaults_mwan')
