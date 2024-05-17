@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name = 'nethsec',
-    version = '0.0.54',
+    version = '0.0.55',
     author = 'Giacomo Sanchietti',
     author_email = 'giacomo.sanchietti@nethesis.it',
     description = 'Utilities for NethSecurity development',
