@@ -502,8 +502,12 @@ def get_all_wan_ips(uci):
                     continue
                 if ip not in seen:
                     seen.add(ip)
-                    interface = get_interface_from_device(uci, device)
-                    ret.append({"device": f'{interface.replace("@","")} ({device})', "ipaddr": ip})
+                    if device.startswith('pppoe-'):
+                        interface = device.removeprefix('pppoe-')
+                    else:
+                        interface = get_interface_from_device(uci, device)
+                    if interface:
+                        ret.append({"device": f'{interface.replace("@","")} ({device})', "ipaddr": ip})
 
     return sorted(ret, key=lambda k: k['ipaddr'])
 
