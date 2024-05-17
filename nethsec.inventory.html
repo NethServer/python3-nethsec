@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>nethsec.inventory</title>
+    <meta name="generator" content="pydoctor 23.9.1"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default mainnavbar">
+      
+  
+  <div class="container-fluid">
+
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+        <span class="navbar-brand">
+          <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a> <a href="index.html">API Documentation</a>
+        </span>
+
+        <a href="moduleIndex.html">
+          Modules
+        </a>
+
+        <a href="classIndex.html">
+          Classes
+        </a>
+
+        <a href="nameIndex.html">
+          Names
+        </a>
+
+        <div id="search-box-container">
+          <div class="input-group">
+            <input id="search-box" type="search" name="search-query" placeholder="Search..." aria-label="Search" minlength="2" class="form-control" autocomplete="off" />
+            
+            <span class="input-group-btn">
+              <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
+              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="search-results-container" style="display: none;">
+        
+        <div id="search-buttons">
+          <span class="label label-default" id="search-docstrings-button">
+          <label class="checkbox-inline">
+            <input type="checkbox" id="toggle-search-in-docstrings-checkbox" value="false" onclick="toggleSearchInDocstrings()">
+              search in docstrings
+            </input>
+          </label>
+          </span>
+          
+        </div>
+        
+        <noscript>
+            <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
+        </noscript>
+
+        <div class="hint" id="search-help-box">
+          <p class="rst-last">
+      
+            Search bar offers the following options:
+            <ul>   
+                <li>
+                  <strong>Term presence.</strong> The below example searches for documents that 
+                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
+                </li> 
+
+                <li>
+                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
+                </li> 
+
+                <li>
+                  <strong>Search in specific fields.</strong> The following search matches all objects 
+                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
+
+                  <p>
+                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
+                    Last two fields are only applicable if "search in docstrings" is enabled.
+                  </p>
+                </li>
+
+                <li>
+                  <strong>Fuzzy matches.</strong> The following search matches all documents 
+                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
+                </li>
+            </ul>
+
+          </p>
+        </div>
+
+        <div id="search-status"> </div>
+
+        <div class="warning" id="search-warn-box" style="display: none;">
+          <p class="rst-last"><span id="search-warn"></span></p>
+        </div>
+
+        <table id="search-results">
+          <!-- Filled dynamically by JS -->
+        </table>
+        
+        <div style="margin-top: 8px;">
+          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+
+      <!-- Side navigation -->
+      <div class="sidebarcontainer" style="display: none;">
+        
+        <div class="sidebar"><nav class="sidebar">
+  
+
+  <div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code class="thisobject"><a href="nethsec.inventory.html" class="internal-link" title="This package">inventory</a></code> 
+      </div>
+      
+      <div>
+        
+
+        
+         
+
+        
+        
+
+        <div class="childrenKindTitle">Functions</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_controller" class="internal-link" title="nethsec.inventory.fact_controller">fact<wbr></wbr>_controller</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_dhcp_server" class="internal-link" title="nethsec.inventory.fact_dhcp_server">fact<wbr></wbr>_dhcp<wbr></wbr>_server</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_dpi" class="internal-link" title="nethsec.inventory.fact_dpi">fact<wbr></wbr>_dpi</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_flashstart" class="internal-link" title="nethsec.inventory.fact_flashstart">fact<wbr></wbr>_flashstart</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_hotspot" class="internal-link" title="nethsec.inventory.fact_hotspot">fact<wbr></wbr>_hotspot</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_ipsec" class="internal-link" title="nethsec.inventory.fact_ipsec">fact<wbr></wbr>_ipsec</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_multiwan" class="internal-link" title="nethsec.inventory.fact_multiwan">fact<wbr></wbr>_multiwan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_network" class="internal-link" title="nethsec.inventory.fact_network">fact<wbr></wbr>_network</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_openvpn_rw" class="internal-link" title="nethsec.inventory.fact_openvpn_rw">fact<wbr></wbr>_openvpn<wbr></wbr>_rw</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_openvpn_tun" class="internal-link" title="nethsec.inventory.fact_openvpn_tun">fact<wbr></wbr>_openvpn<wbr></wbr>_tun</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_proxy_pass" class="internal-link" title="nethsec.inventory.fact_proxy_pass">fact<wbr></wbr>_proxy<wbr></wbr>_pass</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_qos" class="internal-link" title="nethsec.inventory.fact_qos">fact<wbr></wbr>_qos</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_storage" class="internal-link" title="nethsec.inventory.fact_storage">fact<wbr></wbr>_storage</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_subscription_status" class="internal-link" title="nethsec.inventory.fact_subscription_status">fact<wbr></wbr>_subscription<wbr></wbr>_status</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_threat_shield" class="internal-link" title="nethsec.inventory.fact_threat_shield">fact<wbr></wbr>_threat<wbr></wbr>_shield</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#fact_ui" class="internal-link" title="nethsec.inventory.fact_ui">fact<wbr></wbr>_ui</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div><div>
+
+      <div class="thingTitle">
+        <span>Package</span>
+        <code><a href="index.html" class="internal-link" title="The parent of this package">nethsec</a></code> 
+      </div>
+      
+      <div>
+        
+
+        <div class="childrenKindTitle">Modules</div>
+        <ul>
+    
+    <li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.dpi.html" class="internal-link" title="nethsec.dpi">dpi</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code>
+            </div>
+        
+
+    </li><li class=" thisobject">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.inventory.html" class="internal-link" title="nethsec.inventory">inventory</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.ipsec.html" class="internal-link" title="nethsec.ipsec">ipsec</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.mwan.html" class="internal-link" title="nethsec.mwan">mwan</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.ovpn.html" class="internal-link" title="nethsec.ovpn">ovpn</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.reverse_proxy.html" class="internal-link" title="nethsec.reverse_proxy">reverse<wbr></wbr>_proxy</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.users.html" class="internal-link" title="nethsec.users">users</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code>
+            </div>
+        
+
+    </li>
+</ul> 
+
+        
+        
+
+        
+         
+
+        
+         
+
+        
+         
+
+        
+         
+        
+      </div>
+  </div>
+
+</nav>
+        </div>
+        <div id="collapseSideBar">
+          <a class="btn btn-link" onclick="toggleSideBarCollapse()" title="Toggle Sidebar Collapse">
+          </a>
+        </div> 
+        <script src="sidebartoggle.js" type="text/javascript"></script>
+       
+      </div>
+
+      <div id="main" class="">
+        
+
+        
+
+        <div class="page-header">
+          <h1 class="package"><code><code><a href="index.html" class="internal-link">nethsec</a></code><wbr></wbr>.<code><a href="nethsec.inventory.html" class="internal-link" title="nethsec.inventory">inventory</a></code></code></h1>
+          <div id="showPrivate">
+            <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+          </div>
+        </div>
+
+        <div class="categoryHeader">
+          package documentation
+        </div>
+
+        <div class="extrasDocstring">
+          <a href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py" class="sourceLink">(source)</a>
+          <p></p>
+        </div>
+
+        <div class="moduleDocstring">
+          <div><p class="undocumented">Undocumented</p></div>
+        </div>
+
+        <div id="splitTables">
+          
+          
+
+            <p class="fromInitPy">From <code>__init__.py</code>:</p><table class="children sortable" id="id4">
+  
+  
+  <tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_controller" class="internal-link" title="nethsec.inventory.fact_controller">fact<wbr></wbr>_controller</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_dhcp_server" class="internal-link" title="nethsec.inventory.fact_dhcp_server">fact<wbr></wbr>_dhcp<wbr></wbr>_server</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_dpi" class="internal-link" title="nethsec.inventory.fact_dpi">fact<wbr></wbr>_dpi</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_flashstart" class="internal-link" title="nethsec.inventory.fact_flashstart">fact<wbr></wbr>_flashstart</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_hotspot" class="internal-link" title="nethsec.inventory.fact_hotspot">fact<wbr></wbr>_hotspot</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_ipsec" class="internal-link" title="nethsec.inventory.fact_ipsec">fact<wbr></wbr>_ipsec</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_multiwan" class="internal-link" title="nethsec.inventory.fact_multiwan">fact<wbr></wbr>_multiwan</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_network" class="internal-link" title="nethsec.inventory.fact_network">fact<wbr></wbr>_network</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_openvpn_rw" class="internal-link" title="nethsec.inventory.fact_openvpn_rw">fact<wbr></wbr>_openvpn<wbr></wbr>_rw</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_openvpn_tun" class="internal-link" title="nethsec.inventory.fact_openvpn_tun">fact<wbr></wbr>_openvpn<wbr></wbr>_tun</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_proxy_pass" class="internal-link" title="nethsec.inventory.fact_proxy_pass">fact<wbr></wbr>_proxy<wbr></wbr>_pass</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_qos" class="internal-link" title="nethsec.inventory.fact_qos">fact<wbr></wbr>_qos</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_storage" class="internal-link" title="nethsec.inventory.fact_storage">fact<wbr></wbr>_storage</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_subscription_status" class="internal-link" title="nethsec.inventory.fact_subscription_status">fact<wbr></wbr>_subscription<wbr></wbr>_status</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_threat_shield" class="internal-link" title="nethsec.inventory.fact_threat_shield">fact<wbr></wbr>_threat<wbr></wbr>_shield</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#fact_ui" class="internal-link" title="nethsec.inventory.fact_ui">fact<wbr></wbr>_ui</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+</table>
+        </div>
+
+        <div id="childList">
+          <div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_hotspot">
+    
+  </a>
+  <a name="fact_hotspot">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_hotspot</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L12">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_hotspot" title="nethsec.inventory.fact_hotspot">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_flashstart">
+    
+  </a>
+  <a name="fact_flashstart">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_flashstart</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L17">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_flashstart" title="nethsec.inventory.fact_flashstart">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_openvpn_rw">
+    
+  </a>
+  <a name="fact_openvpn_rw">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_openvpn_rw</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L26">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_openvpn_rw" title="nethsec.inventory.fact_openvpn_rw">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_openvpn_tun">
+    
+  </a>
+  <a name="fact_openvpn_tun">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_openvpn_tun</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L35">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_openvpn_tun" title="nethsec.inventory.fact_openvpn_tun">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_subscription_status">
+    
+  </a>
+  <a name="fact_subscription_status">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_subscription_status</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L47">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_subscription_status" title="nethsec.inventory.fact_subscription_status">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_controller">
+    
+  </a>
+  <a name="fact_controller">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_controller</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L50">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_controller" title="nethsec.inventory.fact_controller">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_threat_shield">
+    
+  </a>
+  <a name="fact_threat_shield">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_threat_shield</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L56">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_threat_shield" title="nethsec.inventory.fact_threat_shield">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_ui">
+    
+  </a>
+  <a name="fact_ui">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_ui</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L66">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_ui" title="nethsec.inventory.fact_ui">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_network">
+    
+  </a>
+  <a name="fact_network">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_network</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L73">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_network" title="nethsec.inventory.fact_network">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_storage">
+    
+  </a>
+  <a name="fact_storage">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_storage</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L89">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_storage" title="nethsec.inventory.fact_storage">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_proxy_pass">
+    
+  </a>
+  <a name="fact_proxy_pass">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_proxy_pass</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L92">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_proxy_pass" title="nethsec.inventory.fact_proxy_pass">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_dpi">
+    
+  </a>
+  <a name="fact_dpi">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_dpi</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L102">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_dpi" title="nethsec.inventory.fact_dpi">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_dhcp_server">
+    
+  </a>
+  <a name="fact_dhcp_server">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_dhcp_server</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L110">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_dhcp_server" title="nethsec.inventory.fact_dhcp_server">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_multiwan">
+    
+  </a>
+  <a name="fact_multiwan">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_multiwan</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L117">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_multiwan" title="nethsec.inventory.fact_multiwan">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_qos">
+    
+  </a>
+  <a name="fact_qos">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_qos</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L126">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_qos" title="nethsec.inventory.fact_qos">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.inventory.fact_ipsec">
+    
+  </a>
+  <a name="fact_ipsec">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">fact_ipsec</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/9c1b67dffed23d3f21600b9399a96b583b49b748/src/nethsec/inventory/__init__.py#L133">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#fact_ipsec" title="nethsec.inventory.fact_ipsec">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    23.9.1 at 2024-05-17 07:43:17.
+  </div>
+
+  <!-- Search related scripts needs to be loaded at the end of HTML 
+    parsing not to introduce overhead and display HTML data asap -->
+  <script src="ajax.js" type="text/javascript"></script>
+  <script src="searchlib.js" type="text/javascript"></script>
+  <script src="search.js" type="text/javascript"></script>
+
+</footer>
+  
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>
