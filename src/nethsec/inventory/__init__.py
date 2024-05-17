@@ -56,11 +56,14 @@ def fact_controller(uci: EUci):
 def fact_threat_shield(uci: EUci):
     ret = { 'enabled': False, 'community': 0, 'enterprise': 0 }
     ret['enabled'] = uci.get('banip', 'global', 'ban_enabled', default='0') == '1'
-    for feed in uci.get_all("banip", "global", "ban_feed"):
-        if feed.startswith("nethesis") or feed.startswith("yoroy"):
-            ret['enterprise'] += 1
-        else:
-            ret['community'] += 1
+    try:
+        for feed in uci.get_all("banip", "global", "ban_feed"):
+            if feed.startswith("nethesis") or feed.startswith("yoroy"):
+                ret['enterprise'] += 1
+            else:
+                ret['community'] += 1
+    except:
+        pass
     return ret
 
 def fact_ui(uci: EUci):
