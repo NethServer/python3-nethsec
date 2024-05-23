@@ -368,6 +368,9 @@ lease_file = """
 1704874398 ac:57:26:00:24:8c 192.168.1.219 test2 01:dc:57:26:00:25:8c
 """
 
+objects_db = """
+"""
+
 # Setup fake ip command output
 ip_json='[{"ifindex":9,"ifname":"vnet3","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","master":"virbr2","operstate":"UNKNOWN","group":"default","txqlen":1000,"link_type":"ether","address":"fe:62:31:19:0b:29","broadcast":"ff:ff:ff:ff:ff:ff","addr_info":[{"family":"inet6","local":"fe80::fc62:31ff:fe19:b29","prefixlen":64,"scope":"link","valid_life_time":4294967295,"preferred_life_time":4294967295}]},{"ifindex":2,"ifname":"eth0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","master":"br-lan","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:6a:50:bf","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":3,"ifname":"eth1","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:20:82:a6","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":4,"ifname":"eth2","flags":["BROADCAST","MULTICAST"],"mtu":1500,"qdisc":"noop","operstate":"DOWN","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:75:1c:c1","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":5,"ifname":"eth3","flags":["BROADCAST","MULTICAST"],"mtu":1500,"qdisc":"noop","operstate":"DOWN","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:ad:6f:63","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":6,"ifname":"ifb-dns","flags":["BROADCAST","NOARP","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UNKNOWN","linkmode":"DEFAULT","group":"default","txqlen":32,"link_type":"ether","address":"72:79:65:12:07:07","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":7,"ifname":"br-lan","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:6a:50:bf","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":9,"ifname":"bond-bond1","flags":["BROADCAST","MULTICAST","MASTER","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:ad:6f:63","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":8,"ifname":"tuntunsubnet","flags":["POINTOPOINT","MULTICAST","NOARP","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UNKNOWN","linkmode":"DEFAULT","group":"default","txqlen":500,"link_type":"none"}, {"ifindex":69,"ifname":"pppoe-w1","flags":["POINTOPOINT","MULTICAST","NOARP","UP","LOWER_UP"],"mtu":1492,"qdisc":"fq_codel","operstate":"UNKNOWN","linkmode":"DEFAULT","group":"default","txqlen":3,"link_type":"ppp"},{"ifindex":20,"link":"eth1","ifname":"eth1.4","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","master":"br-lan","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:20:82:a6","broadcast":"ff:ff:ff:ff:ff:ff"}]'
 mock_ip_stdout = MagicMock()
@@ -386,6 +389,8 @@ def _setup_db(tmp_path):
         fp.write(dhcp_db)
     with tmp_path.joinpath('netmap').open('w') as fp:
         fp.write(netmap_db)
+    with tmp_path.joinpath('objects').open('w') as fp:
+        fp.write(objects_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_add_interface_to_zone(tmp_path):
@@ -1029,4 +1034,3 @@ def test_list_netmap_devices(mock_run, tmp_path):
     assert 'br-lan' in device_names
     assert 'eth1.4' in device_names
     assert {'device': 'br-lan',  'interface': 'lan'} in devices
-    
