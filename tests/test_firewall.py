@@ -3,7 +3,7 @@ from nethsec.utils import ValidationError
 import pytest
 from euci import EUci, UciExceptionNotFound
 
-from nethsec import firewall
+from nethsec import firewall, objects
 from pytest_mock import MockFixture
 from unittest.mock import MagicMock, patch
 
@@ -120,6 +120,35 @@ config nat
 	option src_ip '192.168.1.44'
 	option target 'SNAT'
 	option snat_ip '10.20.30.5'
+
+config redirect 'redirect3'
+    option ns_src ''
+    option ipset 'redirect3_ipset'
+
+config ipset 'redirect3_ipset'
+    option name 'redirect1_ipset'
+    option match 'src_net'
+    option enabled '1'
+    list entry '6.7.8.9'
+
+config redirect 'redirect4'
+    option ns_src ''
+
+config rule 'r1'
+    option name 'r1'
+    option ns_dst 'dhcp/ns_8dcab636'
+
+config rule 'r2'
+    option name 'r2'
+    option ns_dst ''
+
+config rule 'r3'
+    option name 'r3'
+    option ns_src ''
+
+config rule 'r4'
+    option ns_dst ''
+    option ns_src ''
 """
 
 network_db = """
@@ -333,6 +362,11 @@ config host
 config domain
 	option name 'test3.test.org'
 	option ip 'ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543'
+
+config domain 'ns_dhcp1'
+	option ip '7.8.9.1'
+	option name 'host1'
+	option ns_description 'Host 1'
 """
 
 netmap_db = """
@@ -371,6 +405,14 @@ lease_file = """
 objects_db = """
 """
 
+user_db = """
+config user 'ns_user1'
+	option name "john"
+	option database "main"
+	option label "John Doe"
+	option openvpn_ipaddr "10.10.10.22"
+"""
+
 # Setup fake ip command output
 ip_json='[{"ifindex":9,"ifname":"vnet3","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","master":"virbr2","operstate":"UNKNOWN","group":"default","txqlen":1000,"link_type":"ether","address":"fe:62:31:19:0b:29","broadcast":"ff:ff:ff:ff:ff:ff","addr_info":[{"family":"inet6","local":"fe80::fc62:31ff:fe19:b29","prefixlen":64,"scope":"link","valid_life_time":4294967295,"preferred_life_time":4294967295}]},{"ifindex":2,"ifname":"eth0","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","master":"br-lan","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:6a:50:bf","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":3,"ifname":"eth1","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:20:82:a6","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":4,"ifname":"eth2","flags":["BROADCAST","MULTICAST"],"mtu":1500,"qdisc":"noop","operstate":"DOWN","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:75:1c:c1","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":5,"ifname":"eth3","flags":["BROADCAST","MULTICAST"],"mtu":1500,"qdisc":"noop","operstate":"DOWN","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:ad:6f:63","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":6,"ifname":"ifb-dns","flags":["BROADCAST","NOARP","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UNKNOWN","linkmode":"DEFAULT","group":"default","txqlen":32,"link_type":"ether","address":"72:79:65:12:07:07","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":7,"ifname":"br-lan","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:6a:50:bf","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":9,"ifname":"bond-bond1","flags":["BROADCAST","MULTICAST","MASTER","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:ad:6f:63","broadcast":"ff:ff:ff:ff:ff:ff"},{"ifindex":8,"ifname":"tuntunsubnet","flags":["POINTOPOINT","MULTICAST","NOARP","UP","LOWER_UP"],"mtu":1500,"qdisc":"fq_codel","operstate":"UNKNOWN","linkmode":"DEFAULT","group":"default","txqlen":500,"link_type":"none"}, {"ifindex":69,"ifname":"pppoe-w1","flags":["POINTOPOINT","MULTICAST","NOARP","UP","LOWER_UP"],"mtu":1492,"qdisc":"fq_codel","operstate":"UNKNOWN","linkmode":"DEFAULT","group":"default","txqlen":3,"link_type":"ppp"},{"ifindex":20,"link":"eth1","ifname":"eth1.4","flags":["BROADCAST","MULTICAST","UP","LOWER_UP"],"mtu":1500,"qdisc":"noqueue","master":"br-lan","operstate":"UP","linkmode":"DEFAULT","group":"default","txqlen":1000,"link_type":"ether","address":"52:54:00:20:82:a6","broadcast":"ff:ff:ff:ff:ff:ff"}]'
 mock_ip_stdout = MagicMock()
@@ -391,6 +433,8 @@ def _setup_db(tmp_path):
         fp.write(netmap_db)
     with tmp_path.joinpath('objects').open('w') as fp:
         fp.write(objects_db)
+    with tmp_path.joinpath('users').open('w') as fp:
+        fp.write(user_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_add_interface_to_zone(tmp_path):
@@ -831,11 +875,12 @@ def test_list_host_suggestions(mocker, tmp_path):
     mock_isfile = mocker.patch('os.path.isfile')
     mock_isfile.return_value = True
     suggestions = firewall.list_host_suggestions(u)
-    assert len(suggestions) == 9
+    assert len(suggestions) == 10
     assert suggestions == [
         {'value': '192.168.100.1', 'label': 'test.name.org', 'type': 'domain'},
         {'value': '192.168.100.2', 'label': 'test2.giacomo.org', 'type': 'host'},
         {'value': 'ac0d:b0e6:ee9e:172e:7f64:ea08:ed22:1543', 'label': 'test3.test.org', 'type': 'domain'},
+        {'value': '7.8.9.1', 'label': 'host1', 'type': 'domain'},
         {'value': '192.168.100.238', 'label': 'lan', 'type': 'network'},
         {'value': '2001:db80::2/64', 'label': 'wan6', 'type': 'network'},
         {'value': '10.0.0.22', 'label': 'bond1', 'type': 'network'},
@@ -1034,3 +1079,55 @@ def test_list_netmap_devices(mock_run, tmp_path):
     assert 'br-lan' in device_names
     assert 'eth1.4' in device_names
     assert {'device': 'br-lan',  'interface': 'lan'} in devices
+
+def test_update_redirect_rules(tmp_path):
+    u = _setup_db(tmp_path)
+    domain1 = objects.add_domain_set(u, "d1", "ipv4", ["test1.com", "test2.com"])
+    ipsets = objects.get_domain_set_ipsets(u, domain1)
+    host1 = objects.add_host_set(u, "h1", "ipv4", ["192.168.168.1", "users/ns_user1"])
+    u.set("firewall", "redirect3", "ns_src", f"objects/{domain1}") # domain can be used only as source
+    u.set('firewall', 'redirect3', 'ns_dst', f"dhcp/ns_dhcp1")
+    firewall.update_redirect_rules(u)
+    print(u.get_all("firewall", "redirect3"))
+    assert u.get("firewall", "redirect3", "dest_ip") == "7.8.9.1" 
+    assert u.get("firewall", "redirect3", "ipset") == f"{ipsets['firewall']} src_net"
+    u.set("firewall", "redirect4", "ns_src", f"objects/{host1}")
+    u.set('firewall', 'redirect4', 'ns_dst', f"users/ns_user1")
+    firewall.update_redirect_rules(u)
+    assert u.get("firewall", "redirect4", "dest_ip") == "10.10.10.22"
+    assert u.get("firewall", "redirect4", "ipset") == f"{host1}_ipset"
+    assert u.get("firewall", "redirect4_ipset")
+
+def test_update_firewall_rules(tmp_path):
+    u = _setup_db(tmp_path)
+    domain1 = objects.add_domain_set(u, "d1", "ipv4", ["test1.com", "test2.com"])
+    ipsets = objects.get_domain_set_ipsets(u, domain1)
+    host1 = objects.add_host_set(u, "h1", "ipv4", ["192.168.168.1", "users/ns_user1"])
+    u.set("firewall", "r1", "ns_dst", f"objects/{domain1}")
+    u.set("firewall", "r1", "ns_src", f"objects/{host1}")
+    firewall.update_firewall_rules(u)
+    assert set(u.get_all("firewall", "r1", "src_ip")) == set(objects.get_object_ips(u, f"objects/{host1}"))
+    assert u.get("firewall", "r1", "ipset") == f"{ipsets['firewall']} dst"
+    with pytest.raises(UciExceptionNotFound):
+        u.get("firewall", "r1", "dest_ip")
+
+    u.set("firewall", "r2", "ns_dst", f"objects/{host1}")
+    u.set("firewall", "r2", "ns_src", f"objects/{domain1}")
+    firewall.update_firewall_rules(u)
+
+    assert u.get("firewall", "r2", "ipset") == f"{ipsets['firewall']} src"
+    assert set(u.get_all("firewall", "r2", "dest_ip")) == set(objects.get_object_ips(u, f"objects/{host1}"))
+    with pytest.raises(UciExceptionNotFound):
+        u.get("firewall", "r2", "src_ip")
+
+    u.set("firewall", "r3", "ns_src", "dhcp/ns_dhcp1")
+    u.set("firewall", "r3", "ns_dst", "users/ns_user1")
+    firewall.update_firewall_rules(u)
+    assert u.get_all("firewall", "r3", "src_ip") == ("7.8.9.1",)
+    assert u.get_all("firewall", "r3", "dest_ip") == ("10.10.10.22",)
+
+    u.set("firewall", "r4", "ns_src", f"objects/{domain1}")
+    u.set("firewall", "r4", "dest_ip", "1.2.3.4")
+    firewall.update_firewall_rules(u)
+    with pytest.raises(UciExceptionNotFound):
+        u.get("firewall", "r4", "ns_dst")
