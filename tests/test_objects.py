@@ -183,3 +183,10 @@ def test_get_object_ips(tmp_path):
     id = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4", "dhcp/ns_8bec5896", "users/ns_user1", f"objects/{id0}"])
     ips = objects.get_object_ips(u, f"objects/{id}")
     assert set(ips) == set(["1.2.3.4", "7.8.9.1", "10.10.10.22", "4.5.6.7"]) # check with set to ignore order
+
+def test_is_domain_set(tmp_path):
+    u = _setup_db(tmp_path)
+    id = objects.add_domain_set(u, "mydomainset6", "ipv4", ["test1.com", "test2.com"])
+    assert objects.is_domain_set(u, f"objects/{id}") == True
+    assert objects.is_domain_set(u, "dhcp/ns_8dcab636") == False
+    assert objects.is_domain_set(u, "users/ns_user1") == False

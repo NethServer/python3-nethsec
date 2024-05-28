@@ -1928,10 +1928,9 @@ def update_firewall_rules(uci):
         ns_src = uci.get('firewall', section, 'ns_src', default=None)
         ns_dst = uci.get('firewall', section, 'ns_dst', default=None)
         if ns_src:
-            database, id = ns_src.split('/')
-            obj_type = uci.get(database, id)
-            if database =="objects" and obj_type == "domain":
+            if objects.is_domain_set(uci, ns_src):
                 keep_ipset = True
+                id = ns_src.split('/')[1]
                 ipsets = objects.get_domain_set_ipsets(uci, id)
                 uci.set('firewall', section, 'ipset', f"{ipsets['firewall']} src")
                 try:
@@ -1947,9 +1946,8 @@ def update_firewall_rules(uci):
                 except:
                     pass
         if ns_dst:
-            database, id = ns_dst.split('/')
-            obj_type = uci.get(database, id)
-            if database =="objects" and obj_type == "domain":
+            if objects.is_domain_set(uci, ns_dst):
+                id = ns_dst.split('/')[1]
                 ipsets = objects.get_domain_set_ipsets(uci, id)
                 uci.set('firewall', section, 'ipset', f"{ipsets['firewall']} dst")
                 try:
