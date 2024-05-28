@@ -139,6 +139,21 @@ def get_object_first_ip(uci, database_id):
 
 # Domain set
 
+def is_domain_set(uci, database_id):
+    """
+    Check if an object is a domain set.
+
+    Args:
+        uci: EUci pointer
+        id: id of the object in the form of `<database>/<id>`
+
+    Returns:
+        True if object is a domain set, False otherwise
+    """
+    database, id = database_id.split('/')
+    obj_type = uci.get(database, id)
+    return database =="objects" and obj_type == "domain"
+
 def is_used_domain_set(uci, id):
     """
     Check if domain set is used in firewall config.
