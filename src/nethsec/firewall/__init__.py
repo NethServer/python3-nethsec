@@ -1882,7 +1882,7 @@ def update_redirect_rules(uci):
         ns_src = uci.get('firewall', section, 'ns_src', default=None)
         ns_dst = uci.get('firewall', section, 'ns_dst', default=None)
         if ns_dst:
-            ipaddr = objects.get_object_first_ip(uci, ns_dst)
+            ipaddr = objects.get_object_ip(uci, ns_dst)
             if ipaddr:
                 uci.set('firewall', section, 'dest_ip', ipaddr)
         if ns_src:
