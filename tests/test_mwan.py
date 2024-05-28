@@ -3,7 +3,7 @@ import pathlib
 import pytest
 from euci import EUci
 
-from nethsec import mwan
+from nethsec import mwan, objects
 from nethsec.utils import ValidationError
 
 network_db = """
@@ -77,6 +77,28 @@ config defaults_mwan 'defaults_mwan'
         option quality_recovery_packet_loss '10'
 """
 
+objects_db = """
+"""
+
+dhcp_db = """
+config domain 'ns_domain_mwan'
+	option ip '7.8.9.1'
+	option name 'host1'
+	option ns_description 'Host 1'
+
+config host 'ns_host_mwan'
+	option ip '192.168.100.5'
+	option mac 'fe:54:00:6a:50:bf'
+	option dns '1'
+	option name 'host2'
+	option ns_description 'host2'
+"""
+
+users_db = """
+"""
+
+firewall_db = """
+"""
 
 @pytest.fixture
 def e_uci(tmp_path: pathlib.Path) -> EUci:
@@ -90,6 +112,14 @@ def e_uci(tmp_path: pathlib.Path) -> EUci:
         fp.write(ns_api_db)
     with conf_dir.joinpath('mwan3').open('w') as fp:
         fp.write('')
+    with conf_dir.joinpath('objects').open('w') as fp:
+        fp.write(objects_db)
+    with conf_dir.joinpath('dhcp').open('w') as fp:
+        fp.write(dhcp_db)
+    with conf_dir.joinpath('users').open('w') as fp:
+        fp.write(users_db)
+    with conf_dir.joinpath('firewall').open('w') as fp:
+        fp.write(firewall_db)
     return EUci(confdir=conf_dir.as_posix(), savedir=save_dir.as_posix())
 
 
@@ -306,6 +336,16 @@ def test_store_rule(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_rule_1', 'dest_port') == '22,443'
     assert e_uci.get('mwan3', 'ns_rule_1', 'sticky') == '1'
 
+    domain_id = objects.add_domain_set(e_uci, "mydomainset6", "ipv4", ["test1.com", "test2.com"])
+    id = mwan.store_rule(e_uci, 'rule_with_obj', 'ns_default', 'udp', ns_src="dhcp/ns_host_mwan", ns_dst=f"objects/{domain_id}")
+    id = id.split('.')[1]
+    assert e_uci.get('mwan3', id, 'ns_src') == "dhcp/ns_host_mwan"
+    assert e_uci.get('mwan3', id, 'ns_dst') == f"objects/{domain_id}"
+    with pytest.raises(ValueError):
+        mwan.store_rule(e_uci, 'rule_with_obj', 'ns_default', 'udp', ns_src="dhcp/ns_host_mwan", ns_dst="objects/invalid") 
+    with pytest.raises(ValueError):
+        mwan.store_rule(e_uci, 'rule_with_obj', 'ns_default', 'udp', ns_src=f"objects/{domain_id}")
+
 def test_unique_rule(e_uci, mocker):
     mocker.patch('subprocess.run')
     mwan.store_policy(e_uci, 'default', [
@@ -499,6 +539,9 @@ def test_edit_rule(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_default_rule', 'dest_ip') == '0.0.0.0/0'
     assert e_uci.get('mwan3', 'ns_default_rule', 'dest_port') == '4040:8080'
 
+    assert mwan.edit_rule(e_uci, 'ns_default_rule', 'ns_cool_policy', 'new label2!', ns_src="dhcp/ns_host_mwan")
+    assert e_uci.get('mwan3', 'ns_default_rule', 'ns_src') == "dhcp/ns_host_mwan"
+
 
 def test_cant_edit_invalid_rule(e_uci, mocker):
     mocker.patch('subprocess.run')
@@ -524,3 +567,25 @@ def test_cant_edit_invalid_rule(e_uci, mocker):
     assert e.value.args[0] == 'policy'
     assert e.value.args[1] == 'invalid'
     assert e.value.args[2] == 'ns_cool_policy'
+
+def test_update_rules(e_uci, mocker):
+    mocker.patch('subprocess.run')
+    mwan.store_policy(e_uci, 'cool policy', [
+        {
+            'name': 'RED_3',
+            'metric': '10',
+            'weight': '100',
+        },
+        {
+            'name': 'RED_1',
+            'metric': '10',
+            'weight': '100',
+        }
+    ])
+    domain_id = objects.add_domain_set(e_uci, "mydomainset7", "ipv4", ["test1.com", "test2.com"])
+    id = mwan.store_rule(e_uci, 'rule_with_obj', 'ns_cool_policy', 'udp', ns_src="dhcp/ns_domain_mwan", ns_dst=f"objects/{domain_id}")
+    id = id.split('.')[1]
+    ipsets = objects.get_domain_set_ipsets(e_uci, domain_id)
+    mwan.update_rules(e_uci)
+    assert e_uci.get('mwan3', id, 'src_ip') == '7.8.9.1'
+    assert e_uci.get('mwan3', id, 'ipset') == f"{ipsets['firewall']} dst"

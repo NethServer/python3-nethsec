@@ -16,9 +16,40 @@ import subprocess
 import uci
 from euci import EUci
 
-from nethsec import utils
+from nethsec import utils, objects
 from nethsec.utils import ValidationError
 
+def _is_valid_src(e_uci: EUci, database_id: str):
+    """
+    Validate the given object for source.
+    Source objects can be only:
+    - dhcp reservation
+    - dns domain
+    - vpn user
+
+    Args:
+        e_uci: EUci instance
+        database_id: id of object
+
+    Returns:
+        True if object is valid, False otherwise
+    """
+    return objects.is_host(e_uci, database_id) or objects.is_domain(e_uci, database_id) or objects.is_vpn_user(e_uci, database_id)
+
+def _is_valid_dst(e_uci: EUci, database_id: str):
+    """
+    Validate the given object for destination.
+    Destination objects can be only:
+    - domain set
+
+    Args:
+        e_uci: EUci instance
+        database_id: id of object
+
+    Returns:
+        True if object is valid, False otherwise
+    """
+    return objects.is_domain_set(e_uci, database_id)
 
 def __generate_metric(e_uci: EUci) -> int:
     """
@@ -123,7 +154,8 @@ def __store_member(e_uci: EUci, interface_name: str, metric: int, weight: int) -
 
 def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
                source_address: str = None, source_port: str = None,
-               destination_address: str = None, destination_port: str = None, sticky: bool = False) -> str:
+               destination_address: str = None, destination_port: str = None, sticky: bool = False,
+               ns_src: str = None, ns_dst: str = None) -> str:
     """
     Stores a rule for mwan3
 
@@ -137,6 +169,8 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
         destination_address: destination addresses to match
         destination_port: destination ports to match or range
         sticky: whether to use sticky connections
+        ns_src: source object, it overrides source_address
+        ns_dst: destination object, it overrides destination_address
 
     Returns:
         name of the rule created
@@ -154,6 +188,11 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
         raise ValidationError('name', 'unique', name)
     if e_uci.get('mwan3', policy, default=None) is None:
         raise ValidationError('policy', 'invalid', policy)
+    if ns_src and not _is_valid_src(e_uci, ns_src):
+        raise ValidationError('ns_src', 'invalid_object', ns_src)
+    if ns_dst and not _is_valid_dst(e_uci, ns_dst):
+        raise ValidationError('ns_dst', 'invalid_object', ns_dst)
+
     e_uci.set('mwan3', rule_config_name, 'rule')
     e_uci.set('mwan3', rule_config_name, 'label', name)
     e_uci.set('mwan3', rule_config_name, 'use_policy', policy)
@@ -171,6 +210,10 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
         e_uci.set('mwan3', rule_config_name, 'dest_ip', destination_address)
     if destination_port is not None:
         e_uci.set('mwan3', rule_config_name, 'dest_port', destination_port.replace('-', ':'))
+    if ns_src is not None:
+        e_uci.set('mwan3', rule_config_name, 'ns_src', ns_src)
+    if ns_dst is not None:
+        e_uci.set('mwan3', rule_config_name, 'ns_dst', ns_dst)
 
     e_uci.save('mwan3')
     order_rules(e_uci, [rule_config_name] + list(rules))
@@ -426,6 +469,10 @@ def index_rules(e_uci: EUci) -> list[dict]:
             rule_data['destination_port'] = rule_value['dest_port'].replace(':', '-')
         if 'sticky' in rule_value:
             rule_data['sticky'] = rule_value['sticky'] == '1'
+        if 'ns_src' in rule_value:
+            rule_data['ns_src'] = rule_value['ns_src']
+        if 'ns_dst' in rule_value:
+            rule_data['ns_dst'] = rule_value['ns_dst']
 
         data.append(rule_data)
     return data
@@ -493,7 +540,8 @@ def delete_rule(e_uci: EUci, name: str):
 
 def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = None,
               source_address: str = None, source_port: str = None,
-              destination_address: str = None, destination_port: str = None, sticky: bool = False):
+              destination_address: str = None, destination_port: str = None, sticky: bool = False,
+              ns_src: str = None, ns_dst: str = None):
     """
     Edits a mwan3 rule.
 
@@ -508,6 +556,8 @@ def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = N
         destination_address: CIDR notation of destination address
         destination_port: port or port range
         sticky: whether to use sticky connections
+        ns_src: source object, it overrides source_address
+        ns_dst: destination object, it overrides destination_address
 
     Raises:
         ValidationError: if name is not valid or policy is not valid
@@ -517,6 +567,10 @@ def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = N
 
     if e_uci.get('mwan3', policy, default=None) is None:
         raise ValidationError('policy', 'invalid', policy)
+    if ns_src and not _is_valid_src(e_uci, ns_src):
+        raise ValidationError('ns_src', 'invalid_object', ns_src)
+    if ns_dst and not _is_valid_dst(e_uci, ns_dst):
+        raise ValidationError('ns_dst', 'invalid_object', ns_dst)
     e_uci.set('mwan3', name, 'use_policy', policy)
     e_uci.set('mwan3', name, 'label', label)
     # test if sticky is True of False, if not raise an error
@@ -537,7 +591,10 @@ def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = N
         e_uci.set('mwan3', name, 'src_ip', source_address)
     if destination_address is not None:
         e_uci.set('mwan3', name, 'dest_ip', destination_address)
-
+    if ns_src is not None:
+        e_uci.set('mwan3', name, 'ns_src', ns_src)
+    if ns_dst is not None:
+        e_uci.set('mwan3', name, 'ns_dst', ns_dst)
     e_uci.save('mwan3')
     return f'mwan3.{name}'
 
@@ -595,3 +652,27 @@ def get_default_config(e_uci: EUci) -> dict:
         dict with default configuration
     """
     return e_uci.get_all('ns-api', 'defaults_mwan')
+
+
+def update_rules(e_uci: EUci):
+    """
+    Updates mwan3 rules with objects addresses
+
+    Args:
+        e_uci: euci instance
+    """
+    for rule in utils.get_all_by_type(e_uci, 'mwan3', 'rule'):
+        ns_src = e_uci.get('mwan3', rule, 'ns_src', default=None)
+        ns_dst = e_uci.get('mwan3', rule, 'ns_dst', default=None)
+        if ns_src:
+            e_uci.set('mwan3', rule, 'src_ip', objects.get_object_ip(e_uci, ns_src))
+        if ns_dst: # this can be only a domain set
+            id = ns_dst.split('/')[1]
+            ipsets = objects.get_domain_set_ipsets(e_uci, id)
+            e_uci.set('mwan3', rule, 'ipset', f"{ipsets['firewall']} dst")
+            try:
+                e_uci.delete('mwan3', rule, 'dest_ip')
+            except:
+                pass
+
+    e_uci.save('mwan3')
