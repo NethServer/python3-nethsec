@@ -121,7 +121,7 @@ def get_object_ips(uci, database_id):
     
     return list(set(ips))  # Convert the list to a set to remove duplicates, then convert it back to a list
 
-def get_object_first_ip(uci, database_id):
+def get_object_ip(uci, database_id):
     """
     Get the first IP address from an object.
 
@@ -150,9 +150,12 @@ def is_domain_set(uci, database_id):
     Returns:
         True if object is a domain set, False otherwise
     """
-    database, id = database_id.split('/')
-    obj_type = uci.get(database, id)
-    return database =="objects" and obj_type == "domain"
+    try:
+        database, id = database_id.split('/')
+        obj_type = uci.get(database, id)
+        return database =="objects" and obj_type == "domain"
+    except:
+        return False
 
 def is_used_domain_set(uci, id):
     """
@@ -500,3 +503,81 @@ def list_host_sets(uci) -> list:
             rule['matches'] = matches
             sets.append(rule)
     return sets
+
+def is_host_set(uci, database_id):
+    """
+    Check if an object is a host set.
+
+    Args:
+        uci: EUci pointer
+        id: id of the object in the form of `<database>/<id>`
+
+    Returns:
+        True if object is a host set, False otherwise
+    """
+    try:
+        database, id = database_id.split('/')
+        obj_type = uci.get(database, id)
+        return database == "objects" and obj_type == "host"
+    except:
+        return False
+
+# Host
+
+def is_host(uci, database_id):
+    """
+    Check if an object is a host.
+
+    Args:
+        uci: EUci pointer
+        database_id: id of the object in the form of `<database>/<id>`
+
+    Returns:
+        True if object is a host, False otherwise
+    """
+    try:
+        database, id = database_id.split('/')
+        obj_type = uci.get(database, id)
+        return database == "dhcp" and obj_type == "host"
+    except:
+        return False
+
+# Domain
+
+def is_domain(uci, database_id):
+    """
+    Check if an object is a domain.
+
+    Args:
+        uci: EUci pointer
+        database_id: id of the object in the form of `<database>/<id>`
+
+    Returns:
+        True if object is a domain, False otherwise
+    """
+    try:
+        database, id = database_id.split('/')
+        obj_type = uci.get(database, id)
+        return database == "dhcp" and obj_type == "domain"
+    except:
+        return False
+
+# VPN user
+
+def is_vpn_user(uci, database_id):
+    """
+    Check if an object is a VPN user.
+
+    Args:
+        uci: EUci pointer
+        database_id: id of the object in the form of `<database>/<id>`
+
+    Returns:
+        True if object is a VPN user, False otherwise
+    """
+    try:
+        database, id = database_id.split('/')
+        obj_type = uci.get(database, id)
+        return database == "users" and obj_type == "user" and uci.get(database, id, 'openvpn_ipaddr', default=None) != None
+    except:
+        return False

@@ -50,6 +50,9 @@ config user 'ns_user1'
 	option database "main"
 	option label "John Doe"
 	option openvpn_ipaddr "10.10.10.22"
+
+config user 'ns_user2'
+	option name "user2"
 """
 
 def _setup_db(tmp_path):
@@ -190,3 +193,25 @@ def test_is_domain_set(tmp_path):
     assert objects.is_domain_set(u, f"objects/{id}") == True
     assert objects.is_domain_set(u, "dhcp/ns_8dcab636") == False
     assert objects.is_domain_set(u, "users/ns_user1") == False
+
+def test_is_domain(tmp_path):
+    u = _setup_db(tmp_path)
+    id = objects.add_domain_set(u, "mydomainset6", "ipv4", ["test1.com", "test2.com"])
+    assert objects.is_domain(u, f"objects/{id}") == False
+    assert objects.is_domain(u, "dhcp/ns_8bec5896")
+
+def test_is_host(tmp_path):
+    u = _setup_db(tmp_path)
+    assert objects.is_host(u, "dhcp/ns_8bec5896") == False
+    assert objects.is_host(u, "dhcp/ns_8dcab636")
+
+def test_is_vpn_user(tmp_path):
+    u = _setup_db(tmp_path)
+    assert objects.is_vpn_user(u, "users/ns_user1")
+    assert objects.is_vpn_user(u, "users/ns_user2") == False
+
+def test_is_host_set(tmp_path):
+    u = _setup_db(tmp_path)
+    id = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4"])
+    assert objects.is_host_set(u, f"objects/{id}")
+    assert objects.is_host_set(u, "dhcp/ns_8dcab636") == False
