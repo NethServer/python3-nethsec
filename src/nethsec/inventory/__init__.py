@@ -45,10 +45,10 @@ def fact_openvpn_tun(uci: EUci):
     return ret
 
 def fact_subscription_status(uci: EUci):
-    return { 'status': uci.get('ns_plug', 'config', 'type', default='no') }
+    return { 'status': uci.get('ns-plug', 'config', 'type', default='no') }
 
 def fact_controller(uci: EUci):
-    if uci.get('ns_plug', 'config', 'server', default='') and uci.get('ns_plug', 'config', 'unit_id', default='') and uci.get('ns_plug', 'config', 'token', default=''):
+    if uci.get('ns-plug', 'config', 'server', default='') and uci.get('ns-plug', 'config', 'unit_id', default='') and uci.get('ns-plug', 'config', 'token', default=''):
         return { "enabled": True}
     else:
         return { "enabled": False}

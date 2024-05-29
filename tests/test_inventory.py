@@ -469,7 +469,7 @@ def _setup_db(tmp_path):
         fp.write(flashstart_db)
     with tmp_path.joinpath('openvpn').open('w') as fp:
         fp.write(openvpn_db)
-    with tmp_path.joinpath('ns_plug').open('w') as fp:
+    with tmp_path.joinpath('ns-plug').open('w') as fp:
         fp.write(ns_plug_db)
     with tmp_path.joinpath('banip').open('w') as fp:
         fp.write(ban_ip_db)
