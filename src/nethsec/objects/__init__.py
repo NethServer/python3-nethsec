@@ -31,7 +31,7 @@ def is_object_id(id):
     """
     return id.startswith('objects/') or id.startswith('dhcp/') or id.startswith('users/')
 
-def _validate_object(uci, id):
+def object_exists(uci, id):
     """
     Check if the object exists.
 
@@ -347,7 +347,7 @@ def list_domain_sets(uci) -> list:
 
 def _validate_host_set_ipaddr(uci, ipaddr: str, family: str):
     if is_object_id(ipaddr):
-        return _validate_object(uci, ipaddr)
+        return object_exists(uci, ipaddr)
     if family == 'ipv4':
         return _validate_host_set_ipaddr_v4(ipaddr)
     elif family == 'ipv6':
