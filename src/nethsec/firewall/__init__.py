@@ -1386,7 +1386,7 @@ def validate_port_format(port: str) -> bool:
         return False
     return True
 
-def validate_rule(src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str):
+def validate_rule(src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str, ns_src: str, ns_dst: str):
     """
     Validate rule.
 
@@ -1399,17 +1399,29 @@ def validate_rule(src: str, src_ip: list[str], dest: str, dest_ip: list[str], pr
         dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
         target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
         service: service name
+        ns_src: an object in the form `<database>/<id>`
+        ns_dst: an object in the form `<database>/<id>`
 
     Raises:
         ValidationError: if rule is invalid
     """
-    for s in src_ip:
-        if not validate_address_format(s):
-            raise utils.ValidationError('src_ip', 'invalid_format', s)
-    for d in dest_ip:
-        if not validate_address_format(d):
-            raise utils.ValidationError('dest_ip', 'invalid_format', d)
-    if src == dest:
+    if ns_src:
+        if not objects.object_exists(ns_src):
+            raise utils.ValidationError('ns_src', 'object_not_found', ns_src)
+    else: # check source only if not using objects
+        for s in src_ip:
+            if not validate_address_format(s):
+                raise utils.ValidationError('src_ip', 'invalid_format', s)
+    if ns_dst:
+        if not objects.object_exists(ns_dst):
+            raise utils.ValidationError('ns_dst', 'object_not_found', ns_dst)
+    else: # check destiation only if not using objects
+        for d in dest_ip:
+            if not validate_address_format(d):
+               raise utils.ValidationError('dest_ip', 'invalid_format', d)
+    if ns_src and ns_dst and objects.is_domain_set(ns_src) and objects.is_domain_set(ns_dst):
+        raise utils.ValidationError('dest', 'domain_set_conflict', dest)
+    if (not ns_src and not ns_dst) and src == dest: # check only if not using objects
         raise utils.ValidationError('dest', 'same_zone', dest)
     if target not in TARGETS:
         raise utils.ValidationError('target', 'invalid_target', target)
@@ -1442,7 +1454,7 @@ def get_service_by_name(name: str) -> dict:
     return None
 
 def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str,
-                enabled: bool = True, log: bool = False, tag = []) -> None:
+                enabled: bool = True, log: bool = False, tag = [], ns_src: str = None, ns_dst: str = None) -> None:
     """
     Set up a rule in the firewall config.
 
@@ -1461,6 +1473,8 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
             enabled: if True, rule is enabled; if False, rule is disabled
             log: if True, log traffic
             tag: list of optional tags
+            ns_src: an object in the form `<database>/<id>`
+            ns_dst: an object in the form `<database>/<id>`
     """
     uci.set('firewall', id, 'name', name)
     uci.set('firewall', id, 'src', src)
@@ -1490,6 +1504,8 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
     uci.set('firewall', id, 'enabled', '1' if enabled else '0')
     uci.set('firewall', id, 'log', '1' if log else '0')
     uci.set('firewall', id, 'ns_tag', tag)
+    uci.set('firewall', id, 'ns_src', ns_src)
+    uci.set('firewall', id, 'ns_dst', ns_dst)
     uci.save('firewall')
 
 def split_firewall_config(uci):
@@ -1554,7 +1570,7 @@ def reorder_firewall_config(uci):
     uci.save('firewall')
 
 def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str,
-            enabled: bool = True, log: bool = False, tag = [], add_to_top: bool = False) -> str:
+            enabled: bool = True, log: bool = False, tag = [], add_to_top: bool = False, ns_src: str = None, ns_dst: str = None) -> str:
     """
     Add rule to firewall config.
 
@@ -1574,16 +1590,18 @@ def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: li
         log: if True, log traffic
         tag: list of optional tags
         add_to_top: if True, add rule to the top of the list, otherwise add to the bottom
+        ns_src: an object in the form `<database>/<id>`
+        ns_dst: an object in the form `<database>/<id>`
 
     Returns:
         name of rule config that was added
     """
-    validate_rule(src, src_ip, dest, dest_ip, proto, dest_port, target, service)
+    validate_rule(src, src_ip, dest, dest_ip, proto, dest_port, target, service, ns_src, ns_dst)
     rule = utils.get_random_id()
     uci.set('firewall', rule, 'rule')
-    setup_rule(uci, rule, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag)
-    uci.save('firewall')
+    setup_rule(uci, rule, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag, ns_src, ns_dst)
     reorder_firewall_config(uci)
+    update_firewall_rules(uci) # expand objects and save
 
     if add_to_top:
         rule_type = uci.get_all('firewall', rule)
@@ -1599,7 +1617,7 @@ def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: li
     return rule
 
 def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str, 
-            enabled: bool = True, log: bool = False, tag = []) -> str:
+            enabled: bool = True, log: bool = False, tag = [], ns_src: str = None, ns_dst: str = None) -> str:
     """
     Edit rule in firewall config.
 
@@ -1618,14 +1636,17 @@ def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, d
         enabled: if True, rule is enabled, if False, rule is disabled
         log: if True, log traffic
         tag: list of optional tags
+        ns_src: an object in the form `<database>/<id>`
+        ns_dst: an object in the form `<database>/<id>`
 
     Returns:
         name of rule config that was edited
     """
     if not uci.get('firewall', id, default=None):
         raise utils.ValidationError("id", "rule_does_not_exists", id)  
-    validate_rule(src, src_ip, dest, dest_ip, proto, dest_port, target, service)         
-    setup_rule(uci, id, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag)
+    validate_rule(src, src_ip, dest, dest_ip, proto, dest_port, target, service, ns_src, ns_dst)
+    setup_rule(uci, id, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag, ns_src, ns_dst)
+    update_firewall_rules(uci) # expand objects and save
     return id
 
 def list_nat_rules(uci) -> list:
