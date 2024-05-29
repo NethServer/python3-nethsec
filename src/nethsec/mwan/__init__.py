@@ -215,8 +215,8 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
     if ns_dst is not None:
         e_uci.set('mwan3', rule_config_name, 'ns_dst', ns_dst)
 
-    e_uci.save('mwan3')
     order_rules(e_uci, [rule_config_name] + list(rules))
+    update_rules(e_uci) # update rules with objects and save mwan3 config
     return f'mwan3.{rule_config_name}'
 
 
@@ -595,7 +595,7 @@ def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = N
         e_uci.set('mwan3', name, 'ns_src', ns_src)
     if ns_dst is not None:
         e_uci.set('mwan3', name, 'ns_dst', ns_dst)
-    e_uci.save('mwan3')
+    update_rules(e_uci) # update rules with objects and save mwan3 config
     return f'mwan3.{name}'
 
 
