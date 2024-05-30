@@ -326,6 +326,8 @@ def delete_domain_set(uci, id: str) -> str:
     """
     if not uci.get('objects', id, default=None):
         raise utils.ValidationError("id", "domain_set_does_not_exists", id)
+    if is_used_domain_set(uci, id)[0]:
+        raise utils.ValidationError("id", "domain_set_is_used", id)
     uci.delete('objects', id)
     uci.save('objects')
     for section in uci.get_all("dhcp"):
@@ -504,6 +506,8 @@ def delete_host_set(uci, id: str) -> str:
     """
     if not uci.get('objects', id, default=None):
         raise utils.ValidationError("id", "host_set_does_not_exists", id)
+    if is_used_host_set(uci, id)[0]:
+        raise utils.ValidationError("id", "host_set_is_used", id)
     uci.delete('objects', id)
     uci.save('objects')
     return id
