@@ -6,7 +6,7 @@ from euci import EUci, UciExceptionNotFound
 from nethsec import firewall, objects
 from pytest_mock import MockFixture
 from unittest.mock import MagicMock, patch
-
+import pathlib
 firewall_db = """
 config zone lan1
 	option name 'lan'
@@ -418,8 +418,13 @@ ip_json='[{"ifindex":9,"ifname":"vnet3","flags":["BROADCAST","MULTICAST","UP","L
 mock_ip_stdout = MagicMock()
 mock_ip_stdout.configure_mock(**{"stdout": ip_json})
 
-def _setup_db(tmp_path):
-     # setup fake dbs
+@pytest.fixture
+def u(tmp_path: pathlib.Path) -> EUci:
+    # setup fake dbs
+    conf_dir = tmp_path.joinpath('conf')
+    conf_dir.mkdir()
+    save_dir = tmp_path.joinpath('save')
+    save_dir.mkdir()
     with tmp_path.joinpath('firewall').open('w') as fp:
         fp.write(firewall_db)
         fp.write(zone_testing_db)
@@ -437,8 +442,7 @@ def _setup_db(tmp_path):
         fp.write(user_db)
     return EUci(confdir=tmp_path.as_posix())
 
-def test_add_interface_to_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_interface_to_zone(u):
     z1 = firewall.add_interface_to_zone(u, "interface1", "lan")
     assert z1 == 'lan1'
     assert 'interface1' in u.get_all('firewall', 'lan1', 'network')
@@ -446,35 +450,29 @@ def test_add_interface_to_zone(tmp_path):
     z1 = firewall.add_interface_to_zone(u, "interface2", "lan")
     assert 'interface2' in u.get_all('firewall', 'lan1', 'network')
 
-def test_remove_interface_from_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_remove_interface_from_zone(u):
     z1 = firewall.remove_interface_from_zone(u, 'interface1', "lan")
     assert(not 'interface1' in  u.get_all('firewall', 'lan1', 'network'))
 
-def test_add_device_to_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_device_to_zone(u):
     z1 = firewall.add_device_to_zone(u, "vnet1", "lan")
     assert z1 == 'lan1'
     assert 'vnet1' in u.get_all('firewall', 'lan1', 'device')
     assert firewall.add_device_to_zone(u, "vnet1", "blue") == None
 
-def test_add_device_to_lan(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_device_to_lan(u):
     assert firewall.add_device_to_lan(u, "vnet1") == 'lan1'
     assert 'vnet1' in u.get_all('firewall', 'lan1', 'device')
 
-def test_add_device_to_wan(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_device_to_wan(u):
     assert firewall.add_device_to_wan(u, "vnet2") == 'wan1f'
     assert 'vnet2' in u.get_all('firewall', 'wan1f', 'device')
 
-def test_remove_device_from_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_remove_device_from_zone(u):
     firewall.remove_device_from_zone(u, 'vnet1', "lan")
     assert(not 'vnet2' in  u.get_all('firewall', 'lan1', 'device'))
 
-def test_add_service(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_service(u):
     rule = firewall.add_service(u, "my_service", "443", "tcp", "nginx/_lan")
     assert rule is not None
     assert rule == "ns_allow_my_service"
@@ -488,30 +486,26 @@ def test_add_service(tmp_path):
     assert firewall.add_service(u, "my-service2", "456", ["tcp", "udp"]) == "ns_allow_my_service2"
     assert u.get_all('firewall', 'ns_allow_my_service2', 'proto') == ("tcp", "udp")
 
-def test_block_service(tmp_path):
-    u = _setup_db(tmp_path)
+def test_block_service(u):
     firewall.add_service(u, "my-service", "443", "tcp")
     assert firewall.remove_service(u, "my-service") == "ns_allow_my_service"
     with pytest.raises(UciExceptionNotFound):
         u.get('firewall', 'ns_allow_my_service')
 
-def test_disable_service(tmp_path):
-    u = _setup_db(tmp_path)
+def test_disable_service(u):
     firewall.add_service(u, "my-service", "443", "tcp")
     assert firewall.disable_service(u, "my-service") == "ns_allow_my_service"
     assert u.get("firewall", "ns_allow_my_service", "enabled") == "0"
     assert firewall.disable_service(u, "non-existing") == None
 
-def test_enable_service(tmp_path):
-    u = _setup_db(tmp_path)
+def test_enable_service(u):
     firewall.add_service(u, "my-service", "1234", "tcp")
     firewall.disable_service(u, "my-service")
     assert firewall.enable_service(u, "my-service") == "ns_allow_my_service"
     assert u.get("firewall", "ns_allow_my_service", "enabled")
     assert firewall.enable_service(u, "non-existing") == None
 
-def test_add_vpn_interface(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_vpn_interface(u):
     assert firewall.add_vpn_interface(u, 'test!vpn', 'tuntest') == 'test_vpn'
     assert u.get('network', 'test_vpn') == 'interface'
     assert u.get('network', 'test_vpn', 'proto') == 'none'
@@ -520,8 +514,7 @@ def test_add_vpn_interface(tmp_path):
     i = firewall.add_vpn_interface(u, 'p2p', 'ppp10', 'torrent/server1')
     assert u.get('network', 'p2p', 'ns_link') == 'torrent/server1'
 
-def test_add_trusted_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_trusted_zone(u):
     assert firewall.add_trusted_zone(u, 'toolongnameforzone') == (None, None)
 
     (zone, forwardings) = firewall.add_trusted_zone(u, 'mytrusted')
@@ -552,8 +545,7 @@ def test_add_trusted_zone(tmp_path):
     assert u.get("firewall", forwardings[1], 'ns_link') == link
     assert u.get("firewall", forwardings[2], 'ns_link') == link
 
-def test_duplicated_add_trusted_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_duplicated_add_trusted_zone(u):
     (zone, forwardings) = firewall.add_trusted_zone(u, 'mytrusted')
     assert zone is None
     assert forwardings is None
@@ -565,8 +557,7 @@ def test_duplicated_add_trusted_zone(tmp_path):
                 trusted = trusted + 1
     assert trusted == 1
  
-def test_add_trusted_zone_with_networks(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_trusted_zone_with_networks(u):
     interface = firewall.add_vpn_interface(u, 'testvpn2', 'tuntest2')
     zone, forwardings = firewall.add_trusted_zone(u, 'mytrusted2', list(interface))
     assert u.get_all("firewall", zone, 'network') == tuple(interface)
@@ -575,8 +566,7 @@ def test_apply():
     # Already tested in pyuci
     assert 1
 
-def test_add_template_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_template_rule(u):
     rule = firewall.add_template_rule(u, 'ns_test_rule', 'tcp', '443', 'test1/key1')
     assert u.get("firewall", rule) == "rule"
     assert u.get("firewall", rule, "proto") == "tcp"
@@ -599,8 +589,7 @@ def test_add_template_rule(tmp_path):
     assert u.get("firewall", rule, "target") == "ACCEPT"
     assert u.get("firewall", rule, "ns_tag") == "automated"
 
-def test_add_template_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_template_zone(u):
     (zone, forwardings) = firewall.add_template_zone(u, 'ns_blue', ["lan", "lan2"], link="mydb/mykey" )
     assert zone is not None
     assert u.get("firewall", zone) == "zone"
@@ -623,8 +612,7 @@ def test_add_template_zone(tmp_path):
     assert zone is None
     assert forwardings is None
 
-def test_add_template_service_group(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_template_service_group(u):
     sections = firewall.add_template_service_group(u, "ns_web_secure")
     assert len(sections) == 2
     assert u.get("firewall", sections[0]) == "rule"
@@ -651,8 +639,7 @@ def test_add_template_service_group(tmp_path):
     assert u.get("firewall", sections[0], "ns_link") == "db/mykey"
     assert u.get("firewall", sections[1], "ns_link") == "db/mykey"
 
-def test_get_all_linked(tmp_path):
-    u = _setup_db(tmp_path)
+def test_get_all_linked(u):
     link = "mytestdb/mykey"
     sections = firewall.add_template_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
     rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
@@ -668,8 +655,7 @@ def test_get_all_linked(tmp_path):
     assert interface in linked['network']
 
 
-def test_disable_linked_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_disable_linked_rules(u):
     link = "mytestdb/mykey"
     sections = firewall.add_template_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
     rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
@@ -686,8 +672,7 @@ def test_disable_linked_rules(tmp_path):
     for f in forwardings:
         assert u.get("network", f, "enabled", default="XX") == "XX" # option must not be set
 
-def test_delete_linked_sections(tmp_path):
-    u = _setup_db(tmp_path)
+def test_delete_linked_sections(u):
     link = "mytestdb/mykey"
     sections = firewall.add_template_service_group(u, "ns_web_secure", "blue", "yellow", link=link)
     rule = firewall.add_service(u, "my_service", "443", "tcp", link=link)
@@ -706,8 +691,7 @@ def test_delete_linked_sections(tmp_path):
         for f in forwardings:
             u.get("firewall", f)
 
-def test_is_ipv6_enabled(tmp_path):
-    u = _setup_db(tmp_path)
+def test_is_ipv6_enabled(u):
     assert firewall.is_ipv6_enabled(u) == True
     u.delete("network", 'lan6')
     assert firewall.is_ipv6_enabled(u) == True
@@ -720,15 +704,13 @@ def test_is_ipv6_enabled(tmp_path):
     u.delete("network", 'wan6c')
     assert firewall.is_ipv6_enabled(u) == False
 
-def test_disable_ipv6_firewall(tmp_path):
-    u = _setup_db(tmp_path)
+def test_disable_ipv6_firewall(u):
     assert u.get("firewall", "v6rule", "enabled", default="1") == "1"
     firewall.disable_ipv6_firewall(u)
     assert u.get("firewall", "v6rule", "enabled", default="1") == "0"
 
 
-def test_list_zones(tmp_path):
-    u = _setup_db(tmp_path)
+def test_list_zones(u):
     assert firewall.list_zones(u)["ns_lan"]["name"] == "lan"
     assert firewall.list_zones(u)["ns_lan"]["input"] == "ACCEPT"
     assert firewall.list_zones(u)["ns_lan"]["output"] == "ACCEPT"
@@ -741,21 +723,18 @@ def test_list_zones(tmp_path):
     assert firewall.list_zones(u)["ns_wan"]["network"] == ("wan6", "RED_2", "RED_3", "RED_1")
 
 
-def list_zones_no_aliases(tmp_path):
-    u = _setup_db(tmp_path)
+def list_zones_no_aliases(u):
     assert firewall.list_zones_no_aliases(u)["ns_lan"]["network"] == ("GREEN_1",)
 
 
-def test_list_forwardings(tmp_path):
-    u = _setup_db(tmp_path)
+def test_list_forwardings(u):
     assert firewall.list_forwardings(u)["ns_lan2guests"]["src"] == "lan"
     assert firewall.list_forwardings(u)["ns_lan2guests"]["dest"] == "guests"
     assert firewall.list_forwardings(u)["ns_guests2wan"]["src"] == "guests"
     assert firewall.list_forwardings(u)["ns_guests2wan"]["dest"] == "wan"
 
 
-def test_add_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_zone(u):
     assert firewall.add_zone(u, "new_zone", "REJECT", "DROP", True, ["lan"], ["lan", "guest"]) == (
         "ns_new_zone", {"ns_new_zone2wan", "ns_new_zone2lan", "ns_lan2new_zone", "ns_guest2new_zone"})
     assert u.get("firewall", "ns_new_zone", "name") == "new_zone"
@@ -771,8 +750,7 @@ def test_add_zone(tmp_path):
     assert u.get("firewall", "ns_guest2new_zone", "src") == "guest"
     assert u.get("firewall", "ns_guest2new_zone", "dest") == "new_zone"
 
-def test_edit_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_edit_zone(u):
     assert firewall.edit_zone(u, "new_zone", "DROP", "ACCEPT", False, ["lan"], ["lan", "guest"]) == (
         "ns_new_zone", {"ns_new_zone2lan", "ns_lan2new_zone", "ns_guest2new_zone"})
     assert u.get("firewall", "ns_new_zone", "name") == "new_zone"
@@ -786,15 +764,13 @@ def test_edit_zone(tmp_path):
     assert u.get("firewall", "ns_guest2new_zone", "src") == "guest"
     assert u.get("firewall", "ns_guest2new_zone", "dest") == "new_zone"
 
-def test_delete_zone(tmp_path):
-    u = _setup_db(tmp_path)
+def test_delete_zone(u):
     assert firewall.delete_zone(u, "ns_new_zone") == (
         "ns_new_zone", {"ns_new_zone2lan", "ns_guest2new_zone", "ns_lan2new_zone"})
     with pytest.raises(Exception) as e:
         firewall.delete_zone(u, "not_a_zone")
 
-def test_get_rule_by_name(tmp_path):
-    u = _setup_db(tmp_path)
+def test_get_rule_by_name(u):
     assert firewall.get_rule_by_name(u, "Allow-DHCPv6") == (
         "v6rule",
         {"name": "Allow-DHCPv6", "src": "wan", "proto": "udp", "dest_port": "546", "family": "ipv6", "target": "ACCEPT", "enabled": "0"}
@@ -806,14 +782,12 @@ def test_get_rule_by_name(tmp_path):
     assert firewall.get_rule_by_name(u, "not_a_rule") == (None, None)
     assert firewall.get_rule_by_name(u, "Not-Automated", "automated") == (None, None)
 
-def test_add_default_ipv6_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_default_ipv6_rules(u):
     # one rule should be skipped because it already exists
     assert len(firewall.add_default_ipv6_rules(u)) == 3
     assert firewall.add_default_ipv6_rules(u) == []
 
-def test_resolve_address(tmp_path):
-    u = _setup_db(tmp_path)
+def test_resolve_address(u):
     assert firewall.resolve_address(u, "192.168.100.1") == {"value": "192.168.100.1", "type": "domain", "label": "test.name.org"}
     assert firewall.resolve_address(u, "192.168.100.2") == {"value": "192.168.100.2", "type": "host", "label": "test2.giacomo.org"}
     assert firewall.resolve_address(u, "192.168.100.238") == {"value": "192.168.100.238", "type": "interface", "label": "lan"}
@@ -821,8 +795,7 @@ def test_resolve_address(tmp_path):
     assert firewall.resolve_address(u, "10.0.0.22") == {"value": "10.0.0.22", "type": "interface", "label": "bond1"}
     assert firewall.resolve_address(u, "2001:db80::2/64") == {"value": "2001:db80::2/64", "type": "interface", "label": "wan6"}
 
-def test_list_forward_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_list_forward_rules(u):
     rules = firewall.list_forward_rules(u)
     assert len(rules) > 0
     for r in rules:
@@ -834,8 +807,7 @@ def test_list_forward_rules(tmp_path):
         assert 'ns_tag' in r
         assert 'proto' in r
 
-def test_list_output_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_list_output_rules(u):
     rules = firewall.list_output_rules(u)
     assert len(rules) > 0
     for r in rules:
@@ -847,9 +819,7 @@ def test_list_output_rules(tmp_path):
        assert 'ns_tag' in r
        assert 'proto' in r
 
-
-def test_list_input_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_list_input_rules(u):
     rules = firewall.list_input_rules(u)
     assert len(rules) > 0
     for r in rules:
@@ -861,7 +831,7 @@ def test_list_input_rules(tmp_path):
        assert 'ns_tag' in r
        assert 'proto' in r
 
-def test_list_service_suggestions(mocker):
+def test_list_service_suggestions(u, mocker):
     mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
     mock_isfile = mocker.patch('os.path.isfile')
     mock_isfile.return_value = True
@@ -869,8 +839,7 @@ def test_list_service_suggestions(mocker):
     assert len(services) == 5
     assert services == [{'id': 'ftp', 'proto': ['tcp'], 'port': 21}, {'id': 'ssh', 'proto': ['tcp', 'udp'], 'port': 22}, {'id': 'time', 'proto': ['udp'], 'port': 37}, {'id': 'www', 'proto': ['tcp'], 'port': 80}, {'id': 'kerberos', 'proto': ['tcp', 'udp'], 'port': 88}]
 
-def test_list_host_suggestions(mocker, tmp_path):
-    u = _setup_db(tmp_path)
+def test_list_host_suggestions(u, mocker):
     mocker.patch('builtins.open', mocker.mock_open(read_data=lease_file))
     mock_isfile = mocker.patch('os.path.isfile')
     mock_isfile.return_value = True
@@ -889,8 +858,7 @@ def test_list_host_suggestions(mocker, tmp_path):
         {'value': '192.168.1.219', 'label': 'test2', 'type': 'lease'},
     ]
 
-def test_add_rule(tmp_path, mocker):
-    u = _setup_db(tmp_path)
+def test_add_rule(u, mocker):
     mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
     mock_isfile = mocker.patch('os.path.isfile')
     mock_isfile.return_value = True
@@ -909,8 +877,7 @@ def test_add_rule(tmp_path, mocker):
     assert u.get_all("firewall", rid, "ns_tag") == ("tag1",)
     assert u.get("firewall", rid, "ns_link", default="notpresent") == "notpresent"
 
-def test_edit_rule(tmp_path, mocker):
-    u = _setup_db(tmp_path)
+def test_edit_rule(u, mocker):
     mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
     mock_isfile = mocker.patch('os.path.isfile')
     mock_isfile.return_value = True
@@ -939,22 +906,19 @@ def test_edit_rule(tmp_path, mocker):
     assert u.get_all("firewall", rid, "proto") == ('tcp',)
     assert u.get("firewall", rid, "dest_port") == "80"
 
-def test_delete_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_delete_rule(u):
     ids =  firewall.list_rule_ids(u)
     id_to_delete = ids.pop()
     firewall.delete_rule(u, id_to_delete)
     assert id_to_delete not in firewall.list_rule_ids(u)
 
-def test_disable_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_disable_rule(u):
     ids =  firewall.list_rule_ids(u)
     id_to_disable = ids.pop()
     firewall.disable_rule(u, id_to_disable)
     assert u.get("firewall", id_to_disable, "enabled") == "0"
 
-def test_enable_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_enable_rule(u):
     ids =  firewall.list_rule_ids(u)
     id_to_enable = ids.pop()
     firewall.disable_rule(u, id_to_enable)
@@ -962,13 +926,12 @@ def test_enable_rule(tmp_path):
     firewall.enable_rule(u, id_to_enable)
     assert u.get("firewall", id_to_enable, "enabled") == "1"
 
-def test_order_rules(tmp_path, mocker):
+def test_order_rules(u, mocker):
     # The firewall.order_rules function uses the uci binary to reorder the rules
     # The test is usefull because uci behaves differently on a real machine
     assert True
 
-def test_list_nat_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_list_nat_rules(u):
     names = []
     for r in firewall.list_nat_rules(u):
         names.append(r.get("name"))
@@ -978,8 +941,7 @@ def test_list_nat_rules(tmp_path):
     assert "SNAT_NSEC7_style" in names
     assert "Allow-DHCPv6" not in names
     
-def test_add_nat_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_nat_rule(u):
     id1 = firewall.add_nat_rule(u, "myrule", "SNAT", "lan", "1.2.3.4", "6.7.8.9", "1.1.1.1")
     assert u.get("firewall", id1, "name") == "myrule"
     assert u.get("firewall", id1, "target") == "SNAT"
@@ -997,8 +959,7 @@ def test_add_nat_rule(tmp_path):
     with pytest.raises(UciExceptionNotFound):
         u.get("firewall", id2, "src_ip")
 
-def test_edit_nat_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_edit_nat_rule(u):
     id = firewall.add_nat_rule(u, "myrule4", "SNAT", "lan", "1.2.3.4", "6.7.8.9", "1.1.1.1")
     firewall.edit_nat_rule(u, id, "myrule4b", "SNAT", "lan", "1.2.3.4", "6.7.8.9", "3.3.3.3")
     assert u.get("firewall", id, "name") == "myrule4b"
@@ -1009,23 +970,20 @@ def test_edit_nat_rule(tmp_path):
     assert u.get_all("firewall", id, "proto") == ("all",)
     assert u.get("firewall", id, "src") == "lan"
 
-def test_delete_nat_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_delete_nat_rule(u):
     with pytest.raises(ValidationError):
         firewall.delete_nat_rule(u, "notpresent")
     id = firewall.add_nat_rule(u, "myrule5", "SNAT", "lan", "1.2.3.4", "6.7.8.9", "1.1.1.1")
     assert firewall.delete_nat_rule(u, id) == id
 
-def test_list_netmap_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_list_netmap_rules(u):
     names = []
     for r in firewall.list_netmap_rules(u):
         names.append(r.get("name"))
     assert "source_nat1" in names
     assert "dest_nat1" in names
 
-def test_add_netmap_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_add_netmap_rule(u):
     with pytest.raises(ValidationError):
         id1 = firewall.add_netmap_rule(u, "myrule", "10.50.51.0/24", "10.50.50.0/24", ["eth0"], ["eth1"], "10.10.10.0/24", "192.168.1.0/24")
     id1 = firewall.add_netmap_rule(u, "myrule", "10.50.51.0/24", "", ["eth0"], ["eth1"], "10.10.10.0/24", "192.168.1.0/24")
@@ -1046,8 +1004,7 @@ def test_add_netmap_rule(tmp_path):
     assert u.get("netmap", id2, "map_from") == "10.10.10.0/24"
     assert u.get("netmap", id2, "map_to") == "192.168.1.0/24"
 
-def test_edit_netmap_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_edit_netmap_rule(u):
     id = firewall.add_netmap_rule(u, "myrule3", "", "10.50.50.0/24", ["eth0"], ["eth1"], "10.10.10.0/24", "192.168.1.0/24")
     firewall.edit_netmap_rule(u, id, "myrule3b", "", "10.50.51.0/24", [], [], "10.10.11.0/24", "192.168.2.0/24")
     assert u.get("netmap", id, "name") == "myrule3b"
@@ -1061,17 +1018,28 @@ def test_edit_netmap_rule(tmp_path):
     assert u.get("netmap", id, "map_from") == "10.10.11.0/24"
     assert u.get("netmap", id, "map_to") == "192.168.2.0/24"
 
-def test_delete_netmap_rule(tmp_path):
-    u = _setup_db(tmp_path)
+def test_delete_netmap_rule(u):
     with pytest.raises(ValidationError):
         firewall.delete_netmap_rule(u, "notpresent")
     id = firewall.add_netmap_rule(u, "myrule3b", "", "10.50.51.0/24", None, None, "10.10.11.0/24", "192.168.2.0/24")
     assert firewall.delete_netmap_rule(u, id) == id
 
 @patch("nethsec.utils.subprocess.run")
-def test_list_netmap_devices(mock_run, tmp_path):
-    # setup mock
-    u = _setup_db(tmp_path)
+def test_list_netmap_devices(mock_run, u):
+    u.get_all("netmap", id, "device_out")
+    with pytest.raises(UciExceptionNotFound):
+        u.get_all("netmap", id, "device_in")
+    assert u.get("netmap", id, "map_from") == "10.10.11.0/24"
+    assert u.get("netmap", id, "map_to") == "192.168.2.0/24"
+
+def test_delete_netmap_rule(u):
+    with pytest.raises(ValidationError):
+        firewall.delete_netmap_rule(u, "notpresent")
+    id = firewall.add_netmap_rule(u, "myrule3b", "", "10.50.51.0/24", None, None, "10.10.11.0/24", "192.168.2.0/24")
+    assert firewall.delete_netmap_rule(u, id) == id
+
+@patch("nethsec.utils.subprocess.run")
+def test_list_netmap_devices(mock_run, u):
     mock_run.return_value = mock_ip_stdout
     devices = firewall.list_netmap_devices(u)
     device_names = [d.get("device") for d in devices]
@@ -1080,8 +1048,7 @@ def test_list_netmap_devices(mock_run, tmp_path):
     assert 'eth1.4' in device_names
     assert {'device': 'br-lan',  'interface': 'lan'} in devices
 
-def test_update_redirect_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_update_redirect_rules(u):
     domain1 = objects.add_domain_set(u, "d1", "ipv4", ["test1.com", "test2.com"])
     ipsets = objects.get_domain_set_ipsets(u, domain1)
     host1 = objects.add_host_set(u, "h1", "ipv4", ["192.168.168.1", "users/ns_user1"])
@@ -1098,8 +1065,7 @@ def test_update_redirect_rules(tmp_path):
     assert u.get("firewall", "redirect4", "ipset") == f"{host1}_ipset"
     assert u.get("firewall", "redirect4_ipset")
 
-def test_update_firewall_rules(tmp_path):
-    u = _setup_db(tmp_path)
+def test_update_firewall_rules(u):
     domain1 = objects.add_domain_set(u, "d1", "ipv4", ["test1.com", "test2.com"])
     ipsets = objects.get_domain_set_ipsets(u, domain1)
     host1 = objects.add_host_set(u, "h1", "ipv4", ["192.168.168.1", "users/ns_user1"])
