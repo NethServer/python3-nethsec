@@ -535,6 +535,33 @@ def is_host_set(uci, database_id):
     except:
         return False
 
+# in mathematical terms, a singleton set is a set with exactly one element
+def is_singleton_host_set(uci, database_id, allow_cidr=False):
+    """
+    Check if an object is a host set with a single IP address.
+    The IP must not be an IP range.
+    If `allow_cidr` is True, the IP can be in CIDR notation.
+
+    Args:
+        uci: EUci pointer
+        database_id: id of the object in the form of `<database>/<id>`
+        allow_cidr: allow CIDR notation
+
+    Returns:
+        True if object is a singleton host set, False otherwise
+    """
+    if is_host_set(uci, database_id):
+        obj = get_object(uci, database_id)
+        if obj and len(obj.get('ipaddr')) == 1:
+            ip = obj.get('ipaddr')[0]
+            if '-' in ip:
+                return False
+            if allow_cidr:
+                return True
+            else:
+                return '/' not in ip
+    return False
+
 # Host
 
 def is_host(uci, database_id):
