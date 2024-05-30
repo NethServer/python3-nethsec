@@ -5,6 +5,18 @@ from euci import EUci, UciExceptionNotFound
 from nethsec import firewall, objects
 
 objects_db = """
+config domain 'myset'
+	option name 'MySet'
+	option description 'Mydomain set'
+	option family 'ipv4'
+	option timeout '600'
+	list domain 'www.nethsecurity.org'
+	list domain 'www.nethserver.org'
+
+config host 'ns_04fadb5c'
+	option name 'h1'
+	option family 'ipv4'
+	list ipaddr '1.2.3.4'
 """
 
 firewall_db = """
@@ -14,6 +26,10 @@ config rule 'r5'
 
 config rule 'r6'
     option name 'r6'
+
+config rule 'r7'
+    option name 'r7'
+    option ns_src 'objects/ns_04fadb5c'
 
 config redirect 'redirect1'
     option ns_src ''
@@ -41,6 +57,17 @@ config host 'ns_8dcab636'
 	option dns '1'
 	option name 'host2'
 	option ns_description 'host2'
+
+config domain 'ns_9e7f705e'
+	option ip '1.2.3.4'
+	option name 'test1.domain'
+
+config host 'ns_271ca281'
+	option ip '192.168.100.22'
+	option mac 'fe:54:00:6a:4a:a1'
+	option dns '1'
+	option name 'reserve1'
+	option ns_description 'reserve1'
 """
 
 user_db = """
@@ -55,9 +82,35 @@ config user 'ns_user2'
 """
 
 mwan3_db = """
+config rule 'ns_r1'
+	option label 'r1'
+	option use_policy 'ns_default'
+	option sticky '0'
+	option proto 'tcp'
+	option src_ip '1.2.3.4'
+	option dest_ip '1.1.1.1'
+    option ns_src 'users/ns_user2'
 """
 
 dpi_db = """
+config rule
+	option action 'block'
+	list application 'netify.twitter'
+	list source 'dhcp/ns_9e7f705e'
+	option description 'Block Twitter for user Goofy'
+	option enabled '1'
+
+config exemption
+	option criteria 'dhcp/ns_271ca281'
+	option description 'Important host'
+	option enabled '1'
+
+config rule 'ns_e775b8a7'
+	option enabled '1'
+	option device 'br-lan'
+	option action 'block'
+	list application 'netify.amazon-prime'
+
 """
 
 @pytest.fixture
@@ -134,7 +187,7 @@ def test_is_used_domain_set(u):
 
 def test_list_domain_sets(u):
     sets = objects.list_domain_sets(u)
-    assert len(sets) == 6
+    assert len(sets) == 7
 
 def test_add_host_set(u):
     with pytest.raises(ValidationError):
@@ -169,13 +222,21 @@ def test_is_used_host_set(u):
 
 def test_list_host_sets(u):
     sets = objects.list_host_sets(u)
-    assert len(sets) == 6
+    assert len(sets) == 7
 
 def test_is_used_object(u):
     used, matches = objects.is_used_object(u, "dhcp/ns_8dcab636")
     assert used
     assert matches == ["firewall/r5"]
     assert objects.is_used_object(u, "dhcp/ns_8bec5896")[0] == False
+    assert objects.is_used_object(u, "users/ns_user2")[0] == True
+    used, matches = objects.is_used_object(u, "objects/ns_04fadb5c")
+    assert used
+    assert matches == ["firewall/r7"]
+
+def test_object_exists(u):
+    assert objects.object_exists(u, "users/ns_user1")
+    assert objects.object_exists(u, "uknown") == False
 
 def test_get_object(u):
     id = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4"])

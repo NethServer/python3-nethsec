@@ -31,21 +31,22 @@ def is_object_id(id):
     """
     return id.startswith('objects/') or id.startswith('dhcp/') or id.startswith('users/')
 
-def object_exists(uci, id):
+def object_exists(uci, database_id):
     """
     Check if the object exists.
 
     Args:
-        id: id to check
+        database_id: id to check in the form of `<database>/<id>`
     
     Returns:
         True if object exists, False otherwise
     """
-    database, id = id.split('/')
     try:
+        database, id = database_id.split('/')
         uci.get(database, id)
+        return True
     except:
-        raise utils.ValidationError('id', 'object_does_not_exists', id)
+        return False
 
 def get_object(uci, database_id):
     """
@@ -66,7 +67,10 @@ def get_object(uci, database_id):
 
 def is_used_object(uci, database_id):
     """
-    Check if an object is used in firewall config.
+    Check if an object is used in:
+     - firewall config
+     - mwan3 config
+     - dpi config
 
     Args:
         uci: EUci pointer
@@ -81,6 +85,12 @@ def is_used_object(uci, database_id):
     for section in uci.get_all("firewall"):
         if uci.get('firewall', section, 'ns_src', default=None) == database_id or uci.get('firewall', section, 'ns_dst', default=None) == database_id:
             matches.append(f'firewall/{section}')
+    for section in uci.get_all("mwan3"):
+        if uci.get('mwan3', section, 'ns_src', default=None) == database_id or uci.get('mwan3', section, 'ns_dst', default=None) == database_id:
+            matches.append(f'mwan3/{section}')
+    for section in uci.get_all("dpi"):
+        if uci.get('dpi', section, 'source', default=None) == database_id:
+            matches.append(f'dpi/{section}')
     return len(matches) > 0, matches
 
 def get_object_ips(uci, database_id):
@@ -347,7 +357,10 @@ def list_domain_sets(uci) -> list:
 
 def _validate_host_set_ipaddr(uci, ipaddr: str, family: str):
     if is_object_id(ipaddr):
-        return object_exists(uci, ipaddr)
+        if not object_exists(uci, ipaddr):
+            raise utils.ValidationError('ipaddr', 'object_does_not_exists', ipaddr)
+        else:
+            return # validation is ok
     if family == 'ipv4':
         return _validate_host_set_ipaddr_v4(ipaddr)
     elif family == 'ipv6':
