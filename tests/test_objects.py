@@ -235,6 +235,12 @@ def test_is_singleton_host_set(u):
     assert objects.is_singleton_host_set(u, f"objects/{id4}") == False
     assert objects.is_singleton_host_set(u, f"objects/{id4}", allow_cidr=True)
 
+def test_add_host_set_loopback(u):
+    id1 = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4"])
+    id2 = objects.add_host_set(u, "myhostset2", "ipv4", [f"objects/{id1}"])
+    with pytest.raises(ValidationError):
+        objects.edit_host_set(u, id1, "myhostset", "ipv4", [f"objects/{id2}"])
+
 def test_is_used_object(u):
     used, matches = objects.is_used_object(u, "dhcp/ns_8dcab636")
     assert used
