@@ -224,6 +224,17 @@ def test_list_host_sets(u):
     sets = objects.list_host_sets(u)
     assert len(sets) == 7
 
+def test_is_singleton_host_set(u):
+    id1 = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4", "5.6.7.8"])
+    assert objects.is_singleton_host_set(u, f"objects/{id1}") == False
+    id2 = objects.add_host_set(u, "myhostset2", "ipv4", ["8.8.8.8"])
+    assert objects.is_singleton_host_set(u, f"objects/{id2}") == True
+    id3 = objects.add_host_set(u, "myhostset3", "ipv4", ["192.168.7.2-192.168.7.3"])
+    assert objects.is_singleton_host_set(u, f"objects/{id3}") == False
+    id4 = objects.add_host_set(u, "myhostset4", "ipv4", ["192.168.0.0/24"])
+    assert objects.is_singleton_host_set(u, f"objects/{id4}") == False
+    assert objects.is_singleton_host_set(u, f"objects/{id4}", allow_cidr=True)
+
 def test_is_used_object(u):
     used, matches = objects.is_used_object(u, "dhcp/ns_8dcab636")
     assert used
