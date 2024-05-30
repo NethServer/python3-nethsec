@@ -71,6 +71,7 @@ def is_used_object(uci, database_id):
      - firewall config
      - mwan3 config
      - dpi config
+     - existing host set
 
     Args:
         uci: EUci pointer
@@ -91,6 +92,13 @@ def is_used_object(uci, database_id):
     for section in uci.get_all("dpi"):
         if uci.get('dpi', section, 'source', default=None) == database_id:
             matches.append(f'dpi/{section}')
+    for section in uci.get_all("objects"):
+        try:
+            ips = uci.get_all('objects', section, 'ipaddr')
+            if database_id in ips:
+                matches.append(f'objects/{section}')
+        except:
+            continue
     return len(matches) > 0, matches
 
 def get_object_ips(uci, database_id):
