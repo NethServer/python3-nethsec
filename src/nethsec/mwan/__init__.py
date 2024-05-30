@@ -26,6 +26,7 @@ def _is_valid_src(e_uci: EUci, database_id: str):
     - dhcp reservation
     - dns domain
     - vpn user
+    - a singleton host set
 
     Args:
         e_uci: EUci instance
@@ -34,6 +35,9 @@ def _is_valid_src(e_uci: EUci, database_id: str):
     Returns:
         True if object is valid, False otherwise
     """
+    if objects.is_host_set(e_uci, database_id):
+        return objects.is_singleton_host_set(e_uci, database_id)
+        
     return objects.is_host(e_uci, database_id) or objects.is_domain(e_uci, database_id) or objects.is_vpn_user(e_uci, database_id)
 
 def _is_valid_dst(e_uci: EUci, database_id: str):
@@ -41,6 +45,10 @@ def _is_valid_dst(e_uci: EUci, database_id: str):
     Validate the given object for destination.
     Destination objects can be only:
     - domain set
+    - dhcp reservation
+    - dns domain
+    - vpn user
+    - a singleton host set
 
     Args:
         e_uci: EUci instance
@@ -49,7 +57,10 @@ def _is_valid_dst(e_uci: EUci, database_id: str):
     Returns:
         True if object is valid, False otherwise
     """
-    return objects.is_domain_set(e_uci, database_id)
+    if objects.is_host_set(e_uci, database_id):
+        return objects.is_singleton_host_set(e_uci, database_id)
+
+    return objects.is_domain_set(e_uci, database_id) or objects.is_host(e_uci, database_id) or objects.is_domain(e_uci, database_id) or objects.is_vpn_user(e_uci, database_id)
 
 def __generate_metric(e_uci: EUci) -> int:
     """
