@@ -36,6 +36,9 @@ config rule 'r7'
     option name 'r7'
     option ns_src 'objects/ns_04fadb5c'
 
+config rule 'r8'
+    option name 'r8'
+
 config redirect 'redirect1'
     option ns_src ''
     option ipset 'redirect1_ipset'
@@ -187,6 +190,10 @@ def test_delete_domain_set(u):
     linked = firewall.get_all_linked(u, f"objects/{id}")
     assert linked['firewall'] == []
     assert linked['dhcp'] == []
+    id = objects.add_domain_set(u, "mydomainsettd", "ipv4", ["test1.com", "test2.com"])
+    u.set('firewall', 'r8', 'ns_dst', f"objects/{id}")
+    with pytest.raises(ValidationError):
+        objects.delete_domain_set(u, id)
 
 def test_is_used_domain_set(u):
     id = objects.add_domain_set(u, "used1", "ipv4", ["test1.com", "test2.com"])
@@ -197,7 +204,7 @@ def test_is_used_domain_set(u):
 
 def test_list_domain_sets(u):
     sets = objects.list_domain_sets(u)
-    assert len(sets) == 7
+    assert len(sets) == 8
 
 def test_add_host_set(u):
     with pytest.raises(ValidationError):
@@ -222,6 +229,10 @@ def test_delete_host_set(u):
         objects.delete_host_set(u, "notpresent")
     id = objects.add_host_set(u, "myhostset4", "ipv4", ["6.7.8.9"])
     assert objects.delete_host_set(u, id) == id
+    id = objects.add_host_set(u, "myhostsettd", "ipv4", ["2.2.2.2"])
+    u.set('firewall', 'r8', 'ns_dst', f"objects/{id}")
+    with pytest.raises(ValidationError):
+        objects.delete_host_set(u, id)
 
 def test_is_used_host_set(u):
     id = objects.add_host_set(u, "myhostset", "ipv4", ["1.1.1.1"])
@@ -232,7 +243,7 @@ def test_is_used_host_set(u):
 
 def test_list_host_sets(u):
     sets = objects.list_host_sets(u)
-    assert len(sets) == 8
+    assert len(sets) == 9
 
 def test_is_singleton_host_set(u):
     id1 = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4", "5.6.7.8"])
