@@ -1504,8 +1504,10 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
     uci.set('firewall', id, 'enabled', '1' if enabled else '0')
     uci.set('firewall', id, 'log', '1' if log else '0')
     uci.set('firewall', id, 'ns_tag', tag)
-    uci.set('firewall', id, 'ns_src', ns_src)
-    uci.set('firewall', id, 'ns_dst', ns_dst)
+    if ns_src:
+        uci.set('firewall', id, 'ns_src', ns_src)
+    if ns_dst:
+        uci.set('firewall', id, 'ns_dst', ns_dst)
     uci.save('firewall')
 
 def split_firewall_config(uci):
