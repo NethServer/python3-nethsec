@@ -355,12 +355,31 @@ def list_domain_sets(uci) -> list:
 
 # Host set
 
-def _validate_host_set_ipaddr(uci, ipaddr: str, family: str):
+def _has_loop(uci, id, ipaddr, depth=0):
+    if depth > 2:
+        return True
+    if is_object_id(ipaddr):
+        if ipaddr == id:
+            return True
+        obj = get_object(uci, ipaddr)
+        if obj:
+            for ip in obj.get('ipaddr'):
+                if _has_loop(uci, id, ip, depth + 1):
+                    return True
+    return False
+
+def _validate_host_set_ipaddr(uci, id, ipaddr: str, family: str):
     if is_object_id(ipaddr):
         if not object_exists(uci, ipaddr):
             raise utils.ValidationError('ipaddr', 'object_does_not_exists', ipaddr)
         else:
-            return # validation is ok
+            if id and is_host_set(uci, id):
+                # check loop
+                if _has_loop(uci, id, ipaddr):
+                    raise utils.ValidationError('ipaddr', 'loop_detected', ipaddr)
+            else:
+                return # validation is ok
+
     if family == 'ipv4':
         return _validate_host_set_ipaddr_v4(ipaddr)
     elif family == 'ipv6':
@@ -429,7 +448,7 @@ def add_host_set(uci, name: str, family: str, ipaddrs: list[str]) -> str:
     if not name.isalnum():
         raise utils.ValidationError('name', 'invalid_name', name)
     for ipaddr in ipaddrs:
-        _validate_host_set_ipaddr(uci, ipaddr, family)
+        _validate_host_set_ipaddr(uci, '', ipaddr, family)
     id = utils.get_random_id()
     uci.set('objects', id, 'host')
     uci.set('objects', id, 'name', name)
@@ -457,7 +476,7 @@ def edit_host_set(uci, id: str, name: str, family: str, ipaddrs: list[str]) -> s
     if len(name) > 16:
         raise utils.ValidationError('name', 'name_too_long', name)
     for ipaddr in ipaddrs:
-        _validate_host_set_ipaddr(uci, ipaddr, family)
+        _validate_host_set_ipaddr(uci, f'objects/{id}', ipaddr, family)
     uci.set('objects', id, 'name', name)
     uci.set('objects', id, 'family', family)
     uci.set('objects', id, 'ipaddr', ipaddrs)
