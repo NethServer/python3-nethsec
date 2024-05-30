@@ -17,6 +17,11 @@ config host 'ns_04fadb5c'
 	option name 'h1'
 	option family 'ipv4'
 	list ipaddr '1.2.3.4'
+
+config host 'ns_12345'
+	option name 'h1'
+	option family 'ipv4'
+	list ipaddr 'dhcp/ns_112233'
 """
 
 firewall_db = """
@@ -50,6 +55,11 @@ config domain 'ns_8bec5896'
 	option ip '7.8.9.1'
 	option name 'host1'
 	option ns_description 'Host 1'
+
+config domain 'ns_112233'
+	option ip '7.8.9.1'
+	option name 'used_host'
+	option ns_description 'Used Host'
 
 config host 'ns_8dcab636'
 	option ip '192.168.100.5'
@@ -222,7 +232,7 @@ def test_is_used_host_set(u):
 
 def test_list_host_sets(u):
     sets = objects.list_host_sets(u)
-    assert len(sets) == 7
+    assert len(sets) == 8
 
 def test_is_singleton_host_set(u):
     id1 = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4", "5.6.7.8"])
@@ -250,6 +260,9 @@ def test_is_used_object(u):
     used, matches = objects.is_used_object(u, "objects/ns_04fadb5c")
     assert used
     assert matches == ["firewall/r7"]
+    used, matches = objects.is_used_object(u, "dhcp/ns_112233")
+    assert used
+    assert matches == ["objects/ns_12345"]
 
 def test_object_exists(u):
     assert objects.object_exists(u, "users/ns_user1")
