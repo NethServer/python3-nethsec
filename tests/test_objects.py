@@ -312,3 +312,40 @@ def test_is_host_set(u):
     id = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4"])
     assert objects.is_host_set(u, f"objects/{id}")
     assert objects.is_host_set(u, "dhcp/ns_8dcab636") == False
+
+def test_list_vpn_users(u):
+    users = objects.list_vpn_users(u)
+    assert len(users) == 1
+    users = objects.list_vpn_users(u, True)
+    assert 'ipaddr' in users[0]
+
+def test_list_dns_records(u):
+    records = objects.list_dns_records(u)
+    assert len(records) == 3
+    records = objects.list_dns_records(u, True)
+    for r in records:
+        assert 'ipaddr' in r
+
+def test_list_dhcp_static_leases(u):
+    leases = objects.list_dhcp_static_leases(u)
+    assert len(leases) == 2
+    leases = objects.list_dhcp_static_leases(u, True)
+    for l in leases:
+        assert 'ipaddr' in l
+
+def test_list_all_objects(u):
+    objs = objects.list_all_objects(u)
+    assert len(objs) == len(objects.list_domain_sets(u)) + len(objects.list_host_sets(u)) + len(objects.list_vpn_users(u)) + len(objects.list_dhcp_static_leases(u)) + len(objects.list_dns_records(u))
+    objs = objects.list_all_objects(u, True)
+    for o in objs:
+        if o['type'] == 'host_set':
+            assert 'ipaddr' in o
+        elif o['type'] == 'domain_set':
+            assert 'domain' in o
+        elif o['type'] == 'vpn_user':
+            assert 'ipaddr' in o
+        elif o['type'] == 'dhcp_static_lease':
+            assert 'ipaddr' in o
+        elif o['type'] == 'dns_record':
+            assert 'ipaddr' in o
+ 

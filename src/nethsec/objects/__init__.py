@@ -343,12 +343,13 @@ def delete_domain_set(uci, id: str) -> str:
             break
     return id
 
-def list_domain_sets(uci) -> list:
+def list_domain_sets(uci, used_info = True) -> list:
     """
     Get all domain sets from objects config
 
     Args:
         uci: EUci pointer
+        used_info: include used and matches info
 
     Returns:
         a list of all domain sets
@@ -358,9 +359,10 @@ def list_domain_sets(uci) -> list:
         if uci.get('objects', section) == 'domain':
             rule = uci.get_all('objects', section)
             rule['id'] = section
-            used, matches = is_used_domain_set(uci, section)
-            rule['used'] = used
-            rule['matches'] = matches
+            if used_info:
+                used, matches = is_used_domain_set(uci, section)
+                rule['used'] = used
+                rule['matches'] = matches
             sets.append(rule)
     return sets
 
@@ -529,12 +531,13 @@ def is_used_host_set(uci, id):
     """
     return is_used_object(uci, f'objects/{id}')
 
-def list_host_sets(uci) -> list:
+def list_host_sets(uci, used_info = True) -> list:
     """
     Get all host sets from objects config
 
     Args:
         uci: EUci pointer
+        used_info: include used and matches info
 
     Returns:
         a list of all host sets
@@ -544,9 +547,10 @@ def list_host_sets(uci) -> list:
         if uci.get('objects', section) == 'host':
             rule = uci.get_all('objects', section)
             rule['id'] = section
-            used, matches = is_used_host_set(uci, section)
-            rule['used'] = used
-            rule['matches'] = matches
+            if used_info:
+                used, matches = is_used_host_set(uci, section)
+                rule['used'] = used
+                rule['matches'] = matches
             sets.append(rule)
     return sets
 
@@ -654,3 +658,116 @@ def is_vpn_user(uci, database_id):
         return database == "users" and obj_type == "user" and uci.get(database, id, 'openvpn_ipaddr', default=None) != None
     except:
         return False
+    
+# API suggestions functions
+
+# Each element of the list should contain the following fields:
+# - `id`: the id of the object
+# - `name`: the name of the object
+# - `type`: the type of the object
+# - `family`: the family of the object (optional)
+# If expand flag is set to True, the list should contain all IP addresses of the object
+
+def list_vpn_users(uci, expand=False):
+    """
+    Get all VPN users from users config
+
+    Args:
+        uci: EUci pointer
+        expand: expand the list with all IP addresses of the object
+
+    Returns:
+        a list of all VPN users
+    """
+    users = []
+    for section in uci.get_all("users"):
+        user = {}
+        if uci.get('users', section) == 'user' and uci.get('users', section, 'openvpn_ipaddr', default=None) != None:
+            obj = uci.get_all('users', section)
+            user['id'] = f"users/{section}"
+            user['name'] = obj.get('name')
+            user['type'] = 'vpn_user'
+            user['family'] = 'ipv4'
+            if expand:
+                user['ipaddr'] = [obj.get('openvpn_ipaddr')]
+            users.append(user)
+    return users
+
+def list_dhcp_static_leases(uci, expand=False):
+    """
+    Get all DHCP static leases from dhcp config
+
+    Args:
+        uci: EUci pointer
+        expand: expand the list with all IP addresses of the object
+
+    Returns:
+        a list of all DHCP static leases
+    """
+    leases = []
+    for section in uci.get_all("dhcp"):
+        lease = {}
+        if uci.get('dhcp', section) == 'host':
+            obj = uci.get_all('dhcp', section)
+            lease['id'] = f"dhcp/{section}"
+            lease['name'] = obj.get('name')
+            lease['type'] = 'dhcp_static_lease'
+            lease['family'] = 'ipv4'
+            if expand:
+                lease['ipaddr'] = [obj.get('ip')]
+            leases.append(lease)
+    return leases
+
+def list_dns_records(uci, expand=False):
+    """
+    Get all DNS records from dhcp config
+
+    Args:
+        uci: EUci pointer
+        expand: expand the list with all IP addresses of the object
+
+    Returns:
+        a list of all DNS records
+    """
+    records = []
+    for section in uci.get_all("dhcp"):
+        record = {}
+        if uci.get('dhcp', section) == 'domain':
+            obj = uci.get_all('dhcp', section)
+            record['id'] = f"dhcp/{section}"
+            record['name'] = obj.get('name')
+            record['type'] = 'dns_record'
+            record['family'] = 'ipv4'
+            if expand:
+                record['ipaddr'] = [obj.get('ip')]
+            records.append(record)
+    return records
+
+def list_all_objects(uci, expand=False):
+    """
+    Get all objects from objects, dhcp, and users config
+
+    Args:
+        uci: EUci pointer
+        expand: expand the list with all IP addresses of the object
+
+    Returns:
+        a list of all objects
+    """
+    hsets = []
+    dsets = []
+    for h in list_host_sets(uci, False):
+        h['type'] = 'host_set'
+        if not expand:
+            del[h['ipaddr']]
+        hsets.append(h)
+
+    for d in list_domain_sets(uci, False):
+        d['type'] = 'domain_set'
+        if not expand:
+            del[d['domain']]
+        dsets.append(d)
+    vpn_users = list_vpn_users(uci, expand)
+    dhcp_static_leases = list_dhcp_static_leases(uci, expand)
+    dns_records = list_dns_records(uci, expand)
+    return hsets + dsets + vpn_users + dhcp_static_leases + dns_records
