@@ -7,7 +7,7 @@
   <head>
     
     <title>nethsec.utils</title>
-    <meta name="generator" content="pydoctor 23.9.1"> 
+    <meta name="generator" content="pydoctor 24.3.3"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -534,7 +534,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -662,21 +662,21 @@
           <div class="basefunction">
   
   
-  <a name="nethsec.utils.get_random_id">
+  <a name="nethsec.utils.check_password">
     
   </a>
-  <a name="get_random_id">
+  <a name="check_password">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_random_id</span><span class="function-signature">()</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L20">
+    <span class="py-keyword">def</span> <span class="py-defname">check_password</span><span class="function-signature">(password, shadow)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L406">
       
       (source)
     </a>
-    <a class="headerLink" href="#get_random_id" title="nethsec.utils.get_random_id">
+    <a class="headerLink" href="#check_password" title="nethsec.utils.check_password">
       
       
       ¶
@@ -684,23 +684,373 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Return a random valid UCI id.</p>
+    <div><p>Check if the given password matches the given shadow password hash.</p>
 <dl class="rst-docutils">
-<dt>Random ids:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>have a length of 11 characters</li>
-<li>are sanitized accordingly to UCI conventions (see 'sanitize' function)</li>
-<li>start with ns_ prefix</li>
-</ul>
-</dd>
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>name -- the name of the section</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>password (str) - the password to be checked.</li>
+<li>shadow (str) - the shadow password hash to be checked.</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>a valid UCI identifier as string</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if the password matches the hash, False otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.generic_error">
+    
+  </a>
+  <a name="generic_error">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">generic_error</span><span class="function-signature">(error)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L381">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#generic_error" title="nethsec.utils.generic_error">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate a generic error for the APIs.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>message -- An error message</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A validation error object</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_by_option">
+    
+  </a>
+  <a name="get_all_by_option">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_by_option</span><span class="function-signature">(uci, config, option, value, deep=<a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L159">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_by_option" title="nethsec.utils.get_all_by_option">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return all sections with the given option value</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>config -- Configuration database name</li>
+<li>option -- Option name</li>
+<li>value -- Option value</li>
+<li>deep - If true, return a dict of all matched keys, otherwise return a list of section names</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A dictionary or a list of all matched sections</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_by_type">
+    
+  </a>
+  <a name="get_all_by_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_by_type</span><span class="function-signature">(uci, config, utype)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L76">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_by_type" title="nethsec.utils.get_all_by_type">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Return all sections of the given utype from the given config</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>config -- Configuration database name</li>
+<li>utype -- Section type</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A dictionary of all matched sections, None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_device_ips">
+    
+  </a>
+  <a name="get_all_device_ips">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_device_ips</span><span class="function-signature">()</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L439">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_device_ips" title="nethsec.utils.get_all_device_ips">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all device IPs</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_devices_by_zone">
+    
+  </a>
+  <a name="get_all_devices_by_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_devices_by_zone</span><span class="function-signature">(uci, zone, exclude_aliases=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L186">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_devices_by_zone" title="nethsec.utils.get_all_devices_by_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all devices associated to the given zone</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>zone -- Firewall zone name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of device names</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_lan_devices">
+    
+  </a>
+  <a name="get_all_lan_devices">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_lan_devices</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L231">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_lan_devices" title="nethsec.utils.get_all_lan_devices">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all devices associated to the lan zone, except for VPN ones</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of device names</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_wan_devices">
+    
+  </a>
+  <a name="get_all_wan_devices">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_wan_devices</span><span class="function-signature">(uci, exclude_aliases=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L217">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_wan_devices" title="nethsec.utils.get_all_wan_devices">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all devices associated to the wan zone</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>exclude_aliases -- If true, exclude devices starting with @</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of device names</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_all_wan_ips">
+    
+  </a>
+  <a name="get_all_wan_ips">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_wan_ips</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L456">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_wan_ips" title="nethsec.utils.get_all_wan_ips">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>List all WAN interfaces with their IP addresses
+Exclude bond management IPs.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of dictionaries with device and IP address</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.get_device_name">
+    
+  </a>
+  <a name="get_device_name">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_device_name</span><span class="function-signature">(hwaddr)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L97">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_device_name" title="nethsec.utils.get_device_name">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve the physical device name given the MAC address</p>
+<dl class="rst-docutils">
+<dt>Aarguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>hwaddr -- MAC address string</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The device name as a string if the network interface has been found, None otherwise.</li>
 </ul>
 </dd>
 </dl>
@@ -719,7 +1069,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_id</span><span class="function-signature">(name, length=100)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L41">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L41">
       
       (source)
     </a>
@@ -742,178 +1092,14 @@ All auto-generated NethSecurity ids:</p>
 </blockquote>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>name -- the name of the section</li>
 <li>length -- maximum id length, default is 100. Maximum length for firewall zones is 15.</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>a valid UCI identifier as string</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.sanitize">
-    
-  </a>
-  <a name="sanitize">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">sanitize</span><span class="function-signature">(name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L60">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#sanitize" title="nethsec.utils.sanitize">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Replace illegal chars with _ char.
-UCI identifiers and config file names may contain only the characters a-z, 0-9 and _</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>name -- the name of the section</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>a string with valid chachars for UCI</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.get_all_by_type">
-    
-  </a>
-  <a name="get_all_by_type">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_all_by_type</span><span class="function-signature">(uci, config, utype)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L76">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_all_by_type" title="nethsec.utils.get_all_by_type">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Return all sections of the given utype from the given config</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>config -- Configuration database name</li>
-<li>utype -- Section type</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A dictionary of all matched sections, None in case of error</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.get_device_name">
-    
-  </a>
-  <a name="get_device_name">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_device_name</span><span class="function-signature">(hwaddr)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L97">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_device_name" title="nethsec.utils.get_device_name">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve the physical device name given the MAC address</p>
-<dl class="rst-docutils">
-<dt>Aarguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>hwaddr -- MAC address string</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The device name as a string if the network interface has been found, None otherwise.</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.get_interface_from_mac">
-    
-  </a>
-  <a name="get_interface_from_mac">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_interface_from_mac</span><span class="function-signature">(uci, hwaddr)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L117">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_interface_from_mac" title="nethsec.utils.get_interface_from_mac">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve the logical UCI interface name given the MAC address</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>hwaddr -- MAC address string</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The device name as a string if the interface has been found, None otherwise</li>
 </ul>
 </dd>
 </dl>
@@ -932,7 +1118,7 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_interface_from_device</span><span class="function-signature">(uci, device)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L131">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L131">
       
       (source)
     </a>
@@ -947,13 +1133,13 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
     <div><p>Retrieve the logical UCI interface name given the device name</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>device -- Device name</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The device name as a string if the interface has been found, None otherwise</li>
 </ul>
 </dd>
@@ -963,21 +1149,21 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
 </div><div class="basefunction">
   
   
-  <a name="nethsec.utils.get_all_by_option">
+  <a name="nethsec.utils.get_interface_from_mac">
     
   </a>
-  <a name="get_all_by_option">
+  <a name="get_interface_from_mac">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_all_by_option</span><span class="function-signature">(uci, config, option, value, deep=<a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L159">
+    <span class="py-keyword">def</span> <span class="py-defname">get_interface_from_mac</span><span class="function-signature">(uci, hwaddr)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L117">
       
       (source)
     </a>
-    <a class="headerLink" href="#get_all_by_option" title="nethsec.utils.get_all_by_option">
+    <a class="headerLink" href="#get_interface_from_mac" title="nethsec.utils.get_interface_from_mac">
       
       
       ¶
@@ -985,20 +1171,17 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Return all sections with the given option value</p>
+    <div><p>Retrieve the logical UCI interface name given the MAC address</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
-<li>config -- Configuration database name</li>
-<li>option -- Option name</li>
-<li>value -- Option value</li>
-<li>deep - If true, return a dict of all matched keys, otherwise return a list of section names</li>
+<li>hwaddr -- MAC address string</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A dictionary or a list of all matched sections</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The device name as a string if the interface has been found, None otherwise</li>
 </ul>
 </dd>
 </dl>
@@ -1007,21 +1190,21 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
 </div><div class="basefunction">
   
   
-  <a name="nethsec.utils.get_all_devices_by_zone">
+  <a name="nethsec.utils.get_random_id">
     
   </a>
-  <a name="get_all_devices_by_zone">
+  <a name="get_random_id">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_all_devices_by_zone</span><span class="function-signature">(uci, zone, exclude_aliases=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L186">
+    <span class="py-keyword">def</span> <span class="py-defname">get_random_id</span><span class="function-signature">()</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L20">
       
       (source)
     </a>
-    <a class="headerLink" href="#get_all_devices_by_zone" title="nethsec.utils.get_all_devices_by_zone">
+    <a class="headerLink" href="#get_random_id" title="nethsec.utils.get_random_id">
       
       
       ¶
@@ -1029,98 +1212,23 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Retrieve all devices associated to the given zone</p>
+    <div><p>Return a random valid UCI id.</p>
 <dl class="rst-docutils">
+<dt>Random ids:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>have a length of 11 characters</li>
+<li>are sanitized accordingly to UCI conventions (see 'sanitize' function)</li>
+<li>start with ns_ prefix</li>
+</ul>
+</dd>
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>zone -- Firewall zone name</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>name -- the name of the section</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of device names</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.get_all_wan_devices">
-    
-  </a>
-  <a name="get_all_wan_devices">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_all_wan_devices</span><span class="function-signature">(uci, exclude_aliases=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L217">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_all_wan_devices" title="nethsec.utils.get_all_wan_devices">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve all devices associated to the wan zone</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>exclude_aliases -- If true, exclude devices starting with @</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of device names</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.get_all_lan_devices">
-    
-  </a>
-  <a name="get_all_lan_devices">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_all_lan_devices</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L231">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_all_lan_devices" title="nethsec.utils.get_all_lan_devices">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve all devices associated to the lan zone, except for VPN ones</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of device names</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>a valid UCI identifier as string</li>
 </ul>
 </dd>
 </dl>
@@ -1139,7 +1247,7 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_unassigned_devices</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L244">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L244">
       
       (source)
     </a>
@@ -1154,223 +1262,13 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
     <div><p>Retrieve all unused/unassigned devices.</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>A list of devices</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.validation_errors">
-    
-  </a>
-  <a name="validation_errors">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">validation_errors</span><span class="function-signature">(errors)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L346">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#validation_errors" title="nethsec.utils.validation_errors">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Generate a validation error for the APIs from an array.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>errors -- An array of array errors</li>
-</ul>
-</dd>
-<dt>Each array element is an array composed by 3 parameters:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>the name of the parameter</li>
-<li>the validation error reason</li>
-<li>the parameter original value that caused the error</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A validation error object</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.validation_error">
-    
-  </a>
-  <a name="validation_error">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">validation_error</span><span class="function-signature">(parameter, message=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, value=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L367">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#validation_error" title="nethsec.utils.validation_error">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Generate a validation error for the APIs.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>parameter -- The name of the parameter</li>
-<li>message -- The validation error reason, default is empty</li>
-<li>value -- The parmeter original value that caused the error</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A validation error object</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.generic_error">
-    
-  </a>
-  <a name="generic_error">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">generic_error</span><span class="function-signature">(error)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L381">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#generic_error" title="nethsec.utils.generic_error">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Generate a generic error for the APIs.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>message -- An error message</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A validation error object</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.shadow_password">
-    
-  </a>
-  <a name="shadow_password">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">shadow_password</span><span class="function-signature">(password)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L392">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#shadow_password" title="nethsec.utils.shadow_password">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Generates a shadow password hash using SHA-512 algorithm.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>password (str) - the password to be hashed.</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>the shadow password hash as strin</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.utils.check_password">
-    
-  </a>
-  <a name="check_password">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">check_password</span><span class="function-signature">(password, shadow)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L406">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#check_password" title="nethsec.utils.check_password">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Check if the given password matches the given shadow password hash.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>password (str) - the password to be checked.</li>
-<li>shadow (str) - the shadow password hash to be checked.</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if the password matches the hash, False otherwise</li>
 </ul>
 </dd>
 </dl>
@@ -1389,7 +1287,7 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_user_by_username</span><span class="function-signature">(uci, username)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L421">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L421">
       
       (source)
     </a>
@@ -1404,13 +1302,13 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
     <div><p>Retrieve the user object id (UCI section) given the username</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>username -- Username</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The user object id (UCI section) if the user has been found, None otherwise</li>
 </ul>
 </dd>
@@ -1420,21 +1318,21 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
 </div><div class="basefunction">
   
   
-  <a name="nethsec.utils.get_all_device_ips">
+  <a name="nethsec.utils.sanitize">
     
   </a>
-  <a name="get_all_device_ips">
+  <a name="sanitize">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_all_device_ips</span><span class="function-signature">()</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L439">
+    <span class="py-keyword">def</span> <span class="py-defname">sanitize</span><span class="function-signature">(name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L60">
       
       (source)
     </a>
-    <a class="headerLink" href="#get_all_device_ips" title="nethsec.utils.get_all_device_ips">
+    <a class="headerLink" href="#sanitize" title="nethsec.utils.sanitize">
       
       
       ¶
@@ -1442,26 +1340,40 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Retrieve all device IPs</p></div>
+    <div><p>Replace illegal chars with _ char.
+UCI identifiers and config file names may contain only the characters a-z, 0-9 and _</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>name -- the name of the section</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>a string with valid chachars for UCI</li>
+</ul>
+</dd>
+</dl>
+</div>
   </div>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.utils.get_all_wan_ips">
+  <a name="nethsec.utils.shadow_password">
     
   </a>
-  <a name="get_all_wan_ips">
+  <a name="shadow_password">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_all_wan_ips</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/utils/__init__.py#L456">
+    <span class="py-keyword">def</span> <span class="py-defname">shadow_password</span><span class="function-signature">(password)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L392">
       
       (source)
     </a>
-    <a class="headerLink" href="#get_all_wan_ips" title="nethsec.utils.get_all_wan_ips">
+    <a class="headerLink" href="#shadow_password" title="nethsec.utils.shadow_password">
       
       
       ¶
@@ -1469,17 +1381,105 @@ UCI identifiers and config file names may contain only the characters a-z, 0-9 a
   </div>
   <div class="docstring functionBody">
     
-    <div><p>List all WAN interfaces with their IP addresses
-Exclude bond management IPs.</p>
+    <div><p>Generates a shadow password hash using SHA-512 algorithm.</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>password (str) - the password to be hashed.</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of dictionaries with device and IP address</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>the shadow password hash as strin</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.validation_error">
+    
+  </a>
+  <a name="validation_error">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">validation_error</span><span class="function-signature">(parameter, message=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, value=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L367">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#validation_error" title="nethsec.utils.validation_error">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate a validation error for the APIs.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>parameter -- The name of the parameter</li>
+<li>message -- The validation error reason, default is empty</li>
+<li>value -- The parmeter original value that caused the error</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A validation error object</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.utils.validation_errors">
+    
+  </a>
+  <a name="validation_errors">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">validation_errors</span><span class="function-signature">(errors)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/utils/__init__.py#L346">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#validation_errors" title="nethsec.utils.validation_errors">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate a validation error for the APIs from an array.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>errors -- An array of array errors</li>
+</ul>
+</dd>
+<dt>Each array element is an array composed by 3 parameters:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>the name of the parameter</li>
+<li>the validation error reason</li>
+<li>the parameter original value that caused the error</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A validation error object</li>
 </ul>
 </dd>
 </dl>
@@ -1497,7 +1497,7 @@ Exclude bond management IPs.</p>
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.9.1 at 2024-05-17 11:10:38.
+    24.3.3 at 2024-05-31 11:02:54.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 

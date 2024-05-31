@@ -7,7 +7,7 @@
   <head>
     
     <title>nethsec.reverse_proxy</title>
-    <meta name="generator" content="pydoctor 23.9.1"> 
+    <meta name="generator" content="pydoctor 24.3.3"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -371,7 +371,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/reverse_proxy/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/reverse_proxy/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -422,21 +422,21 @@ Be careful when using them in other contexts.</p>
           <div class="basefunction">
   
   
-  <a name="nethsec.reverse_proxy.set_proxy_pass">
+  <a name="nethsec.reverse_proxy.add_domain">
     
   </a>
-  <a name="set_proxy_pass">
+  <a name="add_domain">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">set_proxy_pass</span><span class="function-signature">(e_uci, location, proxy_pass)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/reverse_proxy/__init__.py#L24">
+    <span class="py-keyword">def</span> <span class="py-defname">add_domain</span><span class="function-signature">(domain, destination, certificate, description, allow)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/reverse_proxy/__init__.py#L113">
       
       (source)
     </a>
-    <a class="headerLink" href="#set_proxy_pass" title="nethsec.reverse_proxy.set_proxy_pass">
+    <a class="headerLink" href="#add_domain" title="nethsec.reverse_proxy.add_domain">
       
       
       ¶
@@ -444,57 +444,17 @@ Be careful when using them in other contexts.</p>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Set the proxy pass for the specified location.
-This function is a mere workaround for nginx to allow non-resolvable domains to be used as proxy_pass.</p>
+    <div><p>Add a new server to the nginx config.</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>e_uci: EUci object</li>
-<li>location: nginx config location id</li>
-<li>proxy_pass: string of the proxy pass to set</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>domain: domain to answer to</li>
+<li>destination: where to proxy the request to</li>
+<li>certificate: certificate to be used, beware the certificate must be in the list of certificates</li>
+<li>description: easy description of the server</li>
+<li>allow: ip addresses allowed to access the server</li>
 </ul>
 </dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.reverse_proxy.create_location">
-    
-  </a>
-  <a name="create_location">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">create_location</span><span class="function-signature">(e_uci, uci_server, location, proxy_pass, domain=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/reverse_proxy/__init__.py#L51">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#create_location" title="nethsec.reverse_proxy.create_location">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Create a new location in the nginx config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>e_uci: EUci object</li>
-<li>uci_server: where the location is defined</li>
-<li>location: path where the location will answer</li>
-<li>proxy_pass: where the location will proxy to</li>
-<li>domain: optional domain to set in the Host header</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd>location id of the created location</dd>
 </dl>
 </div>
   </div>
@@ -511,7 +471,7 @@ This function is a mere workaround for nginx to allow non-resolvable domains to 
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_path</span><span class="function-signature">(path, destination, description, allow)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/reverse_proxy/__init__.py#L87">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/reverse_proxy/__init__.py#L87">
       
       (source)
     </a>
@@ -526,50 +486,11 @@ This function is a mere workaround for nginx to allow non-resolvable domains to 
     <div><p>Add a new location to the _lan server.</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>path: path where the location will answer</li>
 <li>destination: destination endpoint</li>
 <li>description: description of the location</li>
 <li>allow: array of allowed ip addresses</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.reverse_proxy.add_domain">
-    
-  </a>
-  <a name="add_domain">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_domain</span><span class="function-signature">(domain, destination, certificate, description, allow)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/reverse_proxy/__init__.py#L113">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_domain" title="nethsec.reverse_proxy.add_domain">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Add a new server to the nginx config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>domain: domain to answer to</li>
-<li>destination: where to proxy the request to</li>
-<li>certificate: certificate to be used, beware the certificate must be in the list of certificates</li>
-<li>description: easy description of the server</li>
-<li>allow: ip addresses allowed to access the server</li>
 </ul>
 </dd>
 </dl>
@@ -588,7 +509,7 @@ This function is a mere workaround for nginx to allow non-resolvable domains to 
     
     
     <span class="py-keyword">def</span> <span class="py-defname">certificate_list</span><span class="function-signature">(uci: <code>EUci</code>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/reverse_proxy/__init__.py#L151">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/reverse_proxy/__init__.py#L151">
       
       (source)
     </a>
@@ -603,8 +524,87 @@ This function is a mere workaround for nginx to allow non-resolvable domains to 
     <div><p>List all the certificates in the system.</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci: euci object</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.reverse_proxy.create_location">
+    
+  </a>
+  <a name="create_location">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">create_location</span><span class="function-signature">(e_uci, uci_server, location, proxy_pass, domain=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/reverse_proxy/__init__.py#L51">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#create_location" title="nethsec.reverse_proxy.create_location">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a new location in the nginx config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>e_uci: EUci object</li>
+<li>uci_server: where the location is defined</li>
+<li>location: path where the location will answer</li>
+<li>proxy_pass: where the location will proxy to</li>
+<li>domain: optional domain to set in the Host header</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd>location id of the created location</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.reverse_proxy.set_proxy_pass">
+    
+  </a>
+  <a name="set_proxy_pass">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">set_proxy_pass</span><span class="function-signature">(e_uci, location, proxy_pass)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/reverse_proxy/__init__.py#L24">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_proxy_pass" title="nethsec.reverse_proxy.set_proxy_pass">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Set the proxy pass for the specified location.
+This function is a mere workaround for nginx to allow non-resolvable domains to be used as proxy_pass.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>e_uci: EUci object</li>
+<li>location: nginx config location id</li>
+<li>proxy_pass: string of the proxy pass to set</li>
 </ul>
 </dd>
 </dl>
@@ -622,7 +622,7 @@ This function is a mere workaround for nginx to allow non-resolvable domains to 
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.9.1 at 2024-05-17 11:10:38.
+    24.3.3 at 2024-05-31 11:02:54.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 

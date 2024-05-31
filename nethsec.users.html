@@ -7,7 +7,7 @@
   <head>
     
     <title>nethsec.users</title>
-    <meta name="generator" content="pydoctor 23.9.1"> 
+    <meta name="generator" content="pydoctor 24.3.3"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -651,7 +651,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -839,338 +839,6 @@
           <div class="basefunction">
   
   
-  <a name="nethsec.users.get_database_type">
-    
-  </a>
-  <a name="get_database_type">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_database_type</span><span class="function-signature">(uci, database)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L22">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_database_type" title="nethsec.users.get_database_type">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve database type</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>database -- Database identifier</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>Database type (local or ldap)</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.get_user_by_name">
-    
-  </a>
-  <a name="get_user_by_name">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_user_by_name</span><span class="function-signature">(uci, name, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L35">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_user_by_name" title="nethsec.users.get_user_by_name">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve a user by name</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- User name</li>
-<li>database -- Local database identifier (default: main)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A user object or None if not found</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.get_group_by_name">
-    
-  </a>
-  <a name="get_group_by_name">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_group_by_name</span><span class="function-signature">(uci, name, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L66">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_group_by_name" title="nethsec.users.get_group_by_name">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve a group by name</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Group name</li>
-<li>database -- Local database identifier (default: main)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A group object or None if not found</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.get_user_addresses">
-    
-  </a>
-  <a name="get_user_addresses">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_user_addresses</span><span class="function-signature">(uci, user)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L94">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_user_addresses" title="nethsec.users.get_user_addresses">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve all IP addresses associated to given user</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>user -- User object id (UCI section)</li>
-</ul>
-</dd>
-<dt>Returns a tuple of lists:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>first element is a list of IPv4 addresses</li>
-<li>second element is a list of IPv6 addresses</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.get_user_macs">
-    
-  </a>
-  <a name="get_user_macs">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_user_macs</span><span class="function-signature">(uci, user)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L135">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_user_macs" title="nethsec.users.get_user_macs">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve all MAC addresses associated to given user</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>user -- User object id (UCI section)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of MAC addresses</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.get_group_addresses">
-    
-  </a>
-  <a name="get_group_addresses">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_group_addresses</span><span class="function-signature">(uci, group)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L149">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_group_addresses" title="nethsec.users.get_group_addresses">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve all IP addresses associated to given group</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>user -- Group object id (UCI section)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A tuple of lists:
-- first element is a list of IPv4 addresses
-- second element is a list of IPv6 addresses</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.get_group_macs">
-    
-  </a>
-  <a name="get_group_macs">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_group_macs</span><span class="function-signature">(uci, group)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L171">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_group_macs" title="nethsec.users.get_group_macs">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve all MAC addresses associated to given group</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>group -- Group object id (UCI section)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of MAC addresses</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.list_users">
-    
-  </a>
-  <a name="list_users">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_users</span><span class="function-signature">(uci, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L188">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_users" title="nethsec.users.list_users">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve all users</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>database -- Database identifier (default: main)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of user objects</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
   <a name="nethsec.users.add_ldap_database">
     
   </a>
@@ -1181,7 +849,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_ldap_database</span><span class="function-signature">(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tls_reqcert=<span class="rst-variable-quote">'</span><span class="rst-variable-string">never</span><span class="rst-variable-quote">'</span>, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, bind_dn=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, bind_password=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L228">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L228">
       
       (source)
     </a>
@@ -1196,7 +864,7 @@
     <div><p>Add a new LDAP database</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>name -- Database identifier</li>
 <li>uri -- LDAP URI</li>
@@ -1213,101 +881,8 @@
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The database identifier</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.edit_ldap_database">
-    
-  </a>
-  <a name="edit_ldap_database">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">edit_ldap_database</span><span class="function-signature">(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tls_reqcert=<span class="rst-variable-quote">'</span><span class="rst-variable-string">never</span><span class="rst-variable-quote">'</span>, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, bind_dn=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, bind_password=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L268">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#edit_ldap_database" title="nethsec.users.edit_ldap_database">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Edit an existing LDAP database</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Database identifier</li>
-<li>uri -- LDAP URI</li>
-<li>schema -- LDAP schema</li>
-<li>base_dn -- LDAP base DN</li>
-<li>user_dn -- LDAP user DN</li>
-<li>user_attr -- LDAP user attribute</li>
-<li>user_cn -- LDAP user common name</li>
-<li>start_tls -- Use TLS (default: False)</li>
-<li>tls_reqcert -- TLS certificate validation (default: never)</li>
-<li>description -- Database description (default: "")</li>
-<li>bind_dn -- LDAP bind DN</li>
-<li>bind_password -- LDAP bind password</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The database identifier</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.delete_ldap_database">
-    
-  </a>
-  <a name="delete_ldap_database">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">delete_ldap_database</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L315">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#delete_ldap_database" title="nethsec.users.delete_ldap_database">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Delete an existing LDAP database</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Database identifier</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if successful</li>
 </ul>
 </dd>
 </dl>
@@ -1326,7 +901,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_local_database</span><span class="function-signature">(uci, name, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L337">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L337">
       
       (source)
     </a>
@@ -1341,14 +916,447 @@
     <div><p>Add a new local database</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>name -- Database identifier</li>
 <li>description -- Database description (default: "")</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The database identifier</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.add_local_group">
+    
+  </a>
+  <a name="add_local_group">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_local_group</span><span class="function-signature">(uci, name, users=[], description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L541">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_local_group" title="nethsec.users.add_local_group">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Add a new local group</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Group name</li>
+<li>users -- List of users (default: [])</li>
+<li>description -- Group description (default: "")</li>
+<li>database -- Local database identifier (default: main)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The group identifier</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.add_local_user">
+    
+  </a>
+  <a name="add_local_user">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_local_user</span><span class="function-signature">(uci, name, password=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>, extra_fields={})</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L440">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_local_user" title="nethsec.users.add_local_user">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Add a new local user</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- User name</li>
+<li>password -- User password</li>
+<li>description -- User description (default: "")</li>
+<li>database -- Local database identifier (default: main)</li>
+<li>extra_fields -- Extra fields to add to the user (default: {})</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The user identifier</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.add_remote_user">
+    
+  </a>
+  <a name="add_remote_user">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_remote_user</span><span class="function-signature">(uci, name, database, extra_fields={})</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L614">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_remote_user" title="nethsec.users.add_remote_user">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Add a new remote user</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- User name</li>
+<li>database -- Database identifier</li>
+<li>extra_fields -- Extra fields to add to the user (default: {})</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The user identifier</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.check_password">
+    
+  </a>
+  <a name="check_password">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">check_password</span><span class="function-signature">(password, shadow)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L731">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#check_password" title="nethsec.users.check_password">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Check a shadow password</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>password -- Clear text password</li>
+<li>shadow -- Shadow password in crypt(3) format</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if password matches, False otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.delete_ldap_database">
+    
+  </a>
+  <a name="delete_ldap_database">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_ldap_database</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L315">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_ldap_database" title="nethsec.users.delete_ldap_database">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete an existing LDAP database</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Database identifier</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if successful</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.delete_local_database">
+    
+  </a>
+  <a name="delete_local_database">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_local_database</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L376">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_local_database" title="nethsec.users.delete_local_database">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete an existing local database</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Database identifier</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if successful</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.delete_local_group">
+    
+  </a>
+  <a name="delete_local_group">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_local_group</span><span class="function-signature">(uci, name, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L593">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_local_group" title="nethsec.users.delete_local_group">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete an existing local group</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Group name</li>
+<li>database -- Local database identifier (default: main)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if successful</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.delete_local_user">
+    
+  </a>
+  <a name="delete_local_user">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_local_user</span><span class="function-signature">(uci, name, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L509">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_local_user" title="nethsec.users.delete_local_user">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete an existing local user</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- User name</li>
+<li>database -- Local database identifier (default: main)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if successful</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.delete_remote_user">
+    
+  </a>
+  <a name="delete_remote_user">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_remote_user</span><span class="function-signature">(uci, name, database)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L667">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_remote_user" title="nethsec.users.delete_remote_user">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete an existing remote user</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- User name</li>
+<li>database -- Database identifier</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if successful</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.edit_ldap_database">
+    
+  </a>
+  <a name="edit_ldap_database">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">edit_ldap_database</span><span class="function-signature">(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tls_reqcert=<span class="rst-variable-quote">'</span><span class="rst-variable-string">never</span><span class="rst-variable-quote">'</span>, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, bind_dn=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, bind_password=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L268">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#edit_ldap_database" title="nethsec.users.edit_ldap_database">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Edit an existing LDAP database</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Database identifier</li>
+<li>uri -- LDAP URI</li>
+<li>schema -- LDAP schema</li>
+<li>base_dn -- LDAP base DN</li>
+<li>user_dn -- LDAP user DN</li>
+<li>user_attr -- LDAP user attribute</li>
+<li>user_cn -- LDAP user common name</li>
+<li>start_tls -- Use TLS (default: False)</li>
+<li>tls_reqcert -- TLS certificate validation (default: never)</li>
+<li>description -- Database description (default: "")</li>
+<li>bind_dn -- LDAP bind DN</li>
+<li>bind_password -- LDAP bind password</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The database identifier</li>
 </ul>
 </dd>
@@ -1368,7 +1376,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">edit_local_database</span><span class="function-signature">(uci, name, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L356">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L356">
       
       (source)
     </a>
@@ -1383,316 +1391,15 @@
     <div><p>Edit an existing local database</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>name -- Database identifier</li>
 <li>description -- Database description (default: "")</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The database identifier</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.delete_local_database">
-    
-  </a>
-  <a name="delete_local_database">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">delete_local_database</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L376">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#delete_local_database" title="nethsec.users.delete_local_database">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Delete an existing local database</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Database identifier</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if successful</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.list_databases">
-    
-  </a>
-  <a name="list_databases">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_databases</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L398">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_databases" title="nethsec.users.list_databases">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve all databases</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of database objects, each one containing:
-- name: database identifier
-- type: database type (local or ldap)
-- description: database description</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.get_database">
-    
-  </a>
-  <a name="get_database">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_database</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L421">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_database" title="nethsec.users.get_database">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Retrieve a database by name</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Database identifier</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A database object or None if not found</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.add_local_user">
-    
-  </a>
-  <a name="add_local_user">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_local_user</span><span class="function-signature">(uci, name, password=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>, extra_fields={})</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L440">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_local_user" title="nethsec.users.add_local_user">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Add a new local user</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- User name</li>
-<li>password -- User password</li>
-<li>description -- User description (default: "")</li>
-<li>database -- Local database identifier (default: main)</li>
-<li>extra_fields -- Extra fields to add to the user (default: {})</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The user identifier</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.edit_local_user">
-    
-  </a>
-  <a name="edit_local_user">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">edit_local_user</span><span class="function-signature">(uci, name, password=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>, extra_fields={})</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L471">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#edit_local_user" title="nethsec.users.edit_local_user">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Edit an existing local user</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- User name</li>
-<li>password -- User password</li>
-<li>description -- User description (default: "")</li>
-<li>database -- Local database identifier (default: main)</li>
-<li>extra_fields -- Extra fields to add to the user (default: {})</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The user identifier</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.delete_local_user">
-    
-  </a>
-  <a name="delete_local_user">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">delete_local_user</span><span class="function-signature">(uci, name, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L509">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#delete_local_user" title="nethsec.users.delete_local_user">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Delete an existing local user</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- User name</li>
-<li>database -- Local database identifier (default: main)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if successful</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.add_local_group">
-    
-  </a>
-  <a name="add_local_group">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_local_group</span><span class="function-signature">(uci, name, users=[], description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L541">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_local_group" title="nethsec.users.add_local_group">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Add a new local group</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Group name</li>
-<li>users -- List of users (default: [])</li>
-<li>description -- Group description (default: "")</li>
-<li>database -- Local database identifier (default: main)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The group identifier</li>
 </ul>
 </dd>
 </dl>
@@ -1711,7 +1418,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">edit_local_group</span><span class="function-signature">(uci, name, users=[], description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L569">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L569">
       
       (source)
     </a>
@@ -1726,7 +1433,7 @@
     <div><p>Edit an existing local group</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>name -- Group name</li>
 <li>users -- List of users (default: [])</li>
@@ -1735,7 +1442,7 @@
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The group identifier</li>
 </ul>
 </dd>
@@ -1745,21 +1452,21 @@
 </div><div class="basefunction">
   
   
-  <a name="nethsec.users.delete_local_group">
+  <a name="nethsec.users.edit_local_user">
     
   </a>
-  <a name="delete_local_group">
+  <a name="edit_local_user">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">delete_local_group</span><span class="function-signature">(uci, name, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L593">
+    <span class="py-keyword">def</span> <span class="py-defname">edit_local_user</span><span class="function-signature">(uci, name, password=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, description=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>, extra_fields={})</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L471">
       
       (source)
     </a>
-    <a class="headerLink" href="#delete_local_group" title="nethsec.users.delete_local_group">
+    <a class="headerLink" href="#edit_local_user" title="nethsec.users.edit_local_user">
       
       
       ¶
@@ -1767,60 +1474,20 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Delete an existing local group</p>
+    <div><p>Edit an existing local user</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Group name</li>
-<li>database -- Local database identifier (default: main)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if successful</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.add_remote_user">
-    
-  </a>
-  <a name="add_remote_user">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_remote_user</span><span class="function-signature">(uci, name, database, extra_fields={})</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L614">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_remote_user" title="nethsec.users.add_remote_user">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Add a new remote user</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>name -- User name</li>
-<li>database -- Database identifier</li>
+<li>password -- User password</li>
+<li>description -- User description (default: "")</li>
+<li>database -- Local database identifier (default: main)</li>
 <li>extra_fields -- Extra fields to add to the user (default: {})</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The user identifier</li>
 </ul>
 </dd>
@@ -1840,7 +1507,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">edit_remote_user</span><span class="function-signature">(uci, name, database, extra_fields={})</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L641">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L641">
       
       (source)
     </a>
@@ -1855,7 +1522,7 @@
     <div><p>Edit an existing remote user</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>name -- User name</li>
 <li>database -- Database identifier</li>
@@ -1863,7 +1530,7 @@
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The user identifier</li>
 </ul>
 </dd>
@@ -1873,21 +1540,21 @@
 </div><div class="basefunction">
   
   
-  <a name="nethsec.users.delete_remote_user">
+  <a name="nethsec.users.get_database">
     
   </a>
-  <a name="delete_remote_user">
+  <a name="get_database">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">delete_remote_user</span><span class="function-signature">(uci, name, database)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L667">
+    <span class="py-keyword">def</span> <span class="py-defname">get_database</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L421">
       
       (source)
     </a>
-    <a class="headerLink" href="#delete_remote_user" title="nethsec.users.delete_remote_user">
+    <a class="headerLink" href="#get_database" title="nethsec.users.get_database">
       
       
       ¶
@@ -1895,18 +1562,184 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Delete an existing remote user</p>
+    <div><p>Retrieve a database by name</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
-<li>name -- User name</li>
+<li>name -- Database identifier</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A database object or None if not found</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.get_database_type">
+    
+  </a>
+  <a name="get_database_type">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_database_type</span><span class="function-signature">(uci, database)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L22">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_database_type" title="nethsec.users.get_database_type">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve database type</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
 <li>database -- Database identifier</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if successful</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>Database type (local or ldap)</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.get_group_addresses">
+    
+  </a>
+  <a name="get_group_addresses">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_group_addresses</span><span class="function-signature">(uci, group)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L149">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_group_addresses" title="nethsec.users.get_group_addresses">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all IP addresses associated to given group</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>user -- Group object id (UCI section)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A tuple of lists:
+- first element is a list of IPv4 addresses
+- second element is a list of IPv6 addresses</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.get_group_by_name">
+    
+  </a>
+  <a name="get_group_by_name">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_group_by_name</span><span class="function-signature">(uci, name, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L66">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_group_by_name" title="nethsec.users.get_group_by_name">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve a group by name</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Group name</li>
+<li>database -- Local database identifier (default: main)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A group object or None if not found</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.get_group_macs">
+    
+  </a>
+  <a name="get_group_macs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_group_macs</span><span class="function-signature">(uci, group)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L171">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_group_macs" title="nethsec.users.get_group_macs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all MAC addresses associated to given group</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>group -- Group object id (UCI section)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of MAC addresses</li>
 </ul>
 </dd>
 </dl>
@@ -1925,7 +1758,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_ldap_defaults</span><span class="function-signature">(uri, schema)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L688">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L688">
       
       (source)
     </a>
@@ -1940,12 +1773,12 @@
     <div><p>Retrieve default LDAP settings from given URI</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uri -- LDAP URI</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>A dictionary containing:
 - base_dn: LDAP base DN
 - user_dn: LDAP user DN
@@ -1959,21 +1792,21 @@
 </div><div class="basefunction">
   
   
-  <a name="nethsec.users.shadow_password">
+  <a name="nethsec.users.get_user_addresses">
     
   </a>
-  <a name="shadow_password">
+  <a name="get_user_addresses">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">shadow_password</span><span class="function-signature">(password)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L719">
+    <span class="py-keyword">def</span> <span class="py-defname">get_user_addresses</span><span class="function-signature">(uci, user)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L94">
       
       (source)
     </a>
-    <a class="headerLink" href="#shadow_password" title="nethsec.users.shadow_password">
+    <a class="headerLink" href="#get_user_addresses" title="nethsec.users.get_user_addresses">
       
       
       ¶
@@ -1981,191 +1814,18 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Generate a shadow password</p>
+    <div><p>Retrieve all IP addresses associated to given user</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>password -- Clear text password</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A shadow password in crypt(3) format, as generate by mkpasswd. Format: $6$salt$hash</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.check_password">
-    
-  </a>
-  <a name="check_password">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">check_password</span><span class="function-signature">(password, shadow)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L731">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#check_password" title="nethsec.users.check_password">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Check a shadow password</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>password -- Clear text password</li>
-<li>shadow -- Shadow password in crypt(3) format</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if password matches, False otherwise</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.ldif2users">
-    
-  </a>
-  <a name="ldif2users">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">ldif2users</span><span class="function-signature">(ldif_data, user_attr=<span class="rst-variable-quote">'</span><span class="rst-variable-string">uid</span><span class="rst-variable-quote">'</span>, user_cn=<span class="rst-variable-quote">'</span><span class="rst-variable-string">cn</span><span class="rst-variable-quote">'</span>, display_attr=<span class="rst-variable-quote">'</span><span class="rst-variable-string">cn</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L744">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#ldif2users" title="nethsec.users.ldif2users">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Parse an LDIF file and return a list of users</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>ldif_data -- LDIF data</li>
-<li>user_attr -- User attribute (default: uid)</li>
-<li>display_attr -- Display name attr (default: cn)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of users</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.list_remote_users">
-    
-  </a>
-  <a name="list_remote_users">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_remote_users</span><span class="function-signature">(uri, user_dn, user_attr, user_cn, start_tls=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tls_reqcert=<span class="rst-variable-quote">'</span><span class="rst-variable-string">never</span><span class="rst-variable-quote">'</span>, bind_dn=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, bind_password=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, schema=<span class="rst-variable-quote">'</span><span class="rst-variable-string">ldap</span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L782">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_remote_users" title="nethsec.users.list_remote_users">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Test LDAP connection</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uri -- LDAP URI</li>
-<li>user_dn -- LDAP user DN</li>
-<li>user_attr -- LDAP user attribute</li>
-<li>user_cn -- LDAP user common name</li>
-<li>start_tls -- Use TLS (default: False)</li>
-<li>tls_reqcert -- TLS certificate validation (default: never)</li>
-<li>bind_dn -- LDAP bind DN</li>
-<li>bind_password -- LDAP bind password</li>
-<li>schema -- LDAP schema, 'ad' or 'ldap'</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of users, each one containing:
-- name: user name
-- description: user description</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.users.set_admin">
-    
-  </a>
-  <a name="set_admin">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">set_admin</span><span class="function-signature">(uci, username, database)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L825">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#set_admin" title="nethsec.users.set_admin">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Set a user as admin by creating a login record in rpcd configuration database</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
-<li>username -- User name</li>
-<li>database -- Database identifier</li>
+<li>user -- User object id (UCI section)</li>
 </ul>
 </dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The user identifier inside the rpcd configuration database</li>
+<dt>Returns a tuple of lists:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>first element is a list of IPv4 addresses</li>
+<li>second element is a list of IPv6 addresses</li>
 </ul>
 </dd>
 </dl>
@@ -2174,21 +1834,21 @@
 </div><div class="basefunction">
   
   
-  <a name="nethsec.users.remove_admin">
+  <a name="nethsec.users.get_user_by_name">
     
   </a>
-  <a name="remove_admin">
+  <a name="get_user_by_name">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">remove_admin</span><span class="function-signature">(uci, username)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L853">
+    <span class="py-keyword">def</span> <span class="py-defname">get_user_by_name</span><span class="function-signature">(uci, name, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L35">
       
       (source)
     </a>
-    <a class="headerLink" href="#remove_admin" title="nethsec.users.remove_admin">
+    <a class="headerLink" href="#get_user_by_name" title="nethsec.users.get_user_by_name">
       
       
       ¶
@@ -2196,17 +1856,59 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Remove a user from rpcd configuration database</p>
+    <div><p>Retrieve a user by name</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
-<li>username -- User name</li>
+<li>name -- User name</li>
+<li>database -- Local database identifier (default: main)</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if successful</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A user object or None if not found</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.get_user_macs">
+    
+  </a>
+  <a name="get_user_macs">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_user_macs</span><span class="function-signature">(uci, user)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L135">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_user_macs" title="nethsec.users.get_user_macs">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all MAC addresses associated to given user</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>user -- User object id (UCI section)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of MAC addresses</li>
 </ul>
 </dd>
 </dl>
@@ -2225,7 +1927,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">is_admin</span><span class="function-signature">(uci, username)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/users/__init__.py#L872">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L872">
       
       (source)
     </a>
@@ -2240,14 +1942,312 @@
     <div><p>Check if a user is admin</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>username -- User name</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>True if user is admin, False otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.ldif2users">
+    
+  </a>
+  <a name="ldif2users">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">ldif2users</span><span class="function-signature">(ldif_data, user_attr=<span class="rst-variable-quote">'</span><span class="rst-variable-string">uid</span><span class="rst-variable-quote">'</span>, user_cn=<span class="rst-variable-quote">'</span><span class="rst-variable-string">cn</span><span class="rst-variable-quote">'</span>, display_attr=<span class="rst-variable-quote">'</span><span class="rst-variable-string">cn</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L744">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#ldif2users" title="nethsec.users.ldif2users">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Parse an LDIF file and return a list of users</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>ldif_data -- LDIF data</li>
+<li>user_attr -- User attribute (default: uid)</li>
+<li>display_attr -- Display name attr (default: cn)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of users</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.list_databases">
+    
+  </a>
+  <a name="list_databases">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_databases</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L398">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_databases" title="nethsec.users.list_databases">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all databases</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of database objects, each one containing:
+- name: database identifier
+- type: database type (local or ldap)
+- description: database description</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.list_remote_users">
+    
+  </a>
+  <a name="list_remote_users">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_remote_users</span><span class="function-signature">(uri, user_dn, user_attr, user_cn, start_tls=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tls_reqcert=<span class="rst-variable-quote">'</span><span class="rst-variable-string">never</span><span class="rst-variable-quote">'</span>, bind_dn=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, bind_password=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, schema=<span class="rst-variable-quote">'</span><span class="rst-variable-string">ldap</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L782">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_remote_users" title="nethsec.users.list_remote_users">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Test LDAP connection</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uri -- LDAP URI</li>
+<li>user_dn -- LDAP user DN</li>
+<li>user_attr -- LDAP user attribute</li>
+<li>user_cn -- LDAP user common name</li>
+<li>start_tls -- Use TLS (default: False)</li>
+<li>tls_reqcert -- TLS certificate validation (default: never)</li>
+<li>bind_dn -- LDAP bind DN</li>
+<li>bind_password -- LDAP bind password</li>
+<li>schema -- LDAP schema, 'ad' or 'ldap'</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of users, each one containing:
+- name: user name
+- description: user description</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.list_users">
+    
+  </a>
+  <a name="list_users">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_users</span><span class="function-signature">(uci, database=<span class="rst-variable-quote">'</span><span class="rst-variable-string">main</span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L188">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_users" title="nethsec.users.list_users">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Retrieve all users</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>database -- Database identifier (default: main)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of user objects</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.remove_admin">
+    
+  </a>
+  <a name="remove_admin">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">remove_admin</span><span class="function-signature">(uci, username)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L853">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#remove_admin" title="nethsec.users.remove_admin">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Remove a user from rpcd configuration database</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>username -- User name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if successful</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.set_admin">
+    
+  </a>
+  <a name="set_admin">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">set_admin</span><span class="function-signature">(uci, username, database)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L825">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#set_admin" title="nethsec.users.set_admin">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Set a user as admin by creating a login record in rpcd configuration database</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>username -- User name</li>
+<li>database -- Database identifier</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The user identifier inside the rpcd configuration database</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.users.shadow_password">
+    
+  </a>
+  <a name="shadow_password">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">shadow_password</span><span class="function-signature">(password)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/users/__init__.py#L719">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#shadow_password" title="nethsec.users.shadow_password">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Generate a shadow password</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>password -- Clear text password</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A shadow password in crypt(3) format, as generate by mkpasswd. Format: $6$salt$hash</li>
 </ul>
 </dd>
 </dl>
@@ -2265,7 +2265,7 @@
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.9.1 at 2024-05-17 11:10:38.
+    24.3.3 at 2024-05-31 11:02:54.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 

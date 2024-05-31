@@ -7,7 +7,7 @@
   <head>
     
     <title>nethsec.firewall</title>
-    <meta name="generator" content="pydoctor 23.9.1"> 
+    <meta name="generator" content="pydoctor 24.3.3"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -1034,7 +1034,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -1409,78 +1409,24 @@
         </div>
 
         <div id="childList">
-          <div class="baseconstant">
+          <div class="basefunction">
   
   
-  <a name="nethsec.firewall.PROTOCOLS">
+  <a name="nethsec.firewall.add_default_ipv6_rules">
     
   </a>
-  <a name="PROTOCOLS">
-    
-  </a>
-  <div class="functionHeader">
-    
-    <span class="py-defname">PROTOCOLS</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L20">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#PROTOCOLS" title="nethsec.firewall.PROTOCOLS">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="functionBody">
-    
-    <div><p class="undocumented">Undocumented</p></div>
-    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">tcp</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">udp</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">udplite</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">icmp</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">esp</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">ah</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">sctp</span><span class="rst-variable-quote">'</span>]</code></pre></td></tr></table>
-  </div>
-</div><div class="baseconstant">
-  
-  
-  <a name="nethsec.firewall.TARGETS">
-    
-  </a>
-  <a name="TARGETS">
-    
-  </a>
-  <div class="functionHeader">
-    
-    <span class="py-defname">TARGETS</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L21">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#TARGETS" title="nethsec.firewall.TARGETS">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="functionBody">
-    
-    <div><p class="undocumented">Undocumented</p></div>
-    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">ACCEPT</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">DROP</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">REJECT</span><span class="rst-variable-quote">'</span>]</code></pre></td></tr></table>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_device_to_zone">
-    
-  </a>
-  <a name="add_device_to_zone">
+  <a name="add_default_ipv6_rules">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">add_device_to_zone</span><span class="function-signature">(uci, device, zone)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L23">
+    <span class="py-keyword">def</span> <span class="py-defname">add_default_ipv6_rules</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L910">
       
       (source)
     </a>
-    <a class="headerLink" href="#add_device_to_zone" title="nethsec.firewall.add_device_to_zone">
+    <a class="headerLink" href="#add_default_ipv6_rules" title="nethsec.firewall.add_default_ipv6_rules">
       
       
       ¶
@@ -1488,158 +1434,12 @@
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Add given device to a firewall zone.
-The device is not added if the firewall zone does not exists
-Changes are saved to staging area.</p>
+    <div><p>Add default ipv6 rules to firewall config, if they don't exist already.</p>
 <dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>device -- Device name</li>
-<li>zone -- Firewall zone name</li>
-</ul>
-</dd>
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>If the firewall zone exists, the name of the section where the device has been added.</li>
-<li>None, otherwise.</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_interface_to_zone">
-    
-  </a>
-  <a name="add_interface_to_zone">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_interface_to_zone</span><span class="function-signature">(uci, interface, zone)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L55">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_interface_to_zone" title="nethsec.firewall.add_interface_to_zone">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Add given interface to a firewall zone.
-The interface is not added if the firewall zone does not exists
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>interface -- Interface name</li>
-<li>zone -- Firewall zone name</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>If the firewall zone exists, the name of the section where the device has been added.</li>
-<li>None, otherwise.</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.remove_interface_from_zone">
-    
-  </a>
-  <a name="remove_interface_from_zone">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">remove_interface_from_zone</span><span class="function-signature">(uci, interface, zone)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L88">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#remove_interface_from_zone" title="nethsec.firewall.remove_interface_from_zone">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Remove the given interface from a firewall zone.
-The operation always succeed if the zone does not exists</p>
-<p>Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>interface -- Interface name</li>
-<li>zone -- Firewall zone name</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>If the firewall zone exists, the name of the section where the interface has been removed.</li>
-<li>None, otherwise.</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.remove_device_from_zone">
-    
-  </a>
-  <a name="remove_device_from_zone">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">remove_device_from_zone</span><span class="function-signature">(uci, device, zone)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L118">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#remove_device_from_zone" title="nethsec.firewall.remove_device_from_zone">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Remove the given device from a firewall zone.
-The operation always succeed if the zone does not exists</p>
-<p>Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>device -- Device name</li>
-<li>zone -- Firewall zone name</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>If the firewall zone exists, the name of the section where the device has been removed.</li>
-<li>None, otherwise.</li>
-</ul>
-</dd>
+<dd>list of added rule config names</dd>
 </dl>
 </div>
   </div>
@@ -1656,7 +1456,7 @@ The operation always succeed if the zone does not exists</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_device_to_lan</span><span class="function-signature">(uci, device)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L148">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L148">
       
       (source)
     </a>
@@ -1671,13 +1471,13 @@ The operation always succeed if the zone does not exists</p>
     <div><p>Shortuct to add a device to lan zone</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>device -- Device name</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The name of section or None</li>
 </ul>
 </dd>
@@ -1697,7 +1497,7 @@ The operation always succeed if the zone does not exists</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_device_to_wan</span><span class="function-signature">(uci, device)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L161">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L161">
       
       (source)
     </a>
@@ -1712,13 +1512,13 @@ The operation always succeed if the zone does not exists</p>
     <div><p>Shortuct to add a device to wan zone</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 <li>device -- Device name</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>The name of the configuration section or None</li>
 </ul>
 </dd>
@@ -1728,21 +1528,21 @@ The operation always succeed if the zone does not exists</p>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.add_vpn_interface">
+  <a name="nethsec.firewall.add_device_to_zone">
     
   </a>
-  <a name="add_vpn_interface">
+  <a name="add_device_to_zone">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">add_vpn_interface</span><span class="function-signature">(uci, name, device, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L174">
+    <span class="py-keyword">def</span> <span class="py-defname">add_device_to_zone</span><span class="function-signature">(uci, device, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L23">
       
       (source)
     </a>
-    <a class="headerLink" href="#add_vpn_interface" title="nethsec.firewall.add_vpn_interface">
+    <a class="headerLink" href="#add_device_to_zone" title="nethsec.firewall.add_device_to_zone">
       
       
       ¶
@@ -1750,777 +1550,23 @@ The operation always succeed if the zone does not exists</p>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Create a network interface for the given device.
-The interface can be used for PBR (Policy Based Routing).
+    <div><p>Add given device to a firewall zone.
+The device is not added if the firewall zone does not exists
 Changes are saved to staging area.</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
-<li>name -- Interface name</li>
 <li>device -- Device name</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+<li>zone -- Firewall zone name</li>
 </ul>
 </dd>
 <dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section or None in case of error</li>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>If the firewall zone exists, the name of the section where the device has been added.</li>
+<li>None, otherwise.</li>
 </ul>
 </dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_trusted_zone">
-    
-  </a>
-  <a name="add_trusted_zone">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_trusted_zone</span><span class="function-signature">(uci, name, networks=[], link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L199">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_trusted_zone" title="nethsec.firewall.add_trusted_zone">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p><dl class="rst-docutils">
-<dt>Create a trusted zone. The zone will:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>be able to access lan and wan zone</li>
-<li>be accessible from lan zone</li>
-</ul>
-</dd>
-</dl>
-<p>If a zone with the same name already exists, do not recreate it.
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Zone name, maximum length is 12</li>
-<li>network -- A list of interfaces to be added to the zone (optional)</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
-</ul>
-</dd>
-<dt>Returns a tuple:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section or None in case of error</li>
-<li>A list of configuration sections or an empy list in case of error</li>
-</ul>
-</dd>
-</dl>
-</p></div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_service">
-    
-  </a>
-  <a name="add_service">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_service</span><span class="function-signature">(uci, name, port, proto, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L272">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_service" title="nethsec.firewall.add_service">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Create an ACCEPT traffic rule for the given service
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Service name</li>
-<li>port -- Service port number as string or array</li>
-<li>proto -- List of service protocols</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.remove_service">
-    
-  </a>
-  <a name="remove_service">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">remove_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L306">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#remove_service" title="nethsec.firewall.remove_service">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Remove the ACCEPT traffic rule for the given service
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Service name</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.disable_service">
-    
-  </a>
-  <a name="disable_service">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">disable_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L325">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#disable_service" title="nethsec.firewall.disable_service">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Disable the ACCEPT rule traffic for the given service.
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Service name</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section if found, None otherwise</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.enable_service">
-    
-  </a>
-  <a name="enable_service">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">enable_service</span><span class="function-signature">(uci, name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L345">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#enable_service" title="nethsec.firewall.enable_service">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Disable the ACCEPT rule traffic for the given service
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Service name</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section if found, None otherwise</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.apply">
-    
-  </a>
-  <a name="apply">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">apply</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L365">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#apply" title="nethsec.firewall.apply">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p><dl class="rst-docutils">
-<dt>Apply firewall configuration:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>commit changes to firewall config</li>
-<li>reload the firewall service</li>
-</ul>
-</dd>
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-</ul>
-</dd>
-</dl>
-</p></div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_template_forwarding">
-    
-  </a>
-  <a name="add_template_forwarding">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_template_forwarding</span><span class="function-signature">(uci, name, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L378">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_template_forwarding" title="nethsec.firewall.add_template_forwarding">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Create a forwarding from templates database.
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Name of the template forwarding from the templates database</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
-</ul>
-</dd>
-<dt>Returns a tuple:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section for the forwarding or None in case of error</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_template_zone">
-    
-  </a>
-  <a name="add_template_zone">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_template_zone</span><span class="function-signature">(uci, name, networks=[], link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L405">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_template_zone" title="nethsec.firewall.add_template_zone">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Create a zone from templates database.
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Name of the zone from the templates database</li>
-<li>network -- A list of interfaces to be added to the zone (optional)</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
-</ul>
-</dd>
-<dt>Returns a tuple:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section for the zone or None in case of error</li>
-<li>A list of configuration section names for the forwardings or None in case of error</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_template_service_group">
-    
-  </a>
-  <a name="add_template_service_group">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_template_service_group</span><span class="function-signature">(uci, name, src=<span class="rst-variable-quote">'</span><span class="rst-variable-string">lan</span><span class="rst-variable-quote">'</span>, dest=<span class="rst-variable-quote">'</span><span class="rst-variable-string">wan</span><span class="rst-variable-quote">'</span>, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L445">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_template_service_group" title="nethsec.firewall.add_template_service_group">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Create all rules for the given service group
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Name of the service group from the templates database</li>
-<li>src -- Source zone, default is 'lan'. The zone must already exists inside the firewall db</li>
-<li>dest -- Destination zone, default is 'wan'. The zone must already exists inside the firewall db</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of configuration section names of each rule, None in case of error</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_template_rule">
-    
-  </a>
-  <a name="add_template_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_template_rule</span><span class="function-signature">(uci, name, proto=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, port=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L497">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_template_rule" title="nethsec.firewall.add_template_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Create a rule from templates database.
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>name -- Name of the template rule from the templates database</li>
-<li>proto -- A valid UCI protocol (optional)</li>
-<li>port -- A port or comma-separated list of ports (optional)</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>The name of the configuration section for the rule or None in case of error</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.get_all_linked">
-    
-  </a>
-  <a name="get_all_linked">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">get_all_linked</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L529">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#get_all_linked" title="nethsec.firewall.get_all_linked">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Search all database, execpt templates one, for entities with the given link</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt;</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A dictionary of all matched sections like
-{"db1": ["key1", "key2"], "db2": [...] }</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.disable_linked_rules">
-    
-  </a>
-  <a name="disable_linked_rules">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">disable_linked_rules</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L551">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#disable_linked_rules" title="nethsec.firewall.disable_linked_rules">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Disable all rules matching the given link
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt;</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of disabled sections</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.delete_linked_sections">
-    
-  </a>
-  <a name="delete_linked_sections">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">delete_linked_sections</span><span class="function-signature">(uci, link)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L575">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#delete_linked_sections" title="nethsec.firewall.delete_linked_sections">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Delete all sections matching the given link.
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt;</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of deleted sections</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.is_ipv6_enabled">
-    
-  </a>
-  <a name="is_ipv6_enabled">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">is_ipv6_enabled</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L598">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#is_ipv6_enabled" title="nethsec.firewall.is_ipv6_enabled">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Search the network database for devices and interfaces using IPv6</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>True if IPv6 is enabled at least on a device or interface, False otherwise</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.disable_ipv6_firewall">
-    
-  </a>
-  <a name="disable_ipv6_firewall">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">disable_ipv6_firewall</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L624">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#disable_ipv6_firewall" title="nethsec.firewall.disable_ipv6_firewall">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Disable all rules, forwardings, redirects, zones and ipsets for ipv6-only family.
-Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>A list of disabled sections</li>
-</ul>
-</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.list_zones">
-    
-  </a>
-  <a name="list_zones">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_zones</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L647">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_zones" title="nethsec.firewall.list_zones">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all zones from firewall config</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>dict with all zones</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.list_zones_no_aliases">
-    
-  </a>
-  <a name="list_zones_no_aliases">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_zones_no_aliases</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L660">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_zones_no_aliases" title="nethsec.firewall.list_zones_no_aliases">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all zones from firewall config, excluding aliases in network section</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci: EUci pointer</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd>dict with all zones</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.list_forwardings">
-    
-  </a>
-  <a name="list_forwardings">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_forwardings</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L684">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_forwardings" title="nethsec.firewall.list_forwardings">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all forwardings from firewall config</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>dict with all forwardings</dd>
 </dl>
 </div>
   </div>
@@ -2537,7 +1583,7 @@ Changes are saved to staging area.</p>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_forwarding</span><span class="function-signature">(uci, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L697">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L697">
       
       (source)
     </a>
@@ -2563,21 +1609,21 @@ dest: destination zone, must be zone name, not config name</dd>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.get_zone_by_name">
+  <a name="nethsec.firewall.add_interface_to_zone">
     
   </a>
-  <a name="get_zone_by_name">
+  <a name="add_interface_to_zone">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_zone_by_name</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L716">
+    <span class="py-keyword">def</span> <span class="py-defname">add_interface_to_zone</span><span class="function-signature">(uci, interface, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L55">
       
       (source)
     </a>
-    <a class="headerLink" href="#get_zone_by_name" title="nethsec.firewall.get_zone_by_name">
+    <a class="headerLink" href="#add_interface_to_zone" title="nethsec.firewall.add_interface_to_zone">
       
       
       ¶
@@ -2585,34 +1631,44 @@ dest: destination zone, must be zone name, not config name</dd>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Get zone config name by zone name.</p>
+    <div><p>Add given interface to a firewall zone.
+The interface is not added if the firewall zone does not exists
+Changes are saved to staging area.</p>
 <dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-name: zone name</dd>
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>interface -- Interface name</li>
+<li>zone -- Firewall zone name</li>
+</ul>
+</dd>
 <dt>Returns:</dt>
-<dd>tuple of zone config name and zone config if zone with name name exists, (None, None) otherwise</dd>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>If the firewall zone exists, the name of the section where the device has been added.</li>
+<li>None, otherwise.</li>
+</ul>
+</dd>
 </dl>
 </div>
   </div>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.get_rule_by_name">
+  <a name="nethsec.firewall.add_nat_rule">
     
   </a>
-  <a name="get_rule_by_name">
+  <a name="add_nat_rule">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_rule_by_name</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, tag=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L733">
+    <span class="py-keyword">def</span> <span class="py-defname">add_nat_rule</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string">*</span><span class="rst-variable-quote">'</span>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, snat_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1650">
       
       (source)
     </a>
-    <a class="headerLink" href="#get_rule_by_name" title="nethsec.firewall.get_rule_by_name">
+    <a class="headerLink" href="#add_nat_rule" title="nethsec.firewall.add_nat_rule">
       
       
       ¶
@@ -2620,36 +1676,39 @@ name: zone name</dd>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Get rule config name and rule data by rule name, optionally filtered by tag.
-Assume there is only one rule with the same name.</p>
+    <div><p>Add nat rule to firewall config.</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
 <dd>uci: EUci pointer
-name: rule name
-tag: optional tag to filter rules</dd>
+name: name of rule
+target: target, must be one of 'SNAT', 'DNAT'
+src: source zone, must be zone name, not config name
+src_ip: source ip
+dest_ip: destination ip
+snat_ip: snat ip</dd>
 <dt>Returns:</dt>
-<dd>tuple of rule config name and rule config if rule with name name exists, (None, None) otherwise</dd>
+<dd>name of rule config that was added</dd>
 </dl>
 </div>
   </div>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.zone_exists">
+  <a name="nethsec.firewall.add_netmap_rule">
     
   </a>
-  <a name="zone_exists">
+  <a name="add_netmap_rule">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">zone_exists</span><span class="function-signature">(u, zone_name)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L754">
+    <span class="py-keyword">def</span> <span class="py-defname">add_netmap_rule</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, device_in: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, device_out: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, map_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, map_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1774">
       
       (source)
     </a>
-    <a class="headerLink" href="#zone_exists" title="nethsec.firewall.zone_exists">
+    <a class="headerLink" href="#add_netmap_rule" title="nethsec.firewall.add_netmap_rule">
       
       
       ¶
@@ -2657,13 +1716,388 @@ tag: optional tag to filter rules</dd>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Check if a zone with name zone_name already exists</p>
+    <div><p>Add netmap rule to netmap config.</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd>u: EUci pointer
-zone_name: zone name to check</dd>
+<dd>uci: EUci pointer
+name: name of rule
+src: source zone, must be zone name, not config name
+dest: destination zone, must be zone name, not config name
+device_in: list of incoming network interfaces
+device_out: list of outgoing network interfaces
+map_from: source network address
+map_to: destination network address</dd>
 <dt>Returns:</dt>
-<dd>true if a zone with name zone_name already exists, false otherwise</dd>
+<dd>name of rule config that was added</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_rule">
+    
+  </a>
+  <a name="add_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_rule</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, proto: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code>, dest_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, service: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, enabled: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>, log: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tag=[], add_to_top: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1556">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_rule" title="nethsec.firewall.add_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Add rule to firewall config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+id: id of rule to edit
+name: name of rule
+src: source zone, must be zone name, not config name
+src_ip: a list of source ip
+dest: destination zone, must be zone name, not config name
+dest_ip: a list of destination ip
+proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
+dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with <code>-</code> (eg. 80-90)
+target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+service: service name
+enabled: if True, rule is enabled, if False, rule is disabled
+log: if True, log traffic
+tag: list of optional tags
+add_to_top: if True, add rule to the top of the list, otherwise add to the bottom</dd>
+<dt>Returns:</dt>
+<dd>name of rule config that was added</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_service">
+    
+  </a>
+  <a name="add_service">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_service</span><span class="function-signature">(uci, name, port, proto, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L272">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_service" title="nethsec.firewall.add_service">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create an ACCEPT traffic rule for the given service
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Service name</li>
+<li>port -- Service port number as string or array</li>
+<li>proto -- List of service protocols</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_template_forwarding">
+    
+  </a>
+  <a name="add_template_forwarding">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_template_forwarding</span><span class="function-signature">(uci, name, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L378">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_template_forwarding" title="nethsec.firewall.add_template_forwarding">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a forwarding from templates database.
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Name of the template forwarding from the templates database</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns a tuple:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section for the forwarding or None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_template_rule">
+    
+  </a>
+  <a name="add_template_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_template_rule</span><span class="function-signature">(uci, name, proto=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, port=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L497">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_template_rule" title="nethsec.firewall.add_template_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a rule from templates database.
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Name of the template rule from the templates database</li>
+<li>proto -- A valid UCI protocol (optional)</li>
+<li>port -- A port or comma-separated list of ports (optional)</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section for the rule or None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_template_service_group">
+    
+  </a>
+  <a name="add_template_service_group">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_template_service_group</span><span class="function-signature">(uci, name, src=<span class="rst-variable-quote">'</span><span class="rst-variable-string">lan</span><span class="rst-variable-quote">'</span>, dest=<span class="rst-variable-quote">'</span><span class="rst-variable-string">wan</span><span class="rst-variable-quote">'</span>, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L445">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_template_service_group" title="nethsec.firewall.add_template_service_group">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create all rules for the given service group
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Name of the service group from the templates database</li>
+<li>src -- Source zone, default is 'lan'. The zone must already exists inside the firewall db</li>
+<li>dest -- Destination zone, default is 'wan'. The zone must already exists inside the firewall db</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of configuration section names of each rule, None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_template_zone">
+    
+  </a>
+  <a name="add_template_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_template_zone</span><span class="function-signature">(uci, name, networks=[], link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L405">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_template_zone" title="nethsec.firewall.add_template_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a zone from templates database.
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Name of the zone from the templates database</li>
+<li>network -- A list of interfaces to be added to the zone (optional)</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns a tuple:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section for the zone or None in case of error</li>
+<li>A list of configuration section names for the forwardings or None in case of error</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_trusted_zone">
+    
+  </a>
+  <a name="add_trusted_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_trusted_zone</span><span class="function-signature">(uci, name, networks=[], link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L199">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_trusted_zone" title="nethsec.firewall.add_trusted_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p><dl class="rst-docutils">
+<dt>Create a trusted zone. The zone will:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>be able to access lan and wan zone</li>
+<li>be accessible from lan zone</li>
+</ul>
+</dd>
+</dl>
+<p>If a zone with the same name already exists, do not recreate it.
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Zone name, maximum length is 12</li>
+<li>network -- A list of interfaces to be added to the zone (optional)</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns a tuple:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section or None in case of error</li>
+<li>A list of configuration sections or an empy list in case of error</li>
+</ul>
+</dd>
+</dl>
+</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.add_vpn_interface">
+    
+  </a>
+  <a name="add_vpn_interface">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_vpn_interface</span><span class="function-signature">(uci, name, device, link=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L174">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#add_vpn_interface" title="nethsec.firewall.add_vpn_interface">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Create a network interface for the given device.
+The interface can be used for PBR (Policy Based Routing).
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Interface name</li>
+<li>device -- Device name</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt; (optional)</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section or None in case of error</li>
+</ul>
+</dd>
 </dl>
 </div>
   </div>
@@ -2680,7 +2114,7 @@ zone_name: zone name to check</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_zone</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, input: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, forward: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, traffic_to_wan: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, forwards_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, forwards_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>) -&gt; <code>set([<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#set" class="intersphinx-link">set</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]])</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L775">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L775">
       
       (source)
     </a>
@@ -2710,6 +2144,524 @@ forwards_from: list of zones to forward traffic from</dd>
 </div><div class="basefunction">
   
   
+  <a name="nethsec.firewall.apply">
+    
+  </a>
+  <a name="apply">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">apply</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L365">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#apply" title="nethsec.firewall.apply">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p><dl class="rst-docutils">
+<dt>Apply firewall configuration:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>commit changes to firewall config</li>
+<li>reload the firewall service</li>
+</ul>
+</dd>
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+</dl>
+</p></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.delete_linked_sections">
+    
+  </a>
+  <a name="delete_linked_sections">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_linked_sections</span><span class="function-signature">(uci, link)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L575">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_linked_sections" title="nethsec.firewall.delete_linked_sections">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete all sections matching the given link.
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt;</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of deleted sections</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.delete_nat_rule">
+    
+  </a>
+  <a name="delete_nat_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_nat_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1714">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_nat_rule" title="nethsec.firewall.delete_nat_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete nat rule from firewall config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+id: id of rule to delete</dd>
+<dt>Returns:</dt>
+<dd>name of rule config that was deleted</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.delete_netmap_rule">
+    
+  </a>
+  <a name="delete_netmap_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_netmap_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1833">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_netmap_rule" title="nethsec.firewall.delete_netmap_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete netmap rule from netmap config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+id: id of rule to delete</dd>
+<dt>Returns:</dt>
+<dd>name of rule config that was deleted</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.delete_rule">
+    
+  </a>
+  <a name="delete_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L928">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_rule" title="nethsec.firewall.delete_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete rule from firewall config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+id: name of rule config to delete</dd>
+<dt>Returns:</dt>
+<dd>name of rule config that was deleted</dd>
+<dt>Raises:</dt>
+<dd>ValueError: if id is not a valid rule config name</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.delete_zone">
+    
+  </a>
+  <a name="delete_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">delete_zone</span><span class="function-signature">(uci, zone_config_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code>set([<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#set" class="intersphinx-link">set</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]])</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L878">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#delete_zone" title="nethsec.firewall.delete_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Delete zone and all forwardings that are connected to it.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+zone_config_name: name of zone config to delete</dd>
+<dt>Returns:</dt>
+<dd>tuple of zone config name and set of deleted forwarding configs</dd>
+<dt>Raises:</dt>
+<dd>ValueError: if zone_config_name is not a valid zone config name</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.disable_ipv6_firewall">
+    
+  </a>
+  <a name="disable_ipv6_firewall">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">disable_ipv6_firewall</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L624">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#disable_ipv6_firewall" title="nethsec.firewall.disable_ipv6_firewall">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Disable all rules, forwardings, redirects, zones and ipsets for ipv6-only family.
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of disabled sections</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.disable_linked_rules">
+    
+  </a>
+  <a name="disable_linked_rules">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">disable_linked_rules</span><span class="function-signature">(uci, link)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L551">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#disable_linked_rules" title="nethsec.firewall.disable_linked_rules">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Disable all rules matching the given link
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt;</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A list of disabled sections</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.disable_rule">
+    
+  </a>
+  <a name="disable_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">disable_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L949">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#disable_rule" title="nethsec.firewall.disable_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Disable rule from firewall config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+id: name of rule config to disable</dd>
+<dt>Returns:</dt>
+<dd>name of rule config that was disabled</dd>
+<dt>Raises:</dt>
+<dd>ValueError: if id is not a valid rule config name</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.disable_service">
+    
+  </a>
+  <a name="disable_service">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">disable_service</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L325">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#disable_service" title="nethsec.firewall.disable_service">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Disable the ACCEPT rule traffic for the given service.
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Service name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section if found, None otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.edit_nat_rule">
+    
+  </a>
+  <a name="edit_nat_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">edit_nat_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string">*</span><span class="rst-variable-quote">'</span>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, snat_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1682">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#edit_nat_rule" title="nethsec.firewall.edit_nat_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Edit nat rule in firewall config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+id: id of rule to edit
+name: name of rule
+target: target, must be one of 'SNAT', 'DNAT'
+src: source zone, must be zone name, not config name
+src_ip: source ip
+dest_ip: destination ip
+snat_ip: snat ip</dd>
+<dt>Returns:</dt>
+<dd>name of rule config that was edited</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.edit_netmap_rule">
+    
+  </a>
+  <a name="edit_netmap_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">edit_netmap_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, device_in: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, device_out: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, map_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, map_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1804">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#edit_netmap_rule" title="nethsec.firewall.edit_netmap_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Edit netmap rule in netmap config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+id: id of rule to edit
+name: name of rule
+src: source zone, must be zone name, not config name
+dest: destination zone, must be zone name, not config name
+device_in: list of incoming network interfaces
+device_out: list of outgoing network interfaces
+map_from: source network address
+map_to: destination network address</dd>
+<dt>Returns:</dt>
+<dd>name of rule config that was edited</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.edit_rule">
+    
+  </a>
+  <a name="edit_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">edit_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, proto: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code>, dest_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, service: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, enabled: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>, log: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tag=[]) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1601">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#edit_rule" title="nethsec.firewall.edit_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Edit rule in firewall config.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+id: id of rule to edit
+name: name of rule
+src: source zone, must be zone name, not config name
+src_ip: a list of source ip
+dest: destination zone, must be zone name, not config name
+dest_ip: a list of destination ip
+proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
+dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with <code>-</code> (eg. 80-90)
+target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+service: service name
+enabled: if True, rule is enabled, if False, rule is disabled
+log: if True, log traffic
+tag: list of optional tags</dd>
+<dt>Returns:</dt>
+<dd>name of rule config that was edited</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
   <a name="nethsec.firewall.edit_zone">
     
   </a>
@@ -2720,7 +2672,7 @@ forwards_from: list of zones to forward traffic from</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">edit_zone</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, input: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, forward: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, traffic_to_wan: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, forwards_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, forwards_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>) -&gt; <code>set([<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#set" class="intersphinx-link">set</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]])</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L821">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L821">
       
       (source)
     </a>
@@ -2750,151 +2702,6 @@ forwards_from: list of zones to forward traffic from</dd>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.delete_zone">
-    
-  </a>
-  <a name="delete_zone">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">delete_zone</span><span class="function-signature">(uci, zone_config_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code>set([<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#set" class="intersphinx-link">set</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]])</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L878">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#delete_zone" title="nethsec.firewall.delete_zone">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Delete zone and all forwardings that are connected to it.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-zone_config_name: name of zone config to delete</dd>
-<dt>Returns:</dt>
-<dd>tuple of zone config name and set of deleted forwarding configs</dd>
-<dt>Raises:</dt>
-<dd>ValueError: if zone_config_name is not a valid zone config name</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_default_ipv6_rules">
-    
-  </a>
-  <a name="add_default_ipv6_rules">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_default_ipv6_rules</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L910">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_default_ipv6_rules" title="nethsec.firewall.add_default_ipv6_rules">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Add default ipv6 rules to firewall config, if they don't exist already.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>list of added rule config names</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.delete_rule">
-    
-  </a>
-  <a name="delete_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">delete_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L928">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#delete_rule" title="nethsec.firewall.delete_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Delete rule from firewall config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-id: name of rule config to delete</dd>
-<dt>Returns:</dt>
-<dd>name of rule config that was deleted</dd>
-<dt>Raises:</dt>
-<dd>ValueError: if id is not a valid rule config name</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.disable_rule">
-    
-  </a>
-  <a name="disable_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">disable_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L949">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#disable_rule" title="nethsec.firewall.disable_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Disable rule from firewall config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-id: name of rule config to disable</dd>
-<dt>Returns:</dt>
-<dd>name of rule config that was disabled</dd>
-<dt>Raises:</dt>
-<dd>ValueError: if id is not a valid rule config name</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
   <a name="nethsec.firewall.enable_rule">
     
   </a>
@@ -2905,7 +2712,7 @@ id: name of rule config to disable</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">enable_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L969">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L969">
       
       (source)
     </a>
@@ -2932,21 +2739,21 @@ id: name of rule config to enable</dd>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.list_rule_ids">
+  <a name="nethsec.firewall.enable_service">
     
   </a>
-  <a name="list_rule_ids">
+  <a name="enable_service">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">list_rule_ids</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L989">
+    <span class="py-keyword">def</span> <span class="py-defname">enable_service</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L345">
       
       (source)
     </a>
-    <a class="headerLink" href="#list_rule_ids" title="nethsec.firewall.list_rule_ids">
+    <a class="headerLink" href="#enable_service" title="nethsec.firewall.enable_service">
       
       
       ¶
@@ -2954,85 +2761,20 @@ id: name of rule config to enable</dd>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Get all rule ids from firewall config</p>
+    <div><p>Disable the ACCEPT rule traffic for the given service
+Changes are saved to staging area.</p>
 <dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Service name</li>
+</ul>
+</dd>
 <dt>Returns:</dt>
-<dd>list of all rule ids</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.order_rules">
-    
-  </a>
-  <a name="order_rules">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">order_rules</span><span class="function-signature">(uci, rule_type: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, order: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1001">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#order_rules" title="nethsec.firewall.order_rules">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Orders firewall rules, moves everything else but rules to the end of the list.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>e_uci: euci instance
-rule_type: type of rule to order, must be 'input', 'output' or 'forward'
-rules: which order to put rules</dd>
-<dt>Returns:</dt>
-<dd>list of ordered rules entries</dd>
-<dt>Raises:</dt>
-<dd>ValidationError: if a rule is not present in /etc/config/firewall</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.resolve_address">
-    
-  </a>
-  <a name="resolve_address">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">resolve_address</span><span class="function-signature">(uci, address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1049">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#resolve_address" title="nethsec.firewall.resolve_address">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Resolve address to a more human-redeable name.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-address: address to resolve</dd>
-<dt>Returns:</dt>
-<dd>resolved address as a dict with keys value, label and type</dd>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section if found, None otherwise</li>
+</ul>
+</dd>
 </dl>
 </div>
   </div>
@@ -3049,7 +2791,7 @@ address: address to resolve</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">enrich_rule</span><span class="function-signature">(uci, rule: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1072">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1072">
       
       (source)
     </a>
@@ -3074,6 +2816,154 @@ rule: rule to enrich</dd>
 </div><div class="basefunction">
   
   
+  <a name="nethsec.firewall.get_all_linked">
+    
+  </a>
+  <a name="get_all_linked">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_all_linked</span><span class="function-signature">(uci, link)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L529">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_all_linked" title="nethsec.firewall.get_all_linked">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Search all database, execpt templates one, for entities with the given link</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>link -- A reference to an existing key in the format &lt;database&gt;/&lt;keyname&gt;</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>A dictionary of all matched sections like
+{"db1": ["key1", "key2"], "db2": [...] }</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.get_rule_by_name">
+    
+  </a>
+  <a name="get_rule_by_name">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_rule_by_name</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, tag=<span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L733">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_rule_by_name" title="nethsec.firewall.get_rule_by_name">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get rule config name and rule data by rule name, optionally filtered by tag.
+Assume there is only one rule with the same name.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+name: rule name
+tag: optional tag to filter rules</dd>
+<dt>Returns:</dt>
+<dd>tuple of rule config name and rule config if rule with name name exists, (None, None) otherwise</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.get_service_by_name">
+    
+  </a>
+  <a name="get_service_by_name">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_service_by_name</span><span class="function-signature">(name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1429">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_service_by_name" title="nethsec.firewall.get_service_by_name">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get service by name.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>name: service name</dd>
+<dt>Returns:</dt>
+<dd>service dict if service with name name exists, None otherwise</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.get_zone_by_name">
+    
+  </a>
+  <a name="get_zone_by_name">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_zone_by_name</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L716">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#get_zone_by_name" title="nethsec.firewall.get_zone_by_name">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get zone config name by zone name.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+name: zone name</dd>
+<dt>Returns:</dt>
+<dd>tuple of zone config name and zone config if zone with name name exists, (None, None) otherwise</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
   <a name="nethsec.firewall.is_forward_rule">
     
   </a>
@@ -3084,7 +2974,7 @@ rule: rule to enrich</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">is_forward_rule</span><span class="function-signature">(rule: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1133">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1133">
       
       (source)
     </a>
@@ -3118,7 +3008,7 @@ rule: rule to enrich</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">is_input_rule</span><span class="function-signature">(rule: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1147">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1147">
       
       (source)
     </a>
@@ -3142,6 +3032,46 @@ rule: rule to enrich</dd>
 </div><div class="basefunction">
   
   
+  <a name="nethsec.firewall.is_ipv6_enabled">
+    
+  </a>
+  <a name="is_ipv6_enabled">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">is_ipv6_enabled</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L598">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#is_ipv6_enabled" title="nethsec.firewall.is_ipv6_enabled">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Search the network database for devices and interfaces using IPv6</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>True if IPv6 is enabled at least on a device or interface, False otherwise</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
   <a name="nethsec.firewall.is_output_rule">
     
   </a>
@@ -3152,7 +3082,7 @@ rule: rule to enrich</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">is_output_rule</span><span class="function-signature">(rule: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1161">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1161">
       
       (source)
     </a>
@@ -3176,6 +3106,344 @@ rule: rule to enrich</dd>
 </div><div class="basefunction">
   
   
+  <a name="nethsec.firewall.list_active_leases">
+    
+  </a>
+  <a name="list_active_leases">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_active_leases</span><span class="function-signature">()</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1276">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_active_leases" title="nethsec.firewall.list_active_leases">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all active leases from /tmp/dhcp.leases</p>
+<dl class="rst-docutils">
+<dt>Returns:</dt>
+<dd>a list of all active leases, each lease is a dict with keys value, label, type</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_forward_rules">
+    
+  </a>
+  <a name="list_forward_rules">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_forward_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1205">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_forward_rules" title="nethsec.firewall.list_forward_rules">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all forward rules from firewall config</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>a list of all forward rules</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_forwardings">
+    
+  </a>
+  <a name="list_forwardings">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_forwardings</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L684">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_forwardings" title="nethsec.firewall.list_forwardings">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all forwardings from firewall config</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>dict with all forwardings</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_host_suggestions">
+    
+  </a>
+  <a name="list_host_suggestions">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_host_suggestions</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1295">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_host_suggestions" title="nethsec.firewall.list_host_suggestions">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all hosts from dhcp and network config</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>a list of all hosts, each host is a dict with keys value, label, type</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_input_rules">
+    
+  </a>
+  <a name="list_input_rules">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_input_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1231">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_input_rules" title="nethsec.firewall.list_input_rules">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all input rules from firewall config</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>a list of all input rules</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_nat_rules">
+    
+  </a>
+  <a name="list_nat_rules">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_nat_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1631">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_nat_rules" title="nethsec.firewall.list_nat_rules">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all nat rules from firewall config</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>a list of all nat rules</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_netmap_devices">
+    
+  </a>
+  <a name="list_netmap_devices">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_netmap_devices</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1850">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_netmap_devices" title="nethsec.firewall.list_netmap_devices">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all network devices from ip command</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>a list of all network devices</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_netmap_rules">
+    
+  </a>
+  <a name="list_netmap_rules">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_netmap_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1731">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_netmap_rules" title="nethsec.firewall.list_netmap_rules">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all netmap rules from netmap config</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>a list of all netmap rules</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_output_rules">
+    
+  </a>
+  <a name="list_output_rules">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_output_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1218">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_output_rules" title="nethsec.firewall.list_output_rules">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all output rules from firewall config</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>a list of all output rules</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.list_rule_ids">
+    
+  </a>
+  <a name="list_rule_ids">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">list_rule_ids</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L989">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#list_rule_ids" title="nethsec.firewall.list_rule_ids">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Get all rule ids from firewall config</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer</dd>
+<dt>Returns:</dt>
+<dd>list of all rule ids</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
   <a name="nethsec.firewall.list_rules">
     
   </a>
@@ -3186,7 +3454,7 @@ rule: rule to enrich</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">list_rules</span><span class="function-signature">(uci, rule_type=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1175">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1175">
       
       (source)
     </a>
@@ -3211,108 +3479,6 @@ rule_type: optional rule type to filter, must be one of 'input', 'output' or 'fo
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.list_forward_rules">
-    
-  </a>
-  <a name="list_forward_rules">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_forward_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1205">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_forward_rules" title="nethsec.firewall.list_forward_rules">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all forward rules from firewall config</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>a list of all forward rules</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.list_output_rules">
-    
-  </a>
-  <a name="list_output_rules">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_output_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1218">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_output_rules" title="nethsec.firewall.list_output_rules">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all output rules from firewall config</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>a list of all output rules</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.list_input_rules">
-    
-  </a>
-  <a name="list_input_rules">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_input_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1231">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_input_rules" title="nethsec.firewall.list_input_rules">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all input rules from firewall config</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>a list of all input rules</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
   <a name="nethsec.firewall.list_service_suggestions">
     
   </a>
@@ -3323,7 +3489,7 @@ rule_type: optional rule type to filter, must be one of 'input', 'output' or 'fo
     
     
     <span class="py-keyword">def</span> <span class="py-defname">list_service_suggestions</span><span class="function-signature">()</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1244">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1244">
       
       (source)
     </a>
@@ -3345,21 +3511,21 @@ rule_type: optional rule type to filter, must be one of 'input', 'output' or 'fo
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.list_active_leases">
+  <a name="nethsec.firewall.list_zones">
     
   </a>
-  <a name="list_active_leases">
+  <a name="list_zones">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">list_active_leases</span><span class="function-signature">()</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1276">
+    <span class="py-keyword">def</span> <span class="py-defname">list_zones</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L647">
       
       (source)
     </a>
-    <a class="headerLink" href="#list_active_leases" title="nethsec.firewall.list_active_leases">
+    <a class="headerLink" href="#list_zones" title="nethsec.firewall.list_zones">
       
       
       ¶
@@ -3367,65 +3533,33 @@ rule_type: optional rule type to filter, must be one of 'input', 'output' or 'fo
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Get all active leases from /tmp/dhcp.leases</p>
-<dl class="rst-docutils">
-<dt>Returns:</dt>
-<dd>a list of all active leases, each lease is a dict with keys value, label, type</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.list_host_suggestions">
-    
-  </a>
-  <a name="list_host_suggestions">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_host_suggestions</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1295">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_host_suggestions" title="nethsec.firewall.list_host_suggestions">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all hosts from dhcp and network config</p>
+    <div><p>Get all zones from firewall config</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
 <dd>uci: EUci pointer</dd>
 <dt>Returns:</dt>
-<dd>a list of all hosts, each host is a dict with keys value, label, type</dd>
+<dd>dict with all zones</dd>
 </dl>
 </div>
   </div>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.validate_address_format">
+  <a name="nethsec.firewall.list_zones_no_aliases">
     
   </a>
-  <a name="validate_address_format">
+  <a name="list_zones_no_aliases">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">validate_address_format</span><span class="function-signature">(address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1318">
+    <span class="py-keyword">def</span> <span class="py-defname">list_zones_no_aliases</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L660">
       
       (source)
     </a>
-    <a class="headerLink" href="#validate_address_format" title="nethsec.firewall.validate_address_format">
+    <a class="headerLink" href="#list_zones_no_aliases" title="nethsec.firewall.list_zones_no_aliases">
       
       
       ¶
@@ -3433,37 +3567,36 @@ rule_type: optional rule type to filter, must be one of 'input', 'output' or 'fo
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Validate address format.
-Valid formats are:
-- ip address
-- ip range like 192.168.100.1-192.168.100.10
-- ip cidr</p>
+    <div><p>Get all zones from firewall config, excluding aliases in network section</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd>address: address to validate</dd>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci: EUci pointer</li>
+</ul>
+</dd>
 <dt>Returns:</dt>
-<dd>True if address is valid, False otherwise</dd>
+<dd>dict with all zones</dd>
 </dl>
 </div>
   </div>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.validate_port_format">
+  <a name="nethsec.firewall.order_rules">
     
   </a>
-  <a name="validate_port_format">
+  <a name="order_rules">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">validate_port_format</span><span class="function-signature">(port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1353">
+    <span class="py-keyword">def</span> <span class="py-defname">order_rules</span><span class="function-signature">(uci, rule_type: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, order: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1001">
       
       (source)
     </a>
-    <a class="headerLink" href="#validate_port_format" title="nethsec.firewall.validate_port_format">
+    <a class="headerLink" href="#order_rules" title="nethsec.firewall.order_rules">
       
       
       ¶
@@ -3471,74 +3604,37 @@ Valid formats are:
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Validate port format.</p>
+    <div><p>Orders firewall rules, moves everything else but rules to the end of the list.</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd>port: port to validate</dd>
+<dd>e_uci: euci instance
+rule_type: type of rule to order, must be 'input', 'output' or 'forward'
+rules: which order to put rules</dd>
 <dt>Returns:</dt>
-<dd>True if port is valid, False otherwise</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.validate_rule">
-    
-  </a>
-  <a name="validate_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">validate_rule</span><span class="function-signature">(src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, proto: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code>, dest_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, service: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1389">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#validate_rule" title="nethsec.firewall.validate_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Validate rule.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>src: source zone, must be zone name, not config name
-src_ip: a list of source ip
-dest: destination zone, must be zone name, not config name
-dest_ip: a list of destination ip
-proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
-dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with <code>-</code> (eg. 80-90)
-target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
-service: service name</dd>
+<dd>list of ordered rules entries</dd>
 <dt>Raises:</dt>
-<dd>ValidationError: if rule is invalid</dd>
+<dd>ValidationError: if a rule is not present in /etc/config/firewall</dd>
 </dl>
 </div>
   </div>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.get_service_by_name">
+  <a name="nethsec.firewall.remove_device_from_zone">
     
   </a>
-  <a name="get_service_by_name">
+  <a name="remove_device_from_zone">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_service_by_name</span><span class="function-signature">(name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1429">
+    <span class="py-keyword">def</span> <span class="py-defname">remove_device_from_zone</span><span class="function-signature">(uci, device, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L118">
       
       (source)
     </a>
-    <a class="headerLink" href="#get_service_by_name" title="nethsec.firewall.get_service_by_name">
+    <a class="headerLink" href="#remove_device_from_zone" title="nethsec.firewall.remove_device_from_zone">
       
       
       ¶
@@ -3546,12 +3642,184 @@ service: service name</dd>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Get service by name.</p>
+    <div><p>Remove the given device from a firewall zone.
+The operation always succeed if the zone does not exists</p>
+<p>Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>device -- Device name</li>
+<li>zone -- Firewall zone name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>If the firewall zone exists, the name of the section where the device has been removed.</li>
+<li>None, otherwise.</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.remove_interface_from_zone">
+    
+  </a>
+  <a name="remove_interface_from_zone">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">remove_interface_from_zone</span><span class="function-signature">(uci, interface, zone)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L88">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#remove_interface_from_zone" title="nethsec.firewall.remove_interface_from_zone">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Remove the given interface from a firewall zone.
+The operation always succeed if the zone does not exists</p>
+<p>Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>interface -- Interface name</li>
+<li>zone -- Firewall zone name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>If the firewall zone exists, the name of the section where the interface has been removed.</li>
+<li>None, otherwise.</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.remove_service">
+    
+  </a>
+  <a name="remove_service">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">remove_service</span><span class="function-signature">(uci, name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L306">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#remove_service" title="nethsec.firewall.remove_service">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Remove the ACCEPT traffic rule for the given service
+Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+<li>name -- Service name</li>
+</ul>
+</dd>
+<dt>Returns:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>The name of the configuration section</li>
+</ul>
+</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.reorder_firewall_config">
+    
+  </a>
+  <a name="reorder_firewall_config">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">reorder_firewall_config</span><span class="function-signature">(uci)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1533">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#reorder_firewall_config" title="nethsec.firewall.reorder_firewall_config">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Reorder firewall config, moving all rules at the bottom.
+The order in the file will be:
+- defaults and includes
+- zones
+- forwardings
+- forward rules
+- output rules
+- input rules</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd>name: service name</dd>
+<dd>uci: EUci pointer</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.resolve_address">
+    
+  </a>
+  <a name="resolve_address">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">resolve_address</span><span class="function-signature">(uci, address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1049">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#resolve_address" title="nethsec.firewall.resolve_address">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Resolve address to a more human-redeable name.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>uci: EUci pointer
+address: address to resolve</dd>
 <dt>Returns:</dt>
-<dd>service dict if service with name name exists, None otherwise</dd>
+<dd>resolved address as a dict with keys value, label and type</dd>
 </dl>
 </div>
   </div>
@@ -3568,7 +3836,7 @@ service: service name</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">setup_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, proto: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code>, dest_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, service: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, enabled: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>, log: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tag=[])</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1444">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1444">
       
       (source)
     </a>
@@ -3613,7 +3881,7 @@ tag: list of optional tags</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">split_firewall_config</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1495">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1495">
       
       (source)
     </a>
@@ -3637,21 +3905,21 @@ tag: list of optional tags</dd>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.reorder_firewall_config">
+  <a name="nethsec.firewall.validate_address_format">
     
   </a>
-  <a name="reorder_firewall_config">
+  <a name="validate_address_format">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">reorder_firewall_config</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1533">
+    <span class="py-keyword">def</span> <span class="py-defname">validate_address_format</span><span class="function-signature">(address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1318">
       
       (source)
     </a>
-    <a class="headerLink" href="#reorder_firewall_config" title="nethsec.firewall.reorder_firewall_config">
+    <a class="headerLink" href="#validate_address_format" title="nethsec.firewall.validate_address_format">
       
       
       ¶
@@ -3659,296 +3927,16 @@ tag: list of optional tags</dd>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Reorder firewall config, moving all rules at the bottom.
-The order in the file will be:
-- defaults and includes
-- zones
-- forwardings
-- forward rules
-- output rules
-- input rules</p>
+    <div><p>Validate address format.
+Valid formats are:
+- ip address
+- ip range like 192.168.100.1-192.168.100.10
+- ip cidr</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_rule">
-    
-  </a>
-  <a name="add_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_rule</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, proto: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code>, dest_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, service: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, enabled: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>, log: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tag=[], add_to_top: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1556">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_rule" title="nethsec.firewall.add_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Add rule to firewall config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-id: id of rule to edit
-name: name of rule
-src: source zone, must be zone name, not config name
-src_ip: a list of source ip
-dest: destination zone, must be zone name, not config name
-dest_ip: a list of destination ip
-proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
-dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with <code>-</code> (eg. 80-90)
-target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
-service: service name
-enabled: if True, rule is enabled, if False, rule is disabled
-log: if True, log traffic
-tag: list of optional tags
-add_to_top: if True, add rule to the top of the list, otherwise add to the bottom</dd>
+<dd>address: address to validate</dd>
 <dt>Returns:</dt>
-<dd>name of rule config that was added</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.edit_rule">
-    
-  </a>
-  <a name="edit_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">edit_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, proto: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code>, dest_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, service: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, enabled: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>, log: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, tag=[]) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1601">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#edit_rule" title="nethsec.firewall.edit_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Edit rule in firewall config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-id: id of rule to edit
-name: name of rule
-src: source zone, must be zone name, not config name
-src_ip: a list of source ip
-dest: destination zone, must be zone name, not config name
-dest_ip: a list of destination ip
-proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
-dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with <code>-</code> (eg. 80-90)
-target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
-service: service name
-enabled: if True, rule is enabled, if False, rule is disabled
-log: if True, log traffic
-tag: list of optional tags</dd>
-<dt>Returns:</dt>
-<dd>name of rule config that was edited</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.list_nat_rules">
-    
-  </a>
-  <a name="list_nat_rules">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_nat_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1631">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_nat_rules" title="nethsec.firewall.list_nat_rules">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all nat rules from firewall config</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>a list of all nat rules</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.add_nat_rule">
-    
-  </a>
-  <a name="add_nat_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_nat_rule</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string">*</span><span class="rst-variable-quote">'</span>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, snat_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1650">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#add_nat_rule" title="nethsec.firewall.add_nat_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Add nat rule to firewall config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-name: name of rule
-target: target, must be one of 'SNAT', 'DNAT'
-src: source zone, must be zone name, not config name
-src_ip: source ip
-dest_ip: destination ip
-snat_ip: snat ip</dd>
-<dt>Returns:</dt>
-<dd>name of rule config that was added</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.edit_nat_rule">
-    
-  </a>
-  <a name="edit_nat_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">edit_nat_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string">*</span><span class="rst-variable-quote">'</span>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>, snat_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string"></span><span class="rst-variable-quote">'</span>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1682">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#edit_nat_rule" title="nethsec.firewall.edit_nat_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Edit nat rule in firewall config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-id: id of rule to edit
-name: name of rule
-target: target, must be one of 'SNAT', 'DNAT'
-src: source zone, must be zone name, not config name
-src_ip: source ip
-dest_ip: destination ip
-snat_ip: snat ip</dd>
-<dt>Returns:</dt>
-<dd>name of rule config that was edited</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.delete_nat_rule">
-    
-  </a>
-  <a name="delete_nat_rule">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">delete_nat_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1714">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#delete_nat_rule" title="nethsec.firewall.delete_nat_rule">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Delete nat rule from firewall config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-id: id of rule to delete</dd>
-<dt>Returns:</dt>
-<dd>name of rule config that was deleted</dd>
-</dl>
-</div>
-  </div>
-</div><div class="basefunction">
-  
-  
-  <a name="nethsec.firewall.list_netmap_rules">
-    
-  </a>
-  <a name="list_netmap_rules">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_netmap_rules</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1731">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#list_netmap_rules" title="nethsec.firewall.list_netmap_rules">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>Get all netmap rules from netmap config</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>a list of all netmap rules</dd>
+<dd>True if address is valid, False otherwise</dd>
 </dl>
 </div>
   </div>
@@ -3965,7 +3953,7 @@ id: id of rule to delete</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">validate_netmap_rule</span><span class="function-signature">(name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, map_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, map_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1749">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1749">
       
       (source)
     </a>
@@ -3982,21 +3970,21 @@ id: id of rule to delete</dd>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.add_netmap_rule">
+  <a name="nethsec.firewall.validate_port_format">
     
   </a>
-  <a name="add_netmap_rule">
+  <a name="validate_port_format">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">add_netmap_rule</span><span class="function-signature">(uci, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, device_in: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, device_out: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, map_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, map_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1774">
+    <span class="py-keyword">def</span> <span class="py-defname">validate_port_format</span><span class="function-signature">(port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1353">
       
       (source)
     </a>
-    <a class="headerLink" href="#add_netmap_rule" title="nethsec.firewall.add_netmap_rule">
+    <a class="headerLink" href="#validate_port_format" title="nethsec.firewall.validate_port_format">
       
       
       ¶
@@ -4004,40 +3992,74 @@ id: id of rule to delete</dd>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Add netmap rule to netmap config.</p>
+    <div><p>Validate port format.</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd>uci: EUci pointer
-name: name of rule
-src: source zone, must be zone name, not config name
+<dd>port: port to validate</dd>
+<dt>Returns:</dt>
+<dd>True if port is valid, False otherwise</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.firewall.validate_rule">
+    
+  </a>
+  <a name="validate_rule">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">validate_rule</span><span class="function-signature">(src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, proto: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code>, dest_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, target: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, service: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L1389">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#validate_rule" title="nethsec.firewall.validate_rule">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Validate rule.</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>src: source zone, must be zone name, not config name
+src_ip: a list of source ip
 dest: destination zone, must be zone name, not config name
-device_in: list of incoming network interfaces
-device_out: list of outgoing network interfaces
-map_from: source network address
-map_to: destination network address</dd>
-<dt>Returns:</dt>
-<dd>name of rule config that was added</dd>
+dest_ip: a list of destination ip
+proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
+dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with <code>-</code> (eg. 80-90)
+target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+service: service name</dd>
+<dt>Raises:</dt>
+<dd>ValidationError: if rule is invalid</dd>
 </dl>
 </div>
   </div>
 </div><div class="basefunction">
   
   
-  <a name="nethsec.firewall.edit_netmap_rule">
+  <a name="nethsec.firewall.zone_exists">
     
   </a>
-  <a name="edit_netmap_rule">
+  <a name="zone_exists">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">edit_netmap_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, dest: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, device_in: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, device_out: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, map_from: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, map_to: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1804">
+    <span class="py-keyword">def</span> <span class="py-defname">zone_exists</span><span class="function-signature">(u, zone_name)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L754">
       
       (source)
     </a>
-    <a class="headerLink" href="#edit_netmap_rule" title="nethsec.firewall.edit_netmap_rule">
+    <a class="headerLink" href="#zone_exists" title="nethsec.firewall.zone_exists">
       
       
       ¶
@@ -4045,91 +4067,69 @@ map_to: destination network address</dd>
   </div>
   <div class="docstring functionBody">
     
-    <div><p>Edit netmap rule in netmap config.</p>
+    <div><p>Check if a zone with name zone_name already exists</p>
 <dl class="rst-docutils">
 <dt>Args:</dt>
-<dd>uci: EUci pointer
-id: id of rule to edit
-name: name of rule
-src: source zone, must be zone name, not config name
-dest: destination zone, must be zone name, not config name
-device_in: list of incoming network interfaces
-device_out: list of outgoing network interfaces
-map_from: source network address
-map_to: destination network address</dd>
+<dd>u: EUci pointer
+zone_name: zone name to check</dd>
 <dt>Returns:</dt>
-<dd>name of rule config that was edited</dd>
+<dd>true if a zone with name zone_name already exists, false otherwise</dd>
 </dl>
 </div>
   </div>
-</div><div class="basefunction">
+</div><div class="baseconstant">
   
   
-  <a name="nethsec.firewall.delete_netmap_rule">
+  <a name="nethsec.firewall.PROTOCOLS">
     
   </a>
-  <a name="delete_netmap_rule">
+  <a name="PROTOCOLS">
     
   </a>
   <div class="functionHeader">
     
-    
-    <span class="py-keyword">def</span> <span class="py-defname">delete_netmap_rule</span><span class="function-signature">(uci, id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1833">
+    <span class="py-defname">PROTOCOLS</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> =
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L20">
       
       (source)
     </a>
-    <a class="headerLink" href="#delete_netmap_rule" title="nethsec.firewall.delete_netmap_rule">
+    <a class="headerLink" href="#PROTOCOLS" title="nethsec.firewall.PROTOCOLS">
       
       
       ¶
     </a>
   </div>
-  <div class="docstring functionBody">
+  <div class="functionBody">
     
-    <div><p>Delete netmap rule from netmap config.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer
-id: id of rule to delete</dd>
-<dt>Returns:</dt>
-<dd>name of rule config that was deleted</dd>
-</dl>
-</div>
+    <div><p class="undocumented">Undocumented</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">tcp</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">udp</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">udplite</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">icmp</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">esp</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">ah</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">sctp</span><span class="rst-variable-quote">'</span>]</code></pre></td></tr></table>
   </div>
-</div><div class="basefunction">
+</div><div class="baseconstant">
   
   
-  <a name="nethsec.firewall.list_netmap_devices">
+  <a name="nethsec.firewall.TARGETS">
     
   </a>
-  <a name="list_netmap_devices">
+  <a name="TARGETS">
     
   </a>
   <div class="functionHeader">
     
-    
-    <span class="py-keyword">def</span> <span class="py-defname">list_netmap_devices</span><span class="function-signature">(uci) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/firewall/__init__.py#L1850">
+    <span class="py-defname">TARGETS</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> =
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/firewall/__init__.py#L21">
       
       (source)
     </a>
-    <a class="headerLink" href="#list_netmap_devices" title="nethsec.firewall.list_netmap_devices">
+    <a class="headerLink" href="#TARGETS" title="nethsec.firewall.TARGETS">
       
       
       ¶
     </a>
   </div>
-  <div class="docstring functionBody">
+  <div class="functionBody">
     
-    <div><p>Get all network devices from ip command</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd>uci: EUci pointer</dd>
-<dt>Returns:</dt>
-<dd>a list of all network devices</dd>
-</dl>
-</div>
+    <div><p class="undocumented">Undocumented</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code>[<wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">ACCEPT</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">DROP</span><span class="rst-variable-quote">'</span>, <wbr></wbr><span class="rst-variable-quote">'</span><span class="rst-variable-string">REJECT</span><span class="rst-variable-quote">'</span>]</code></pre></td></tr></table>
   </div>
 </div>
         </div>
@@ -4143,7 +4143,7 @@ id: id of rule to delete</dd>
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.9.1 at 2024-05-17 11:10:38.
+    24.3.3 at 2024-05-31 11:02:54.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 

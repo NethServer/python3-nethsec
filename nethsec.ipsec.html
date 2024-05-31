@@ -7,7 +7,7 @@
   <head>
     
     <title>nethsec.ipsec</title>
-    <meta name="generator" content="pydoctor 23.9.1"> 
+    <meta name="generator" content="pydoctor 24.3.3"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -364,7 +364,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/ipsec/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/ipsec/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -404,32 +404,41 @@
         </div>
 
         <div id="childList">
-          <div class="baseconstant">
+          <div class="basefunction">
   
   
-  <a name="nethsec.ipsec.IPSEC_ZONE">
+  <a name="nethsec.ipsec.add_trusted_interface">
     
   </a>
-  <a name="IPSEC_ZONE">
+  <a name="add_trusted_interface">
     
   </a>
   <div class="functionHeader">
     
-    <span class="py-defname">IPSEC_ZONE</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/ipsec/__init__.py#L15">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">add_trusted_interface</span><span class="function-signature">(uci, interface)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/ipsec/__init__.py#L81">
       
       (source)
     </a>
-    <a class="headerLink" href="#IPSEC_ZONE" title="nethsec.ipsec.IPSEC_ZONE">
+    <a class="headerLink" href="#add_trusted_interface" title="nethsec.ipsec.add_trusted_interface">
       
       
       ¶
     </a>
   </div>
-  <div class="functionBody">
+  <div class="docstring functionBody">
     
-    <div><p class="undocumented">Undocumented</p></div>
-    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'</span><span class="rst-variable-string">ipsec</span><span class="rst-variable-quote">'</span></code></pre></td></tr></table>
+    <div><p>Add the interface to the 'ipsec' trusted zone. The function also creates the trusted zone, if needed.</p>
+<p>Changes are saved to staging area.</p>
+<dl class="rst-docutils">
+<dt>Arguments:</dt>
+<dd><ul class="rst-simple rst-first rst-last">
+<li>uci -- EUci pointer</li>
+</ul>
+</dd>
+</dl>
+</div>
   </div>
 </div><div class="basefunction">
   
@@ -444,7 +453,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">init_ipsec</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/ipsec/__init__.py#L17">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/ipsec/__init__.py#L17">
       
       (source)
     </a>
@@ -460,7 +469,7 @@
 <p>Changes are saved to staging area.</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 </ul>
 </dd>
@@ -480,7 +489,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">open_firewall_ports</span><span class="function-signature">(uci)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/ipsec/__init__.py#L39">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/ipsec/__init__.py#L39">
       
       (source)
     </a>
@@ -496,48 +505,39 @@
 <p>Changes are saved to staging area.</p>
 <dl class="rst-docutils">
 <dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
+<dd><ul class="rst-simple rst-first rst-last">
 <li>uci -- EUci pointer</li>
 </ul>
 </dd>
 </dl>
 </div>
   </div>
-</div><div class="basefunction">
+</div><div class="baseconstant">
   
   
-  <a name="nethsec.ipsec.add_trusted_interface">
+  <a name="nethsec.ipsec.IPSEC_ZONE">
     
   </a>
-  <a name="add_trusted_interface">
+  <a name="IPSEC_ZONE">
     
   </a>
   <div class="functionHeader">
     
-    
-    <span class="py-keyword">def</span> <span class="py-defname">add_trusted_interface</span><span class="function-signature">(uci, interface)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/31a4d5300b471c47e7a5e9aa7bcf83e316ee26a6/src/nethsec/ipsec/__init__.py#L81">
+    <span class="py-defname">IPSEC_ZONE</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> =
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/4436daf1582fd6de5e3109180d0ea544dc275917/src/nethsec/ipsec/__init__.py#L15">
       
       (source)
     </a>
-    <a class="headerLink" href="#add_trusted_interface" title="nethsec.ipsec.add_trusted_interface">
+    <a class="headerLink" href="#IPSEC_ZONE" title="nethsec.ipsec.IPSEC_ZONE">
       
       
       ¶
     </a>
   </div>
-  <div class="docstring functionBody">
+  <div class="functionBody">
     
-    <div><p>Add the interface to the 'ipsec' trusted zone. The function also creates the trusted zone, if needed.</p>
-<p>Changes are saved to staging area.</p>
-<dl class="rst-docutils">
-<dt>Arguments:</dt>
-<dd><ul class="rst-first rst-last rst-simple">
-<li>uci -- EUci pointer</li>
-</ul>
-</dd>
-</dl>
-</div>
+    <div><p class="undocumented">Undocumented</p></div>
+    <table class="valueTable"><tr class="fieldStart"><td class="fieldName">Value</td></tr><tr><td><pre class="constant-value"><code><span class="rst-variable-quote">'</span><span class="rst-variable-string">ipsec</span><span class="rst-variable-quote">'</span></code></pre></td></tr></table>
   </div>
 </div>
         </div>
@@ -551,7 +551,7 @@
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    23.9.1 at 2024-05-17 11:10:38.
+    24.3.3 at 2024-05-31 11:02:54.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
