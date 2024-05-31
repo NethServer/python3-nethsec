@@ -547,6 +547,7 @@ def list_host_sets(uci, used_info = True) -> list:
         if uci.get('objects', section) == 'host':
             rule = uci.get_all('objects', section)
             rule['id'] = section
+            rule['singleton'] = is_singleton_host_set(uci, f'objects/{section}')
             if used_info:
                 used, matches = is_used_host_set(uci, section)
                 rule['used'] = used
@@ -766,6 +767,7 @@ def list_all_objects(uci, expand=False):
         d['type'] = 'domain_set'
         if not expand:
             del[d['domain']]
+            del[d['timeout']]
         dsets.append(d)
     vpn_users = list_vpn_users(uci, expand)
     dhcp_static_leases = list_dhcp_static_leases(uci, expand)

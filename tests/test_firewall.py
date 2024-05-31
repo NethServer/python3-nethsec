@@ -1098,5 +1098,6 @@ def test_update_firewall_rules(u):
     with pytest.raises(UciExceptionNotFound):
         u.get("firewall", "r4", "ns_dst")
 
-def list_object_suggestions(u):
-    assert False
+def test_list_object_suggestions(u):
+    obj = firewall.list_object_suggestions(u)
+    assert len(obj) == 9
