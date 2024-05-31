@@ -2000,3 +2000,16 @@ def update_firewall_rules(uci):
                     except:
                         pass                               
     uci.save('firewall')
+
+def list_object_suggestions(uci, expand = False):
+    """
+    Get all objects from objects config
+
+    Args:
+        uci: EUci pointer
+        expand: if True, expand object details
+
+    Returns:
+        a list of all objects, each object is a dict with keys value, label, type
+    """
+    return objects.list_all_objects(uci, expand)
