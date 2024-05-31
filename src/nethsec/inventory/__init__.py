@@ -74,19 +74,29 @@ def fact_ui(uci: EUci):
     return ret
 
 def fact_network(uci: EUci):
-    result = { "ipv6": 0, "ipv4": 0}
-    for interface in utils.get_all_by_type(uci, 'network', 'interface'):
-        is_ipv6 = False
-        for option in uci.get_all('network', interface):
-            if option.startswith("ip6") or option == "dhcpv6" or option == "ipv6":
+    result = {}
+    for zone in utils.get_all_by_type(uci, 'firewall', 'zone').values():
+        devices = utils.get_all_devices_by_zone(uci, zone['name'], True)
+        network_info_per_zone = {
+            'ipv4': 0,
+            'ipv6': 0
+        }
+        for device in devices:
+            interface = utils.get_interface_from_device(uci, device)
+            if interface is None:
+                continue
+            is_ipv6 = False
+            for option in uci.get_all('network', interface):
+                if option.startswith("ip6") or option == "dhcpv6" or option == "ipv6":
+                    is_ipv6 = True
+                    break
+            if uci.get('network', interface, 'proto', default="") in ['dhcpv6', '6in4', '6to4', '6rd', 'grev6', 'grev6tap', 'vtiv6']:
                 is_ipv6 = True
-                break
-        if uci.get('network', interface, 'proto', default="") in ['dhcpv6', '6in4', '6to4', '6rd', 'grev6', 'grev6tap', 'vtiv6']:
-            is_ipv6 = True
-        if is_ipv6:
-            result["ipv6"] += 1
-        else:
-            result["ipv4"] += 1
+            if is_ipv6:
+                network_info_per_zone['ipv6'] += 1
+            else:
+                network_info_per_zone['ipv4'] += 1
+        result[zone['name']] = network_info_per_zone
     return result
 
 def fact_storage(uci: EUci):
@@ -118,13 +128,19 @@ def fact_dhcp_server(uci: EUci):
     return { 'count': count }
 
 def fact_multiwan(uci: EUci):
-    type = ""
-    for p in mwan.index_policies(uci):
-        if p.get('name') == 'ns_default':
-            type = p.get('type')
-            break
-    wans = len(utils.get_all_by_type(uci, 'mwan3', 'interface'))
-    return {'wans' : wans, 'type': type}
+    policies = mwan.index_policies(uci)
+    result = {
+        'enabled': len(policies) > 0,
+        'policies': {
+            'backup': 0,
+            'balance': 0,
+            'custom': 0
+        },
+        'rules': len(mwan.index_rules(uci))
+    }
+    for policy in policies:
+        result['policies'][policy['type']] += 1
+    return result
 
 def fact_qos(uci: EUci):
     count = 0

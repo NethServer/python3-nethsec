@@ -1,8 +1,6 @@
-import pytest
-from nethsec import inventory
 from euci import EUci
-from unittest.mock import MagicMock, patch
 
+from nethsec import inventory
 
 firewall_db = """
 config zone wan1
@@ -529,7 +527,13 @@ def test_fact_storage(tmp_path):
      
 def test_fact_network(tmp_path):
 	u = _setup_db(tmp_path)
-	assert inventory.fact_network(u) == {"ipv6": 1, "ipv4": 6} # 2 more ipv4 interfaces from previous tests
+	result = inventory.fact_network(u)
+	assert result['blue']['ipv4'] == 1
+	assert result['blue']['ipv6'] == 0
+	assert result['lan']['ipv4'] == 1
+	assert result['lan']['ipv6'] == 0
+	assert result['wan']['ipv4'] == 1
+	assert result['wan']['ipv6'] == 0
       
 def test_fact_proxy_pass(tmp_path):
 	u = _setup_db(tmp_path)
@@ -549,7 +553,12 @@ def test_fact_dhcp_server(tmp_path):
       
 def test_fact_multiwan(tmp_path):
 	u = _setup_db(tmp_path)
-	assert inventory.fact_multiwan(u) == {"wans": 2, "type": "backup"}
+	result = inventory.fact_multiwan(u)
+	assert result['enabled']
+	assert result['policies']['backup'] == 1
+	assert result['policies']['balance'] == 0
+	assert result['policies']['custom'] == 0
+	assert result['rules'] == 1
       
 def test_fact_qos(tmp_path):
 	u = _setup_db(tmp_path)
