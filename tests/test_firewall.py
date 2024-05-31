@@ -1097,3 +1097,6 @@ def test_update_firewall_rules(u):
     firewall.update_firewall_rules(u)
     with pytest.raises(UciExceptionNotFound):
         u.get("firewall", "r4", "ns_dst")
+
+def list_object_suggestions(u):
+    assert False
