@@ -267,6 +267,23 @@ def test_list_policies(e_uci, mocker):
     assert index[2]['members'][20][0]['metric'] == '20'
     assert index[2]['members'][20][0]['weight'] == '100'
 
+def test_policy_length(e_uci, mocker):
+    mocker.patch('subprocess.run')
+    with pytest.raises(ValidationError) as e:
+        assert mwan.store_policy(e_uci, 'nameisa15maxlength', [
+            {
+                'name': 'RED_1',
+                'metric': '10',
+                'weight': '200',
+            },
+            {
+                'name': 'RED_2',
+                'metric': '20',
+                'weight': '100',
+            }
+        ])
+    assert e.value.args[0] == 'name'
+    assert e.value.args[1] == 'length'
 
 def test_store_rule(e_uci, mocker):
     mocker.patch('subprocess.run')
