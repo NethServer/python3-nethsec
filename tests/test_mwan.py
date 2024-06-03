@@ -323,6 +323,19 @@ def test_unique_rule(e_uci, mocker):
     assert e.value.args[0] == 'name'
     assert e.value.args[1] == 'unique'
 
+def test_rule_length(e_uci, mocker):
+    mocker.patch('subprocess.run')
+    mwan.store_policy(e_uci, 'default', [
+        {
+            'name': 'RED_1',
+            'metric': '20',
+            'weight': '100',
+        }
+    ])
+    with pytest.raises(ValidationError) as e:
+        mwan.store_rule(e_uci, 'nameisa15maxlength', 'ns_default')
+    assert e.value.args[0] == 'name'
+    assert e.value.args[1] == 'length'
 
 def test_missing_policy_rule(e_uci):
     with pytest.raises(ValidationError) as e:
