@@ -744,9 +744,9 @@ def list_dns_records(uci, expand=False):
             records.append(record)
     return records
 
-def list_all_objects(uci, expand=False):
+def list_objects(uci, include_domain_sets=True, singleton_only=False, expand=False):
     """
-    Get all objects from objects, dhcp, and users config
+    Get objects from objects, dhcp, and users config
 
     Args:
         uci: EUci pointer
@@ -758,17 +758,20 @@ def list_all_objects(uci, expand=False):
     hsets = []
     dsets = []
     for h in list_host_sets(uci, False):
+        if singleton_only and not h['singleton']:
+            continue
         h['type'] = 'host_set'
         if not expand:
             del[h['ipaddr']]
         hsets.append(h)
 
-    for d in list_domain_sets(uci, False):
-        d['type'] = 'domain_set'
-        if not expand:
-            del[d['domain']]
-            del[d['timeout']]
-        dsets.append(d)
+    if include_domain_sets:
+        for d in list_domain_sets(uci, False):
+            d['type'] = 'domain_set'
+            if not expand:
+                del[d['domain']]
+                del[d['timeout']]
+            dsets.append(d)
     vpn_users = list_vpn_users(uci, expand)
     dhcp_static_leases = list_dhcp_static_leases(uci, expand)
     dns_records = list_dns_records(uci, expand)
