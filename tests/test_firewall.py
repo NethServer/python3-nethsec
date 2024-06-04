@@ -1099,5 +1099,5 @@ def test_update_firewall_rules(u):
         u.get("firewall", "r4", "ns_dst")
 
 def test_list_object_suggestions(u):
-    obj = firewall.list_object_suggestions(u)
+    obj = objects.list_objects(u)
     assert len(obj) == 9

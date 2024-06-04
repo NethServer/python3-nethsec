@@ -333,10 +333,10 @@ def test_list_dhcp_static_leases(u):
     for l in leases:
         assert 'ipaddr' in l
 
-def test_list_all_objects(u):
-    objs = objects.list_all_objects(u)
+def test_list_objects(u):
+    objs = objects.list_objects(u)
     assert len(objs) == len(objects.list_domain_sets(u)) + len(objects.list_host_sets(u)) + len(objects.list_vpn_users(u)) + len(objects.list_dhcp_static_leases(u)) + len(objects.list_dns_records(u))
-    objs = objects.list_all_objects(u, True)
+    objs = objects.list_objects(u, expand=True)
     for o in objs:
         if o['type'] == 'host_set':
             assert 'ipaddr' in o
@@ -348,4 +348,12 @@ def test_list_all_objects(u):
             assert 'ipaddr' in o
         elif o['type'] == 'dns_record':
             assert 'ipaddr' in o
+    objs = objects.list_objects(u, include_domain_sets=False)
+    for o in objs:
+        assert o['type'] != 'domain_set'
+    objs = objects.list_objects(u, singleton_only=True)
+    for o in objs:
+        if o['type'] == 'host_set':
+            assert o['singleton']
+
  
