@@ -193,7 +193,7 @@ def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
         # get_id add 3 more chars (ns_) to the name
         raise ValidationError('name', 'length_15_max', name)
     # generate policy name
-    policy_config_name = utils.get_id(name.lower())
+    policy_config_name = utils.get_id(name.lower(), 15)
     #  test length of policy name
     # make sure name is not something that already exists
     if e_uci.get('mwan3', policy_config_name, default=None) is not None:
