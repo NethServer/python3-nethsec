@@ -283,7 +283,7 @@ def test_policy_length(e_uci, mocker):
             }
         ])
     assert e.value.args[0] == 'name'
-    assert e.value.args[1] == 'length'
+    assert e.value.args[1] == 'length_15_max'
 
 def test_store_rule(e_uci, mocker):
     mocker.patch('subprocess.run')
@@ -294,17 +294,17 @@ def test_store_rule(e_uci, mocker):
             'weight': '100',
         }
     ])
-    assert mwan.store_rule(e_uci, 'additional rule', 'ns_default', 'udp', '192.168.1.1/24', '1:1024', '10.0.0.2/12',
-                           '22,443') == 'mwan3.ns_additional_r'
-    assert e_uci.get('mwan3', 'ns_additional_r') == 'rule'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'label') == 'additional rule'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'use_policy') == 'ns_default'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'proto') == 'udp'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'src_ip') == '192.168.1.1/24'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'src_port') == '1:1024'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'dest_ip') == '10.0.0.2/12'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'dest_port') == '22,443'
-    assert e_uci.get('mwan3', 'ns_additional_r', 'sticky') == '0'
+    assert mwan.store_rule(e_uci, 'rule 1', 'ns_default', 'udp', '192.168.1.1/24', '1:1024', '10.0.0.2/12',
+                           '22,443') == 'mwan3.ns_rule_1'
+    assert e_uci.get('mwan3', 'ns_rule_1') == 'rule'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'label') == 'rule 1'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'use_policy') == 'ns_default'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'proto') == 'udp'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'src_ip') == '192.168.1.1/24'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'src_port') == '1:1024'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'dest_ip') == '10.0.0.2/12'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'dest_port') == '22,443'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'sticky') == '0'
 
 
 def test_unique_rule(e_uci, mocker):
@@ -317,8 +317,8 @@ def test_unique_rule(e_uci, mocker):
         }
     ])
     with pytest.raises(ValidationError) as e:
-        mwan.store_rule(e_uci, 'additional rule', 'ns_default')
-        mwan.store_rule(e_uci, 'additional rule', 'ns_default')
+        mwan.store_rule(e_uci, 'rule 1', 'ns_default')
+        mwan.store_rule(e_uci, 'rule 1', 'ns_default')
 
     assert e.value.args[0] == 'name'
     assert e.value.args[1] == 'unique'
@@ -335,7 +335,8 @@ def test_rule_length(e_uci, mocker):
     with pytest.raises(ValidationError) as e:
         mwan.store_rule(e_uci, 'nameisa15maxlength', 'ns_default')
     assert e.value.args[0] == 'name'
-    assert e.value.args[1] == 'length'
+    assert e.value.args[1] == 'length_15_max'
+
 
 def test_missing_policy_rule(e_uci):
     with pytest.raises(ValidationError) as e:
@@ -422,7 +423,7 @@ def test_index_rules(e_uci, mocker):
             'weight': '100',
         }
     ])
-    mwan.store_rule(e_uci, 'additional rule', 'ns_default')
+    mwan.store_rule(e_uci, 'rule 1', 'ns_default')
     index = mwan.index_rules(e_uci)
     assert index[0] == {
         'name': 'ns_default_rule',
@@ -433,8 +434,8 @@ def test_index_rules(e_uci, mocker):
         }
     }
     assert index[1] == {
-        'name': 'ns_additional_r',
-        'label': 'additional rule',
+        'name': 'ns_rule_1',
+        'label': 'rule 1',
         'policy': {
             'name': 'ns_default',
             'label': 'default',
@@ -456,9 +457,9 @@ def test_delete_rule(e_uci, mocker):
             'weight': '100',
         }
     ])
-    mwan.store_rule(e_uci, 'additional rule', 'ns_default')
-    assert mwan.delete_rule(e_uci, 'ns_additional_r') == 'mwan3.ns_additional_r'
-    assert 'ns_additional_r' not in e_uci.get_all('mwan3').keys()
+    mwan.store_rule(e_uci, 'rule 1', 'ns_default')
+    assert mwan.delete_rule(e_uci, 'ns_rule_1') == 'mwan3.ns_rule_1'
+    assert 'ns_rule_1' not in e_uci.get_all('mwan3').keys()
 
 
 def test_edit_rule(e_uci, mocker):
