@@ -283,7 +283,7 @@ def test_policy_length(e_uci, mocker):
             }
         ])
     assert e.value.args[0] == 'name'
-    assert e.value.args[1] == 'length_15_max'
+    assert e.value.args[1] == 'length_12_max'
 
 def test_store_rule(e_uci, mocker):
     mocker.patch('subprocess.run')
@@ -335,7 +335,7 @@ def test_rule_length(e_uci, mocker):
     with pytest.raises(ValidationError) as e:
         mwan.store_rule(e_uci, 'nameisa15maxlength', 'ns_default')
     assert e.value.args[0] == 'name'
-    assert e.value.args[1] == 'length_15_max'
+    assert e.value.args[1] == 'length_12_max'
 
 
 def test_missing_policy_rule(e_uci):
