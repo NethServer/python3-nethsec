@@ -143,10 +143,10 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
     Raises:
         ValidationError if name is not unique, policy is not valid or length get_id > 15
     """
-    # check if the rule length  is not more than 15 characters
+    # check if the rule length  is not more than 15 characters: 12 from user and 3 from get_id prefix
     if len(name) > 12:
         # get_id add 3 more chars (ns_) to the name
-        raise ValidationError('name', 'length_15_max', name)
+        raise ValidationError('name', 'length_12_max', name)
     rule_config_name = utils.get_id(name.lower(), 15)
     rules = utils.get_all_by_type(e_uci, 'mwan3', 'rule').keys()
     if e_uci.get('mwan3', rule_config_name, default=None) is not None:
@@ -191,7 +191,7 @@ def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
     changed_config = []
     if len(name) > 12:
         # get_id add 3 more chars (ns_) to the name
-        raise ValidationError('name', 'length_15_max', name)
+        raise ValidationError('name', 'length_12_max', name)
     # generate policy name
     policy_config_name = utils.get_id(name.lower(), 15)
     #  test length of policy name
