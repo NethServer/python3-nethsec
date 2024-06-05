@@ -147,6 +147,8 @@ def get_interface_from_device(uci, device):
                 continue
             if proto == 'bonding' and section == device:
                 return section
+            if proto == 'pppoe' and section == device.removeprefix('pppoe-'):
+                return section
             try:
                 sdevice = uci.get("network", section, 'device')
             except:
