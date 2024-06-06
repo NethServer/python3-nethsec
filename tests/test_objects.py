@@ -352,8 +352,9 @@ def test_list_objects(u):
     for o in objs:
         assert o['type'] != 'domain_set'
     objs = objects.list_objects(u, singleton_only=True)
+    print(objs)
     for o in objs:
         if o['type'] == 'host_set':
             assert o['singleton']
-
+            assert o['subtype']
  
