@@ -337,7 +337,7 @@ def test_store_rule(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_rule_1', 'sticky') == '1'
 
     domain_id = objects.add_domain_set(e_uci, "mydomainset6", "ipv4", ["test1.com", "test2.com"])
-    id = mwan.store_rule(e_uci, 'rule_with_obj', 'ns_default', 'udp', ns_src="dhcp/ns_host_mwan", ns_dst=f"objects/{domain_id}")
+    id = mwan.store_rule(e_uci, 'r_with_obj', 'ns_default', 'udp', ns_src="dhcp/ns_host_mwan", ns_dst=f"objects/{domain_id}")
     id = id.split('.')[1]
     assert e_uci.get('mwan3', id, 'ns_src') == "dhcp/ns_host_mwan"
     assert e_uci.get('mwan3', id, 'ns_dst') == f"objects/{domain_id}"
@@ -594,7 +594,7 @@ def test_update_rules(e_uci, mocker):
         }
     ])
     domain_id = objects.add_domain_set(e_uci, "mydomainset7", "ipv4", ["test1.com", "test2.com"])
-    id = mwan.store_rule(e_uci, 'rule_with_obj', 'ns_cool_policy', 'udp', ns_src="dhcp/ns_domain_mwan", ns_dst=f"objects/{domain_id}")
+    id = mwan.store_rule(e_uci, 'r_with_obj', 'ns_cool_policy', 'udp', ns_src="dhcp/ns_domain_mwan", ns_dst=f"objects/{domain_id}")
     id = id.split('.')[1]
     ipsets = objects.get_domain_set_ipsets(e_uci, domain_id)
     mwan.update_rules(e_uci)
