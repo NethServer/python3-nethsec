@@ -548,6 +548,15 @@ def list_host_sets(uci, used_info = True) -> list:
             rule = uci.get_all('objects', section)
             rule['id'] = section
             rule['singleton'] = is_singleton_host_set(uci, f'objects/{section}')
+            if rule['singleton']:
+                # set subtype to CIDR, range or host
+                ip = get_object_ip(uci, f'objects/{section}')
+                if '/' in ip:
+                    rule['subtype'] = 'cidr'
+                elif '-' in ip:
+                    rule['subtype'] = 'range'
+                else:
+                    rule['subtype'] = 'host'
             if used_info:
                 used, matches = is_used_host_set(uci, section)
                 rule['used'] = used
