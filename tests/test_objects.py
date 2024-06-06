@@ -352,9 +352,15 @@ def test_list_objects(u):
     for o in objs:
         assert o['type'] != 'domain_set'
     objs = objects.list_objects(u, singleton_only=True)
-    print(objs)
     for o in objs:
         if o['type'] == 'host_set':
             assert o['singleton']
             assert o['subtype']
+
+def test_get_reference_info(u):
+    ref = objects.get_info(u, "dhcp/ns_8dcab636")
+    assert ref['type'] == 'host'
+    assert ref['name'] == 'host2'
+    assert ref['id'] == 'ns_8dcab636'
+    assert objects.get_info(u, "unknown") == None
  
