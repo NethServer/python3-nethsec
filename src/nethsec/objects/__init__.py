@@ -785,3 +785,31 @@ def list_objects(uci, include_domain_sets=True, singleton_only=False, expand=Fal
     dhcp_static_leases = list_dhcp_static_leases(uci, expand)
     dns_records = list_dns_records(uci, expand)
     return hsets + dsets + vpn_users + dhcp_static_leases + dns_records
+
+def get_info(uci, database_id):
+    """
+    Get the info of the object.
+
+    Args:
+        uci: EUci pointer
+        database_id: id of the object in the form of `<database>/<id>`
+
+    Returns:
+        a dictionary with the following fields:
+        - `database`: the database of the object
+        - `id`: the id of the object
+        - `name`: the name of the object
+        - `type`: the type of the object
+    """
+    try:
+        database, id = database_id.split('/')
+        type = uci.get(database, id)
+        name = uci.get(database, id, 'name', default=None)
+        if not name:
+            name = uci.get(database, id, 'label', default=None)
+            if not name:
+                name = id
+        return {'database': database, 'id': id, 'name': name, 'type': type}
+    except:
+        return None
+        
