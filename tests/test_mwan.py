@@ -295,7 +295,7 @@ def test_store_rule(e_uci, mocker):
         }
     ])
     assert mwan.store_rule(e_uci, 'rule 1', 'ns_default', 'udp', '192.168.1.1/24', '1:1024', '10.0.0.2/12',
-                           '22,443') == 'mwan3.ns_rule_1'
+                           '22,443', True) == 'mwan3.ns_rule_1'
     assert e_uci.get('mwan3', 'ns_rule_1') == 'rule'
     assert e_uci.get('mwan3', 'ns_rule_1', 'label') == 'rule 1'
     assert e_uci.get('mwan3', 'ns_rule_1', 'use_policy') == 'ns_default'
@@ -304,7 +304,7 @@ def test_store_rule(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_rule_1', 'src_port') == '1:1024'
     assert e_uci.get('mwan3', 'ns_rule_1', 'dest_ip') == '10.0.0.2/12'
     assert e_uci.get('mwan3', 'ns_rule_1', 'dest_port') == '22,443'
-    assert e_uci.get('mwan3', 'ns_rule_1', 'sticky') == '0'
+    assert e_uci.get('mwan3', 'ns_rule_1', 'sticky') == '1'
 
 
 def test_unique_rule(e_uci, mocker):
@@ -431,7 +431,8 @@ def test_index_rules(e_uci, mocker):
         'policy': {
             'name': 'ns_default',
             'label': 'default',
-        }
+        },
+        "sticky": False,
     }
     assert index[1] == {
         'name': 'ns_rule_1',
@@ -439,7 +440,8 @@ def test_index_rules(e_uci, mocker):
         'policy': {
             'name': 'ns_default',
             'label': 'default',
-        }
+        },
+        "sticky": False,
     }
 
 
