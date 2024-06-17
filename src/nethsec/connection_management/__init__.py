@@ -18,7 +18,7 @@ def __parse_meta_connection_tag(meta: Element) -> dict:
     """
     From a meta tag, extract the connection information.
     Args:
-     - meta: ElementTree.Element with the meta tag.
+        - meta: ElementTree.Element with the meta tag.
 
     Returns: dictionary with the connection information.
     """
@@ -78,8 +78,7 @@ def __parse_connection_info(flow: Element) -> dict:
 def list_connections():
     """
     List all network connections.
-    Returns:
-        dict of applications and their connections.
+    Returns: dict of applications and their connections.
     """
     result = subprocess.run(["conntrack", "-L", "-o", "xml"], capture_output=True, text=True)
     root = ElementTree.fromstring(result.stdout)
@@ -91,3 +90,48 @@ def list_connections():
         result.append(__parse_connection_info(flow))
 
     return result
+
+
+def drop_connection(connection_id: str):
+    """
+    Drop a connection by its id.
+    Args:
+        - id: id of the connection to drop.
+    Raises:
+        - ValueError: if the connection with the given id is not found.
+        - RuntimeError: if the connection could not be dropped.
+    """
+    connections = list(filter(lambda x: x['id'] == connection_id, list_connections()))
+    if len(connections) <= 0:
+        raise ValueError(f"Connection with id {connection_id} not found.")
+
+    connection = connections[0]
+    process_commands = [
+        'conntrack',
+        '-D',
+        '-p',
+        connection['protocol'],
+        '-s',
+        connection['source'],
+        '-d',
+        connection['destination']
+    ]
+    if connection['protocol'] not in ['icmp', 'gre']:
+        process_commands.extend(['--sport', connection['source_port'], '--dport', connection['destination_port']])
+
+    try:
+        subprocess.run(process_commands, check=True, capture_output=True)
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Error running command: {e}")
+
+
+def drop_all_connections():
+    """
+    Flush all connections.
+    Raises:
+        - RuntimeError: if command failed to execute.
+    """
+    try:
+        subprocess.run(['conntrack', '-F'], check=True, capture_output=True)
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Error running command: {e}")

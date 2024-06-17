@@ -1,5 +1,7 @@
+from subprocess import CalledProcessError
 from xml.etree import ElementTree
 
+import pytest
 from pytest_mock import MockFixture
 
 from nethsec import connection_management
@@ -317,3 +319,52 @@ def test_fetch_connection_list(mocker: MockFixture):
     assert 'download' in result[0]
     assert 'upload' in result[0]
     assert 'wan' in result[0]
+
+
+def test_drop_connection(mocker: MockFixture):
+    connections_list = [
+        {
+            'protocol': 'udp',
+            'source': '10.20.30.40',
+            'destination': '1.1.1.1',
+            'source_port': '123',
+            'destination_port': '456',
+            'id': '1234'
+        },
+        {
+            'protocol': 'icmp',
+            'source': '1.1.1.1',
+            'destination': '127.0.0.1',
+            'id': '5678'
+        }
+    ]
+    mocker.patch('nethsec.connection_management.list_connections', return_value=connections_list)
+    command_line = mocker.patch('subprocess.run')
+    connection_management.drop_connection('1234')
+    command_line.assert_called_with([
+        'conntrack', '-D', '-p', 'udp', '-s', '10.20.30.40', '-d', '1.1.1.1', '--sport', '123', '--dport', '456'
+    ], check=True, capture_output=True)
+    connection_management.drop_connection('5678')
+    command_line.assert_called_with([
+        'conntrack', '-D', '-p', 'icmp', '-s', '1.1.1.1', '-d', '127.0.0.1'
+    ], check=True, capture_output=True)
+    with pytest.raises(ValueError) as e:
+        connection_management.drop_connection('9999')
+
+    assert e.value.args[0] == "Connection with id 9999 not found."
+    with pytest.raises(RuntimeError) as e:
+        mocker.patch('subprocess.run', side_effect=CalledProcessError(1, 'conntrack'))
+        connection_management.drop_connection('1234')
+
+    assert e.value.args[0].startswith("Error running command:")
+
+
+def test_drop_all_connections(mocker: MockFixture):
+    command_line = mocker.patch('subprocess.run')
+    connection_management.drop_all_connections()
+    command_line.assert_called_with(['conntrack', '-F'], check=True, capture_output=True)
+    with pytest.raises(RuntimeError) as e:
+        mocker.patch('subprocess.run', side_effect=CalledProcessError(1, 'conntrack'))
+        connection_management.drop_all_connections()
+
+    assert e.value.args[0].startswith("Error running command:")
