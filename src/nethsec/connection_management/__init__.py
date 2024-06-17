@@ -17,10 +17,12 @@ from xml.etree.ElementTree import Element
 def __parse_meta_connection_tag(meta: Element) -> dict:
     """
     From a meta tag, extract the connection information.
-    Args:
-        - meta: ElementTree.Element with the meta tag.
 
-    Returns: dictionary with the connection information.
+    Args:
+     - meta: ElementTree.Element with the meta tag.
+
+    Returns:
+        dictionary with the connection information.
     """
     result = {}
     layer3 = meta.find('layer3')
@@ -40,6 +42,15 @@ def __parse_meta_connection_tag(meta: Element) -> dict:
 
 
 def __parse_connection_info(flow: Element) -> dict:
+    """
+    Parse the connection information from a flow tag.
+
+    Args:
+     - flow: ElementTree.Element with the flow tag.
+
+    Returns:
+        dictionary with the connection information.
+    """
     result = {}
     # expand meta tags
     for child in flow.findall('meta'):
@@ -78,7 +89,9 @@ def __parse_connection_info(flow: Element) -> dict:
 def list_connections():
     """
     List all network connections.
-    Returns: dict of applications and their connections.
+
+    Returns:
+        dict of applications and their connections.
     """
     result = subprocess.run(["conntrack", "-L", "-o", "xml"], capture_output=True, text=True)
     root = ElementTree.fromstring(result.stdout)
@@ -95,11 +108,13 @@ def list_connections():
 def drop_connection(connection_id: str):
     """
     Drop a connection by its id.
+
     Args:
-        - id: id of the connection to drop.
+     - connection_id: id of the connection to drop.
+
     Raises:
-        - ValueError: if the connection with the given id is not found.
-        - RuntimeError: if the connection could not be dropped.
+     - ValueError: if the connection with the given id is not found.
+     - RuntimeError: if the connection could not be dropped.
     """
     connections = list(filter(lambda x: x['id'] == connection_id, list_connections()))
     if len(connections) <= 0:
@@ -128,8 +143,9 @@ def drop_connection(connection_id: str):
 def drop_all_connections():
     """
     Flush all connections.
+
     Raises:
-        - RuntimeError: if command failed to execute.
+     - RuntimeError: if command failed to execute.
     """
     try:
         subprocess.run(['conntrack', '-F'], check=True, capture_output=True)
