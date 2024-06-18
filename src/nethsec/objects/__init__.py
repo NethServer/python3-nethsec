@@ -403,20 +403,20 @@ def _validate_host_set_ipaddr_v4(ipaddr: str):
         # validate CIDR
         try:
             ipaddress.IPv4Network(ipaddr)
-        except ipaddress.AddressValueError:
+        except:
             raise utils.ValidationError('ipaddr', 'invalid_ipaddr', ipaddr)
     elif '-' in ipaddr:
         start, end = ipaddr.split('-')
         try:
             ipaddress.IPv4Address(start)
             ipaddress.IPv4Address(end)
-        except ipaddress.AddressValueError:
+        except:
             raise utils.ValidationError('ipaddr', 'invalid_ipaddr', ipaddr)
     else:
         # validate IPv4
         try:
             ipaddress.IPv4Address(ipaddr)
-        except ipaddress.AddressValueError:
+        except:
             raise utils.ValidationError('ipaddr', 'invalid_ipaddr', ipaddr)
     return True
 
@@ -425,20 +425,20 @@ def _validate_host_set_ipaddr_v6(ipaddr: str):
         # validate CIDR
         try:
             ipaddress.IPv6Network(ipaddr)
-        except ipaddress.AddressValueError:
+        except:
             raise utils.ValidationError('ipaddr', 'invalid_ipaddr', ipaddr)
     elif '-' in ipaddr:
         start, end = ipaddr.split('-')
         try:
             ipaddress.IPv6Address(start)
             ipaddress.IPv6Address(end)
-        except ipaddress.AddressValueError:
+        except:
             raise utils.ValidationError('ipaddr', 'invalid_ipaddr', ipaddr)
     else:
         # validate IPv6
         try:
             ipaddress.IPv6Address(ipaddr)
-        except ipaddress.AddressValueError:
+        except:
             raise utils.ValidationError('ipaddr', 'invalid_ipaddr', ipaddr)
     return True
 
