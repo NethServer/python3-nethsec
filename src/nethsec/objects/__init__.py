@@ -557,6 +557,8 @@ def list_host_sets(uci, used_info = True) -> list:
                     rule['subtype'] = 'range'
                 else:
                     rule['subtype'] = 'host'
+            else:
+                rule['subtype'] = 'host_set'
             if used_info:
                 used, matches = is_used_host_set(uci, section)
                 rule['used'] = used
@@ -678,13 +680,14 @@ def is_vpn_user(uci, database_id):
 # - `family`: the family of the object (optional)
 # If expand flag is set to True, the list should contain all IP addresses of the object
 
-def list_vpn_users(uci, expand=False):
+def list_vpn_users(uci, expand=False, used_info=False):
     """
     Get all VPN users from users config
 
     Args:
         uci: EUci pointer
         expand: expand the list with all IP addresses of the object
+        used_info: include used and matches info
 
     Returns:
         a list of all VPN users
@@ -697,19 +700,25 @@ def list_vpn_users(uci, expand=False):
             user['id'] = f"users/{section}"
             user['name'] = obj.get('name')
             user['type'] = 'vpn_user'
+            user['subtype'] = 'vpn_user'
             user['family'] = 'ipv4'
             if expand:
                 user['ipaddr'] = [obj.get('openvpn_ipaddr')]
+            if used_info:
+                used, matches = is_used_object(uci, f'users/{section}')
+                user['used'] = used
+                user['matches'] = matches
             users.append(user)
     return users
 
-def list_dhcp_static_leases(uci, expand=False):
+def list_dhcp_static_leases(uci, expand=False, used_info=False):
     """
     Get all DHCP static leases from dhcp config
 
     Args:
         uci: EUci pointer
         expand: expand the list with all IP addresses of the object
+        used_info: include used and matches info
 
     Returns:
         a list of all DHCP static leases
@@ -722,19 +731,25 @@ def list_dhcp_static_leases(uci, expand=False):
             lease['id'] = f"dhcp/{section}"
             lease['name'] = obj.get('name')
             lease['type'] = 'dhcp_static_lease'
+            lease['subtype'] = 'dhcp_static_lease'
             lease['family'] = 'ipv4'
             if expand:
                 lease['ipaddr'] = [obj.get('ip')]
+            if used_info:
+                used, matches = is_used_object(uci, f'dhcp/{section}')
+                lease['used'] = used
+                lease['matches'] = matches
             leases.append(lease)
     return leases
 
-def list_dns_records(uci, expand=False):
+def list_dns_records(uci, expand=False, used_info=False):
     """
     Get all DNS records from dhcp config
 
     Args:
         uci: EUci pointer
         expand: expand the list with all IP addresses of the object
+        used_info: include used and matches info
 
     Returns:
         a list of all DNS records
@@ -747,9 +762,14 @@ def list_dns_records(uci, expand=False):
             record['id'] = f"dhcp/{section}"
             record['name'] = obj.get('name')
             record['type'] = 'dns_record'
+            record['subtype'] = 'dns_record'
             record['family'] = 'ipv4'
             if expand:
                 record['ipaddr'] = [obj.get('ip')]
+            if used_info:
+                used, matches = is_used_object(uci, f'dhcp/{section}')
+                record['used'] = used
+                record['matches'] = matches
             records.append(record)
     return records
 
@@ -766,24 +786,27 @@ def list_objects(uci, include_domain_sets=True, singleton_only=False, expand=Fal
     """
     hsets = []
     dsets = []
-    for h in list_host_sets(uci, False):
+    for h in list_host_sets(uci, True):
         if singleton_only and not h['singleton']:
             continue
+        h['id'] = f"objects/{h['id']}"
         h['type'] = 'host_set'
         if not expand:
             del[h['ipaddr']]
         hsets.append(h)
 
     if include_domain_sets:
-        for d in list_domain_sets(uci, False):
+        for d in list_domain_sets(uci, True):
+            d['id'] = f"objects/{d['id']}"
             d['type'] = 'domain_set'
+            d['subtype'] = 'domain_set'
             if not expand:
                 del[d['domain']]
                 del[d['timeout']]
             dsets.append(d)
-    vpn_users = list_vpn_users(uci, expand)
-    dhcp_static_leases = list_dhcp_static_leases(uci, expand)
-    dns_records = list_dns_records(uci, expand)
+    vpn_users = list_vpn_users(uci, expand, True)
+    dhcp_static_leases = list_dhcp_static_leases(uci, expand, True)
+    dns_records = list_dns_records(uci, expand, True)
     return hsets + dsets + vpn_users + dhcp_static_leases + dns_records
 
 def get_info(uci, database_id):
