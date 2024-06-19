@@ -376,7 +376,7 @@ def _has_loop(uci, id, ipaddr, depth=0):
             return True
         obj = get_object(uci, ipaddr)
         if obj:
-            for ip in obj.get('ipaddr'):
+            for ip in obj.get('ipaddr', []):
                 if _has_loop(uci, id, ip, depth + 1):
                     return True
     return False
@@ -390,8 +390,7 @@ def _validate_host_set_ipaddr(uci, id, ipaddr: str, family: str):
                 # check loop
                 if _has_loop(uci, id, ipaddr):
                     raise utils.ValidationError('ipaddr', 'loop_detected', ipaddr)
-            else:
-                return # validation is ok
+        return # validation is ok
 
     if family == 'ipv4':
         return _validate_host_set_ipaddr_v4(ipaddr)
