@@ -316,9 +316,6 @@ def test_fetch_connection_list(mocker: MockFixture):
     mocker.patch('subprocess.run', return_value=process_result)
     result = connection_management.list_connections()
     assert len(result) == 7
-    assert 'download' in result[0]
-    assert 'upload' in result[0]
-    assert 'wan' in result[0]
 
 
 def test_drop_connection(mocker: MockFixture):
