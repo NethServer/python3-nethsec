@@ -166,11 +166,11 @@ def store_rule(e_uci: EUci, name: str, policy: str, protocol: str = None,
     if source_address is not None:
         e_uci.set('mwan3', rule_config_name, 'src_ip', source_address)
     if source_port is not None:
-        e_uci.set('mwan3', rule_config_name, 'src_port', source_port)
+        e_uci.set('mwan3', rule_config_name, 'src_port', source_port.replace('-', ':'))
     if destination_address is not None:
         e_uci.set('mwan3', rule_config_name, 'dest_ip', destination_address)
     if destination_port is not None:
-        e_uci.set('mwan3', rule_config_name, 'dest_port', destination_port)
+        e_uci.set('mwan3', rule_config_name, 'dest_port', destination_port.replace('-', ':'))
 
     e_uci.save('mwan3')
     order_rules(e_uci, [rule_config_name] + list(rules))
@@ -419,11 +419,11 @@ def index_rules(e_uci: EUci) -> list[dict]:
         if 'src_ip' in rule_value:
             rule_data['source_address'] = rule_value['src_ip']
         if 'src_port' in rule_value:
-            rule_data['source_port'] = rule_value['src_port']
+            rule_data['source_port'] = rule_value['src_port'].replace(':', '-')
         if 'dest_ip' in rule_value:
             rule_data['destination_address'] = rule_value['dest_ip']
         if 'dest_port' in rule_value:
-            rule_data['destination_port'] = rule_value['dest_port']
+            rule_data['destination_port'] = rule_value['dest_port'].replace(':', '-')
         if 'sticky' in rule_value:
             rule_data['sticky'] = rule_value['sticky'] == '1'
 
@@ -530,9 +530,9 @@ def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = N
             e_uci.delete('mwan3', name, 'dest_port')
         else:
             if destination_port is not None:
-                e_uci.set('mwan3', name, 'dest_port', destination_port)
+                e_uci.set('mwan3', name, 'dest_port', destination_port.replace('-', ':'))
             if source_port is not None:
-                e_uci.set('mwan3', name, 'src_port', source_port)
+                e_uci.set('mwan3', name, 'src_port', source_port.replace('-', ':'))
     if source_address is not None:
         e_uci.set('mwan3', name, 'src_ip', source_address)
     if destination_address is not None:

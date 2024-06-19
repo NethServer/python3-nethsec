@@ -294,7 +294,7 @@ def test_store_rule(e_uci, mocker):
             'weight': '100',
         }
     ])
-    assert mwan.store_rule(e_uci, 'rule 1', 'ns_default', 'udp', '192.168.1.1/24', '1:1024', '10.0.0.2/12',
+    assert mwan.store_rule(e_uci, 'rule 1', 'ns_default', 'udp', '192.168.1.1/24', '1-1024', '10.0.0.2/12',
                            '22,443', True) == 'mwan3.ns_rule_1'
     assert e_uci.get('mwan3', 'ns_rule_1') == 'rule'
     assert e_uci.get('mwan3', 'ns_rule_1', 'label') == 'rule 1'
@@ -305,7 +305,6 @@ def test_store_rule(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_rule_1', 'dest_ip') == '10.0.0.2/12'
     assert e_uci.get('mwan3', 'ns_rule_1', 'dest_port') == '22,443'
     assert e_uci.get('mwan3', 'ns_rule_1', 'sticky') == '1'
-
 
 def test_unique_rule(e_uci, mocker):
     mocker.patch('subprocess.run')
@@ -498,7 +497,7 @@ def test_edit_rule(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_default_rule', 'src_ip') == '192.168.10.1/12'
     assert e_uci.get('mwan3', 'ns_default_rule', 'src_port') == '80,443'
     assert e_uci.get('mwan3', 'ns_default_rule', 'dest_ip') == '0.0.0.0/0'
-    assert e_uci.get('mwan3', 'ns_default_rule', 'dest_port') == '4040-8080'
+    assert e_uci.get('mwan3', 'ns_default_rule', 'dest_port') == '4040:8080'
 
 
 def test_cant_edit_invalid_rule(e_uci, mocker):
