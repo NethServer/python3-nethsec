@@ -468,7 +468,7 @@ def add_local_user(uci, name, password="", description="", database="main", extr
     uci.save("users")
     return id
 
-def edit_local_user(uci, name, password="", description="", database="main", extra_fields={}):
+def edit_local_user(uci, name, password="", description=None, database="main", extra_fields={}):
     '''
     Edit an existing local user
 
@@ -476,7 +476,7 @@ def edit_local_user(uci, name, password="", description="", database="main", ext
       - uci -- EUci pointer
       - name -- User name
       - password -- User password
-      - description -- User description (default: "")
+      - description -- User description (default: None)
       - database -- Local database identifier (default: main)
       - extra_fields -- Extra fields to add to the user (default: {})
 
@@ -497,7 +497,8 @@ def edit_local_user(uci, name, password="", description="", database="main", ext
               if uci.get('rpcd', l, 'username', default='') == name:
                   uci.set('rpcd', l, 'password', shadow)
                   uci.save("rpcd")
-    uci.set('users', user["id"], 'description', description)
+    if description is not None:
+        uci.set('users', user["id"], 'description', description)
     for key in uci.get_all('users', user["id"]):
         if not key in ["name", "description", "password", "database"]:
             uci.delete('users', user["id"], key)
