@@ -318,7 +318,7 @@ def test_add_local_user(tmp_path):
 
 def test_edit_local_user(tmp_path):
     u = _setup_db(tmp_path)
-    id = users.edit_local_user(u, "t1", password="pass2", description="mydesc2", database="second", extra_fields={"openvpn_ipaddr": "1.2.3.5", "openvpn_enabled": "1"})
+    id = users.edit_local_user(u, "t1", password="pass2", description='mydesc2', database="second", extra_fields={"openvpn_ipaddr": "1.2.3.5", "openvpn_enabled": "1"})
     user = users.get_user_by_name(u, "t1", "second")
     assert users.check_password("pass2", user.pop("password"))
     assert user == {
@@ -331,7 +331,10 @@ def test_edit_local_user(tmp_path):
         "openvpn_ipaddr": "1.2.3.5",
         "openvpn_enabled": "1"
     }
-    id = users.edit_local_user(u, "t1", password="pass2", description="mydesc2", database="second", extra_fields={"openvpn_enabled": "1"})
+    # make sure description is not changed if not passed as parameter
+    id = users.edit_local_user(u, "t1", password="pass2", database="second", extra_fields={"openvpn_ipaddr": "1.2.3.5", "openvpn_enabled": "1"})
+    assert u.get('users', id, 'description') == 'mydesc2'
+    id = users.edit_local_user(u, "t1", password="pass2",  database="second", extra_fields={"openvpn_enabled": "1"})
     with pytest.raises(UciExceptionNotFound) as e:
         assert u.get('users', id, 'openvpn_ipaddr')
 
