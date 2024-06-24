@@ -4,7 +4,7 @@ from xml.etree import ElementTree
 import pytest
 from pytest_mock import MockFixture
 
-from nethsec import connection_management
+from nethsec import conntrack
 
 conntrack_response = """<?xml version="1.0" encoding="utf-8"?>
 <conntrack>
@@ -264,7 +264,7 @@ conntrack_response = """<?xml version="1.0" encoding="utf-8"?>
 def test_parse_meta_tag():
     # get first meta tag in first flow
     meta_tag = ElementTree.fromstring(conntrack_response).find('flow/meta')
-    result = connection_management.__parse_meta_connection_tag(meta_tag)
+    result = conntrack.__parse_meta_connection_tag(meta_tag)
     assert result['src'] == '192.168.122.234'
     assert result['dest'] == '31.14.133.122'
     assert result['protocol'] == 'udp'
@@ -277,7 +277,7 @@ def test_parse_meta_tag():
 def test_parse_meta_tag_without_ports():
     # get the meta tag with the ICMP protocol
     meta_tag = ElementTree.fromstring(conntrack_response).findall('flow')[1][1]
-    result = connection_management.__parse_meta_connection_tag(meta_tag)
+    result = conntrack.__parse_meta_connection_tag(meta_tag)
     assert result['src'] == '192.168.122.155'
     assert result['dest'] == '192.168.122.1'
     assert result['protocol'] == 'icmp'
@@ -290,22 +290,22 @@ def test_parse_meta_tag_without_ports():
 def test_connection_info():
     # get the first flow
     flow = ElementTree.fromstring(conntrack_response).findall('flow')[0]
-    result = connection_management.__parse_connection_info(flow)
+    result = conntrack.__parse_connection_info(flow)
     original = flow[0]
     reply = flow[1]
-    assert result['source'] == connection_management.__parse_meta_connection_tag(original)['src']
-    assert result['destination'] == connection_management.__parse_meta_connection_tag(original)['dest']
-    assert result['protocol'] == connection_management.__parse_meta_connection_tag(original)['protocol']
-    assert result['source_port'] == connection_management.__parse_meta_connection_tag(original)['start_port']
-    assert result['destination_port'] == connection_management.__parse_meta_connection_tag(original)['end_port']
-    assert result['source_stats']['packets'] == connection_management.__parse_meta_connection_tag(original)['packets']
-    assert result['source_stats']['bytes'] == connection_management.__parse_meta_connection_tag(original)['bytes']
-    assert result['destination_stats']['packets'] == connection_management.__parse_meta_connection_tag(reply)['packets']
-    assert result['destination_stats']['bytes'] == connection_management.__parse_meta_connection_tag(reply)['bytes']
+    assert result['source'] == conntrack.__parse_meta_connection_tag(original)['src']
+    assert result['destination'] == conntrack.__parse_meta_connection_tag(original)['dest']
+    assert result['protocol'] == conntrack.__parse_meta_connection_tag(original)['protocol']
+    assert result['source_port'] == conntrack.__parse_meta_connection_tag(original)['start_port']
+    assert result['destination_port'] == conntrack.__parse_meta_connection_tag(original)['end_port']
+    assert result['source_stats']['packets'] == conntrack.__parse_meta_connection_tag(original)['packets']
+    assert result['source_stats']['bytes'] == conntrack.__parse_meta_connection_tag(original)['bytes']
+    assert result['destination_stats']['packets'] == conntrack.__parse_meta_connection_tag(reply)['packets']
+    assert result['destination_stats']['bytes'] == conntrack.__parse_meta_connection_tag(reply)['bytes']
     assert result['timeout'] == '47'
     assert result['id'] == '1905826093'
     flow = ElementTree.fromstring(conntrack_response).findall('flow')[1]
-    result = connection_management.__parse_connection_info(flow)
+    result = conntrack.__parse_connection_info(flow)
     assert 'source_port' not in result
     assert 'destination_port' not in result
 
@@ -314,7 +314,7 @@ def test_fetch_connection_list(mocker: MockFixture):
     process_result = mocker.stub('subprocess_return')
     process_result.stdout = conntrack_response
     mocker.patch('subprocess.run', return_value=process_result)
-    result = connection_management.list_connections()
+    result = conntrack.list_connections()
     assert len(result) == 7
 
 
@@ -335,33 +335,33 @@ def test_drop_connection(mocker: MockFixture):
             'id': '5678'
         }
     ]
-    mocker.patch('nethsec.connection_management.list_connections', return_value=connections_list)
+    mocker.patch('nethsec.conntrack.list_connections', return_value=connections_list)
     command_line = mocker.patch('subprocess.run')
-    connection_management.drop_connection('1234')
+    conntrack.drop_connection('1234')
     command_line.assert_called_with([
         'conntrack', '-D', '-p', 'udp', '-s', '10.20.30.40', '-d', '1.1.1.1', '--sport', '123', '--dport', '456'
     ], check=True, capture_output=True)
-    connection_management.drop_connection('5678')
+    conntrack.drop_connection('5678')
     command_line.assert_called_with([
         'conntrack', '-D', '-p', 'icmp', '-s', '1.1.1.1', '-d', '127.0.0.1'
     ], check=True, capture_output=True)
     with pytest.raises(ValueError) as e:
-        connection_management.drop_connection('9999')
+        conntrack.drop_connection('9999')
 
     assert e.value.args[0] == "Connection with id 9999 not found."
     with pytest.raises(RuntimeError) as e:
         mocker.patch('subprocess.run', side_effect=CalledProcessError(1, 'conntrack'))
-        connection_management.drop_connection('1234')
+        conntrack.drop_connection('1234')
 
     assert e.value.args[0].startswith("Error running command:")
 
 
 def test_drop_all_connections(mocker: MockFixture):
     command_line = mocker.patch('subprocess.run')
-    connection_management.drop_all_connections()
+    conntrack.drop_all_connections()
     command_line.assert_called_with(['conntrack', '-F'], check=True, capture_output=True)
     with pytest.raises(RuntimeError) as e:
         mocker.patch('subprocess.run', side_effect=CalledProcessError(1, 'conntrack'))
-        connection_management.drop_all_connections()
+        conntrack.drop_all_connections()
 
     assert e.value.args[0].startswith("Error running command:")
