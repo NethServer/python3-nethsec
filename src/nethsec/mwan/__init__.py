@@ -30,11 +30,11 @@ def __generate_metric(e_uci: EUci) -> int:
     Returns:
         first metric that is not present in interface_metrics
     """
-    next_metric = 0
+    next_metric = 20
     for interface in utils.get_all_by_type(e_uci, 'network', 'interface').values():
         if 'metric' in interface:
             next_metric = max(next_metric, int(interface['metric']))
-    return next_metric + 1
+    return next_metric + 10
 
 
 def __set_interface_defaults(e_uci: EUci, name: str):
