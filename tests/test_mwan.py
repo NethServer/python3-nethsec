@@ -524,3 +524,15 @@ def test_cant_edit_invalid_rule(e_uci, mocker):
     assert e.value.args[0] == 'policy'
     assert e.value.args[1] == 'invalid'
     assert e.value.args[2] == 'ns_cool_policy'
+
+
+def test_policy_type(e_uci, mocker):
+    mocker.patch('subprocess.run')
+    mwan.store_policy(e_uci, 'custom', [
+        {
+            'name': 'RED_3',
+            'metric': '10',
+            'weight': '200',
+        }
+    ])
+    assert mwan.index_policies(e_uci)[0]['type'] == 'custom'
