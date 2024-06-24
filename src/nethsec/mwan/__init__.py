@@ -287,7 +287,9 @@ def index_policies(e_uci: EUci) -> list[dict]:
 
         # infer policy type by metrics
         metrics = [int(member['metric']) for member in members]
-        if all(metric == metrics[0] for metric in metrics):
+        if len(metrics) == 1:
+            policy_data['type'] = 'custom'
+        elif all(metric == metrics[0] for metric in metrics):
             policy_data['type'] = 'balance'
         elif all(metrics.index(metric) == key for key, metric in enumerate(metrics)):
             policy_data['type'] = 'backup'
