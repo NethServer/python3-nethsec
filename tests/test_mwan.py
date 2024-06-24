@@ -114,8 +114,8 @@ def test_create_interface(e_uci):
     assert e_uci.get('mwan3', 'RED_1', 'down') == '5'
     assert e_uci.get('mwan3', 'RED_1', 'up') == '5'
     # assert interface has metric
-    assert e_uci.get('network', 'RED_1', 'metric') == '1'
-    assert e_uci.get('network', 'RED_2', 'metric') == '2'
+    assert e_uci.get('network', 'RED_1', 'metric') == '30'
+    assert e_uci.get('network', 'RED_2', 'metric') == '40'
     assert mwan.__store_interface(e_uci, 'RED_1') == (False, False)
 
 
@@ -174,12 +174,12 @@ def test_create_unique_mwan(e_uci, mocker):
 
 
 def test_metric_generation(e_uci):
-    assert mwan.__generate_metric(e_uci) == 1
+    assert mwan.__generate_metric(e_uci) == 30
     assert mwan.__store_interface(e_uci, 'RED_1') == (True, True)
-    assert mwan.__generate_metric(e_uci) == 2
-    assert mwan.__generate_metric(e_uci) == 2
+    assert mwan.__generate_metric(e_uci) == 40
+    assert mwan.__generate_metric(e_uci) == 40
     assert mwan.__store_interface(e_uci, 'RED_2') == (True, True)
-    assert mwan.__generate_metric(e_uci) == 3
+    assert mwan.__generate_metric(e_uci) == 50
 
 
 def test_list_policies(e_uci, mocker):
