@@ -225,7 +225,7 @@ def list_users(uci, database='main'):
 
     return users
 
-def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None):
+def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None, user_bind_dn=None):
   '''
   Add a new LDAP database
 
@@ -243,6 +243,7 @@ def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_
     - description -- Database description (default: "")
     - bind_dn -- LDAP bind DN
     - bind_password -- LDAP bind password
+    - user_bind_dn -- LDAP custom user bind DN
 
   Returns:
     - The database identifier
@@ -262,10 +263,12 @@ def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_
   if bind_dn and bind_password:
       uci.set('users', name, 'bind_dn', bind_dn)
       uci.set('users', name, 'bind_password', bind_password)
+  if user_bind_dn:
+      uci.set('users', name, 'user_bind_dn', user_bind_dn)
   uci.save("users")
   return ldap
 
-def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None):
+def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None, user_bind_dn=None):
   '''
   Edit an existing LDAP database
 
@@ -283,6 +286,7 @@ def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user
     - description -- Database description (default: "")
     - bind_dn -- LDAP bind DN
     - bind_password -- LDAP bind password
+    - user_bind_dn -- LDAP custom user bind DN
 
   Returns:
     - The database identifier
@@ -307,6 +311,13 @@ def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user
       try:
           uci.delete('users', name, 'bind_dn')
           uci.delete('users', name, 'bind_password')
+      except:
+          pass
+  if user_bind_dn:
+    uci.set('users', name, 'user_bind_dn', user_bind_dn)
+  else:
+      try:
+          uci.delete('users', name, 'user_bind_dn')
       except:
           pass
   uci.save("users")

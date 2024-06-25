@@ -226,6 +226,8 @@ def test_add_ldap_database(tmp_path):
     assert u.get('users', 'testldap', 'user_cn') == "cn"
     assert u.get('users', 'testldap', 'start_tls') == "0"
     assert u.get('users', 'testldap', 'tls_reqcert') == "never"
+    with pytest.raises(UciExceptionNotFound) as e:
+        assert u.get('users', 'testldap', 'user_bind_dn')
 
     users.add_ldap_database(u, "testldap2", "ldaps://server.nethserver.org", "rfc2307", "dc=test,dc=org", "ou=People,dc=test,dc=org", "uid", "displayName", start_tls=True, tls_reqcert="always", description="mydesc")
     assert u.get('users', 'testldap2') != None
@@ -239,10 +241,12 @@ def test_add_ldap_database(tmp_path):
     assert u.get('users', 'testldap2', 'start_tls') == "1"
     assert u.get('users', 'testldap2', 'tls_reqcert') == "always"
 
-    users.add_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test,dc=org", "ou=People,dc=test,dc=org", "uid", "displayName", start_tls=True, tls_reqcert="always", description="mydesc", bind_dn="cn=admin,dc=test,dc=org", bind_password="12=34")
+    users.add_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test,dc=org", "ou=People,dc=test,dc=org", "uid", "displayName", start_tls=True, tls_reqcert="always", description="mydesc", bind_dn="cn=admin,dc=test,dc=org", bind_password="12=34", user_bind_dn="%u@test.org")
     assert u.get('users', 'testldap3') != None
     assert u.get('users', 'testldap3', 'bind_dn') == "cn=admin,dc=test,dc=org"
     assert u.get('users', 'testldap3', 'bind_password') == "12=34"
+    assert u.get('users', 'testldap3', 'user_bind_dn') == "%u@test.org"
+    
 
 def test_list_users(tmp_path):
     u = _setup_db(tmp_path)
@@ -269,9 +273,22 @@ def test_edit_ldap_database(tmp_path):
         assert u.get('users', 'testldap3', 'bind_dn')
     with pytest.raises(UciExceptionNotFound) as e:
         assert u.get('users', 'testldap3', 'bind_password')
-    users.edit_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test2,dc=org2", "dc=test2,dc=org2", "uid", "cn", start_tls=False, tls_reqcert="never", description="mydesc2", bind_dn="cn=admin2,dc=test,dc=org", bind_password="4567")
+    users.edit_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test2,dc=org2", "dc=test2,dc=org2", "uid", "cn", start_tls=False, tls_reqcert="never", description="mydesc2", bind_dn="cn=admin2,dc=test,dc=org", bind_password="4567", user_bind_dn="%u@test2.org2")
     assert u.get('users', 'testldap3', 'bind_dn') == "cn=admin2,dc=test,dc=org"
     assert u.get('users', 'testldap3', 'bind_password') == "4567"
+    assert u.get('users', 'testldap3', 'user_bind_dn') == "%u@test2.org2"
+    # check if user_bind_dn is deleted if not passed as parameter
+    users.edit_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test2,dc=org2", "dc=test2,dc=org2", "uid", "cn", start_tls=False, tls_reqcert="never", description="mydesc2", bind_dn="cn=admin2,dc=test,dc=org", bind_password="4567")
+    with pytest.raises(UciExceptionNotFound) as e:
+        assert u.get('users', 'testldap3', 'user_bind_dn')
+    # add back user_bind_dn, check if it's removed if passed as empty string
+    users.edit_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test2,dc=org2", "dc=test2,dc=org2", "uid", "cn", start_tls=False, tls_reqcert="never", description="mydesc2", bind_dn="cn=admin2,dc=test,dc=org", bind_password="4567", user_bind_dn="%u@test3.org3")
+    assert u.get('users', 'testldap3', 'user_bind_dn') == "%u@test3.org3"
+    users.edit_ldap_database(u, "testldap3", "ldaps://server.nethserver.org", "rfc2307", "dc=test2,dc=org2", "dc=test2,dc=org2", "uid", "cn", start_tls=False, tls_reqcert="never", description="mydesc2", bind_dn="cn=admin2,dc=test,dc=org", bind_password="4567", user_bind_dn="")
+    with pytest.raises(UciExceptionNotFound) as e:
+        assert u.get('users', 'testldap3', 'user_bind_dn')
+
+
 
 def test_delete_ldap_database(tmp_path):
     u = _setup_db(tmp_path)
