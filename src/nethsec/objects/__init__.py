@@ -206,7 +206,7 @@ def get_domain_set_ipsets(uci, id):
     ipsets = {"firewall": None, "dhcp": None}
     for section in utils.get_all_by_type(uci, "firewall", "ipset"):
         if uci.get('firewall', section, 'ns_link', default=None) == f'objects/{id}':
-            ipsets["firewall"] = section
+            ipsets["firewall"] = uci.get("firewall", section, "name", default='')
             break
     for section in utils.get_all_by_type(uci, "dhcp", "ipset"):
         if uci.get('dhcp', section, 'ns_link', default=None) == f'objects/{id}':
