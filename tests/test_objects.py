@@ -151,25 +151,25 @@ def test_add_doman_set(u):
     assert u.get("objects", id1, "name") == "mydomainset"
     assert u.get("objects", id1, "family") == "ipv4"
     assert u.get_all("objects", id1, "domain") == ("test1.com", "test2.com")
-    assert u.get("objects", id1, "timeout") == "600"
+    assert u.get("objects", id1, "timeout") == "660"
 
     linked = firewall.get_all_linked(u, f"objects/{id1}")
     assert linked['firewall'] is not None
     assert u.get('firewall', linked['firewall'][0], 'ns_link') == f"objects/{id1}"
     assert u.get('firewall', linked['firewall'][0], 'name') == "mydomainset"
     assert u.get('firewall', linked['firewall'][0], 'family') == 'ipv4'
-    assert u.get('firewall', linked['firewall'][0], 'timeout') == '600'
+    assert u.get('firewall', linked['firewall'][0], 'timeout') == '660'
 
     assert linked['dhcp'] is not None
     assert u.get('dhcp', linked['dhcp'][0], 'ns_link') == f"objects/{id1}"
     assert u.get_all('dhcp', linked['dhcp'][0], 'name') == ("mydomainset",)
     assert u.get_all('dhcp', linked['dhcp'][0], 'domain') == ("test1.com", "test2.com")
 
-    id2 = objects.add_domain_set(u, "mydomainset2", "ipv6", ["test3.com", "test4.com"], 600)
+    id2 = objects.add_domain_set(u, "mydomainset2", "ipv6", ["test3.com", "test4.com"], 300)
     assert u.get("objects", id2, "name") == "mydomainset2"
     assert u.get("objects", id2, "family") == "ipv6"
     assert u.get_all("objects", id2, "domain") == ("test3.com", "test4.com")
-    assert u.get("objects", id2, "timeout") == "600"
+    assert u.get("objects", id2, "timeout") == "300"
     linked = firewall.get_all_linked(u, f"objects/{id2}")
     assert u.get('firewall', linked['firewall'][0], 'name') == "mydomainset2"
     assert u.get_all('dhcp', linked['dhcp'][0], 'name') == ("mydomainset2",)

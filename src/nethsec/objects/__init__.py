@@ -216,7 +216,7 @@ def get_domain_set_ipsets(uci, id):
             break
     return ipsets
 
-def add_domain_set(uci, name: str, family: str, domains: list[str], timeout: int = 600) -> str:
+def add_domain_set(uci, name: str, family: str, domains: list[str], timeout: int = 660) -> str:
     """
     Add domain set to objects config.
 
@@ -225,7 +225,7 @@ def add_domain_set(uci, name: str, family: str, domains: list[str], timeout: int
         name: name of domain set
         family: can be `ipv4` or `ipv6`
         domains: a list of valid DNS names
-        timeout: the timeout in seconds for the DNS resolution, default is `600` seconds
+        timeout: the timeout in seconds for the DNS resolution, default is `660` seconds
 
     Returns:
         id of domain set config that was added
@@ -268,7 +268,7 @@ def add_domain_set(uci, name: str, family: str, domains: list[str], timeout: int
     uci.save('firewall')
     return id
 
-def edit_domain_set(uci, id: str, name: str, family: str, domains: list[str], timeout: int = 600) -> str:
+def edit_domain_set(uci, id: str, name: str, family: str, domains: list[str], timeout: int = 660) -> str:
     """
     Edit domain set in objects config.
 
@@ -278,7 +278,7 @@ def edit_domain_set(uci, id: str, name: str, family: str, domains: list[str], ti
         name: name of domain set
         family: can be `ipv4` or `ipv6`
         domains: a list of valid DNS names
-        timeout: the timeout in seconds for the DNS resolution, default is `600` seconds
+        timeout: the timeout in seconds for the DNS resolution, default is `660` seconds
 
     Returns:
         id of domain set config that was edited
