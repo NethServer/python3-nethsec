@@ -113,6 +113,8 @@ def get_object_ips(uci, database_id):
         a list of unique IP addresses from the object
     """
     ips = []
+    if not database_id:
+        return ips
 
     obj = get_object(uci, database_id)
     database, id = database_id.split('/')
