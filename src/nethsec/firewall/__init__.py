@@ -1519,8 +1519,18 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
     uci.set('firewall', id, 'ns_tag', tag)
     if ns_src:
         uci.set('firewall', id, 'ns_src', ns_src)
+    else:
+        try:
+            uci.delete('firewall', id, 'ns_src')
+        except:
+            pass
     if ns_dst:
         uci.set('firewall', id, 'ns_dst', ns_dst)
+    else:
+        try:
+            uci.delete('firewall', id, 'ns_dst')
+        except:
+            pass
     uci.save('firewall')
 
 def split_firewall_config(uci):
@@ -1963,6 +1973,7 @@ def update_firewall_rules(uci):
         keep_ipset = False
         ns_src = uci.get('firewall', section, 'ns_src', default=None)
         ns_dst = uci.get('firewall', section, 'ns_dst', default=None)
+        name = uci.get('firewall', section, 'name', default=None)
         if ns_src:
             if objects.is_domain_set(uci, ns_src):
                 keep_ipset = True
