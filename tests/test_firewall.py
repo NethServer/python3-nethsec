@@ -1111,3 +1111,15 @@ def test_update_firewall_rules(u):
 def test_list_object_suggestions(u):
     obj = objects.list_objects(u)
     assert len(obj) == 9
+
+def test_edit_rule_remove_object(u):
+    host1 = objects.add_host_set(u, "h1", "ipv4", ["1.2.3.4"])
+    # def add_rule(uci, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled=True, log=False, tag=[], add_to_top=False, ns_src=None, ns_dst=None):
+    idf1 = firewall.add_rule(u, "forward1", "*", [], "wan", [], [], [], "REJECT", "*", True, False, [], False, f"objects/{host1}", "")
+    # remove object from rule
+    firewall.edit_rule(u, idf1, "forward1", "*", [], "wan", [], [], [], "REJECT", "*", True, False, [])
+    with pytest.raises(UciExceptionNotFound):
+        u.get("firewall", idf1, "src_ip")
+    assert u.get('firewall', idf1, 'ns_src', default='NONE') == 'NONE'
+    firewall.delete_rule(u, idf1)
+    objects.delete_host_set(u, host1)
