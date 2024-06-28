@@ -1433,7 +1433,7 @@ def validate_rule(uci, src: str, src_ip: list[str], dest: str, dest_ip: list[str
             if not validate_address_format(d):
                raise utils.ValidationError('dest_ip', 'invalid_format', d)
     if ns_src and ns_dst and objects.is_domain_set(uci, ns_src) and objects.is_domain_set(uci, ns_dst):
-        raise utils.ValidationError('dest', 'domain_set_conflict', dest)
+        raise utils.ValidationError('ns_dst', 'domain_set_conflict', ns_dst)
     if (not ns_src and not ns_dst) and src == dest: # check only if not using objects
         raise utils.ValidationError('dest', 'same_zone', dest)
     if target not in TARGETS:
