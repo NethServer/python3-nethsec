@@ -67,7 +67,6 @@ def create_location(e_uci, uci_server, location, proxy_pass, domain=''):
     # defaults
     e_uci.set('nginx', location_id, 'proxy_http_version', '1.1')
     default_headers = [
-        'X-Forwarded-Proto $scheme',
         'X-Forwarded-For $proxy_add_x_forwarded_for',
         'X-Real-IP $remote_addr',
         'Upgrade $http_upgrade',
