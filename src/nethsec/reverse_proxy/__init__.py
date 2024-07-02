@@ -75,6 +75,8 @@ def create_location(e_uci, uci_server, location, proxy_pass, domain=''):
     if domain:
         default_headers.append(f'Host {domain}')
     e_uci.set('nginx', location_id, 'proxy_set_header', default_headers)
+    # set body limit to 1GB: same value of NethServer 7
+    e_uci.set('nginx', location_id, 'client_max_body_size', '1024MB')
     # setup location
     e_uci.set('nginx', location_id, 'uci_server', uci_server)
     e_uci.set('nginx', location_id, 'location', location)
