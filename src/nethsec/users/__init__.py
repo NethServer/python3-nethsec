@@ -710,37 +710,6 @@ def delete_remote_user(uci, name, database):
     uci.save("users")
     return True
 
-def get_ldap_defaults(uri, schema):
-    '''
-    Retrieve default LDAP settings from given URI
-
-    Arguments:
-      - uri -- LDAP URI
-
-    Returns:
-      - A dictionary containing:
-        - base_dn: LDAP base DN
-        - user_dn: LDAP user DN
-        - user_attr: LDAP user attribute
-        - user_cn: LDAP user common name
-    '''
-    parsed = urlparse(uri)
-    try:
-        ipaddress.ip_address(parsed.hostname)
-        # it's an IP address, just suggest example defaults
-        if schema == "rfc2307":
-            return {"base_dn": "dc=directory,dc=nh", "user_dn": "ou=People,dc=directory,dc=nh", "user_attr": "uid", "user_cn": "cn"}
-        elif schema == "ad":
-            return {"base_dn": "dc=directory,dc=nh", "user_dn": "cn=Users,dc=directory,dc=nh", "user_attr": "cn", "user_cn": "cn"}
-    except:
-        # it's a hostname, suggest defaults based on domain
-        parts = parsed.hostname.split(".")[1:]
-        base_dn = ','.join(['dc=' + part for part in parts])
-        if schema == "rfc2307":
-            return {"base_dn": base_dn, "user_dn": "ou=People," + base_dn, "user_attr": "uid", "user_cn": "cn"}
-        elif schema == "ad":
-            return {"base_dn": base_dn, "user_dn": "cn=Users," + base_dn, "user_attr": "cn", "user_cn": "cn"}
-
 def shadow_password(password):
     '''
     Generate a shadow password

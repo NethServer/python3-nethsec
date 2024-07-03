@@ -407,32 +407,6 @@ def test_delete_remote_user(tmp_path):
     with pytest.raises(UciExceptionNotFound) as e:
         assert u.get('users', user['id'])
 
-def test_get_ldap_defaults():
-    assert users.get_ldap_defaults("ldaps://1.2.3.4", "rfc2307") == {
-        "base_dn": "dc=directory,dc=nh",
-        "user_dn": "ou=People,dc=directory,dc=nh",
-        "user_attr": "uid",
-        "user_cn": "cn"
-    }
-    assert users.get_ldap_defaults("ldaps://1.2.3.4", "ad") == {
-        "base_dn": "dc=directory,dc=nh",
-        "user_dn": "cn=Users,dc=directory,dc=nh",
-        "user_attr": "cn",
-        "user_cn": "cn"
-    }
-    assert users.get_ldap_defaults("ldaps://ad.nethserver.org", "rfc2307") == {
-        "base_dn": "dc=nethserver,dc=org",
-        "user_dn": "ou=People,dc=nethserver,dc=org",
-        "user_attr": "uid",
-        "user_cn": "cn"
-    }
-    assert users.get_ldap_defaults("ldaps://ad.nethserver.org", "ad") == {
-        "base_dn": "dc=nethserver,dc=org",
-        "user_dn": "cn=Users,dc=nethserver,dc=org",
-        "user_attr": "cn",
-        "user_cn": "cn"
-    }
-
 def test_shadow_password():
     shadow = users.shadow_password("test")
     assert(users.check_password("test", shadow))
