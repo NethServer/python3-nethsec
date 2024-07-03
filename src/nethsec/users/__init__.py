@@ -16,8 +16,11 @@ import os
 import subprocess
 import secrets
 from nethsec import utils
+from nethsec.ldif import LDIFParser
 from urllib.parse import urlparse
 from passlib import hash
+from io import BytesIO
+
 
 def get_database_type(uci, database):
     '''
@@ -211,7 +214,9 @@ def list_users(uci, database='main'):
                 users.append(user)
         users = sorted(users, key=lambda u: u['name'])
     elif dbtype == "ldap":
-        users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), dbconf.get('user_cn'), dbconf.get('start_tls') == '1', dbconf.get('tls_reqcert'), dbconf.get('bind_dn'), dbconf.get('bind_password'), dbconf.get('schema'))
+        # retrieve also user_cn attribute for old configurations
+        display_attr = dbconf.get('user_display_attr',  dbconf.get('user_cn', 'cn'))
+        users = list_remote_users(dbconf.get('uri'), dbconf.get('user_dn'), dbconf.get('user_attr'), display_attr, dbconf.get('start_tls') == '1', dbconf.get('tls_reqcert'), dbconf.get('bind_dn'), dbconf.get('bind_password'), dbconf.get('schema'))
         for u in users:
             user = get_user_by_name(uci, u['name'], database)
             if user:
@@ -225,7 +230,7 @@ def list_users(uci, database='main'):
 
     return users
 
-def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None, user_bind_dn=None):
+def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_display_attr, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None, user_bind_dn=None):
   '''
   Add a new LDAP database
 
@@ -237,7 +242,7 @@ def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_
     - base_dn -- LDAP base DN
     - user_dn -- LDAP user DN
     - user_attr -- LDAP user attribute
-    - user_cn -- LDAP user common name
+    - user_display_attr -- LDAP user full name attribute
     - start_tls -- Use TLS (default: False)
     - tls_reqcert -- TLS certificate validation (default: never)
     - description -- Database description (default: "")
@@ -256,7 +261,7 @@ def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_
   uci.set('users', name, 'base_dn', base_dn)
   uci.set('users', name, 'user_dn', user_dn)
   uci.set('users', name, 'user_attr', user_attr)
-  uci.set('users', name, 'user_cn', user_cn)
+  uci.set('users', name, 'user_display_attr', user_display_attr)
   uci.set('users', name, 'start_tls', '1' if start_tls else '0')
   uci.set('users', name, 'tls_reqcert', tls_reqcert)
   uci.set('users', name, 'description', description)
@@ -268,7 +273,7 @@ def add_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_
   uci.save("users")
   return ldap
 
-def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None, user_bind_dn=None):
+def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user_display_attr, start_tls=False, tls_reqcert='never', description="", bind_dn=None, bind_password=None, user_bind_dn=None):
   '''
   Edit an existing LDAP database
 
@@ -280,7 +285,7 @@ def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user
     - base_dn -- LDAP base DN
     - user_dn -- LDAP user DN
     - user_attr -- LDAP user attribute
-    - user_cn -- LDAP user common name
+    - user_display_attr -- LDAP user full name attribute
     - start_tls -- Use TLS (default: False)
     - tls_reqcert -- TLS certificate validation (default: never)
     - description -- Database description (default: "")
@@ -300,7 +305,7 @@ def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user
   uci.set('users', name, 'base_dn', base_dn)
   uci.set('users', name, 'user_dn', user_dn)
   uci.set('users', name, 'user_attr', user_attr)
-  uci.set('users', name, 'user_cn', user_cn)
+  uci.set('users', name, 'user_display_attr', user_display_attr)
   uci.set('users', name, 'start_tls', '1' if start_tls else '0')
   uci.set('users', name, 'tls_reqcert', tls_reqcert)
   uci.set('users', name, 'description', description)
@@ -320,6 +325,11 @@ def edit_ldap_database(uci, name, uri, schema, base_dn, user_dn, user_attr, user
           uci.delete('users', name, 'user_bind_dn')
       except:
           pass
+  # remove old unused user_cn field, if present
+  try:
+      uci.delete('users', name, 'user_cn')
+  except:
+      pass
   uci.save("users")
   return True
 
@@ -446,6 +456,9 @@ def get_database(uci, name):
         return None
     db["name"] = name
     db["type"] = get_database_type(uci, name)
+    if 'user_cn' in db:
+        # migrate from old to new attribute names
+        db['user_display_attr'] = db['user_cn']
     return db
 
 def add_local_user(uci, name, password="", description="", database="main", extra_fields={}):
@@ -753,7 +766,7 @@ def check_password(password, shadow):
     '''
     return hash.sha512_crypt.verify(password, shadow)
 
-def ldif2users(ldif_data, user_attr="uid", user_cn="cn", display_attr="cn"):
+def ldif2users(ldif_data, user_attr="uid", display_attr="cn"):
     '''
     Parse an LDIF file and return a list of users
 
@@ -767,31 +780,22 @@ def ldif2users(ldif_data, user_attr="uid", user_cn="cn", display_attr="cn"):
     '''
     users = []
     user = None
-    dn = None
-    # Parse only the dn lines. Example: dn: uid=user1,ou=People,dc=example,dc=com
-    for line in ldif_data.split('\n'):
-        if line.startswith('#'):
-            if user:
-                users.append(user)
+    ldif_data_bytes = ldif_data.encode('utf-8')
+    ldif_data_io = BytesIO(ldif_data_bytes)
+
+    parser = LDIFParser(ldif_data_io)
+    for dn, record in parser.parse():
+        if user_attr in record:
             user = {}
-            dn = None
-            continue
-        if line.startswith('dn:'):
-            dn = line[3:].strip()
-            if dn.lower().startswith(f'{user_cn.lower()}='):
-                user["dn"] = dn.split(",")[0].removeprefix(f'{user_cn}=').removeprefix(f'{user_cn.upper()}=')
-        elif line.lower().startswith(f'{user_attr.lower()}:') and dn: # text
-            user["name"] = line[len(user_attr)+1:].strip()
-        elif line.lower().startswith(f'{display_attr.lower()}::') and dn: # base64
-            try:
-                user["description"] = base64.b64decode(line[len(display_attr)+2:].strip()).decode()
-            except:
+            user["name"] = record[user_attr][0]
+            if display_attr in record:
+                user["description"] = record[display_attr][0]
+            else:
                 user["description"] = ""
-        elif line.lower().startswith(f'{display_attr.lower()}:') and dn: # text
-            user["description"] = line[len(display_attr)+1:].strip()
+            users.append(user)
     return users
 
-def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_reqcert="never", bind_dn=None, bind_password=None, schema='ldap'):
+def list_remote_users(uri, user_dn, user_attr, user_display_attr, start_tls=False, tls_reqcert="never", bind_dn=None, bind_password=None, schema='ldap'):
     '''
     Test LDAP connection
 
@@ -799,7 +803,7 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
       - uri -- LDAP URI
       - user_dn -- LDAP user DN
       - user_attr -- LDAP user attribute
-      - user_cn -- LDAP user common name
+      - user_display_attr -- LDAP user full name attribute
       - start_tls -- Use TLS (default: False)
       - tls_reqcert -- TLS certificate validation (default: never)
       - bind_dn -- LDAP bind DN
@@ -816,21 +820,20 @@ def list_remote_users(uri, user_dn, user_attr, user_cn, start_tls=False, tls_req
     omatch = ''
     try:
         # -E option executes a paged search without user prompt
-        cmd = ["ldapsearch", "-x", "-H", uri, "-E", "pr=1000/noprompt", "-b", user_dn]
+        # -LLL option suppresses LDAP version and search result headers
+        cmd = ["ldapsearch", "-LLL", "-x", "-H", uri, "-E", "pr=1000/noprompt", "-b", user_dn]
         if start_tls:
             cmd.append("-ZZ")
         if bind_dn and bind_password:
             cmd.extend(["-D", bind_dn, "-w", bind_password])
         if schema == "ad":
             omatch = "(objectClass=person)"
-            display_attr = 'displayName'
         else:
             omatch = "(objectClass=posixAccount)"
-            display_attr = 'cn'
         cmd.extend(["-S", user_attr]) # request sorting
-        cmd.extend([omatch, user_cn, user_attr, display_attr])
+        cmd.extend([omatch, user_display_attr, user_attr, user_display_attr])
         p = subprocess.run(cmd, env=env, capture_output=True, text=True)
-        return ldif2users(p.stdout, user_attr, user_cn, display_attr)
+        return ldif2users(p.stdout, user_attr, user_display_attr)
     except subprocess.CalledProcessError as e:
         return []
     

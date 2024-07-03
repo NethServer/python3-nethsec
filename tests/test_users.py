@@ -21,7 +21,7 @@ config ldap 'ldap1'
 	option base_dn 'dc=directory,dc=nh'
 	option user_dn 'ou=People,dc=directory,dc=nh'
 	option user_attr 'uid'
-	option user_cn 'cn'
+	option user_display_attr 'cn'
     option starttls '0'
    	option schema 'rfc2307'
 
@@ -32,7 +32,7 @@ config ldap 'ldap2'
 	option base_dn 'dc=directory,dc=nh'
 	option user_dn 'ou=People,dc=directory,dc=nh'
 	option user_attr 'uid'
-	option user_cn 'cn'
+	option user_display_attr 'cn'
 	option starttls '1'
    	option schema 'rfc2307'
 
@@ -42,7 +42,7 @@ config ldap 'ad1'
 	option tls_reqcert 'always'
 	option base_dn 'dc=ad,dc=nethserver,dc=org'
 	option user_dn 'cn=users,dc=ad,dc=nethserver,dc=org'
-	option user_cn 'cn'
+	option user_display_attr 'cn'
 	option user_attr 'uid'
     option starttls '0'
    	option schema 'ad'
@@ -223,7 +223,7 @@ def test_add_ldap_database(tmp_path):
     assert u.get('users', 'testldap', 'base_dn') == "dc=test,dc=org"
     assert u.get('users', 'testldap', 'user_dn') == "cn=users,dc=test,dc=org"
     assert u.get('users', 'testldap', 'user_attr') == "cn"
-    assert u.get('users', 'testldap', 'user_cn') == "cn"
+    assert u.get('users', 'testldap', 'user_display_attr') == "cn"
     assert u.get('users', 'testldap', 'start_tls') == "0"
     assert u.get('users', 'testldap', 'tls_reqcert') == "never"
     with pytest.raises(UciExceptionNotFound) as e:
@@ -237,7 +237,7 @@ def test_add_ldap_database(tmp_path):
     assert u.get('users', 'testldap2', 'base_dn') == "dc=test,dc=org"
     assert u.get('users', 'testldap2', 'user_dn') == "ou=People,dc=test,dc=org"
     assert u.get('users', 'testldap2', 'user_attr') == "uid"
-    assert u.get('users', 'testldap2', 'user_cn') == "displayName"
+    assert u.get('users', 'testldap2', 'user_display_attr') == "displayName"
     assert u.get('users', 'testldap2', 'start_tls') == "1"
     assert u.get('users', 'testldap2', 'tls_reqcert') == "always"
 
@@ -263,7 +263,7 @@ def test_edit_ldap_database(tmp_path):
         "base_dn": "dc=test2,dc=org2",
         "user_dn": "dc=test2,dc=org2",
         "user_attr": "uid",
-        "user_cn": "cn",
+        "user_display_attr": "cn",
         "start_tls": "0",
         "tls_reqcert": "never"
     }
@@ -439,36 +439,58 @@ def test_shadow_password():
 
 def test_ldif2users():
     ldif_data = """
-# extended LDIF
-#
-# LDAPv3
-# base <ou=People,dc=directory,dc=nh> with scope subtree
-# filter: (objectClass=*)
-# requesting: dn 
-#
-
-# People, directory.nh
-dn: ou=People,dc=directory,dc=nh
-
-# admin, People, directory.nh
 dn: uid=admin,ou=People,dc=directory,dc=nh
 uid: admin
 cn: admin
 
-# pluto, People, directory.nh
 dn: uid=pluto,ou=People,dc=directory,dc=nh
 uid: pluto
 cn: Pluto Rossi
 
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 4
-# numEntries: 3
+# pagedresults: cookie=
 """
-    print(users.ldif2users(ldif_data))
     assert users.ldif2users(ldif_data) == [{"name": "admin", "description": "admin"},{"name":"pluto", "description": "Pluto Rossi"}]
+
+    ldif_data = """
+# John Doe, Users, domtest1.local
+dn: CN=John Doe,CN=Users,DC=domtest1,DC=local
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: John Doe
+sn: doe
+description: myoffice
+physicalDeliveryOfficeName: myoffice
+givenName: john
+distinguishedName: CN=John Doe,CN=Users,DC=domtest1,DC=local
+instanceType: 4
+whenCreated: 20240605091444.0Z
+whenChanged: 20240702131054.0Z
+displayName: John Doe
+uSNCreated: 45212
+uSNChanged: 49102
+name: John Doe
+objectGUID:: 0JQMYe1R+0uziXQFbmQoJg==
+userAccountControl: 512
+badPwdCount: 0
+codePage: 0
+countryCode: 0
+badPasswordTime: 133621586649855275
+lastLogoff: 0
+lastLogon: 133621586960949063
+pwdLastSet: 133632746540757598
+primaryGroupID: 513
+objectSid:: AQUAAAAAAAUVAAAAvh3X9UPJVVW6ljm9VwQAAA==
+accountExpires: 9223372036854775807
+logonCount: 0
+sAMAccountName: john.doe
+sAMAccountType: 805306368
+userPrincipalName: john.doe@domtest1.local
+objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=domtest1,DC=local
+dSCorePropagationData: 16010101000000.0Z
+"""
+    assert users.ldif2users(ldif_data, 'sAMAccountName', 'displayName') == [{"name": "john.doe", "description": "John Doe"}]
     
 def test_set_admin_user(tmp_path):
     u = _setup_db(tmp_path)
@@ -520,6 +542,6 @@ def test_get_database(tmp_path):
         "base_dn": "dc=ad,dc=nethserver,dc=org",
         "user_dn": "cn=users,dc=ad,dc=nethserver,dc=org",
         "user_attr": "uid",
-        "user_cn": "cn",
+        "user_display_attr": "cn",
         "starttls": "0"
     }
