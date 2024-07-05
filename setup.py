@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name = 'nethsec',
-    version = '0.0.66',
+    version = '0.0.67',
     author = 'Giacomo Sanchietti',
     author_email = 'giacomo.sanchietti@nethesis.it',
     description = 'Utilities for NethSecurity development',
@@ -16,7 +16,7 @@ setup(
     url = "https://github.com/NethServer/python3-nethsec",
     license = "GPLv3",
     package_dir = {'': 'src'},
-    packages = ['nethsec', 'nethsec.utils', 'nethsec.firewall', 'nethsec.mwan', 'nethsec.dpi', 'nethsec.ipsec', 'nethsec.ovpn', 'nethsec.users', 'nethsec.reverse_proxy', 'nethsec.inventory', 'nethsec.conntrack', 'nethsec.ldif'],
+    packages = ['nethsec', 'nethsec.utils', 'nethsec.firewall', 'nethsec.mwan', 'nethsec.dpi', 'nethsec.ipsec', 'nethsec.ovpn', 'nethsec.users', 'nethsec.reverse_proxy', 'nethsec.inventory', 'nethsec.conntrack', 'nethsec.ldif', 'nethsec.objects'],
     requires = [ "pyuci" ],
     classifiers = [
         "Programming Language :: Python :: 3",
