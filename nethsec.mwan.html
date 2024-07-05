@@ -277,6 +277,16 @@
             </div>
         
 
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#update_rules" class="internal-link" title="nethsec.mwan.update_rules">update<wbr></wbr>_rules</a></code>
+            </div>
+        
+
     </li><li class="private">
         
         
@@ -344,6 +354,26 @@
 
         
             <div class="itemName"><code><a href="#__store_member" class="internal-link" title="nethsec.mwan.__store_member">__store<wbr></wbr>_member</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#_is_valid_dst" class="internal-link" title="nethsec.mwan._is_valid_dst">_is<wbr></wbr>_valid<wbr></wbr>_dst</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#_is_valid_src" class="internal-link" title="nethsec.mwan._is_valid_src">_is<wbr></wbr>_valid<wbr></wbr>_src</a></code>
             </div>
         
 
@@ -449,6 +479,16 @@
         
 
         
+            <div class="itemName"><code><a href="nethsec.objects.html" class="internal-link" title="nethsec.objects">objects</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
             <div class="itemName"><code><a href="nethsec.ovpn.html" class="internal-link" title="nethsec.ovpn">ovpn</a></code>
             </div>
         
@@ -531,7 +571,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -606,6 +646,11 @@
     <td>Function</td>
     <td><code><a href="#store_rule" class="internal-link" title="nethsec.mwan.store_rule">store<wbr></wbr>_rule</a></code></td>
     <td>Stores a rule for mwan3</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#update_rules" class="internal-link" title="nethsec.mwan.update_rules">update<wbr></wbr>_rules</a></code></td>
+    <td>Updates mwan3 rules with objects addresses</td>
   </tr><tr class="function private">
     
     <td>Function</td>
@@ -641,6 +686,16 @@
     <td>Function</td>
     <td><code><a href="#__store_member" class="internal-link" title="nethsec.mwan.__store_member">__store<wbr></wbr>_member</a></code></td>
     <td>Stores member configuration for mwan3, not suited to be used outside store_policy.</td>
+  </tr><tr class="function private">
+    
+    <td>Function</td>
+    <td><code><a href="#_is_valid_dst" class="internal-link" title="nethsec.mwan._is_valid_dst">_is<wbr></wbr>_valid<wbr></wbr>_dst</a></code></td>
+    <td>Validate the given object for destination. Destination objects can be only: - domain set - dhcp reservation - dns domain - vpn user - a singleton host set</td>
+  </tr><tr class="function private">
+    
+    <td>Function</td>
+    <td><code><a href="#_is_valid_src" class="internal-link" title="nethsec.mwan._is_valid_src">_is<wbr></wbr>_valid<wbr></wbr>_src</a></code></td>
+    <td>Validate the given object for source. Source objects can be only: - dhcp reservation - dns domain - vpn user - a singleton host set</td>
   </tr>
 </table>
         </div>
@@ -659,7 +714,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">clear_config</span><span class="function-signature">(e_uci: <code>EUci</code>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L547">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L615">
       
       (source)
     </a>
@@ -691,7 +746,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">delete_policy</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L379">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L433">
       
       (source)
     </a>
@@ -726,7 +781,7 @@ name: name of policy to delete</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">delete_rule</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L477">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L535">
       
       (source)
     </a>
@@ -761,7 +816,7 @@ name: rule name to delete</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">edit_policy</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, label: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, interfaces: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>]</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L347">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L401">
       
       (source)
     </a>
@@ -799,8 +854,8 @@ interfaces: dict of interfaces to add to policy</dd>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">edit_rule</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, policy: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, label: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, protocol: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, source_address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, source_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, destination_address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, destination_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, sticky: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L496">
+    <span class="py-keyword">def</span> <span class="py-defname">edit_rule</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, policy: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, label: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, protocol: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, source_address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, source_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, destination_address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, destination_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, sticky: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, ns_src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, ns_dst: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L554">
       
       (source)
     </a>
@@ -824,7 +879,9 @@ source_address: CIDR notation of source address
 source_port: port or port range
 destination_address: CIDR notation of destination address
 destination_port: port or port range
-sticky: whether to use sticky connections</dd>
+sticky: whether to use sticky connections
+ns_src: source object, it overrides source_address
+ns_dst: destination object, it overrides destination_address</dd>
 <dt>Raises:</dt>
 <dd>ValidationError: if name is not valid or policy is not valid</dd>
 </dl>
@@ -843,7 +900,7 @@ sticky: whether to use sticky connections</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_default_config</span><span class="function-signature">(e_uci: <code>EUci</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L589">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L657">
       
       (source)
     </a>
@@ -877,7 +934,7 @@ sticky: whether to use sticky connections</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">index_policies</span><span class="function-signature">(e_uci: <code>EUci</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L259">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L313">
       
       (source)
     </a>
@@ -911,7 +968,7 @@ sticky: whether to use sticky connections</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">index_rules</span><span class="function-signature">(e_uci: <code>EUci</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L397">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L451">
       
       (source)
     </a>
@@ -945,7 +1002,7 @@ sticky: whether to use sticky connections</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">order_rules</span><span class="function-signature">(e_uci: <code>EUci</code>, rules: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L436">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L494">
       
       (source)
     </a>
@@ -982,7 +1039,7 @@ rules: which order to put rules</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">set_default_config</span><span class="function-signature">(e_uci: <code>EUci</code>, track_ip: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code>, ping_timeout: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code>, ping_interval: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code>, ping_failure_interval: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code>, interface_down_threshold: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code>, interface_up_threshold: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L561">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L629">
       
       (source)
     </a>
@@ -1020,7 +1077,7 @@ interface_up_threshold: threshold for interface up</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">store_policy</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, interfaces: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>]</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L180">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L234">
       
       (source)
     </a>
@@ -1057,8 +1114,8 @@ interfaces: list of interfaces to add to policy, must have name, metric and weig
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">store_rule</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, policy: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, protocol: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, source_address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, source_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, destination_address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, destination_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, sticky: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L124">
+    <span class="py-keyword">def</span> <span class="py-defname">store_rule</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, policy: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, protocol: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, source_address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, source_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, destination_address: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, destination_port: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, sticky: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> = <a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>, ns_src: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, ns_dst: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L166">
       
       (source)
     </a>
@@ -1081,11 +1138,45 @@ source_address: source addresses to match
 source_port: source ports to match or range
 destination_address: destination addresses to match
 destination_port: destination ports to match or range
-sticky: whether to use sticky connections</dd>
+sticky: whether to use sticky connections
+ns_src: source object, it overrides source_address
+ns_dst: destination object, it overrides destination_address</dd>
 <dt>Returns:</dt>
 <dd>name of the rule created</dd>
 <dt>Raises:</dt>
 <dd>ValidationError if name is not unique, policy is not valid or length get_id &gt; 15</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="nethsec.mwan.update_rules">
+    
+  </a>
+  <a name="update_rules">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">update_rules</span><span class="function-signature">(e_uci: <code>EUci</code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L670">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#update_rules" title="nethsec.mwan.update_rules">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Updates mwan3 rules with objects addresses</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>e_uci: euci instance</dd>
 </dl>
 </div>
   </div>
@@ -1102,7 +1193,7 @@ sticky: whether to use sticky connections</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">__add_interfaces</span><span class="function-signature">(e_uci: <code>EUci</code>, interfaces: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>]</code>, changed_config: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code> = <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L308">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L362">
       
       (source)
     </a>
@@ -1140,7 +1231,7 @@ changed_config: array of changed configuration</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">__fetch_interface_status</span><span class="function-signature">(interface_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L222">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L276">
       
       (source)
     </a>
@@ -1167,7 +1258,7 @@ changed_config: array of changed configuration</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">__generate_metric</span><span class="function-signature">(e_uci: <code>EUci</code>) -&gt; <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L23">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L65">
       
       (source)
     </a>
@@ -1201,7 +1292,7 @@ changed_config: array of changed configuration</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">__parse_member</span><span class="function-signature">(e_uci: <code>EUci</code>, member_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L238">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L292">
       
       (source)
     </a>
@@ -1236,7 +1327,7 @@ member_name: member name</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">__set_interface_defaults</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L40">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L82">
       
       (source)
     </a>
@@ -1263,7 +1354,7 @@ member_name: member name</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">__store_interface</span><span class="function-signature">(e_uci: <code>EUci</code>, name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#tuple" class="intersphinx-link">tuple</a>[<wbr></wbr><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a>, <wbr></wbr><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L58">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L100">
       
       (source)
     </a>
@@ -1301,7 +1392,7 @@ to network interface</dd>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">__store_member</span><span class="function-signature">(e_uci: <code>EUci</code>, interface_name: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>, metric: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code>, weight: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#tuple" class="intersphinx-link">tuple</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>, <wbr></wbr><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a287f1a96489946324e615190074d686325b5064/src/nethsec/mwan/__init__.py#L99">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L141">
       
       (source)
     </a>
@@ -1326,6 +1417,87 @@ was created</dd>
 </dl>
 </div>
   </div>
+</div><div class="basefunction private">
+  
+  
+  <a name="nethsec.mwan._is_valid_dst">
+    
+  </a>
+  <a name="_is_valid_dst">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">_is_valid_dst</span><span class="function-signature">(e_uci: <code>EUci</code>, database_id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L43">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#_is_valid_dst" title="nethsec.mwan._is_valid_dst">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Validate the given object for destination.
+Destination objects can be only:
+- domain set
+- dhcp reservation
+- dns domain
+- vpn user
+- a singleton host set</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>e_uci: EUci instance
+database_id: id of object</dd>
+<dt>Returns:</dt>
+<dd>True if object is valid, False otherwise</dd>
+</dl>
+</div>
+  </div>
+</div><div class="basefunction private">
+  
+  
+  <a name="nethsec.mwan._is_valid_src">
+    
+  </a>
+  <a name="_is_valid_src">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">_is_valid_src</span><span class="function-signature">(e_uci: <code>EUci</code>, database_id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code>)</span>:
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/a79da6244d918a19f095e3c09b0d61b6ab68aecf/src/nethsec/mwan/__init__.py#L22">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#_is_valid_src" title="nethsec.mwan._is_valid_src">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Validate the given object for source.
+Source objects can be only:
+- dhcp reservation
+- dns domain
+- vpn user
+- a singleton host set</p>
+<dl class="rst-docutils">
+<dt>Args:</dt>
+<dd>e_uci: EUci instance
+database_id: id of object</dd>
+<dt>Returns:</dt>
+<dd>True if object is valid, False otherwise</dd>
+</dl>
+</div>
+  </div>
 </div>
         </div>
       
@@ -1338,7 +1510,7 @@ was created</dd>
   <div class="container">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    24.3.3 at 2024-07-03 10:20:49.
+    24.3.3 at 2024-07-05 13:49:29.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
