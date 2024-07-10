@@ -1948,18 +1948,6 @@ def update_redirect_rules(uci):
                 uci.set('firewall', f"{section}_ipset", "match", "src_net")
                 uci.set('firewall', f"{section}_ipset", "enabled", "1")
                 uci.set('firewall', f"{section}_ipset", "entry", objects.get_object_ips(uci, ns_src))
-
-    for section in utils.get_all_by_type(uci, 'firewall', 'rule'):
-        ns_dst = uci.get('firewall', section, 'ns_dst', default=None)
-        ns_src = uci.get('firewall', section, 'ns_src', default=None)
-        if ns_dst:
-            ipaddr = objects.get_object_ips(uci, ns_dst)
-            if ipaddr:
-                uci.set('firewall', section, 'dest_ip', ipaddr)
-        if ns_src:
-            ipaddr = objects.get_object_ips(uci, ns_dst)
-            if ipaddr:
-                uci.set('firewall', section, 'src_ip', ipaddr)
     uci.save('firewall')
 
 def update_firewall_rules(uci):

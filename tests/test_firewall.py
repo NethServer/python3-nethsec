@@ -1108,6 +1108,20 @@ def test_update_firewall_rules(u):
     with pytest.raises(UciExceptionNotFound):
         u.get("firewall", "r4", "ns_dst")
 
+def test_update_firewall_rules_concurrency(u):
+    host1 = objects.add_host_set(u, "hc1", "ipv4", ["1.1.1.1"])
+    host2 = objects.add_host_set(u, "hc2", "ipv4", ["2.2.2.2"])
+    rid = firewall.add_rule(u, 'mycrule', '*', [], 'wan', [], [], '', 'DROP', "", True, False, ['tag1'], False, f"objects/{host1}", f"objects/{host2}")
+    assert u.get("firewall", rid, "src_ip") == "1.1.1.1"
+    assert u.get("firewall", rid, "dest_ip") == "2.2.2.2"
+    firewall.update_firewall_rules(u)
+    firewall.update_redirect_rules(u)
+    assert u.get("firewall", rid, "src_ip") == "1.1.1.1"
+    assert u.get("firewall", rid, "dest_ip") == "2.2.2.2"
+    firewall.delete_rule(u, rid)
+    objects.delete_host_set(u, host1)
+    objects.delete_host_set(u, host2)
+
 def test_list_object_suggestions(u):
     obj = objects.list_objects(u)
     assert len(obj) == 9
