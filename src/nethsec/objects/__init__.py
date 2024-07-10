@@ -29,6 +29,8 @@ def is_object_id(id):
     Returns:
         True if id is an object id, False otherwise
     """
+    if not id or not isinstance(id, str):
+        return False
     return id.startswith('objects/') or id.startswith('dhcp/') or id.startswith('users/')
 
 def object_exists(uci, database_id):

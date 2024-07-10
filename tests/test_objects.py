@@ -364,3 +364,6 @@ def test_get_reference_info(u):
     assert ref['id'] == 'ns_8dcab636'
     assert objects.get_info(u, "unknown") == None
  
+def test_is_object_with_invalid_is(u):
+    assert objects.is_object_id(None) == False
+    assert objects.is_object_id(1) == False
