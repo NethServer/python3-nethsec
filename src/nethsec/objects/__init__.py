@@ -776,12 +776,14 @@ def list_dns_records(uci, expand=False, used_info=False):
             records.append(record)
     return records
 
-def list_objects(uci, include_domain_sets=True, singleton_only=False, expand=False):
+def list_objects(uci, include_domain_sets=True, include_host_sets=True, singleton_only=False, expand=False):
     """
     Get objects from objects, dhcp, and users config
 
     Args:
         uci: EUci pointer
+        include_domain_sets: include domain sets in the list
+        include_host_sets: include host sets in the list
         expand: expand the list with all IP addresses of the object
 
     Returns:
@@ -789,14 +791,15 @@ def list_objects(uci, include_domain_sets=True, singleton_only=False, expand=Fal
     """
     hsets = []
     dsets = []
-    for h in list_host_sets(uci, True):
-        if singleton_only and not h['singleton']:
-            continue
-        h['id'] = f"objects/{h['id']}"
-        h['type'] = 'host_set'
-        if not expand:
-            del[h['ipaddr']]
-        hsets.append(h)
+    if include_host_sets:
+        for h in list_host_sets(uci, True):
+            if singleton_only and not h['singleton']:
+                continue
+            h['id'] = f"objects/{h['id']}"
+            h['type'] = 'host_set'
+            if not expand:
+                del[h['ipaddr']]
+            hsets.append(h)
 
     if include_domain_sets:
         for d in list_domain_sets(uci, True):

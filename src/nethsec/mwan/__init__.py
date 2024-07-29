@@ -602,12 +602,20 @@ def edit_rule(e_uci: EUci, name: str, policy: str, label: str, protocol: str = N
                 e_uci.set('mwan3', name, 'src_port', source_port.replace('-', ':'))
     if source_address is not None:
         e_uci.set('mwan3', name, 'src_ip', source_address)
+    else:
+        e_uci.delete('mwan3', name, 'src_ip')
     if destination_address is not None:
         e_uci.set('mwan3', name, 'dest_ip', destination_address)
+    else:
+        e_uci.delete('mwan3', name, 'dest_ip')
     if ns_src is not None:
         e_uci.set('mwan3', name, 'ns_src', ns_src)
+    else:
+        e_uci.delete('mwan3', name, 'ns_src')
     if ns_dst is not None:
         e_uci.set('mwan3', name, 'ns_dst', ns_dst)
+    else:
+        e_uci.delete('mwan3', name, 'ns_dst')
     update_rules(e_uci) # update rules with objects and save mwan3 config
     return f'mwan3.{name}'
 
