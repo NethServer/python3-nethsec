@@ -363,6 +363,8 @@ def list_domain_sets(uci, used_info = True) -> list:
         if uci.get('objects', section) == 'domain':
             rule = uci.get_all('objects', section)
             rule['id'] = section
+            rule['type'] = 'domain_set'
+            rule['subtype'] = 'domain_set'
             if used_info:
                 used, matches = is_used_domain_set(uci, section)
                 rule['used'] = used
