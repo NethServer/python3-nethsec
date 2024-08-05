@@ -36,7 +36,7 @@ def _is_valid_src(e_uci: EUci, database_id: str):
         True if object is valid, False otherwise
     """
     if objects.is_host_set(e_uci, database_id):
-        return objects.is_singleton_host_set(e_uci, database_id)
+        return objects.is_singleton_host_set(e_uci, database_id, allow_cidr=True)
         
     return objects.is_host(e_uci, database_id) or objects.is_domain(e_uci, database_id) or objects.is_vpn_user(e_uci, database_id)
 
@@ -58,7 +58,7 @@ def _is_valid_dst(e_uci: EUci, database_id: str):
         True if object is valid, False otherwise
     """
     if objects.is_host_set(e_uci, database_id):
-        return objects.is_singleton_host_set(e_uci, database_id)
+        return objects.is_singleton_host_set(e_uci, database_id, allow_cidr=True)
 
     return objects.is_domain_set(e_uci, database_id) or objects.is_host(e_uci, database_id) or objects.is_domain(e_uci, database_id) or objects.is_vpn_user(e_uci, database_id)
 
