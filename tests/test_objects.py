@@ -22,6 +22,11 @@ config host 'ns_12345'
 	option name 'h1'
 	option family 'ipv4'
 	list ipaddr 'dhcp/ns_112233'
+
+config host 'ns_a7439990'
+	option name 'h1v6'
+	option family 'ipv6'
+	list ipaddr 'fd:618c:d80a:dc82:2380:54c7:7a17:1013'
 """
 
 firewall_db = """
@@ -243,7 +248,7 @@ def test_is_used_host_set(u):
 
 def test_list_host_sets(u):
     sets = objects.list_host_sets(u)
-    assert len(sets) == 9
+    assert len(sets) == 10
 
 def test_is_singleton_host_set(u):
     id1 = objects.add_host_set(u, "myhostset", "ipv4", ["1.2.3.4", "5.6.7.8"])
@@ -362,7 +367,13 @@ def test_get_reference_info(u):
     assert ref['type'] == 'host'
     assert ref['name'] == 'host2'
     assert ref['id'] == 'ns_8dcab636'
+    assert ref['family'] == 'ipv4'
     assert objects.get_info(u, "unknown") == None
+    ref2 = objects.get_info(u, "objects/ns_a7439990")
+    assert ref2['type'] == 'host'
+    assert ref2['name'] == 'h1v6'
+    assert ref2['id'] == 'ns_a7439990'
+    assert ref2['family'] == 'ipv6'
  
 def test_is_object_with_invalid_is(u):
     assert objects.is_object_id(None) == False
