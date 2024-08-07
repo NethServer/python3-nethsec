@@ -337,10 +337,15 @@ def test_store_rule(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_rule_1', 'sticky') == '1'
 
     domain_id = objects.add_domain_set(e_uci, "mydomainset6", "ipv4", ["test1.com", "test2.com"])
-    id = mwan.store_rule(e_uci, 'r_with_obj', 'ns_default', 'udp', ns_src="dhcp/ns_host_mwan", ns_dst=f"objects/{domain_id}")
+    with pytest.raises(ValueError):
+        mwan.store_rule(e_uci, 'r_with_obj', 'ns_default', 'udp', ns_src="dhcp/ns_host_mwan", ns_dst=f"objects/{domain_id}")
+
+    hostset_id = objects.add_host_set(e_uci, "myhostset", "ipv4", ["192.168.1.1"])
+    id = mwan.store_rule(e_uci, 'r_with_obj', 'ns_default', 'udp', ns_src="dhcp/ns_host_mwan", ns_dst=f"objects/{hostset_id}")
+
     id = id.split('.')[1]
     assert e_uci.get('mwan3', id, 'ns_src') == "dhcp/ns_host_mwan"
-    assert e_uci.get('mwan3', id, 'ns_dst') == f"objects/{domain_id}"
+    assert e_uci.get('mwan3', id, 'ns_dst') == f"objects/{hostset_id}"
     with pytest.raises(ValueError):
         mwan.store_rule(e_uci, 'rule_with_obj', 'ns_default', 'udp', ns_src="dhcp/ns_host_mwan", ns_dst="objects/invalid") 
     with pytest.raises(ValueError):
@@ -594,9 +599,11 @@ def test_update_rules(e_uci, mocker):
         }
     ])
     domain_id = objects.add_domain_set(e_uci, "mydomainset7", "ipv4", ["test1.com", "test2.com"])
-    id = mwan.store_rule(e_uci, 'r_with_obj', 'ns_cool_policy', 'udp', ns_src="dhcp/ns_domain_mwan", ns_dst=f"objects/{domain_id}")
+    with pytest.raises(ValidationError):
+        mwan.store_rule(e_uci, 'r_with_obj', 'ns_cool_policy', 'udp', ns_src="dhcp/ns_domain_mwan", ns_dst=f"objects/{domain_id}")
+
+    id = mwan.store_rule(e_uci, 'r_with_obj', 'ns_cool_policy', 'udp', ns_src="dhcp/ns_domain_mwan", ns_dst=f"dhcp/ns_host_mwan")
     id = id.split('.')[1]
-    ipsets = objects.get_domain_set_ipsets(e_uci, domain_id)
     mwan.update_rules(e_uci)
     assert e_uci.get('mwan3', id, 'src_ip') == '7.8.9.1'
-    assert e_uci.get('mwan3', id, 'ipset') == f"{ipsets['firewall']} dst"
+    assert e_uci.get('mwan3', id, 'dest_ip') == '192.168.100.5'

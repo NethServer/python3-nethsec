@@ -827,20 +827,23 @@ def get_info(uci, database_id):
 
     Returns:
         a dictionary with the following fields:
+
         - `database`: the database of the object
         - `id`: the id of the object
         - `name`: the name of the object
         - `type`: the type of the object
+        - `family`: IP family, like `ipv4` or `ipv6`
     """
     try:
         database, id = database_id.split('/')
         type = uci.get(database, id)
         name = uci.get(database, id, 'name', default=None)
+        family = uci.get(database, id, 'family', default='ipv4')
         if not name:
             name = uci.get(database, id, 'label', default=None)
             if not name:
                 name = id
-        return {'database': database, 'id': id, 'name': name, 'type': type}
+        return {'database': database, 'id': id, 'name': name, 'type': type, 'family': family}
     except:
         return None
         

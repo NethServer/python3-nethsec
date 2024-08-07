@@ -44,7 +44,6 @@ def _is_valid_dst(e_uci: EUci, database_id: str):
     """
     Validate the given object for destination.
     Destination objects can be only:
-    - domain set
     - dhcp reservation
     - dns domain
     - vpn user
@@ -60,7 +59,7 @@ def _is_valid_dst(e_uci: EUci, database_id: str):
     if objects.is_host_set(e_uci, database_id):
         return objects.is_singleton_host_set(e_uci, database_id, allow_cidr=True)
 
-    return objects.is_domain_set(e_uci, database_id) or objects.is_host(e_uci, database_id) or objects.is_domain(e_uci, database_id) or objects.is_vpn_user(e_uci, database_id)
+    return objects.is_host(e_uci, database_id) or objects.is_domain(e_uci, database_id) or objects.is_vpn_user(e_uci, database_id)
 
 def __generate_metric(e_uci: EUci) -> int:
     """
@@ -685,15 +684,11 @@ def update_rules(e_uci: EUci):
     for rule in utils.get_all_by_type(e_uci, 'mwan3', 'rule'):
         ns_src = e_uci.get('mwan3', rule, 'ns_src', default=None)
         ns_dst = e_uci.get('mwan3', rule, 'ns_dst', default=None)
+        # both ns_src and ns_dst should be a singleton
         if ns_src:
             e_uci.set('mwan3', rule, 'src_ip', objects.get_object_ip(e_uci, ns_src))
-        if ns_dst: # this can be only a domain set
-            id = ns_dst.split('/')[1]
-            ipsets = objects.get_domain_set_ipsets(e_uci, id)
-            e_uci.set('mwan3', rule, 'ipset', f"{ipsets['firewall']} dst")
-            try:
-                e_uci.delete('mwan3', rule, 'dest_ip')
-            except:
-                pass
+        if ns_dst:
+            # domain sets are not supported because mwan3 ipset functionality is broken on 23.05.
+            e_uci.set('mwan3', rule, 'dest_ip', objects.get_object_ip(e_uci, ns_dst))
 
     e_uci.save('mwan3')
