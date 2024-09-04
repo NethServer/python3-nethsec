@@ -48,7 +48,7 @@ def set_proxy_pass(e_uci, location, proxy_pass):
         e_uci.set('nginx', location, 'proxy_pass', f'{prefix}://$upstream{path}')
 
 
-def create_location(e_uci, uci_server, location, proxy_pass, domain='', allow=[]):
+def create_location(e_uci, uci_server, location, proxy_pass, domain='', allow=None):
     """
     Create a new location in the nginx config.
 
@@ -63,6 +63,8 @@ def create_location(e_uci, uci_server, location, proxy_pass, domain='', allow=[]
     Returns:
         location id of the created location
     """
+    if allow is None:
+        allow = []
     location_id = utils.get_random_id()
     e_uci.set('nginx', location_id, 'location')
     # defaults
@@ -99,7 +101,7 @@ def add_path(path, destination, description, allow):
       - allow: array of allowed ip addresses
     """
     e_uci = EUci()
-    location = create_location(e_uci, '_lan', path, destination, allow)
+    location = create_location(e_uci, '_lan', path, destination, allow=allow)
     e_uci.set('nginx', location, 'uci_description', description)
     # defaults
     e_uci.set('nginx', location, 'proxy_ssl_verify', 'off')
