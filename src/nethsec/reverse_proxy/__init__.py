@@ -48,7 +48,7 @@ def set_proxy_pass(e_uci, location, proxy_pass):
         e_uci.set('nginx', location, 'proxy_pass', f'{prefix}://$upstream{path}')
 
 
-def create_location(e_uci, uci_server, location, proxy_pass, domain=''):
+def create_location(e_uci, uci_server, location, proxy_pass, domain='', allow=[]):
     """
     Create a new location in the nginx config.
 
@@ -58,6 +58,7 @@ def create_location(e_uci, uci_server, location, proxy_pass, domain=''):
       - location: path where the location will answer
       - proxy_pass: where the location will proxy to
       - domain: optional domain to set in the Host header
+      - allow: array of allowed ip addresses
 
     Returns:
         location id of the created location
@@ -80,6 +81,8 @@ def create_location(e_uci, uci_server, location, proxy_pass, domain=''):
     # setup location
     e_uci.set('nginx', location_id, 'uci_server', uci_server)
     e_uci.set('nginx', location_id, 'location', location)
+    if len(allow) > 0:
+        e_uci.set('nginx', location_id, 'allow', allow)
     set_proxy_pass(e_uci, location_id, proxy_pass)
 
     return location_id
@@ -96,12 +99,10 @@ def add_path(path, destination, description, allow):
       - allow: array of allowed ip addresses
     """
     e_uci = EUci()
-    location = create_location(e_uci, '_lan', path, destination)
+    location = create_location(e_uci, '_lan', path, destination, allow)
     e_uci.set('nginx', location, 'uci_description', description)
     # defaults
     e_uci.set('nginx', location, 'proxy_ssl_verify', 'off')
-    if len(allow) > 0:
-        e_uci.set('nginx', location, 'allow', allow)
     # add location to _lan server
     includes = list(e_uci.get('nginx', '_lan', 'include', list=True))
     if 'conf.d/_lan[.]proxy' not in includes:
@@ -127,7 +128,7 @@ def add_domain(domain, destination, certificate, description, allow):
     server_name = utils.get_random_id()
     e_uci.set('nginx', server_name, 'server')
     # create default location
-    create_location(e_uci, server_name, '/', destination, domain)
+    create_location(e_uci, server_name, '/', destination, domain, allow)
     # defaults
     e_uci.set('nginx', server_name, 'proxy_ssl_verify', 'off')
     e_uci.set('nginx', server_name, 'ssl_session_timeout', '64m')
@@ -143,8 +144,6 @@ def add_domain(domain, destination, certificate, description, allow):
     e_uci.set('nginx', server_name, 'ssl_certificate', valid_certificates[certificate]['cert_path'])
     e_uci.set('nginx', server_name, 'ssl_certificate_key', valid_certificates[certificate]['key_path'])
     e_uci.set('nginx', server_name, 'uci_description', description)
-    if len(allow) > 0:
-        e_uci.set('nginx', server_name, 'allow', allow)
 
     e_uci.save('nginx')
 
