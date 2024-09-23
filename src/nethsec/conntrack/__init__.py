@@ -13,7 +13,6 @@ import subprocess
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
 
-
 def __parse_meta_connection_tag(meta: Element) -> dict:
     """
     From a meta tag, extract the connection information.
@@ -24,7 +23,7 @@ def __parse_meta_connection_tag(meta: Element) -> dict:
     Returns:
         dictionary with the connection information.
     """
-    result = {}
+    result = {'src': '', 'dest': '', 'protocol': '', 'packets': '0', 'bytes': '0'}
     layer3 = meta.find('layer3')
     result['src'] = layer3.find('src').text
     result['dest'] = layer3.find('dst').text
@@ -36,8 +35,9 @@ def __parse_meta_connection_tag(meta: Element) -> dict:
     if layer4.find('dport') is not None:
         result['end_port'] = layer4.find('dport').text
     counters = meta.find('counters')
-    result['packets'] = counters.find('packets').text
-    result['bytes'] = counters.find('bytes').text
+    if counters is not None:
+        result['packets'] = counters.find('packets').text
+        result['bytes'] = counters.find('bytes').text
     return result
 
 
