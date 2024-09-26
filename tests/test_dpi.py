@@ -377,7 +377,7 @@ def e_uci_with_data(e_uci: EUci):
 def mock_load(mocker):
     mocker.patch('nethsec.dpi.__load_applications', return_value=applications)
     mocker.patch('nethsec.dpi.__load_application_categories', return_value=application_categories)
-    mocker.patch('nethsec.dpi.__load_protocols', return_value=protocols)
+    mocker.patch('nethsec.dpi.load_protocols', return_value=protocols)
     mocker.patch('nethsec.dpi.__load_protocol_categories', return_value=protocol_categories)
 
 
@@ -402,7 +402,7 @@ def test_load_protocols(mocker: MockFixture):
     process_result = mocker.stub('subprocess_return')
     process_result.stdout = bytes(protocol_output, 'utf-8')
     mocker.patch('subprocess.run', return_value=process_result)
-    assert dpi.__load_protocols() == protocols
+    assert dpi.load_protocols() == protocols
 
 
 @pytest.mark.parametrize('search', [None, ''])

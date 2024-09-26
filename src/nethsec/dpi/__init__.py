@@ -68,7 +68,7 @@ def __load_application_categories() -> dict[int, dict[str]]:
     return categories
 
 
-def __load_protocols() -> dict[int, str]:
+def load_protocols() -> dict[int, str]:
     """
     Reads the protocols from the netifyd --dump-protos command.
 
@@ -142,7 +142,7 @@ def __load_blocklist() -> list[dict[str]]:
             result_application['category'] = application_categories[application_id]
         result.append(result_application)
 
-    protocols = __load_protocols()
+    protocols = load_protocols()
     protocol_categories = __load_protocol_categories()
 
     for protocol_id, protocol_name in protocols.items():
