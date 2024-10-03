@@ -325,6 +325,7 @@ config zone 'ns_wan'
     option forward 'REJECT'
     option masq '1'
     option mtu_fix '1'
+    option log '1'
     list network 'wan6'
     list network 'RED_2'
     list network 'RED_3'
@@ -731,6 +732,7 @@ def test_list_zones(u):
     assert firewall.list_zones(u)["ns_wan"]["output"] == "ACCEPT"
     assert firewall.list_zones(u)["ns_wan"]["forward"] == "REJECT"
     assert firewall.list_zones(u)["ns_wan"]["network"] == ("wan6", "RED_2", "RED_3", "RED_1")
+    assert firewall.list_zones(u)["ns_wan"]["log"] == "1"
 
 
 def list_zones_no_aliases(u):
@@ -751,6 +753,7 @@ def test_add_zone(u):
     assert u.get("firewall", "ns_new_zone", "input") == "REJECT"
     assert u.get("firewall", "ns_new_zone", "output") == "ACCEPT"
     assert u.get("firewall", "ns_new_zone", "forward") == "DROP"
+    assert u.get("firewall", "ns_new_zone", "log") == "0"
     assert u.get("firewall", "ns_new_zone2wan", "src") == "new_zone"
     assert u.get("firewall", "ns_new_zone2wan", "dest") == "wan"
     assert u.get("firewall", "ns_new_zone2lan", "src") == "new_zone"
@@ -759,6 +762,9 @@ def test_add_zone(u):
     assert u.get("firewall", "ns_lan2new_zone", "dest") == "new_zone"
     assert u.get("firewall", "ns_guest2new_zone", "src") == "guest"
     assert u.get("firewall", "ns_guest2new_zone", "dest") == "new_zone"
+    assert firewall.add_zone(u, "new_zone_with_log", "REJECT", "DROP", True, ["lan"], ["lan", "guest"], True)
+    assert u.get("firewall", "ns_new_zone_with_log", "log") == "1"
+
 
 def test_edit_zone(u):
     assert firewall.edit_zone(u, "new_zone", "DROP", "ACCEPT", False, ["lan"], ["lan", "guest"]) == (
@@ -773,6 +779,10 @@ def test_edit_zone(u):
     assert u.get("firewall", "ns_lan2new_zone", "dest") == "new_zone"
     assert u.get("firewall", "ns_guest2new_zone", "src") == "guest"
     assert u.get("firewall", "ns_guest2new_zone", "dest") == "new_zone"
+    assert u.get("firewall", "ns_new_zone", "log") == "0"
+    assert firewall.edit_zone(u, "new_zone", "DROP", "ACCEPT", False, ["lan"], ["lan", "guest"], True)
+    assert u.get("firewall", "ns_new_zone", "log") == "1"
+
 
 def test_delete_zone(u):
     assert firewall.delete_zone(u, "ns_new_zone") == (
