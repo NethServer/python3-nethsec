@@ -2,8 +2,46 @@ from euci import EUci
 
 from nethsec import inventory
 
+netmap_db = """
+
+config rule 'ns_b606fef5'
+	option name 'foo'
+	option dest '8.8.8.0/24'
+	option map_from '12.0.0.0/24'
+	option map_to '16.0.0.0/24'
+
+config rule 'ns_003ff675'
+	option name 'john'
+	option src '12.0.0.0/24'
+	option map_from '15.0.0.0/24'
+	option map_to '14.0.0.0/24'
+"""
+
 firewall_db = """
-config zone wan1
+config zone lan1
+	option name 'lan'
+	list network 'lan'
+	option input 'ACCEPT'
+	option output 'ACCEPT'
+	option forward 'ACCEPT'
+	list device 'eth0'
+
+config zone grey
+	option name 'grey'
+	list network 'grey1'
+	option input 'DROP'
+	option output 'ACCEPT'
+	option forward 'DROP'
+	list device 'eth1'
+
+config zone orange
+	option name 'orange'
+	list network 'orange1'
+	option input 'DROP'
+	option output 'DROP'
+	option forward 'DROP'
+
+config zone wan1f
 	option name 'wan'
 	list network 'wan'
 	list network 'wan6'
@@ -12,23 +50,161 @@ config zone wan1
 	option forward 'REJECT'
 	option masq '1'
 	option mtu_fix '1'
-	list device 'eth2.1'
 
-config zone
-	option name 'lan'
-	list network 'lan'
-	list network 'br-lan'
-	option input 'ACCEPT'
-	option output 'ACCEPT'
-	option forward 'ACCEPT'
-	list device 'tunrw1'
-	list device 'ipsec2'
+config forwarding fw1
+	option src 'lan'
+	option dest 'wan'
+
+config rule 'v6rule'
+    option name 'Allow-DHCPv6'
+    option src 'wan'
+    option proto 'udp'
+    option dest_port '546'
+    option family 'ipv6'
+    option target 'ACCEPT'
+
+config rule 'manrule'
+    option name 'Not-Automated'
+    option src 'wan'
+    option proto 'tcp'
+    option dest_port '1234'
+    option family 'ipv4'
+    option target 'ACCEPT'
+
+config rule 'f1'
+	option name 'r1'
+	option dest 'wan'
+	option dest_port '22'
+	option target 'ACCEPT'
+	option src 'lan'
+	list src_ip '192.168.100.1'
+	list src_ip '192.168.100.238'
+	list dest_ip '192.168.122.1'
+	list dest_ip '192.168.122.49'
+    option log '1'
+ 
+config rule 'o1'
+	option name 'output1'
+	list dest_ip '192.168.100.1'
+	option target 'ACCEPT'
+	option dest 'wan'
+
+config rule 'i1'
+	option name 'Allow-OpenVPNRW1'
+	option src 'wan'
+	option dest_port '1194'
+	option proto 'udp'
+	option target 'ACCEPT'
+	list ns_tag 'automated'
+	option ns_link 'openvpn/ns_roadwarrior1'
+
+config nat
+	option name 'source_NAT1_vpm'
+	option src '*'
+	option src_ip '192.168.55.0/24'
+	option dest_ip '10.20.30.0/24'
+	option target 'SNAT'
+	option snat_ip '10.44.44.1'
+	list proto 'all'
+
+config nat
+	option name 'masquerade'
+	list proto 'all'
+	option src 'lan'
+	option src_ip '192.168.1.0/24'
+	option dest_ip '10.88.88.0/24'
+	option target 'MASQUERADE'
+
+config nat
+	option name 'cdn_via_router'
+	list proto 'all'
+	option src 'lan'
+	option src_ip '192.168.1.0/24'
+	option dest_ip '192.168.50.0/24'
+	option target 'ACCEPT'
+
+config nat
+	option name 'SNAT_NSEC7_style'
+	list proto 'all'
+	option src 'wan'
+	option src_ip '192.168.1.44'
+	option target 'SNAT'
+	option snat_ip '10.20.30.5'
+
+config redirect 'redirect3'
+    option ns_src ''
+    option ipset 'redirect3_ipset'
+
+config ipset 'redirect3_ipset'
+    option name 'redirect1_ipset'
+    option match 'src_net'
+    option enabled '1'
+    list entry '6.7.8.9'
+
+config redirect 'redirect4'
+    option ns_src ''
+
+config rule 'r1'
+    option name 'r1'
+    option ns_dst 'dhcp/ns_8dcab636'
+
+config rule 'r2'
+    option name 'r2'
+    option ns_dst ''
+
+config rule 'r3'
+    option name 'r3'
+    option ns_src ''
+
+config rule 'r4'
+    option ns_dst ''
+    option ns_src ''
+
+config rule 'ns_72004856'
+        option name 'forward'
+        option src '*'
+        option dest 'lan'
+        option target 'DROP'
+        option ns_service '*'
+        option proto 'all'
+        option enabled '1'
+        option log '0'
+        list src_ip '1.1.1.1'
+        option ns_dst 'objects/ns_7c9c0852'
+        option ipset 'foo dst'
+
+config rule 'ns_df2ca87c'
+        option name 'output'
+        option dest '*'
+        option target 'DROP'
+        option ns_service 'discard'
+        option dest_port '9'
+        option enabled '1'
+        option log '0'
+        list proto 'tcp'
+        list proto 'udp'
+        option ns_dst 'dhcp/ns_8d5d2cf4'
+        list dest_ip '192.168.50.123'
+
+config rule 'ns_a50bcca9'
+        option name 'input'
+        option src '*'
+        option target 'DROP'
+        option ns_service '*'
+        option proto 'all'
+        option enabled '1'
+        option log '0'
+        option ns_src 'objects/ns_bcfb447b'
+        list src_ip '192.168.50.123'
+
 """
 
 network_db = """
-config interface lan
-	option device 'vnet3'
+config interface 'lan'
+	option device 'br-lan'
 	option proto 'static'
+	option ipaddr '192.168.50.1'
+	option netmask '255.255.255.0'
             
 config interface 'wan'
 	option device 'eth1'
@@ -55,6 +231,45 @@ config interface 'bond2'
 	option bonding_policy 'balance-rr'
 	option packets_per_slave '1'
 	list slaves 'eth3.2'
+
+config device 'ns_3b3556cf'
+	option name 'eth0.6'
+	option type '8021q'
+	option ifname 'eth0'
+	option vid '6'
+	option ipv6 '0'
+config interface 'vlan6'
+	option device 'eth0.6'
+	option proto 'dhcp'
+
+config device 'ns_c3c5206a'
+        option name 'bond-foo'
+        option ipv6 '0'
+config interface 'bond1'
+	option device 'bond-toto'
+	option proto 'static'
+	option ipaddr '125.12.12.12'
+	option netmask '255.255.255.0'
+config route 'ns_31de6ad0'
+	option disabled '0'
+	option gateway '1.1.1.1'
+	option metric '0'
+	option mtu '1500'
+	option ns_description 'truc'
+	option onlink '0'
+	option target '1.1.1.0/24'
+	option type 'unicast'
+
+config route6 'ns_4a936870'
+	option disabled '0'
+	option gateway 'fe80::fc54:ff:fe70:2'
+	option metric '0'
+	option mtu '1500'
+	option ns_description 'peolopopo'
+	option onlink '0'
+	option target 'fe80::fc54:ff:fe70:d2bc/64'
+	option type 'unicast'
+
 """
 
 dedalo_db = """
@@ -100,6 +315,36 @@ config openvpn 'sample_client'
 	option cert '/etc/openvpn/client.crt'
 	option key '/etc/openvpn/client.key'
 	option verb '3'
+
+config openvpn 'ns_openvpn1'
+	option dev 'tunopenvpn1'
+	option dev_type 'tun'
+	option enabled '1'
+	option persist_tun '1'
+	option float '1'
+	option multihome '1'
+	option passtos '1'
+	option ping_timer_rem '1'
+	option persist_key '1'
+	option keepalive '10 60'
+	option lport '1202'
+	option proto 'udp'
+	option topology 'subnet'
+	option dh '/etc/openvpn/ns_openvpn1/pki/dh.pem'
+	option ca '/etc/openvpn/ns_openvpn1/pki/ca.crt'
+	option cert '/etc/openvpn/ns_openvpn1/pki/issued/server.crt'
+	option key '/etc/openvpn/ns_openvpn1/pki/private/server.key'
+	option server '10.7.57.0 255.255.255.0'
+	list push 'topology subnet'
+	list push 'route 192.168.50.0 255.255.255.0'
+	list route '192.168.10.0 255.255.255.0'
+	option cipher 'AES-256-GCM'
+	option auth 'SHA256'
+	list ns_public_ip '86.206.129.103'
+	option ns_name 'openvpn1'
+	option client_connect '"/usr/libexec/ns-openvpn/openvpn-connect ns_openvpn1"'
+	option client_disconnect '"/usr/libexec/ns-openvpn/openvpn-disconnect ns_openvpn1"'
+	option management '/var/run/openvpn_ns_openvpn1.socket unix'
 
 config openvpn 'ns_roadwarrior1'
 	option proto 'udp'
@@ -455,6 +700,32 @@ config interface 'FTTC_BCK'
 	option bandwidth_down '40mbit'
 """
 
+objects_db = """
+
+config rule 'ns_b606fef5'
+	option name 'object1'
+	option dest '8.8.8.0/24'
+	option map_from '12.0.0.0/24'
+	option map_to '16.0.0.0/24'
+
+config rule 'ns_003ff675'
+	option name 'object2'
+	option src '12.0.0.0/24'
+	option map_from '15.0.0.0/24'
+	option map_to '14.0.0.0/24'
+
+config domain 'ns_7c9c0852'
+	option name 'object3'
+	option family 'ipv4'
+	option timeout '660'
+	list domain 'foo.com'
+
+config host 'ns_bcfb447b'
+	option name 'object4'
+	option family 'ipv4'
+	list ipaddr 'dhcp/ns_8d5d2cf4'
+"""
+
 def _setup_db(tmp_path):
      # setup fake db
     with tmp_path.joinpath('network').open('w') as fp:
@@ -487,11 +758,15 @@ def _setup_db(tmp_path):
         fp.write(mwan3_db)
     with tmp_path.joinpath('qosify').open('w') as fp:
         fp.write(qosify_db)
+    with tmp_path.joinpath('netmap').open('w') as fp:
+        fp.write(netmap_db)
+    with tmp_path.joinpath('objects').open('w') as fp:
+        fp.write(objects_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_fact_hotspot(tmp_path):
     u = _setup_db(tmp_path)
-    assert inventory.fact_hotspot(u) == {"enabled": True, "server": "https://my.nethspot.com/api"}
+    assert inventory.fact_hotspot(u) == {"enabled": True, "server": "https://my.nethspot.com/api", "interface": "eth2.10"}
 
 def test_fact_flashstart(tmp_path):
     u = _setup_db(tmp_path)
@@ -499,11 +774,32 @@ def test_fact_flashstart(tmp_path):
     
 def test_fact_openvpn_rw(tmp_path):
 	u = _setup_db(tmp_path)
-	assert inventory.fact_openvpn_rw(u) == {"enabled": 1, "server": 1}
-    
+	assert inventory.fact_openvpn_rw(u) == {
+		"enabled": 1,
+		"server": 1,
+		"instances": [
+			{
+				"section": "ns_roadwarrior1",
+				"authentication": "username_password_certificate",
+				"user_database": "NethService",
+				"mode": "tun"
+			}
+		]
+	}
+
 def test_fact_openvpn_tun(tmp_path):
 	u = _setup_db(tmp_path)
-	assert inventory.fact_openvpn_tun(u) == {"server": 0, "client": 0}
+	result = inventory.fact_openvpn_tun(u)
+	assert result == {
+		"client": 0,
+		"server": 1,
+		"tunnels": [
+			{
+				"section": "ns_openvpn1",
+				"mode": "tun"
+			}
+		]
+	}
      
 def test_fact_subscription_status(tmp_path):
 	u = _setup_db(tmp_path)
@@ -528,13 +824,44 @@ def test_fact_storage(tmp_path):
 def test_fact_network(tmp_path):
 	u = _setup_db(tmp_path)
 	result = inventory.fact_network(u)
-	assert result['blue']['ipv4'] == 1
-	assert result['blue']['ipv6'] == 0
-	assert result['lan']['ipv4'] == 1
-	assert result['lan']['ipv6'] == 0
-	assert result['wan']['ipv4'] == 1
-	assert result['wan']['ipv6'] == 0
-      
+	assert result['zones'][0]['name'] == 'lan'
+	assert result['zones'][0]['ipv4'] == 1
+	assert result['zones'][0]['ipv6'] == 0
+	assert result['zones'][1]['name'] == 'grey'
+	assert result['zones'][1]['ipv4'] == 1
+	assert result['zones'][1]['ipv6'] == 0
+	assert result['zones'][2]['name'] == 'orange'
+	assert result['zones'][2]['ipv4'] == 0
+	assert result['zones'][2]['ipv6'] == 0
+	assert result['zones'][3]['name'] == 'wan'
+	assert result['zones'][3]['ipv4'] == 1
+	assert result['zones'][3]['ipv6'] == 0
+	assert result['zones'][4]['name'] == 'mytrusted'
+	assert result['zones'][4]['ipv4'] == 0
+	assert result['zones'][4]['ipv6'] == 0
+	assert result['zones'][5]['name'] == 'mylinked'
+	assert result['zones'][5]['ipv4'] == 0
+	assert result['zones'][5]['ipv6'] == 0
+	assert result['zones'][6]['name'] == 'mytrusted2'
+	assert result['zones'][6]['ipv4'] == 0
+	assert result['zones'][6]['ipv6'] == 0
+	assert result['zones'][7]['name'] == 'blue'
+	assert result['zones'][7]['ipv4'] == 1
+	assert result['zones'][7]['ipv6'] == 0
+	assert result['interface_counts']['vlans'] == 0
+	assert result['interface_counts']['bridges'] == 2
+	assert result['interface_counts']['bonds'] == 0
+	assert result['zone_network_counts']['lan'] == 2
+	assert result['zone_network_counts']['grey'] == 1
+	assert result['zone_network_counts']['orange'] == 0
+	assert result['zone_network_counts']['wan'] == 2
+	assert result['zone_network_counts']['mytrusted'] == 0
+	assert result['zone_network_counts']['mylinked'] == 0
+	assert result['zone_network_counts']['mytrusted2'] == 0
+	assert result['zone_network_counts']['blue'] == 1
+	assert result['route_info']['count_ipv6_route'] == 1
+	assert result['route_info']['count_ipv4_route'] == 1
+
 def test_fact_proxy_pass(tmp_path):
 	u = _setup_db(tmp_path)
 	assert inventory.fact_proxy_pass(u) == {"count": 2}
@@ -549,7 +876,7 @@ def test_fact_dpi(tmp_path):
       
 def test_fact_dhcp_server(tmp_path):
 	u = _setup_db(tmp_path)
-	assert inventory.fact_dhcp_server(u) == {"count": 1}
+	assert inventory.fact_dhcp_server(u) == {"count": 1, "static_leases": 0, "dynamic_leases": 0, "dns_records_count": 0, "dns_forwarder_enabled": True }
       
 def test_fact_multiwan(tmp_path):
 	u = _setup_db(tmp_path)
@@ -562,4 +889,44 @@ def test_fact_multiwan(tmp_path):
       
 def test_fact_qos(tmp_path):
 	u = _setup_db(tmp_path)
-	assert inventory.fact_qos(u) == {"count": 2}
+	result = inventory.fact_qos(u)
+	assert result['count'] == 2
+	assert result['rules'][0]['enabled'] == True
+	assert result['rules'][0]['upload'] == 85
+	assert result['rules'][0]['download'] == 85
+	assert result['rules'][1]['enabled'] == True
+	assert result['rules'][1]['upload'] == 20
+	assert result['rules'][1]['download'] == 40
+      
+def test_fact_certificates_info(tmp_path):
+	u = _setup_db(tmp_path)
+	result = inventory.fact_certificates_info(u)
+	assert result['custom_certificates']['count'] == 0
+	assert result['acme_certificates']['count'] == 0
+	assert result['acme_certificates']['issued'] == 0
+	assert result['acme_certificates']['pending'] == 0
+
+def test_fact_firewall_stats(tmp_path):
+    u = _setup_db(tmp_path)
+    result = inventory.fact_firewall_stats(u)
+    
+    # Validate the 'firewall' section
+    assert result['firewall']['port_forward'] == 2
+    assert result['firewall']['nat']['masquerade'] == 1
+    assert result['firewall']['nat']['snat'] == 4
+    assert result['firewall']['nat']['accept'] == 2
+    assert result['firewall']['netmap']['source'] == 3
+    assert result['firewall']['netmap']['destination'] == 2
+    assert result['firewall']['rules']['forward'] == 12
+    assert result['firewall']['rules']['input'] == 7
+    assert result['firewall']['rules']['output'] == 2
+    
+    # Validate the 'objects' section
+    assert result['objects']['domains'] == 3
+    assert result['objects']['hosts'] == 3
+    assert result['objects']['port_forward']['allowed_from'] == 2
+    assert result['objects']['port_forward']['destination_to'] == 2
+    assert result['objects']['mwan_rules'] == 0
+    assert result['objects']['rules']['forward'] == 1
+    assert result['objects']['rules']['input'] == 1
+    assert result['objects']['rules']['output'] == 1
