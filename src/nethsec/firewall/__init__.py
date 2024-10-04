@@ -773,7 +773,7 @@ def zone_exists(u, zone_name):
 
 
 def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
-             forwards_from: list[str] = None) -> {str, set[str]}:
+             forwards_from: list[str] = None, log: bool = False) -> {str, set[str]}:
     """
     Add zone to firewall config.
 
@@ -785,6 +785,7 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
         traffic_to_wan: if True, add forwarding from zone to wan
         forwards_to: list of zones to forward traffic to
         forwards_from: list of zones to forward traffic from
+        log: if True, log blocked traffic destined to this zone
 
     Returns:
         tuple of zone config name and set of added forwarding configs
@@ -800,6 +801,7 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
     uci.set('firewall', zone_config_name, 'input', input)
     uci.set('firewall', zone_config_name, 'forward', forward)
     uci.set('firewall', zone_config_name, 'output', 'ACCEPT')
+    uci.set('firewall', zone_config_name, 'log', '1' if log else '0')
 
     forwardings_added = set()
 
@@ -813,13 +815,14 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
     if forwards_from is not None:
         for forward_from in forwards_from:
             forwardings_added.add(add_forwarding(uci, forward_from, name))
+
     uci.save('firewall')
     reorder_firewall_config(uci)
     return zone_config_name, forwardings_added
 
 
 def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
-             forwards_from: list[str] = None) -> {str, set[str]}:
+             forwards_from: list[str] = None, log: bool = False) -> {str, set[str]}:
     """
     Edit an existing zone.
 
@@ -831,6 +834,7 @@ def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = F
         traffic_to_wan: if True, add forwarding from zone to wan
         forwards_to: list of zones to forward traffic to
         forwards_from: list of zones to forward traffic from
+        log: if True, log blocked traffic destined to this zone
 
     Returns:
         tuple of zone config name and set of updated forwarding configs
@@ -842,6 +846,7 @@ def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = F
     uci.set('firewall', zone_config_name, 'input', input)
     uci.set('firewall', zone_config_name, 'forward', forward)
     uci.set('firewall', zone_config_name, 'output', 'ACCEPT')
+    uci.set('firewall', zone_config_name, 'log', '1' if log else '0')
 
     # delete old forwardings
 
