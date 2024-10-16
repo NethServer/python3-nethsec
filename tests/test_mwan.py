@@ -194,6 +194,7 @@ def test_create_default_mwan(e_uci, mocker):
     assert e_uci.get('mwan3', 'ns_default', 'label') == 'default'
     assert e_uci.get('mwan3', 'ns_default', 'use_member', list=True) == (
         'ns_RED_1_M10_W200', 'ns_RED_2_M20_W100')
+    assert e_uci.get('mwan3', 'ns_default', 'last_resort') == 'default'
 
 
 def test_create_unique_mwan(e_uci, mocker):
