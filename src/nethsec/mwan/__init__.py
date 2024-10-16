@@ -267,6 +267,10 @@ def store_policy(e_uci: EUci, name: str, interfaces: list[dict]) -> list[str]:
     if len(utils.get_all_by_type(e_uci, 'mwan3', 'rule')) == 0:
         changed_config.append(store_rule(e_uci, 'Default Rule', policy_config_name))
 
+    # default policy must have a last_resort field
+    if len(utils.get_all_by_type(e_uci, 'mwan3', 'policy')) == 1:
+        e_uci.set('mwan3', policy_config_name, 'last_resort', 'default')
+
     e_uci.save('mwan3')
     e_uci.save('network')
     return changed_config
