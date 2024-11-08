@@ -218,7 +218,7 @@ def get_domain_set_ipsets(uci, id):
             break
     return ipsets
 
-def get_domain_set_total_chars(name: str, domains: list[str]):
+def get_domain_set_total_chars(name: str, unique_domains: list[str]):
     """
     Calculate the total number of characters the given domain set will use in the dnsmasq configuration file.
     This file supports a maximum of 1024 characters per line.
@@ -233,8 +233,6 @@ def get_domain_set_total_chars(name: str, domains: list[str]):
     Returns:
         the number of characters
     """
-    # remove duplicated domains
-    unique_domains = list(dict.fromkeys(domains))
     total_chars = 8 + 11  # leading "nftset=/" and trailing "4#inet#fw4#"
 
     for domain in unique_domains:
@@ -266,11 +264,11 @@ def add_domain_set(uci, name: str, family: str, domains: list[str], timeout: int
         raise utils.ValidationError('family', 'invalid_family', family)
     if timeout < 0:
         raise utils.ValidationError('timeout', 'invalid_timeout', timeout)
-    if get_domain_set_total_chars(name, domains) > 1024 - 10:  # -10 chars for safety
-        raise utils.ValidationError('domain', 'total_chars_exceeded')
 
     # remove duplicated domains
     unique_domains = list(dict.fromkeys(domains))
+    if get_domain_set_total_chars(name, unique_domains) > 1024 - 10:  # -10 chars for safety
+        raise utils.ValidationError('domain', 'total_chars_exceeded')
 
     id = utils.get_random_id()
     uci.set('objects', id, 'domain')
@@ -324,11 +322,11 @@ def edit_domain_set(uci, id: str, name: str, family: str, domains: list[str], ti
         raise utils.ValidationError('family', 'invalid_family', family)
     if timeout < 0:
         raise utils.ValidationError('timeout', 'invalid_timeout', timeout)
-    if get_domain_set_total_chars(name, domains) > 1024 - 10:  # -10 chars for safety
-        raise utils.ValidationError('domain', 'total_chars_exceeded')
 
     # remove duplicated domains
     unique_domains = list(dict.fromkeys(domains))
+    if get_domain_set_total_chars(name, unique_domains) > 1024 - 10:  # -10 chars for safety
+        raise utils.ValidationError('domain', 'total_chars_exceeded')
 
     uci.set('objects', id, 'name', name)
     uci.set('objects', id, 'family', family)
