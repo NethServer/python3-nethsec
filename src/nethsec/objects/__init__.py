@@ -229,6 +229,9 @@ def get_domain_set_total_chars(name: str, domains: list[str]):
     Args:
         name: name of domain set
         domains: a list of valid DNS names
+        
+    Returns:
+        the number of characters
     """
     # remove duplicated domains
     unique_domains = list(dict.fromkeys(domains))
