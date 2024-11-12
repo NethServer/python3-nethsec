@@ -1930,16 +1930,21 @@ def update_redirect_rules(uci):
         changed_sections: list of changed objects, each object is in the form of `<database>/<id>`
     """
     for section in utils.get_all_by_type(uci, 'firewall', 'redirect'):
+        # fetch ns_src and ns_dst for each redirect rule
         ns_src = uci.get('firewall', section, 'ns_src', default=None)
         ns_dst = uci.get('firewall', section, 'ns_dst', default=None)
         if ns_dst:
+            # if ns_dst is set, fetch the ip address from the object and set it in the redirect rule
+            # in case that the redirect is then deleted, no action is needed
             ipaddr = objects.get_object_ip(uci, ns_dst)
             if ipaddr:
                 uci.set('firewall', section, 'dest_ip', ipaddr)
         if ns_src:
+            # if ns_src is set, check if it is a domain set
             database, id = ns_src.split('/')
             obj_type = uci.get(database, id)
             if database == "objects" and obj_type == "domain":
+                # if it is a domain set, set the ipset field in the redirect rule
                 ipsets = objects.get_domain_set_ipsets(uci, id)
                 uci.set('firewall', section, 'ipset', f"{ipsets['firewall']} src_net")
                 try:
@@ -1947,12 +1952,15 @@ def update_redirect_rules(uci):
                 except:
                     pass
             else:
+                # create a full ipset configuration for the redirect rule
                 uci.set('firewall', section, 'ipset', f"{id}_ipset")
                 uci.set('firewall', f"{section}_ipset", "ipset")
                 uci.set('firewall', f"{section}_ipset", "name", f"{id}_ipset")
                 uci.set('firewall', f"{section}_ipset", "match", "src_net")
                 uci.set('firewall', f"{section}_ipset", "enabled", "1")
+                uci.set('firewall', f"{section}_ipset", 'ns_link', f"firewall/{section}")
                 uci.set('firewall', f"{section}_ipset", "entry", objects.get_object_ips(uci, ns_src))
+
     uci.save('firewall')
 
 def update_firewall_rules(uci):
