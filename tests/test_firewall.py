@@ -1082,8 +1082,9 @@ def test_update_redirect_rules(u):
     u.set('firewall', 'redirect4', 'ns_dst', f"users/ns_user1")
     firewall.update_redirect_rules(u)
     assert u.get("firewall", "redirect4", "dest_ip") == "10.10.10.22"
-    assert u.get("firewall", "redirect4", "ipset") == f"{host1}_ipset"
+    assert u.get("firewall", "redirect4", "ipset") == f"redirect4_ipset"
     assert u.get("firewall", "redirect4_ipset")
+    assert u.get('firewall', 'redirect4_ipset', 'ns_link') == f'firewall/redirect4'
 
 def test_update_firewall_rules(u):
     domain1 = objects.add_domain_set(u, "d1", "ipv4", ["test1.com", "test2.com"])
