@@ -1953,9 +1953,9 @@ def update_redirect_rules(uci):
                     pass
             else:
                 # create a full ipset configuration for the redirect rule
-                uci.set('firewall', section, 'ipset', f"{id}_ipset")
+                uci.set('firewall', section, 'ipset', f"{section}_ipset")
                 uci.set('firewall', f"{section}_ipset", "ipset")
-                uci.set('firewall', f"{section}_ipset", "name", f"{id}_ipset")
+                uci.set('firewall', f"{section}_ipset", "name", f"{section}_ipset")
                 uci.set('firewall', f"{section}_ipset", "match", "src_net")
                 uci.set('firewall', f"{section}_ipset", "enabled", "1")
                 uci.set('firewall', f"{section}_ipset", 'ns_link', f"firewall/{section}")
