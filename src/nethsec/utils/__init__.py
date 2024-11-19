@@ -513,6 +513,35 @@ def get_all_wan_ips(uci):
 
     return sorted(ret, key=lambda k: k['ipaddr'])
 
+
+def get_public_ip_addresses(ip_address=""):
+    """
+    Return the public addresses associated to a private IP address.
+
+    Arguments:
+      - ip_address -- the private IP address of a network interface. If not specified, the default network interface is used.
+
+    Returns:
+      - a list of public addresses. Usually, the list contains only one element.
+    """
+    try:
+        bindOption = ""
+        if ip_address:
+            bindOption = f" -b {ip_address}"
+
+        cmd = f"/usr/bin/dig{bindOption} +short +time=1 myip.opendns.com @resolver1.opendns.com".split(" ")
+        output = subprocess.check_output(cmd, timeout=5)
+        public_ip_addresses = output.decode().strip().split('\n')
+
+        if public_ip_addresses[0] == "":
+            # cannot retrieve public IP address, returning input IP address as fallback
+            return [ip_address]
+        else:
+            return public_ip_addresses
+    except Exception as e:
+        raise ValueError(e)
+
+
 class ValidationError(ValueError):
     def __init__(self, parameter, message="", value=""):
         self.parameter = parameter
