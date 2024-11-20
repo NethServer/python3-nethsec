@@ -542,7 +542,7 @@ def get_public_ip_addresses(ip_address=""):
         else:
             return public_ip_addresses
     except Exception as e:
-        raise ValueError(e)
+        return []
 
 
 class ValidationError(ValueError):
