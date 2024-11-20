@@ -535,7 +535,10 @@ def get_public_ip_addresses(ip_address=""):
 
         if public_ip_addresses[0] == "":
             # cannot retrieve public IP address, returning input IP address as fallback
-            return [ip_address]
+            if ip_address:
+                return [ip_address]
+            else:
+                return []
         else:
             return public_ip_addresses
     except Exception as e:
