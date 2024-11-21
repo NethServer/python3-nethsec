@@ -1989,12 +1989,10 @@ def update_firewall_rules(uci):
                 ipaddr = objects.get_object_ips(uci, ns_src)
                 if ipaddr:
                     uci.set('firewall', section, 'src_ip', ipaddr)
-                try:
-                    uci.delete('firewall',  section, 'ipset')
-                except:
-                    pass
+
         if ns_dst:
             if objects.is_domain_set(uci, ns_dst):
+                keep_ipset = True
                 id = ns_dst.split('/')[1]
                 ipsets = objects.get_domain_set_ipsets(uci, id)
                 uci.set('firewall', section, 'ipset', f"{ipsets['firewall']} dst")
@@ -2006,11 +2004,13 @@ def update_firewall_rules(uci):
                 ipaddr = objects.get_object_ips(uci, ns_dst)
                 if ipaddr:
                     uci.set('firewall', section, 'dest_ip', ipaddr)
-                if not keep_ipset: # do not delete ipset from src if is a domain
-                    try:
-                        uci.delete('firewall', section, 'ipset')
-                    except:
-                        pass                               
+
+        # delete ipset field if no domains are set
+        if not keep_ipset:
+            try:
+                uci.delete('firewall', section, 'ipset')
+            except:
+                pass
     uci.save('firewall')
 
 def list_object_suggestions(uci, expand = False):
