@@ -34,6 +34,9 @@ def get_local_networks(u):
             if len(data) > 0:
                 for addr in data[0].get('addr_info', []):
                     if addr.get("local", None) and addr.get("family", None) == "inet": # ipv4 only
+                        # skip bond management address
+                        if addr.get("local").startswith("127"):
+                            continue
                         net = ipaddress.ip_interface(f'{addr.get("local")}/{addr.get("prefixlen")}').network
                         ret.append(f'{net}')
         except:
