@@ -726,6 +726,34 @@ config host 'ns_bcfb447b'
 	list ipaddr 'dhcp/ns_8d5d2cf4'
 """
 
+adblock_db = """
+config adblock 'global'
+	option adb_enabled '1'
+	option adb_debug '0'
+	option adb_forcedns '1'
+	option adb_safesearch '0'
+	option adb_dnsfilereset '0'
+	option adb_mail '0'
+	option adb_report '0'
+	option adb_backup '1'
+	option adb_fetchutil 'wget'
+	option adb_dns 'dnsmasq'
+	option ts_enabled '1'
+	list adb_zonelist 'lan'
+	list adb_portlist '53'
+	list adb_portlist '853'
+	option adb_srcarc '/etc/adblock/combined.sources.gz'
+	option adb_dnsinstance '0'
+	option adb_fetchparm '--compression=gzip --no-cache --no-cookies --max-redirect=0 --timeout=20 -O'
+	list adb_sources 'adaway'
+	list adb_sources 'adguard'
+	list adb_sources 'disconnect'
+	list adb_sources 'yoyo'
+	list adb_sources 'malware_lvl2'
+	list adb_sources 'yoroi_susp_level2'
+	list adb_sources 'yoroi_malware_level1'
+"""
+
 def _setup_db(tmp_path):
      # setup fake db
     with tmp_path.joinpath('network').open('w') as fp:
@@ -762,6 +790,8 @@ def _setup_db(tmp_path):
         fp.write(netmap_db)
     with tmp_path.joinpath('objects').open('w') as fp:
         fp.write(objects_db)
+    with tmp_path.joinpath('adblock').open('w') as fp:
+        fp.write(adblock_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_fact_hotspot(tmp_path):
@@ -930,3 +960,8 @@ def test_fact_firewall_stats(tmp_path):
     assert result['objects']['rules']['forward'] == 1
     assert result['objects']['rules']['input'] == 1
     assert result['objects']['rules']['output'] == 1
+
+def test_fact_ad_block(tmp_path):
+	u = _setup_db(tmp_path)
+	result = inventory.fact_ad_block(u)
+	assert result == {"enabled": True, "community": 5, "enterprise": 2}
