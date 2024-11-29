@@ -138,7 +138,7 @@ def fact_threat_shield(uci: EUci):
     ret['enabled'] = uci.get('banip', 'global', 'ban_enabled', default='0') == '1'
     try:
         for feed in uci.get_all("banip", "global", "ban_feed"):
-            if feed.startswith("nethesis") or feed.startswith("yoroy"):
+            if feed.startswith("nethesis") or feed.startswith("yoroi"):
                 ret['enterprise'] += 1
             else:
                 ret['community'] += 1
