@@ -7,7 +7,7 @@
   <head>
     
     <title>Module Index</title>
-    <meta name="generator" content="pydoctor 24.3.3"> 
+    <meta name="generator" content="pydoctor 24.11.0"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="apidocs.css" />
     <link rel="stylesheet" type="text/css" href="extra.css" />
+    
 </head>
 
   <body>
@@ -52,7 +53,7 @@
             
             <span class="input-group-btn">
               <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
-              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+              <a class="btn btn-default" id="apidocs-help-button" title="Help" href="apidocs-help.html"><img src="fonts/info.svg" alt="Help" /></a>
             </span>
           </div>
         </div>
@@ -76,39 +77,6 @@
             <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
         </noscript>
 
-        <div class="hint" id="search-help-box">
-          <p class="rst-last">
-      
-            Search bar offers the following options:
-            <ul>   
-                <li>
-                  <strong>Term presence.</strong> The below example searches for documents that 
-                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
-                </li> 
-
-                <li>
-                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
-                </li> 
-
-                <li>
-                  <strong>Search in specific fields.</strong> The following search matches all objects 
-                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
-
-                  <p>
-                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
-                    Last two fields are only applicable if "search in docstrings" is enabled.
-                  </p>
-                </li>
-
-                <li>
-                  <strong>Fuzzy matches.</strong> The following search matches all documents 
-                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
-                </li>
-            </ul>
-
-          </p>
-        </div>
-
         <div id="search-status"> </div>
 
         <div class="warning" id="search-warn-box" style="display: none;">
@@ -119,8 +87,8 @@
           <!-- Filled dynamically by JS -->
         </table>
         
-        <div style="margin-top: 8px;">
-          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        <div style="margin-top: 10px;">
+          <p>For more information on the search, visit the <a href="apidocs-help.html#rst-search">help page</a>.</p>
         </div>
       </div>
 
@@ -139,17 +107,17 @@
         </div>
       </div>
 
-      <ul id="summaryTree"><li><code><a href="index.html" class="internal-link">nethsec</a></code> - NethSecurity python library<ul><li><code><a href="nethsec.conntrack.html" class="internal-link" title="nethsec.conntrack">conntrack</a></code> - Library for reading and managing network connections.</li><li><code><a href="nethsec.dpi.html" class="internal-link" title="nethsec.dpi">dpi</a></code> - Library that handles the DPI rules.</li><li><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code> - Firewall utilities</li><li><code><a href="nethsec.inventory.html" class="internal-link" title="nethsec.inventory">inventory</a></code> - <span class="undocumented">Undocumented</span></li><li><code><a href="nethsec.ipsec.html" class="internal-link" title="nethsec.ipsec">ipsec</a></code> - IPSec utilities</li><li><code><a href="nethsec.ldif.html" class="internal-link" title="nethsec.ldif">ldif</a></code> - ldif - generate and parse LDIF data (see RFC 2849).</li><li><code><a href="nethsec.mwan.html" class="internal-link" title="nethsec.mwan">mwan</a></code> - Mwan utilities</li><li><code><a href="nethsec.objects.html" class="internal-link" title="nethsec.objects">objects</a></code> - Objects utilities</li><li><code><a href="nethsec.ovpn.html" class="internal-link" title="nethsec.ovpn">ovpn</a></code> - Library for common VPN functions.</li><li><code><a href="nethsec.reverse_proxy.html" class="internal-link" title="nethsec.reverse_proxy">reverse_proxy</a></code> - Reverse proxy helper functions</li><li><code><a href="nethsec.users.html" class="internal-link" title="nethsec.users">users</a></code> - Library that handles users and groups</li><li><code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code> - General utilities</li></ul></li></ul>
+      <ul id="summaryTree"><li><code><a href="index.html" class="internal-link">nethsec</a></code> - NethSecurity python library<ul><li><code><a href="nethsec.conntrack.html" class="internal-link" title="nethsec.conntrack">conntrack</a></code> - Library for reading and managing network connections.</li><li><code><a href="nethsec.dpi.html" class="internal-link" title="nethsec.dpi">dpi</a></code> - Library that handles the DPI rules.</li><li><code><a href="nethsec.firewall.html" class="internal-link" title="nethsec.firewall">firewall</a></code> - Firewall utilities</li><li><code><a href="nethsec.inventory.html" class="internal-link" title="nethsec.inventory">inventory</a></code> - <span class="undocumented">Undocumented</span></li><li><code><a href="nethsec.ipsec.html" class="internal-link" title="nethsec.ipsec">ipsec</a></code> - IPSec utilities</li><li><code><a href="nethsec.ldif.html" class="internal-link" title="nethsec.ldif">ldif</a></code> - ldif - generate and parse LDIF data (see RFC 2849).</li><li><code><a href="nethsec.mwan.html" class="internal-link" title="nethsec.mwan">mwan</a></code> - Mwan utilities</li><li><code><a href="nethsec.objects.html" class="internal-link" title="nethsec.objects">objects</a></code> - Objects utilities</li><li><code><a href="nethsec.ovpn.html" class="internal-link" title="nethsec.ovpn">ovpn</a></code> - Library for common VPN functions.</li><li><code><a href="nethsec.reverse_proxy.html" class="internal-link" title="nethsec.reverse_proxy">reverse_proxy</a></code> - Reverse proxy helper functions</li><li><code><a href="nethsec.snort.html" class="internal-link" title="nethsec.snort">snort</a></code> - Module for parsing Snort-like rules.</li><li><code><a href="nethsec.users.html" class="internal-link" title="nethsec.users">users</a></code> - Library that handles users and groups</li><li><code><a href="nethsec.utils.html" class="internal-link" title="nethsec.utils">utils</a></code> - General utilities</li></ul></li></ul>
 
     </div>
 
     <footer class="navbar navbar-default">
 
   
-  <div class="container">
+  <div class="container-fluid">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    24.3.3 at 2024-11-29 13:44:09.
+    24.11.0 at 2024-12-02 13:34:51.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 

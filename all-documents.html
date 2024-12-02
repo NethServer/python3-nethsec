@@ -6,7 +6,7 @@
   <head>
     
     <title>All Documents</title>
-    <meta name="generator" content="pydoctor 24.3.3"> 
+    <meta name="generator" content="pydoctor 24.11.0"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="apidocs.css" />
     <link rel="stylesheet" type="text/css" href="extra.css" />
+    
 </head>
   <body>
     
@@ -48,7 +49,7 @@
             
             <span class="input-group-btn">
               <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
-              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+              <a class="btn btn-default" id="apidocs-help-button" title="Help" href="apidocs-help.html"><img src="fonts/info.svg" alt="Help" /></a>
             </span>
           </div>
         </div>
@@ -72,39 +73,6 @@
             <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
         </noscript>
 
-        <div class="hint" id="search-help-box">
-          <p class="rst-last">
-      
-            Search bar offers the following options:
-            <ul>   
-                <li>
-                  <strong>Term presence.</strong> The below example searches for documents that 
-                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
-                </li> 
-
-                <li>
-                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
-                </li> 
-
-                <li>
-                  <strong>Search in specific fields.</strong> The following search matches all objects 
-                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
-
-                  <p>
-                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
-                    Last two fields are only applicable if "search in docstrings" is enabled.
-                  </p>
-                </li>
-
-                <li>
-                  <strong>Fuzzy matches.</strong> The following search matches all documents 
-                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
-                </li>
-            </ul>
-
-          </p>
-        </div>
-
         <div id="search-status"> </div>
 
         <div class="warning" id="search-warn-box" style="display: none;">
@@ -115,8 +83,8 @@
           <!-- Filled dynamically by JS -->
         </table>
         
-        <div style="margin-top: 8px;">
-          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        <div style="margin-top: 10px;">
+          <p>For more information on the search, visit the <a href="apidocs-help.html#rst-search">help page</a>.</p>
         </div>
       </div>
 
@@ -220,6 +188,14 @@
             <div class="kind">Package</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Reverse proxy helper functions</div>
+          </li><li id="nethsec.snort">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort</div>
+            <div class="url">nethsec.snort.html</div>
+            <div class="type">Package</div>
+            <div class="kind">Package</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Module for parsing Snort-like rules.</div>
           </li><li id="nethsec.users">
             
             <div class="fullName">nethsec<wbr></wbr>.users</div>
@@ -2708,6 +2684,262 @@
             <div class="kind">Function</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">List all the certificates in the system.</div>
+          </li><li id="nethsec.snort.logger">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.logger</div>
+            <div class="url">nethsec.snort.html#logger</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.rule_pattern">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.rule<wbr></wbr>_pattern</div>
+            <div class="url">nethsec.snort.html#rule_pattern</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.actions">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.actions</div>
+            <div class="url">nethsec.snort.html#actions</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.Rule">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule</div>
+            <div class="url">nethsec.snort.Rule.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Class representing a rule.</div>
+          </li><li id="nethsec.snort.Rule.__init__">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.__init__</div>
+            <div class="url">nethsec.snort.Rule.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.Rule.__getattr__">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.__getattr__</div>
+            <div class="url">nethsec.snort.Rule.html#__getattr__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.Rule.id">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.id</div>
+            <div class="url">nethsec.snort.Rule.html#id</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Property</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">The ID of the rule.</div>
+          </li><li id="nethsec.snort.Rule.idstr">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.idstr</div>
+            <div class="url">nethsec.snort.Rule.html#idstr</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Property</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Return the gid and sid of the rule as a string formatted like: '[GID:SID]'</div>
+          </li><li id="nethsec.snort.Rule.brief">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.brief</div>
+            <div class="url">nethsec.snort.Rule.html#brief</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">A brief description of the rule.</div>
+          </li><li id="nethsec.snort.Rule.__hash__">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.__hash__</div>
+            <div class="url">nethsec.snort.Rule.html#__hash__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.Rule.__str__">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.__str__</div>
+            <div class="url">nethsec.snort.Rule.html#__str__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">The string representation of the rule.</div>
+          </li><li id="nethsec.snort.Rule.format">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.format</div>
+            <div class="url">nethsec.snort.Rule.html#format</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.Rule.rebuild_options">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Rule<wbr></wbr>.rebuild<wbr></wbr>_options</div>
+            <div class="url">nethsec.snort.Rule.html#rebuild_options</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Rebuild the rule options from the list of options.</div>
+          </li><li id="nethsec.snort.remove_option">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.remove<wbr></wbr>_option</div>
+            <div class="url">nethsec.snort.html#remove_option</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.add_option">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.add<wbr></wbr>_option</div>
+            <div class="url">nethsec.snort.html#add_option</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.find_opt_end">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.find<wbr></wbr>_opt<wbr></wbr>_end</div>
+            <div class="url">nethsec.snort.html#find_opt_end</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Find the end of an option (;) handling escapes.</div>
+          </li><li id="nethsec.snort.parse">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.parse</div>
+            <div class="url">nethsec.snort.html#parse</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Parse a single rule for a string buffer.</div>
+          </li><li id="nethsec.snort.parse_fileobj">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.parse<wbr></wbr>_fileobj</div>
+            <div class="url">nethsec.snort.html#parse_fileobj</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Parse multiple rules from a file like object.</div>
+          </li><li id="nethsec.snort.parse_file">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.parse<wbr></wbr>_file</div>
+            <div class="url">nethsec.snort.html#parse_file</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Parse multiple rules from the provided filename.</div>
+          </li><li id="nethsec.snort.FlowbitResolver">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html</div>
+            <div class="type">Class</div>
+            <div class="kind">Class</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">No class docstring; 0/1 instance variable, 0/2 class variable, 1/6 method documented</span></div>
+          </li><li id="nethsec.snort.FlowbitResolver.setters">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.setters</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#setters</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.FlowbitResolver.getters">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.getters</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#getters</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Class Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.FlowbitResolver.__init__">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.__init__</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#__init__</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.FlowbitResolver.enabled">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.enabled</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#enabled</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.FlowbitResolver.resolve">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.resolve</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#resolve</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.FlowbitResolver.set_required_flowbits">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.set<wbr></wbr>_required<wbr></wbr>_flowbits</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#set_required_flowbits</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.FlowbitResolver.get_required_rules">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.get<wbr></wbr>_required<wbr></wbr>_rules</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#get_required_rules</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Returns a list of rules that need to be enabled in order to satisfy the list of required flowbits.</div>
+          </li><li id="nethsec.snort.FlowbitResolver.get_required_flowbits">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.get<wbr></wbr>_required<wbr></wbr>_flowbits</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#get_required_flowbits</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.FlowbitResolver.parse_flowbit">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.<wbr></wbr>Flowbit<wbr></wbr>Resolver<wbr></wbr>.parse<wbr></wbr>_flowbit</div>
+            <div class="url">nethsec.snort.FlowbitResolver.html#parse_flowbit</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="nethsec.snort.enable_flowbit_dependencies">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.enable<wbr></wbr>_flowbit<wbr></wbr>_dependencies</div>
+            <div class="url">nethsec.snort.html#enable_flowbit_dependencies</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Helper function to resolve flowbits, wrapping the FlowbitResolver class.</div>
+          </li><li id="nethsec.snort.format_sidmsgmap">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.format<wbr></wbr>_sidmsgmap</div>
+            <div class="url">nethsec.snort.html#format_sidmsgmap</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Format a rule as a sid-msg.map entry.</div>
+          </li><li id="nethsec.snort.format_sidmsgmap_v2">
+            
+            <div class="fullName">nethsec<wbr></wbr>.snort<wbr></wbr>.format<wbr></wbr>_sidmsgmap<wbr></wbr>_v2</div>
+            <div class="url">nethsec.snort.html#format_sidmsgmap_v2</div>
+            <div class="type">Function</div>
+            <div class="kind">Function</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">Format a rule as a v2 sid-msg.map entry.</div>
           </li>
        </ul>
     </div>

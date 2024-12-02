@@ -7,7 +7,7 @@
   <head>
     
     <title>nethsec.ldif.LDIFParser</title>
-    <meta name="generator" content="pydoctor 24.3.3"> 
+    <meta name="generator" content="pydoctor 24.11.0"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="apidocs.css" />
     <link rel="stylesheet" type="text/css" href="extra.css" />
+    
 </head>
 
   <body>
@@ -52,7 +53,7 @@
             
             <span class="input-group-btn">
               <a style="display: none;" class="btn btn-default" id="search-clear-button" title="Clear" onclick="clearSearch()"><img src="fonts/x-circle.svg" alt="Clear" /></a>
-              <a class="btn btn-default" id="search-help-button" title="Help" onclick="toggleSearchHelpText()"><img src="fonts/info.svg" alt="Help" /></a>
+              <a class="btn btn-default" id="apidocs-help-button" title="Help" href="apidocs-help.html"><img src="fonts/info.svg" alt="Help" /></a>
             </span>
           </div>
         </div>
@@ -76,39 +77,6 @@
             <h1>Cannot search: JavaScript is not supported/enabled in your browser.</h1>
         </noscript>
 
-        <div class="hint" id="search-help-box">
-          <p class="rst-last">
-      
-            Search bar offers the following options:
-            <ul>   
-                <li>
-                  <strong>Term presence.</strong> The below example searches for documents that 
-                    must contain “foo”, might contain “bar” and must not contain “baz”: <code>+foo bar -baz</code>
-                </li> 
-
-                <li>
-                  <strong>Wildcards.</strong> The below example searches for documents with words beginning with “foo”: <code>foo*</code>
-                </li> 
-
-                <li>
-                  <strong>Search in specific fields.</strong> The following search matches all objects 
-                  in "twisted.mail" that matches “search”: <code>+qname:twisted.mail.* +search</code>
-
-                  <p>
-                    Possible fields: 'name', 'qname' (fully qualified name), 'docstring', and 'kind'.
-                    Last two fields are only applicable if "search in docstrings" is enabled.
-                  </p>
-                </li>
-
-                <li>
-                  <strong>Fuzzy matches.</strong> The following search matches all documents 
-                  that have a word within 1 edit distance of “foo”: <code>foo~1</code>
-                </li>
-            </ul>
-
-          </p>
-        </div>
-
         <div id="search-status"> </div>
 
         <div class="warning" id="search-warn-box" style="display: none;">
@@ -119,8 +87,8 @@
           <!-- Filled dynamically by JS -->
         </table>
         
-        <div style="margin-top: 8px;">
-          <p>Results provided by <a href="https://lunrjs.com">Lunr.js</a></p>
+        <div style="margin-top: 10px;">
+          <p>For more information on the search, visit the <a href="apidocs-help.html#rst-search">help page</a>.</p>
         </div>
       </div>
 
@@ -610,7 +578,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">LDIFParser</span>: <a href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L226" class="sourceLink">(source)</a></code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="nethsec.ldif.LDIFParser.__init__">LDIFParser(input_file, ignored_attr_types, process_url_schemes, line_sep, ...)</a></code></p>
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">LDIFParser</span>: <a href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L226" class="sourceLink">(source)</a></code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="nethsec.ldif.LDIFParser.__init__">LDIFParser(input_file, ignored_attr_types, process_url_schemes, line_sep, ...)</a></code></p>
           <p><a href="classIndex.html#nethsec.ldif.LDIFParser">View In Hierarchy</a></p>
         </div>
 
@@ -750,7 +718,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">__init__</span><span class="function-signature">(self, input_file, ignored_attr_types=(), process_url_schemes=(), line_sep=b<span class="rst-variable-quote">'</span><span class="rst-variable-string">\n</span><span class="rst-variable-quote">'</span>, encoding: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a> | <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a></code> = <span class="rst-variable-quote">'</span><span class="rst-variable-string">utf8</span><span class="rst-variable-quote">'</span>, strict=<a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L255">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L255">
       
       (source)
     </a>
@@ -777,7 +745,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">parse</span><span class="function-signature">(self) -&gt; <code><a href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" class="intersphinx-link">Iterator</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#tuple" class="intersphinx-link">tuple</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a> | <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>]]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L275">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L275">
       
       (source)
     </a>
@@ -803,7 +771,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">byte_counter</span>: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L272">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L272">
       
       (source)
     </a>
@@ -830,7 +798,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">line_counter</span>: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L271">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L271">
       
       (source)
     </a>
@@ -857,7 +825,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">records_read</span>: <code><a href="https://docs.python.org/3/library/functions.html#int" class="intersphinx-link">int</a></code> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L273">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L273">
       
       (source)
     </a>
@@ -885,7 +853,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     @<a href="https://docs.python.org/3/library/functions.html#staticmethod" class="intersphinx-link">staticmethod</a><br />
     <span class="py-keyword">def</span> <span class="py-defname">_strip_line_sep</span><span class="function-signature">(s)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L284">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L284">
       
       (source)
     </a>
@@ -912,7 +880,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">_check_changetype</span><span class="function-signature">(self, dn, changetype, attr_value)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L379">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L379">
       
       (source)
     </a>
@@ -939,7 +907,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">_check_dn</span><span class="function-signature">(self, dn, attr_value)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L370">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L370">
       
       (source)
     </a>
@@ -966,7 +934,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">_decode_value</span><span class="function-signature">(self, attr_type, attr_value)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L329">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L329">
       
       (source)
     </a>
@@ -993,7 +961,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">_error</span><span class="function-signature">(self, msg)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L364">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L364">
       
       (source)
     </a>
@@ -1020,7 +988,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">_iter_blocks</span><span class="function-signature">(self)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L315">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L315">
       
       (source)
     </a>
@@ -1047,7 +1015,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">_iter_unfolded_lines</span><span class="function-signature">(self)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L294">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L294">
       
       (source)
     </a>
@@ -1076,7 +1044,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">_parse_attr</span><span class="function-signature">(self, line: <code><a href="https://docs.python.org/3/library/stdtypes.html#bytes" class="intersphinx-link">bytes</a></code>)</span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L345">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L345">
       
       (source)
     </a>
@@ -1103,7 +1071,7 @@ log warnings rather than exceptions.</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">_parse_entry_record</span><span class="function-signature">(self, lines: <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#bytes" class="intersphinx-link">bytes</a>]</code>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#tuple" class="intersphinx-link">tuple</a>[<wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a> | <a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, <wbr></wbr><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a>]</code></span>:
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L388">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L388">
       
       (source)
     </a>
@@ -1129,7 +1097,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">_encoding</span> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L268">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L268">
       
       (source)
     </a>
@@ -1156,7 +1124,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">_ignored_attr_types</span> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L266">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L266">
       
       (source)
     </a>
@@ -1183,7 +1151,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">_input_file</span> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L264">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L264">
       
       (source)
     </a>
@@ -1210,7 +1178,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">_line_sep</span> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L267">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L267">
       
       (source)
     </a>
@@ -1237,7 +1205,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">_process_url_schemes</span> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L265">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L265">
       
       (source)
     </a>
@@ -1264,7 +1232,7 @@ log warnings rather than exceptions.</td></tr></table></div>
   <div class="functionHeader">
     
     <span class="py-defname">_strict</span> =
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/be183c650c09598ac8a326697ac29fb1c7738e5e/src/nethsec/ldif/__init__.py#L269">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/3e6e958d0fab313e6faeb37edafa3068886a491e/src/nethsec/ldif/__init__.py#L269">
       
       (source)
     </a>
@@ -1288,10 +1256,10 @@ log warnings rather than exceptions.</td></tr></table></div>
     <footer class="navbar navbar-default">
 
   
-  <div class="container">
+  <div class="container-fluid">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    24.3.3 at 2024-11-29 13:44:09.
+    24.11.0 at 2024-12-02 13:34:51.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
