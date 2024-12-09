@@ -146,6 +146,20 @@ def fact_threat_shield(uci: EUci):
         pass
     return ret
 
+def fact_ad_block(uci: EUci):
+    ret = { 'enabled': False, 'community': 0, 'enterprise': 0 }
+    ret['enabled'] = uci.get('adblock', 'global', 'ts_enabled', default='0') == '1'
+    try:
+        enabled_feeds = list(uci.get_all('adblock', 'global', 'adb_sources'))
+    except:
+        enabled_feeds = []
+    for feed in enabled_feeds:
+        if feed.startswith("nethesis") or feed.startswith("yoroi"):
+            ret['enterprise'] += 1
+        else:
+            ret['community'] += 1
+    return ret
+
 def fact_ui(uci: EUci):
     ret = { 'luci': False, 'port443': False, 'port9090': False }
     ret['luci'] = uci.get('ns-ui', 'config', 'luci_enable', default='0') == '1'
