@@ -756,7 +756,7 @@ def ldif2users(ldif_data, user_attr="uid", display_attr="cn"):
     for dn, record in parser.parse():
         if user_attr in record:
             user = {}
-            user["name"] = record[user_attr][0]
+            user["name"] = record[user_attr][0].lower()
             if display_attr in record:
                 user["description"] = record[display_attr][0]
             else:
