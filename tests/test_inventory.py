@@ -961,7 +961,7 @@ def test_fact_firewall_stats(tmp_path):
     assert result['objects']['rules']['input'] == 1
     assert result['objects']['rules']['output'] == 1
 
-def test_fact_ad_block(tmp_path):
+def test_fact_adblock(tmp_path):
 	u = _setup_db(tmp_path)
-	result = inventory.fact_ad_block(u)
+	result = inventory.fact_adblock(u)
 	assert result == {"enabled": True, "community": 5, "enterprise": 2}

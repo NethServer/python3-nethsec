@@ -146,7 +146,7 @@ def fact_threat_shield(uci: EUci):
         pass
     return ret
 
-def fact_ad_block(uci: EUci):
+def fact_adblock(uci: EUci):
     ret = { 'enabled': False, 'community': 0, 'enterprise': 0 }
     ret['enabled'] = uci.get('adblock', 'global', 'ts_enabled', default='0') == '1'
     try:
