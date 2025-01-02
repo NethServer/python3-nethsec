@@ -1177,6 +1177,22 @@ def is_output_rule(rule: dict) -> bool:
         return True
     return False
 
+def is_zone(uci, name:str) -> bool:
+    """
+    Check if name is a zone
+
+    Args:
+        name: zone to check
+
+    Returns:
+        True if name is a zone, False otherwise
+    """
+    zones = list_zones(uci)
+    for key, value in zones.items():
+        if 'name' in value and value['name'] == name:
+            return True
+    return False
+
 def list_rules(uci, rule_type = None) -> list:
     """
     Get all rules from firewall config
@@ -1200,10 +1216,13 @@ def list_rules(uci, rule_type = None) -> list:
             else:
                 if rule_type =='forward' and is_forward_rule(rule):
                    rules.append(enrich_rule(uci, rule))
+                   rule['true_zone'] = is_zone(uci, rule['src'])
                 elif rule_type =='input' and is_input_rule(rule):
                    rules.append(enrich_rule(uci, rule))
+                   rule['true_zone'] = is_zone(uci, rule['src'])
                 elif rule_type =='output' and is_output_rule(rule):
                    rules.append(enrich_rule(uci, rule))
+                   rule['true_zone'] = is_zone(uci, rule['dest'])
         i += 1
     return rules
 
