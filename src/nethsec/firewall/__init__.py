@@ -1188,7 +1188,7 @@ def is_zone(uci, name:str) -> bool:
         True if name is a zone, False otherwise
     """
     zones = list_zones(uci)
-    for key, value in zones.items():
+    for value in zones.items():
         if 'name' in value and value['name'] == name:
             return True
     return False
@@ -1216,7 +1216,7 @@ def list_rules(uci, rule_type = None) -> list:
             else:
                 if rule_type =='forward' and is_forward_rule(rule):
                    rules.append(enrich_rule(uci, rule))
-                   rule['active_zone'] = is_zone(uci, rule['src'])
+                   rule['active_zone'] = is_zone(uci, rule['src']) and is_zone(uci, rule['dst']) 
                 elif rule_type =='input' and is_input_rule(rule):
                    rules.append(enrich_rule(uci, rule))
                    rule['active_zone'] = is_zone(uci, rule['src'])
