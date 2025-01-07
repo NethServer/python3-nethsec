@@ -15,6 +15,9 @@ import ipaddress
 import os
 import subprocess
 import secrets
+
+from uci import UciExceptionNotFound
+
 from nethsec import utils
 from nethsec.ldif import LDIFParser
 from urllib.parse import urlparse
@@ -885,7 +888,10 @@ def is_used(uci, database_name):
     Returns:
       - True if the database is used, False otherwise
     """
-    for user in uci.get_all('openvpn'):
-        if uci.get('openvpn', user, 'ns_user_db', default='') == database_name:
-            return True
-    return False
+    try:
+        for user in uci.get_all('openvpn'):
+            if uci.get('openvpn', user, 'ns_user_db', default='') == database_name:
+                return True
+        return False
+    except UciExceptionNotFound:
+        return False
