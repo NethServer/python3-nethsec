@@ -436,7 +436,8 @@ def list_databases(uci):
         elif uci.get('users', db, default='') == "ldap":
             ret.append({"name": db, "type": "ldap", "description": uci.get('users', db, 'description', default=''),
                         "schema": uci.get('users', db, 'schema', default=''),
-                        "uri": uci.get('users', db, 'uri', default='')})
+                        "uri": uci.get('users', db, 'uri', default=''),
+                        "used": is_used(uci, db)})
     return ret
 
 def get_database(uci, name):
@@ -869,5 +870,22 @@ def is_admin(uci, username):
         return False
     for l in logins:
         if logins[l].get("username") == username:
+            return True
+    return False
+
+
+def is_used(uci, database_name):
+    """
+    Checks if the database is used by VPN or other services
+
+    Arguments:
+      - uci -- EUci pointer
+      - database_name -- Database identifier
+
+    Returns:
+      - True if the database is used, False otherwise
+    """
+    for user in uci.get_all('openvpn'):
+        if uci.get('openvpn', user, 'ns_user_db', default='') == database_name:
             return True
     return False
