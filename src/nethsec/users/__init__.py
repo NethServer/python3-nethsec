@@ -440,7 +440,7 @@ def list_databases(uci):
             ret.append({"name": db, "type": "ldap", "description": uci.get('users', db, 'description', default=''),
                         "schema": uci.get('users', db, 'schema', default=''),
                         "uri": uci.get('users', db, 'uri', default=''),
-                        "used": is_used(uci, db)})
+                        "used": used_by(uci, db)})
     return ret
 
 def get_database(uci, name):
@@ -877,7 +877,7 @@ def is_admin(uci, username):
     return False
 
 
-def is_used(uci, database_name):
+def used_by(uci, database_name):
     """
     Checks if the database is used by VPN or other services
 
@@ -886,12 +886,24 @@ def is_used(uci, database_name):
       - database_name -- Database identifier
 
     Returns:
-      - True if the database is used, False otherwise
+      - dict containing the service that the database is used by
     """
+    results = []
     try:
-        for user in uci.get_all('openvpn'):
-            if uci.get('openvpn', user, 'ns_user_db', default='') == database_name:
-                return True
-        return False
+        for instance in uci.get_all('openvpn'):
+            if uci.get('openvpn', instance, 'ns_user_db', default='') == database_name:
+                results.append('openvpn')
+                break
     except UciExceptionNotFound:
-        return False
+        pass
+
+    try:
+        for instance in uci.get_all('network'):
+            # could filter by proto = 'wireguard' but the performance is not an issue
+            if uci.get('network', instance, 'ns_user_db', default='') == database_name:
+                results.append('wireguard')
+                break
+    except UciExceptionNotFound:
+        pass
+
+    return results
