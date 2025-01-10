@@ -1179,7 +1179,7 @@ def is_output_rule(rule: dict) -> bool:
 
 def is_zone(uci, name:str) -> bool:
     """
-    Check if name is a zone
+    Check if name is a zone or any zone ('*')
 
     Args:
         name: zone to check
@@ -1187,6 +1187,11 @@ def is_zone(uci, name:str) -> bool:
     Returns:
         True if name is a zone, False otherwise
     """
+
+    # True zone if name is 'any' zone name -> '*'
+    if name == '*':
+        return True
+
     zones = list_zones(uci)
     for value in zones.values():
         if 'name' in value and value['name'] == name:
@@ -1216,13 +1221,13 @@ def list_rules(uci, rule_type = None) -> list:
             else:
                 if rule_type =='forward' and is_forward_rule(rule):
                    rules.append(enrich_rule(uci, rule))
-                   rule['active_zone'] = is_zone(uci, rule['src']) and is_zone(uci, rule['dest']) 
+                   rule['active_zone'] = is_zone(uci, rule.get('src','*')) and is_zone(uci, rule.get('dest','*')) 
                 elif rule_type =='input' and is_input_rule(rule):
                    rules.append(enrich_rule(uci, rule))
-                   rule['active_zone'] = is_zone(uci, rule['src'])
+                   rule['active_zone'] = is_zone(uci, rule.get('src','*'))
                 elif rule_type =='output' and is_output_rule(rule):
                    rules.append(enrich_rule(uci, rule))
-                   rule['active_zone'] = is_zone(uci, rule['dest'])
+                   rule['active_zone'] = is_zone(uci, rule.get('dest','*'))
         i += 1
     return rules
 
