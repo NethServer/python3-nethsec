@@ -815,6 +815,16 @@ def test_resolve_address(u):
     assert firewall.resolve_address(u, "10.0.0.22") == {"value": "10.0.0.22", "type": "interface", "label": "bond1"}
     assert firewall.resolve_address(u, "2001:db80::2/64") == {"value": "2001:db80::2/64", "type": "interface", "label": "wan6"}
 
+def test_is_zone(u):
+    assert firewall.is_zone(u,"lan") == True
+    assert firewall.is_zone(u,"wan") == True
+    assert firewall.is_zone(u,"blue") == True
+    assert firewall.is_zone(u,"wan") == True
+    # we expect it fails because the zone does not exist
+    assert firewall.is_zone(u,"lan2custom") == False
+    # we expect it to be true because we are using any zone
+    assert firewall.is_zone(u,"*") == True
+
 def test_list_forward_rules(u):
     rules = firewall.list_forward_rules(u)
     assert len(rules) > 0
@@ -826,6 +836,7 @@ def test_list_forward_rules(u):
         assert 'enabled' in r
         assert 'ns_tag' in r
         assert 'proto' in r
+        assert 'active_zone' in r
 
 def test_list_output_rules(u):
     rules = firewall.list_output_rules(u)
@@ -838,6 +849,7 @@ def test_list_output_rules(u):
        assert 'enabled' in r
        assert 'ns_tag' in r
        assert 'proto' in r
+       assert 'active_zone' in r
 
 def test_list_input_rules(u):
     rules = firewall.list_input_rules(u)
@@ -850,6 +862,7 @@ def test_list_input_rules(u):
        assert 'enabled' in r
        assert 'ns_tag' in r
        assert 'proto' in r
+       assert 'active_zone' in r
 
 def test_list_service_suggestions(u, mocker):
     mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
