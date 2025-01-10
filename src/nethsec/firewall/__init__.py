@@ -1179,7 +1179,7 @@ def is_output_rule(rule: dict) -> bool:
 
 def is_zone(uci, name:str) -> bool:
     """
-    Check if name is a zone
+    Check if name is a zone or any zone ('*')
 
     Args:
         name: zone to check
@@ -1190,6 +1190,9 @@ def is_zone(uci, name:str) -> bool:
     zones = list_zones(uci)
     for value in zones.values():
         if 'name' in value and value['name'] == name:
+            return True
+        # True zone if name is 'any' zone name -> '*'
+        elif name == '*':
             return True
     return False
 
