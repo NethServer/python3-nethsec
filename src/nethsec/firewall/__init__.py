@@ -1187,12 +1187,14 @@ def is_zone(uci, name:str) -> bool:
     Returns:
         True if name is a zone, False otherwise
     """
+
+    # True zone if name is 'any' zone name -> '*'
+    if name == '*':
+        return True
+
     zones = list_zones(uci)
     for value in zones.values():
         if 'name' in value and value['name'] == name:
-            return True
-        # True zone if name is 'any' zone name -> '*'
-        elif name == '*':
             return True
     return False
 
