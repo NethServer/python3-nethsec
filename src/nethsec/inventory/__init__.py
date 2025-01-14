@@ -446,3 +446,24 @@ def fact_ddns(uci: EUci):
 def fact_snmp (uci: EUci):
     snmp = _run_status("/etc/init.d/snmpd running")
     return { 'enabled': snmp == 0 }
+
+def fact_wiregard(uci: EUci):
+    ret = { 'instances': 0, 'statistics':[] }
+    wg= []
+    user_db = {}
+    interfaces = utils.get_all_by_type(uci, "network", "interface")
+    for i in interfaces:
+        interface = interfaces[i]
+        if interface.get("proto") == "wireguard":
+           wg.append(i)
+           ret['instances'] += 1
+           user_db.update({i:'main'})
+           if interface.get("ns_user_db"):
+               user_db.update({i:interface.get('ns_user_db')})
+    ## iterate over all wireguard interfaces from wg
+    ## find the number of peers from wireguard_wg1
+    for interface in wg:
+        peers = utils.get_all_by_type(uci, "network", 'wireguard_'+interface)
+        ret['statistics'].append({'server': interface, "peers": len(peers), "ns_user_db": user_db[interface]})
+    return ret
+
