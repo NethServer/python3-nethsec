@@ -453,5 +453,5 @@ def fact_backups(uci: EUci):
         ret['backup_passphrase'] = os.path.exists('/etc/backup.pass')
         ret['passphrase_date'] = int(os.path.getmtime('/etc/backup.pass'))
     except:
-        pass
+        return {}
     return ret
