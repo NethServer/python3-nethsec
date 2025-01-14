@@ -499,3 +499,15 @@ def fact_snort(uci: EUci):
     except:
         pass
     return ret
+
+def fact_mac_ip_binding(uci: EUci):
+    ret = { "disabled": 0, "soft-binding": 0, "hard-binding": 0 }
+    # Parse DHCP servers
+    for section in utils.get_all_by_type(uci, 'dhcp', 'dhcp'):
+        if uci.get('dhcp', section, 'ns_binding', default='') == '' or uci.get('dhcp', section, 'ns_binding', default='') == '0':
+            ret['disabled'] += 1  # Increment the count for DHCP servers
+        elif uci.get('dhcp', section, 'ns_binding', default='') == '1':
+            ret['soft-binding'] += 1
+        elif uci.get('dhcp', section, 'ns_binding', default='') == '2':
+            ret['hard-binding'] += 1
+    return ret
