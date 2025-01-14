@@ -462,8 +462,40 @@ def fact_wiregard(uci: EUci):
                user_db.update({i:interface.get('ns_user_db')})
     ## iterate over all wireguard interfaces from wg
     ## find the number of peers from wireguard_wg1
-    for interface in wg:
-        peers = utils.get_all_by_type(uci, "network", 'wireguard_'+interface)
-        ret['statistics'].append({'server': interface, "peers": len(peers), "ns_user_db": user_db[interface]})
+    for w in wg:
+        peers = utils.get_all_by_type(uci, "network", 'wireguard_'+w)
+        ret['statistics'].append({'server': w, "peers": len(peers), "ns_user_db": user_db[w]})
     return ret
 
+
+def fact_snort(uci: EUci):
+    ret = { 'enabled': False, 'policy': '', 'oink_enabled': False, 'disabled_rules': 0, 'bypass_src_ipv4': 0, 'bypass_src_ipv6': 0, 'bypass_dst_ipv4': 0, 'bypass_dst_ipv6': 0 }
+
+    ret['enabled'] = uci.get('snort', 'snort', 'enabled', default='0') == '1'
+    ret['policy'] = uci.get('snort', 'snort', 'ns_policy', default='')
+    ret['oink_enabled'] = True if uci.get('snort', 'snort', 'oinkcode', default='') else False
+
+    # count list of ns_disabled_rules
+    try :
+        ret['disabled_rules'] = len(uci.get_all('snort', 'snort', 'ns_disabled_rules'))
+    except:
+        pass
+    # count the source bypass of ipv4 and ipv6
+    try:
+        ret['bypass_src_ipv4'] = len(uci.get_all('snort', 'nfq', 'bypass_src_v4'))
+    except:
+        pass
+    try:
+        ret['bypass_src_ipv6'] = len(uci.get_all('snort', 'nfq', 'bypass_src_v6'))
+    except:
+        pass
+    ## count the destination bypass_dst_v4 and bypass_dst_]
+    try:
+        ret['bypass_dst_ipv4'] = len(uci.get_all('snort', 'nfq', 'bypass_dst_v4'))
+    except:
+        pass
+    try:
+        ret['bypass_dst_ipv6'] = len(uci.get_all('snort', 'nfq', 'bypass_dst_v6'))
+    except:
+        pass
+    return ret
