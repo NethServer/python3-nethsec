@@ -471,33 +471,19 @@ def fact_wiregard(uci: EUci):
 def fact_snort(uci: EUci):
     ret = { 'enabled': False, 'policy': '', 'oink_enabled': False, 'disabled_rules': 0, 'bypass_src_ipv4': 0, 'bypass_src_ipv6': 0, 'bypass_dst_ipv4': 0, 'bypass_dst_ipv6': 0 }
 
-    ret['enabled'] = uci.get('snort', 'snort', 'enabled', default='0') == '1'
+    ret['enabled'] = uci.get('snort', 'snort', 'enabled', dtype=bool, default=False)
     ret['policy'] = uci.get('snort', 'snort', 'ns_policy', default='')
     ret['oink_enabled'] = True if uci.get('snort', 'snort', 'oinkcode', default='') else False
 
     # count list of ns_disabled_rules
-    try :
-        ret['disabled_rules'] = len(uci.get_all('snort', 'snort', 'ns_disabled_rules'))
-    except:
-        pass
+    ret['disabled_rules'] = len(uci.get('snort', 'snort', 'ns_disabled_rules', list=True, default=[]))
     # count the source bypass of ipv4 and ipv6
-    try:
-        ret['bypass_src_ipv4'] = len(uci.get_all('snort', 'nfq', 'bypass_src_v4'))
-    except:
-        pass
-    try:
-        ret['bypass_src_ipv6'] = len(uci.get_all('snort', 'nfq', 'bypass_src_v6'))
-    except:
-        pass
-    ## count the destination bypass_dst_v4 and bypass_dst_]
-    try:
-        ret['bypass_dst_ipv4'] = len(uci.get_all('snort', 'nfq', 'bypass_dst_v4'))
-    except:
-        pass
-    try:
-        ret['bypass_dst_ipv6'] = len(uci.get_all('snort', 'nfq', 'bypass_dst_v6'))
-    except:
-        pass
+    ret['bypass_src_ipv4'] = len(uci.get('snort', 'nfq', 'bypass_src_v4', list=True, default=[]))
+    ret['bypass_src_ipv6'] = len(uci.get('snort', 'nfq', 'bypass_src_v6', list=True, default=[]))
+    ## count the destination bypass_dst_v4 and bypass_dst_ipv6
+    ret['bypass_dst_ipv4'] = len(uci.get('snort', 'nfq', 'bypass_dst_v4', list=True, default=[]))
+    ret['bypass_dst_ipv6'] = len(uci.get('snort', 'nfq', 'bypass_dst_v6', list=True, default=[]))
+
     return ret
 
 def fact_mac_ip_binding(uci: EUci):
