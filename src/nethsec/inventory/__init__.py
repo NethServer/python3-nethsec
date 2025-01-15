@@ -446,3 +446,12 @@ def fact_ddns(uci: EUci):
 def fact_snmp (uci: EUci):
     snmp = _run_status("/etc/init.d/snmpd running")
     return { 'enabled': snmp == 0 }
+
+def fact_backups(uci: EUci):
+    ret = { 'backup_passphrase': False, 'passphrase_date': 0 }
+    try:
+        ret['backup_passphrase'] = os.path.exists('/etc/backup.pass')
+        ret['passphrase_date'] = int(os.path.getmtime('/etc/backup.pass'))
+    except:
+        return {}
+    return ret
