@@ -447,6 +447,57 @@ def fact_snmp (uci: EUci):
     snmp = _run_status("/etc/init.d/snmpd running")
     return { 'enabled': snmp == 0 }
 
+def fact_wiregard(uci: EUci):
+    ret = { 'instances': 0, 'statistics':[] }
+    wg= []
+    user_db = {}
+    interfaces = utils.get_all_by_type(uci, "network", "interface")
+    for i in interfaces:
+        interface = interfaces[i]
+        if interface.get("proto") == "wireguard":
+           wg.append(i)
+           ret['instances'] += 1
+           user_db.update({i:'main'})
+           if interface.get("ns_user_db"):
+               user_db.update({i:interface.get('ns_user_db')})
+    ## iterate over all wireguard interfaces from wg
+    ## find the number of peers from wireguard_wg1
+    for w in wg:
+        peers = utils.get_all_by_type(uci, "network", 'wireguard_'+w)
+        ret['statistics'].append({'server': w, "peers": len(peers), "ns_user_db": user_db[w]})
+    return ret
+
+
+def fact_snort(uci: EUci):
+    ret = { 'enabled': False, 'policy': '', 'oink_enabled': False, 'disabled_rules': 0, 'bypass_src_ipv4': 0, 'bypass_src_ipv6': 0, 'bypass_dst_ipv4': 0, 'bypass_dst_ipv6': 0 }
+
+    ret['enabled'] = uci.get('snort', 'snort', 'enabled', dtype=bool, default=False)
+    ret['policy'] = uci.get('snort', 'snort', 'ns_policy', default='')
+    ret['oink_enabled'] = True if uci.get('snort', 'snort', 'oinkcode', default='') else False
+
+    # count list of ns_disabled_rules
+    ret['disabled_rules'] = len(uci.get('snort', 'snort', 'ns_disabled_rules', list=True, default=[]))
+    # count the source bypass of ipv4 and ipv6
+    ret['bypass_src_ipv4'] = len(uci.get('snort', 'nfq', 'bypass_src_v4', list=True, default=[]))
+    ret['bypass_src_ipv6'] = len(uci.get('snort', 'nfq', 'bypass_src_v6', list=True, default=[]))
+    ## count the destination bypass_dst_v4 and bypass_dst_ipv6
+    ret['bypass_dst_ipv4'] = len(uci.get('snort', 'nfq', 'bypass_dst_v4', list=True, default=[]))
+    ret['bypass_dst_ipv6'] = len(uci.get('snort', 'nfq', 'bypass_dst_v6', list=True, default=[]))
+
+    return ret
+
+def fact_mac_ip_binding(uci: EUci):
+    ret = { "disabled": 0, "soft-binding": 0, "hard-binding": 0 }
+    # Parse DHCP servers
+    for section in utils.get_all_by_type(uci, 'dhcp', 'dhcp'):
+        if uci.get('dhcp', section, 'ns_binding', default='') == '' or uci.get('dhcp', section, 'ns_binding', default='') == '0':
+            ret['disabled'] += 1  # Increment the count for DHCP servers
+        elif uci.get('dhcp', section, 'ns_binding', default='') == '1':
+            ret['soft-binding'] += 1
+        elif uci.get('dhcp', section, 'ns_binding', default='') == '2':
+            ret['hard-binding'] += 1
+    return ret
+
 def fact_backups(uci: EUci):
     ret = { 'backup_passphrase': False, 'passphrase_date': 0 }
     try:
