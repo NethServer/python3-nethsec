@@ -497,3 +497,12 @@ def fact_mac_ip_binding(uci: EUci):
         elif uci.get('dhcp', section, 'ns_binding', default='') == '2':
             ret['hard-binding'] += 1
     return ret
+
+def fact_backups(uci: EUci):
+    ret = { 'backup_passphrase': False, 'passphrase_date': 0 }
+    try:
+        ret['backup_passphrase'] = os.path.exists('/etc/backup.pass')
+        ret['passphrase_date'] = int(os.path.getmtime('/etc/backup.pass'))
+    except:
+        return {}
+    return ret
