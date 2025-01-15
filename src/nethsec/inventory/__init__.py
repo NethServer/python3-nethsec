@@ -469,7 +469,7 @@ def fact_wiregard(uci: EUci):
 
 
 def fact_snort(uci: EUci):
-    ret = { 'enabled': False, 'policy': '', 'oink_enabled': False, 'disabled_rules': 0, 'suppress_rules': 0, 'bypass_src_ipv4': 0, 'bypass_src_ipv6': 0, 'bypass_dst_ipv4': 0, 'bypass_dst_ipv6': 0 }
+    ret = { 'enabled': False, 'policy': '', 'oink_enabled': False, 'disabled_rules': 0, 'suppressed_rules': 0, 'bypass_src_ipv4': 0, 'bypass_src_ipv6': 0, 'bypass_dst_ipv4': 0, 'bypass_dst_ipv6': 0 }
 
     ret['enabled'] = uci.get('snort', 'snort', 'enabled', dtype=bool, default=False)
     ret['policy'] = uci.get('snort', 'snort', 'ns_policy', default='')
@@ -478,7 +478,7 @@ def fact_snort(uci: EUci):
     # count list of ns_disabled_rules
     ret['disabled_rules'] = len(uci.get('snort', 'snort', 'ns_disabled_rules', list=True, default=[]))
     # count list of ns_suppress rules
-    ret['suppress_rules'] = len(uci.get('snort', 'snort', 'ns_suppress', list=True, default=[]))
+    ret['suppressed_rules'] = len(uci.get('snort', 'snort', 'ns_suppress', list=True, default=[]))
     # count the source bypass of ipv4 and ipv6
     ret['bypass_src_ipv4'] = len(uci.get('snort', 'nfq', 'bypass_src_v4', list=True, default=[]))
     ret['bypass_src_ipv6'] = len(uci.get('snort', 'nfq', 'bypass_src_v6', list=True, default=[]))
