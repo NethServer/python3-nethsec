@@ -447,7 +447,7 @@ def fact_snmp (uci: EUci):
     snmp = _run_status("/etc/init.d/snmpd running")
     return { 'enabled': snmp == 0 }
 
-def fact_wiregard(uci: EUci):
+def fact_wireguard(uci: EUci):
     ret = { 'instances': 0, 'statistics':[] }
     wg= []
     user_db = {}
