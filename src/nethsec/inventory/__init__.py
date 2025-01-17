@@ -12,6 +12,7 @@ import os
 import re
 import subprocess
 import configparser
+import json
 
 # run a bash command and return the error code
 def _run_status(cmd):
@@ -447,7 +448,7 @@ def fact_snmp (uci: EUci):
     snmp = _run_status("/etc/init.d/snmpd running")
     return { 'enabled': snmp == 0 }
 
-def fact_wiregard(uci: EUci):
+def fact_wireguard(uci: EUci):
     ret = { 'instances': 0, 'statistics':[] }
     wg= []
     user_db = {}
@@ -490,13 +491,15 @@ def fact_snort(uci: EUci):
 
 def fact_mac_ip_binding(uci: EUci):
     ret = { "disabled": 0, "soft-binding": 0, "hard-binding": 0 }
-    # Parse DHCP servers
-    for section in utils.get_all_by_type(uci, 'dhcp', 'dhcp'):
-        if uci.get('dhcp', section, 'ns_binding', default='') == '' or uci.get('dhcp', section, 'ns_binding', default='') == '0':
+    # Parse DHCP servers (interface with static IP, wan is excluded)
+    result = subprocess.check_output(['/usr/libexec/rpcd/ns.dhcp', 'call', 'list-interfaces'])
+    interfaces = json.loads(result)
+    for i in interfaces:
+        if uci.get('dhcp', i, 'ns_binding', default='') == '' or uci.get('dhcp', i, 'ns_binding', default='') == '0':
             ret['disabled'] += 1  # Increment the count for DHCP servers
-        elif uci.get('dhcp', section, 'ns_binding', default='') == '1':
+        elif uci.get('dhcp', i, 'ns_binding', default='') == '1':
             ret['soft-binding'] += 1
-        elif uci.get('dhcp', section, 'ns_binding', default='') == '2':
+        elif uci.get('dhcp', i, 'ns_binding', default='') == '2':
             ret['hard-binding'] += 1
     return ret
 
