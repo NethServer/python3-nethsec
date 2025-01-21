@@ -55,7 +55,7 @@ def get_user_by_name(uci, name, database="main"):
         if uci.get('users', u, 'database', default='') != database:
             continue
         if uci.get('users', u, default='') == "user":
-            if uci.get('users', u, 'name', default='') == name:
+            if uci.get('users', u, 'name', default='').lower() == name.lower():
                 for opt in uci.get_all("users", u):
                     user[opt] = uci.get_all('users', u, opt)
                     # convert tuple to list
