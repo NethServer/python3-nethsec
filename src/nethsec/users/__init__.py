@@ -12,10 +12,12 @@ Library that handles users and groups
 import base64
 import hashlib
 import ipaddress
+import json
 import os
 import subprocess
 import secrets
 
+from euci import EUci
 from uci import UciExceptionNotFound
 
 from nethsec import utils
@@ -738,6 +740,26 @@ def check_password(password, shadow):
       - True if password matches, False otherwise
     '''
     return hash.sha512_crypt.verify(password, shadow)
+
+
+def check_old_password(username, password):
+    """
+    Checks if the old password is correct, discriminates between root and other users.
+    Args:
+      - username -- Username of the user to check
+      - password -- Password to check
+
+    Returns:
+      - True if the password is correct, False otherwise
+    """
+    data = {
+        "username": username,
+        "password": password,
+        "timeout": 1
+    }
+    process = subprocess.run(["/bin/ubus", "call", "session", "login", json.dumps(data)], capture_output=True)
+    return process.returncode == 0
+
 
 def ldif2users(ldif_data, user_attr="uid", display_attr="cn"):
     '''
