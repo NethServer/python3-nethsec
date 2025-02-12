@@ -745,7 +745,8 @@ def check_password(password, shadow):
 def check_old_password(username, password):
     """
     Checks if the old password is correct, discriminates between root and other users.
-    Args:
+
+    Arguments:
       - username -- Username of the user to check
       - password -- Password to check
 
