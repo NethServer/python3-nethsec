@@ -868,7 +868,6 @@ def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = F
             uci.delete('firewall', zone_config_name, 'log_limit')
         except:
             pass
-    uci.set('firewall', zone_config_name, 'log', '1' if log else '0')
 
     # delete old forwardings
 
