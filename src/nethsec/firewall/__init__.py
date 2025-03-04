@@ -807,6 +807,10 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
         uci.set('firewall', zone_config_name, 'log_limit', log_opts['zone_log_limit'])
     else:
         uci.set('firewall', zone_config_name, 'log', '0')
+        try:
+            uci.delete('firewall', zone_config_name, 'log_limit')
+        except:
+            pass
 
 
     forwardings_added = set()
@@ -860,6 +864,10 @@ def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = F
             uci.set('firewall', zone_config_name, 'log_limit', log_opts['zone_log_limit'])
     else:
         uci.set('firewall', zone_config_name, 'log', '0')
+        try:
+            uci.delete('firewall', zone_config_name, 'log_limit')
+        except:
+            pass
     uci.set('firewall', zone_config_name, 'log', '1' if log else '0')
 
     # delete old forwardings
@@ -1558,13 +1566,16 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
     uci.set('firewall', id, 'enabled', '1' if enabled else '0')
     if log:
         uci.set('firewall', id, 'log', '1')
-        if uci.get('firewall', id, 'limit', default=None) is None:
+        if uci.get('firewall', id, 'log_limit', default=None) is None:
             # set default log limit, do not overwrite existing value
             log_opts = get_default_logging_options(uci)
-            uci.set('firewall', id, 'limit', log_opts['rule_log_limit'])
-            uci.set('firewall', id, 'limit_burst', log_opts['rule_log_burst'])
+            uci.set('firewall', id, 'log_limit', log_opts['rule_log_limit'])
     else:
         uci.set('firewall', id, 'log', '0')
+        try:
+            uci.delete('firewall', id, 'log_limit')
+        except:
+            pass
     uci.set('firewall', id, 'ns_tag', tag)
     if ns_src:
         uci.set('firewall', id, 'ns_src', ns_src)
@@ -2078,7 +2089,7 @@ def get_default_logging_options(uci):
         uci: EUci pointer
 
     Returns:
-        a dict with keys rule_log_limit, rule_log_burst, zone_log_limit, redirect_log_limit
+        a dict with keys rule_log_limit, zone_log_limit, redirect_log_limit
     """
 
     ret = {}
@@ -2087,12 +2098,11 @@ def get_default_logging_options(uci):
         # Set defaults, if needed
         uci.set('firewall', 'ns_defaults', 'defaults')
         uci.set('firewall', 'ns_defaults', 'rule_log_limit', '1/s')
-        uci.set('firewall', 'ns_defaults', 'rule_log_burst', '10')
         uci.set('firewall', 'ns_defaults', 'zone_log_limit', '5/s')
         uci.set('firewall', 'ns_defaults', 'redirect_log_limit', '1/s')
         uci.save('firewall')
 
-    for key in ['rule_log_limit', 'rule_log_burst', 'zone_log_limit', 'redirect_log_limit']:
+    for key in ['rule_log_limit', 'zone_log_limit', 'redirect_log_limit']:
         ret[key] = uci.get('firewall', 'ns_defaults', key)
 
     return ret
@@ -2110,8 +2120,7 @@ def apply_default_logging_options(uci):
     log_opts = get_default_logging_options(uci)
     for section in uci.get_all("firewall"):
         if uci.get('firewall', section) == 'rule' and uci.get('firewall', section, 'log', default='0') == '1':
-            uci.set('firewall', section, 'limit', log_opts['rule_log_limit'])
-            uci.set('firewall', section, 'limit_burst', log_opts['rule_log_burst'])
+            uci.set('firewall', section, 'log_limit', log_opts['rule_log_limit'])
         elif uci.get('firewall', section) == 'zone' and uci.get('firewall', section, 'log', default='0') == '1':
             uci.set('firewall', section, 'log_limit', log_opts['zone_log_limit'])
         elif uci.get('firewall', section) == 'redirect' and uci.get('firewall', section, 'log', default='0') == '1':

@@ -927,8 +927,7 @@ def test_add_rule(u, mocker):
     assert u.get("firewall", rid, "ns_service") == "ssh"
     assert u.get("firewall", rid, "enabled") == "1"
     assert u.get("firewall", rid, "log") == "1"
-    assert u.get("firewall", rid, "limit") == "1/s"
-    assert u.get("firewall", rid, "limit_burst") == "10"
+    assert u.get("firewall", rid, "log_limit") == "1/s"
     assert u.get_all("firewall", rid, "ns_tag") == ("tag1",)
     assert u.get("firewall", rid, "ns_link", default="notpresent") == "notpresent"
 
@@ -1187,32 +1186,26 @@ def test_edit_rule_remove_object(u):
 def test_get_default_logging_options(u):
     logging_options = firewall.get_default_logging_options(u)
     assert logging_options['rule_log_limit'] == '1/s'
-    assert logging_options['rule_log_burst'] == '10'
     assert logging_options['zone_log_limit'] == '5/s'
     assert logging_options['redirect_log_limit'] == '1/s'
 
 def test_rule_default_log_limit(u):
     rid = firewall.add_rule(u, 'myrule3', 'lan', ['192.168.1.22'], 'wan', ['1.2.3.4'], ['tcp', 'udp'], '443', 'ACCEPT', "", log=True)
-    assert u.get("firewall", rid, "limit") == "1/s"
-    assert u.get("firewall", rid, "limit_burst") == "10"
+    assert u.get("firewall", rid, "log_limit") == "1/s"
 
 def test_change_rule_default_log_limit(u):
     u.set('firewall', 'ns_defaults', 'rule_log_limit', '2/s')
-    u.set('firewall', 'ns_defaults', 'rule_log_burst', '30')
     u.save('firewall')
     rid = firewall.add_rule(u, 'myrule4', 'lan', ['192.168.1.22'], 'wan', ['1.2.3.4'], ['tcp', 'udp'], '443', 'ACCEPT', "", log=True)
-    assert u.get("firewall", rid, "limit") == "2/s"
-    assert u.get("firewall", rid, "limit_burst") == "30"
+    assert u.get("firewall", rid, "log_limit") == "2/s"
 
 def test_assert_custom_log_limit(u):
     # Check rule
     rid = firewall.add_rule(u, 'myrule5', 'lan', ['192.168.1.22'], 'wan', ['1.2.3.4'], ['tcp', 'udp'], '443', 'ACCEPT', "", log=True)
-    u.set('firewall', rid, 'limit', '123/s')
-    u.set('firewall', rid, 'limit_burst', '20')
+    u.set('firewall', rid, 'log_limit', '123/s')
     u.save('firewall')
     rid = firewall.edit_rule(u, rid, 'myrule5', 'lan', ['192.168.1.22'], 'wan', ['1.2.3.4'], ['tcp', 'udp'], '443', 'ACCEPT', "", log=True)
-    assert u.get("firewall", rid, "limit") == "123/s"
-    assert u.get("firewall", rid, "limit_burst") == "20"
+    assert u.get("firewall", rid, "log_limit") == "123/s"
     # Check zone
     (zid, forwardings) = firewall.add_zone(u, "ztwl", "REJECT", "DROP", log=True)
     print(zid)
@@ -1230,7 +1223,7 @@ def test_change_zone_default_log_limit(u):
 def test_apply_default_logging_options(u):
     firewall.apply_default_logging_options(u)
     assert u.get("firewall", "ns_59eea167", "log_limit") == "1/s"
-    assert u.get("firewall", "f1", "limit") == "2/s"
+    assert u.get("firewall", "f1", "log_limit") == "2/s"
     assert u.get("firewall", "with_log", "log_limit") == "20/s"
     assert u.get("firewall", "grey", "log_limit", default=None) == None
     assert u.get("firewall", "o1", "log_limit", default=None) == None
