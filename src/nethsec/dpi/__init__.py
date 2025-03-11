@@ -11,6 +11,7 @@ Library that handles the DPI rules.
 
 import json
 import subprocess
+from fnmatch import fnmatch
 
 import math
 from euci import EUci
@@ -166,10 +167,12 @@ def list_devices(e_uci: EUci):
         list of dicts, each dict contains the property "interface" and "device"
     """
     instance_name = list(e_uci.get('netifyd').keys())[0]
-    configured_devices = e_uci.get('netifyd', instance_name, 'internal_if', default=[], list=True)
-    network_devices = utils.get_all_devices_by_zone(e_uci, 'lan')
-    # merge the new list, removing duplicates
-    devices = list(set(list(configured_devices) + network_devices))
+    devices = e_uci.get('netifyd', instance_name, 'internal_if', default=[], list=True)
+    for zone in firewall.list_zones(e_uci).values():
+        if zone['name'] == 'wan':
+            continue
+        network_devices = utils.get_all_devices_by_zone(e_uci, zone['name'])
+        devices = list(set(list(devices) + network_devices))
     ret = []
     for item in devices:
         interface_name = utils.get_interface_from_device(e_uci, item)
@@ -178,7 +181,6 @@ def list_devices(e_uci: EUci):
             'device': item
         })
     return ret
-
 
 def list_applications(search: str = None, limit: int = None, page: int = 1) -> dict:
     """
