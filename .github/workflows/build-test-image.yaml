@@ -18,9 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: build
-        run: |
-          # Build the test image
-          cd builder && ./build.sh
+        run: ./builder/build.sh
       - id: publish
         run: |
           # Publish the branch
