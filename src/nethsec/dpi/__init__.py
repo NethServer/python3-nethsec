@@ -11,6 +11,7 @@ Library that handles the DPI rules.
 
 import json
 import subprocess
+from fnmatch import fnmatch
 
 import math
 from euci import EUci
@@ -165,28 +166,21 @@ def list_devices(e_uci: EUci):
     Returns:
         list of dicts, each dict contains the property "interface" and "device"
     """
+    instance_name = list(e_uci.get('netifyd').keys())[0]
+    devices = e_uci.get('netifyd', instance_name, 'internal_if', default=[], list=True)
+    for zone in firewall.list_zones(e_uci).values():
+        if zone['name'] == 'wan':
+            continue
+        network_devices = utils.get_all_devices_by_zone(e_uci, zone['name'])
+        devices = list(set(list(devices) + network_devices))
     ret = []
-    config = e_uci.get_all("netifyd")
-    cname = list(config.keys())[0]
-
-    if not config[cname].get('internal_if'):
-        # netify has not been configured yet
-        for device in utils.get_all_lan_devices(e_uci):
-            interface = utils.get_interface_from_device(e_uci, device)
-            ret.append({
-                'interface': interface if interface is not None else device,
-                'device': device
-            })
-    else:
-        for device in config[cname].get('internal_if'):
-            interface = utils.get_interface_from_device(e_uci, device)
-            ret.append({
-                'interface': interface if interface is not None else device,
-                'device': device
-            })
-
+    for item in devices:
+        interface_name = utils.get_interface_from_device(e_uci, item)
+        ret.append({
+            'interface': interface_name if interface_name is not None else item,
+            'device': item
+        })
     return ret
-
 
 def list_applications(search: str = None, limit: int = None, page: int = 1) -> dict:
     """
