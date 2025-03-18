@@ -541,7 +541,7 @@ def get_all_linked(uci, link):
 
     ret = dict()
     for config in uci.list_configs():
-        if config == "templates":
+        if config == "templates" or config.endswith(".backup"):
             continue
         records = utils.get_all_by_option(uci, config, 'ns_link', link, deep = False)
         ret[config] = records
