@@ -1752,7 +1752,7 @@ def list_nat_rules(uci) -> list:
             rules.append(rule)
     return rules
 
-def add_nat_rule(uci, name: str, target: str, src: str = '*', src_ip: str = '', dest_ip: str = '', snat_ip: str = '') -> str:
+def add_nat_rule(uci, name: str, target: str, src: str = '*', src_ip: str = '', dest_ip: str = '', snat_ip: str = '', device: str = '') -> str:
     """
     Add nat rule to firewall config.
 
@@ -1764,6 +1764,7 @@ def add_nat_rule(uci, name: str, target: str, src: str = '*', src_ip: str = '', 
         src_ip: source ip
         dest_ip: destination ip
         snat_ip: snat ip
+        device: add nat rule just for specific device
 
     Returns:
         name of rule config that was added
@@ -1781,10 +1782,11 @@ def add_nat_rule(uci, name: str, target: str, src: str = '*', src_ip: str = '', 
     uci.set('firewall', rule, 'dest_ip', dest_ip)
     uci.set('firewall', rule, 'snat_ip', snat_ip)
     uci.set('firewall', rule, 'proto', ["all"])
+    uci.set('firewall', rule, 'device', device)
     uci.save('firewall')
     return rule
 
-def edit_nat_rule(uci, id: str, name: str, target: str, src: str = '*', src_ip: str = '', dest_ip: str = '', snat_ip: str = '') -> str:
+def edit_nat_rule(uci, id: str, name: str, target: str, src: str = '*', src_ip: str = '', dest_ip: str = '', snat_ip: str = '', device: str = '') -> str:
     """
     Edit nat rule in firewall config.
 
@@ -1797,6 +1799,8 @@ def edit_nat_rule(uci, id: str, name: str, target: str, src: str = '*', src_ip: 
         src_ip: source ip
         dest_ip: destination ip
         snat_ip: snat ip
+        src_device: source device
+        device: add nat rule just for specific device
 
     Returns:
         name of rule config that was edited
@@ -1813,6 +1817,7 @@ def edit_nat_rule(uci, id: str, name: str, target: str, src: str = '*', src_ip: 
     uci.set('firewall', id, 'src_ip', src_ip)
     uci.set('firewall', id, 'dest_ip', dest_ip)
     uci.set('firewall', id, 'snat_ip', snat_ip)
+    uci.set('firewall', id, 'device', device)
     uci.save('firewall')
     return id
 
