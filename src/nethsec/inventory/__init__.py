@@ -512,6 +512,10 @@ def fact_backups(uci: EUci):
 
 def fact_ha(uci: EUci):
     vrrp_instances = utils.get_all_by_type(uci, 'keepalived', 'vrrp_instance')
+    if vrrp_instances is None:
+        vrrp_instances = []
     ipaddresses = utils.get_all_by_type(uci, 'keepalived', 'ipaddress')
+    if ipaddresses is None:
+        ipaddresses = []
 
     return { 'enabled': len(vrrp_instances) > 0, 'vips': len(ipaddresses) }
