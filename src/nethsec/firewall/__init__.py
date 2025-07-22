@@ -773,7 +773,8 @@ def zone_exists(u, zone_name):
 
 
 def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
-             forwards_from: list[str] = None, log: bool = False) -> {str, set[str]}:
+             forwards_from: list[str] = None, log: bool = False, synflood_protect: bool = True,
+             synflood_rate: str = '', synflood_burst: str = '') -> {str, set[str]}:
     """
     Add zone to firewall config.
 
@@ -786,6 +787,9 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
         forwards_to: list of zones to forward traffic to
         forwards_from: list of zones to forward traffic from
         log: if True, log blocked traffic destined to this zone
+        synflood_protect: if True, enable synflood protection
+        synflood_rate: rate for synflood protection, default is '25/s'
+        synflood_burst: burst for synflood protection, default is 50
 
     Returns:
         tuple of zone config name and set of added forwarding configs
@@ -812,6 +816,10 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
         except:
             pass
 
+    uci.set('firewall', zone_config_name, 'synflood_protect', synflood_protect)
+    uci.set('firewall', zone_config_name, 'synflood_rate', synflood_rate)
+    uci.set('firewall', zone_config_name, 'synflood_burst', synflood_burst)
+
 
     forwardings_added = set()
 
@@ -832,7 +840,8 @@ def add_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = Fa
 
 
 def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = False, forwards_to: list[str] = None,
-             forwards_from: list[str] = None, log: bool = False) -> {str, set[str]}:
+             forwards_from: list[str] = None, log: bool = False, synflood_protect: bool = True,
+             synflood_rate: str = '', synflood_burst: str = '') -> {str, set[str]}:
     """
     Edit an existing zone.
 
@@ -845,6 +854,9 @@ def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = F
         forwards_to: list of zones to forward traffic to
         forwards_from: list of zones to forward traffic from
         log: if True, log blocked traffic destined to this zone
+        synflood_protect: if True, enable synflood protection
+        synflood_rate: rate for synflood protection, default is '25/s'
+        synflood_burst: burst for synflood protection, default is 50
 
     Returns:
         tuple of zone config name and set of updated forwarding configs
@@ -856,6 +868,9 @@ def edit_zone(uci, name: str, input: str, forward: str, traffic_to_wan: bool = F
     uci.set('firewall', zone_config_name, 'input', input)
     uci.set('firewall', zone_config_name, 'forward', forward)
     uci.set('firewall', zone_config_name, 'output', 'ACCEPT')
+    uci.set('firewall', zone_config_name, 'synflood_protect', synflood_protect)
+    uci.set('firewall', zone_config_name, 'synflood_rate', synflood_rate)
+    uci.set('firewall', zone_config_name, 'synflood_burst', synflood_burst)
     if log:
         uci.set('firewall', zone_config_name, 'log', '1')
         if uci.get('firewall', zone_config_name, 'log_limit', default=None) is None:

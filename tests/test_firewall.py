@@ -1229,3 +1229,21 @@ def test_apply_default_logging_options(u):
     assert u.get("firewall", "o1", "log_limit", default=None) == None
     assert u.get("firewall", "redirect3", "log_limit", default=None) == None
 
+
+def test_synflood_zone(u):
+    firewall.add_zone(u, "new_zone", "REJECT", "DROP", True, ["lan"], ["lan", "guest"], False, True, '', '')
+    assert u.get('firewall', 'ns_new_zone', 'synflood_protect') == '1'
+    assert u.get('firewall', 'ns_new_zone', 'synflood_rate', default='') == ''
+    assert u.get('firewall', 'ns_new_zone', 'synflood_burst', default='') == ''
+    firewall.edit_zone(u, "new_zone", "REJECT", "DROP", True, ["lan"], ["lan", "guest"], False, False, '5/s', '10')
+    assert u.get('firewall', 'ns_new_zone', 'synflood_protect') == '0'
+    assert u.get('firewall', 'ns_new_zone', 'synflood_rate') == '5/s'
+    assert u.get('firewall', 'ns_new_zone', 'synflood_burst') == '10'
+    firewall.add_zone(u, "another_zone", "REJECT", "DROP", True, ["lan"], ["lan", "guest"], False, False, '10/s', '20')
+    assert u.get('firewall', 'ns_another_zone', 'synflood_protect') == '0'
+    assert u.get('firewall', 'ns_another_zone', 'synflood_rate') == '10/s'
+    assert u.get('firewall', 'ns_another_zone', 'synflood_burst') == '20'
+    firewall.edit_zone(u, "another_zone", "REJECT", "DROP", True, ["lan"], ["lan", "guest"], False, True, '', '')
+    assert u.get('firewall', 'ns_another_zone', 'synflood_protect') == '1'
+    assert u.get('firewall', 'ns_another_zone', 'synflood_rate', default='') == ''
+    assert u.get('firewall', 'ns_another_zone', 'synflood_burst', default='') == ''
