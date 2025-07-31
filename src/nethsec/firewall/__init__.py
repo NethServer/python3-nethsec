@@ -1515,7 +1515,7 @@ def get_service_by_name(name: str) -> dict:
     return None
 
 def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str,
-                enabled: bool = True, log: bool = False, tag = [], ns_src: str = None, ns_dst: str = None) -> None:
+                enabled: bool = True, log: bool = False, tag = [], ns_src: str = None, ns_dst: str = None, ns_link: str = None) -> None:
     """
     Set up a rule in the firewall config.
 
@@ -1536,6 +1536,7 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
             tag: list of optional tags
             ns_src: an object in the form `<database>/<id>`
             ns_dst: an object in the form `<database>/<id>`
+            ns_link: a string in the form `<database>/<id>` that is used to link this rule to another entity
     """
     uci.set('firewall', id, 'name', name)
     uci.set('firewall', id, 'src', src)
@@ -1588,6 +1589,13 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
     else:
         try:
             uci.delete('firewall', id, 'ns_dst')
+        except:
+            pass
+    if ns_link:
+        uci.set('firewall', id, 'ns_link', ns_link)
+    else:
+        try:
+            uci.delete('firewall', id, 'ns_link')
         except:
             pass
     uci.save('firewall')
@@ -1654,7 +1662,7 @@ def reorder_firewall_config(uci):
     uci.save('firewall')
 
 def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str,
-            enabled: bool = True, log: bool = False, tag = [], add_to_top: bool = False, ns_src: str = None, ns_dst: str = None) -> str:
+            enabled: bool = True, log: bool = False, tag = [], add_to_top: bool = False, ns_src: str = None, ns_dst: str = None, ns_link: str = None) -> str:
     """
     Add rule to firewall config.
 
@@ -1676,6 +1684,7 @@ def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: li
         add_to_top: if True, add rule to the top of the list, otherwise add to the bottom
         ns_src: an object in the form `<database>/<id>`
         ns_dst: an object in the form `<database>/<id>`
+        ns_link: a string in the form `<database>/<id>` that is used to link this rule to another entity
 
     Returns:
         name of rule config that was added
@@ -1683,7 +1692,7 @@ def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: li
     validate_rule(uci, src, src_ip, dest, dest_ip, proto, dest_port, target, service, ns_src, ns_dst)
     rule = utils.get_random_id()
     uci.set('firewall', rule, 'rule')
-    setup_rule(uci, rule, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag, ns_src, ns_dst)
+    setup_rule(uci, rule, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag, ns_src, ns_dst, ns_link)
     reorder_firewall_config(uci)
     update_firewall_rules(uci) # expand objects and save
 
@@ -1701,7 +1710,7 @@ def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: li
     return rule
 
 def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, dest_ip: list[str], proto: list, dest_port: list[str], target: str, service: str, 
-            enabled: bool = True, log: bool = False, tag = [], ns_src: str = None, ns_dst: str = None) -> str:
+            enabled: bool = True, log: bool = False, tag = [], ns_src: str = None, ns_dst: str = None, ns_link: str = None) -> str:
     """
     Edit rule in firewall config.
 
@@ -1722,6 +1731,7 @@ def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, d
         tag: list of optional tags
         ns_src: an object in the form `<database>/<id>`
         ns_dst: an object in the form `<database>/<id>`
+        ns_link: a string in the form `<database>/<id>` that is used to link this rule to another entity
 
     Returns:
         name of rule config that was edited
@@ -1729,7 +1739,7 @@ def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, d
     if not uci.get('firewall', id, default=None):
         raise utils.ValidationError("id", "rule_does_not_exists", id)  
     validate_rule(uci, src, src_ip, dest, dest_ip, proto, dest_port, target, service, ns_src, ns_dst)
-    setup_rule(uci, id, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag, ns_src, ns_dst)
+    setup_rule(uci, id, name, src, src_ip, dest, dest_ip, proto, dest_port, target, service, enabled, log, tag, ns_src, ns_dst, ns_link)
     update_firewall_rules(uci) # expand objects and save
     return id
 

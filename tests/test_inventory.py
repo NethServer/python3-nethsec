@@ -949,7 +949,7 @@ def test_fact_firewall_stats(tmp_path):
     assert result['firewall']['nat']['accept'] == 2
     assert result['firewall']['netmap']['source'] == 3
     assert result['firewall']['netmap']['destination'] == 2
-    assert result['firewall']['rules']['forward'] == 15
+    assert result['firewall']['rules']['forward'] == 17
     assert result['firewall']['rules']['input'] == 7
     assert result['firewall']['rules']['output'] == 2
     
