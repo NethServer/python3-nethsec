@@ -1229,3 +1229,13 @@ def test_apply_default_logging_options(u):
     assert u.get("firewall", "o1", "log_limit", default=None) == None
     assert u.get("firewall", "redirect3", "log_limit", default=None) == None
 
+
+def test_ns_link_rules(u):
+    rid = firewall.add_rule(u, 'ns_link_rule', 'lan', [], 'wan', [], [], [], 'ACCEPT', '', ns_link='test/example')
+    assert u.get('firewall', rid, 'ns_link') == 'test/example'
+    firewall.edit_rule(u, rid, 'ns_link_rule', 'lan', [], 'wan', [], [], [], 'ACCEPT', '', ns_link='test/example2')
+    assert u.get('firewall', rid, 'ns_link') == 'test/example2'
+    firewall.edit_rule(u, rid, 'ns_link_rule', 'lan', [], 'wan', [], [], [], 'ACCEPT', '')
+    assert u.get('firewall', rid, 'ns_link', default=None) is None
+    rid = firewall.add_rule(u, 'ns_link_rule_no_link', 'lan', [], 'wan', [], [], [], 'ACCEPT', '')
+    assert u.get('firewall', rid, 'ns_link', default=None) is None
