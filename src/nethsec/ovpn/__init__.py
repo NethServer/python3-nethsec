@@ -27,7 +27,7 @@ def get_local_networks(u):
     Returns:
       - a list of local networks
     """
-    ret = []
+    ret = set()
     for l in utils.get_all_lan_devices(u):
         try:
             data = json.loads(subprocess.run(["ip", "--json", "address", "show", "dev", l], capture_output=True, text=True, check=True).stdout)
@@ -38,10 +38,10 @@ def get_local_networks(u):
                         if addr.get("local").startswith("127"):
                             continue
                         net = ipaddress.ip_interface(f'{addr.get("local")}/{addr.get("prefixlen")}').network
-                        ret.append(f'{net}')
+                        ret.add(f'{net}')
         except:
             continue
-    return ret
+    return list(ret)
 
 def get_public_addresses(u):
     """
