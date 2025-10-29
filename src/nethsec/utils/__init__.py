@@ -202,15 +202,18 @@ def get_all_devices_by_zone(uci, zone, exclude_aliases=False):
             devices = devices + list(uci.get("firewall", section, "device", list=True, default=[]))
             networks = uci.get("firewall", section, "network", list=True, default=[])
             for network in networks:
-               device = uci.get("network", network, "device", default="")
-               if exclude_aliases and device.startswith("@"):
-                   continue
-               if device != "":
-                   devices.append(device)
-               else:
-                   name = uci.get("network", network, "name", default="")
-                   if name != "":
-                       devices.append(name)
+                if uci.get('network', network, 'proto', default='') == 'wireguard':
+                    devices.append(network)
+                    continue
+                device = uci.get("network", network, "device", default="")
+                if exclude_aliases and device.startswith("@"):
+                    continue
+                if device != "":
+                    devices.append(device)
+                else:
+                    name = uci.get("network", network, "name", default="")
+                    if name != "":
+                        devices.append(name)
 
     # remove duplicates
     return list(set(devices))
