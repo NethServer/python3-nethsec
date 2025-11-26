@@ -269,7 +269,7 @@ def add_trusted_zone(uci, name, networks = [], link = ""):
 
     return zname, forwardings
 
-def add_service(uci, name, port, proto, link = ""):
+def add_service(uci, name, port, proto, link = "", tags=None):
     '''
     Create an ACCEPT traffic rule for the given service
     Changes are saved to staging area.
@@ -284,6 +284,8 @@ def add_service(uci, name, port, proto, link = ""):
     Returns:
       - The name of the configuration section
     '''
+    if tags is None:
+        tags = ['automated']
     rname = utils.get_id(f"allow_{name}")
     uci.set("firewall", rname, "rule")
     uci.set("firewall", rname, "name", f"Allow-{name}")
@@ -295,7 +297,7 @@ def add_service(uci, name, port, proto, link = ""):
     uci.set("firewall", rname, "proto", proto)
     uci.set("firewall", rname, "target", "ACCEPT")
     uci.set("firewall", rname, "enabled", "1")
-    uci.set("firewall", rname, "ns_tag", ["automated"])
+    uci.set("firewall", rname, "ns_tag", tags)
     if link:
         uci.set("firewall", rname, "ns_link", link)
     uci.save('firewall')
@@ -494,7 +496,7 @@ def add_template_service_group(uci, name, src='lan', dest='wan', link=""):
     reorder_firewall_config(uci)
     return sections
 
-def add_template_rule(uci, name, proto="", port="", link=""):
+def add_template_rule(uci, name, proto="", port="", link="", tags=None):
     '''
     Create a rule from templates database.
     Changes are saved to staging area.
@@ -510,6 +512,8 @@ def add_template_rule(uci, name, proto="", port="", link=""):
       - The name of the configuration section for the rule or None in case of error
     '''
 
+    if tags is None:
+        tags = ['automated']
     drule = uci.get_all("templates", name)
     rname = utils.get_random_id()
     uci.set("firewall", rname, "rule")
@@ -519,7 +523,7 @@ def add_template_rule(uci, name, proto="", port="", link=""):
         if proto:
             drule[section] = drule[section].replace("__PROTO__", proto)
         uci.set("firewall", rname, section, drule[section])
-    uci.set("firewall", rname, "ns_tag", ["automated"])
+    uci.set("firewall", rname, "ns_tag", tags)
     if link:
         uci.set("firewall", rname, "ns_link", link)
     uci.save('firewall')
