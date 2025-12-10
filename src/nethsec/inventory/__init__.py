@@ -519,3 +519,13 @@ def fact_ha(uci: EUci):
         ipaddresses = []
 
     return { 'enabled': len(vrrp_instances) > 0, 'vips': len(ipaddresses) }
+
+def fact_default_password(uci: EUci):
+    data = {
+        'username': 'root',
+        'password': 'Nethesis,1234',
+        'timeout': 1
+    }
+    result = subprocess.run(['/bin/ubus', 'call', 'session', 'login', json.dumps(data)], capture_output=True)
+
+    return { 'default_password': result.returncode == 0 }
