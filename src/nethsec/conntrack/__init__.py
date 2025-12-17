@@ -76,8 +76,9 @@ def __parse_connection_info(flow: Element) -> dict:
                 }
         # not easily parsable, just add the values
         else:
-            result['timeout'] = child.find('timeout').text
             result['id'] = child.find('id').text
+            if child.find('timeout') is not None:
+                result['timeout'] = child.find('timeout').text
             if child.find('unreplied') is not None:
                 result['unreplied'] = True
             if child.find('state') is not None:
