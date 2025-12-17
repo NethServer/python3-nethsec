@@ -28,7 +28,7 @@ def __load_applications() -> dict[int, str]:
         dict of applications, each dict contains the property "id" and "name"
     """
     applications = dict[int, str]()
-    with open('/etc/netify.d/netify-apps.conf', 'r') as file:
+    with open('/etc/netifyd/netify-apps.conf', 'r') as file:
         for line in file.readlines():
             if line.startswith('app'):
                 line_split = line.strip().removesuffix('\n').removeprefix('app:').split(":")
@@ -44,7 +44,7 @@ def __load_application_categories() -> dict[int, dict[str]]:
         dict of application categories, each dict contains the property "id" and "name"
     """
     categories = dict[int, dict[str]]()
-    with open('/etc/netify.d/netify-categories.json', 'r') as file:
+    with open('/etc/netifyd/netify-categories.json', 'r') as file:
         categories_file = json.load(file)
 
         categories_names = dict[int, str]()
@@ -96,7 +96,7 @@ def __load_protocol_categories() -> dict[int, dict[str]]:
         dict of protocol categories, each dict contains the property "id" and "name"
     """
     categories = dict[int, dict[str]]()
-    with open('/etc/netify.d/netify-categories.json', 'r') as file:
+    with open('/etc/netifyd/netify-categories.json', 'r') as file:
         categories_file = json.load(file)
 
         categories_names = dict[int, str]()
