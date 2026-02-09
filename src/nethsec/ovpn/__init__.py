@@ -63,9 +63,17 @@ def get_public_addresses(u):
             for addr in data[0].get('addr_info', []):
                 if addr.get("local", None):
                     try:
-                        cmd = f"/usr/bin/dig -b {addr.get('local')} +short +time=1 myip.opendns.com @resolver1.opendns.com".split(" ")
-                        output = subprocess.check_output(cmd, timeout=5)
-                        ret[output.decode().strip()] = 1
+                        res = subprocess.run([
+                            "/usr/bin/dig",
+                            "-b",
+                            addr.get("local"),
+                            "+short",
+                            "+time=1",
+                            "myip.opendns.com",
+                            "@resolver1.opendns.com"
+                        ],
+                        capture_output=True, text=True, check=True)
+                        ret[res.stdout.strip()] = 1
                     except:
                         pass
     return list(ret.keys())
