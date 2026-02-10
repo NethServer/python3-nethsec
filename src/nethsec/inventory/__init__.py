@@ -447,24 +447,25 @@ def fact_snmp (uci: EUci):
     return { 'enabled': snmp == 0 }
 
 def fact_wireguard(uci: EUci):
-    ret = { 'instances': 0, 'statistics':[] }
-    wg= []
-    user_db = {}
+    servers = dict()
     interfaces = utils.get_all_by_type(uci, "network", "interface")
     for i in interfaces:
-        interface = interfaces[i]
-        if interface.get("proto") == "wireguard":
-           wg.append(i)
-           ret['instances'] += 1
-           user_db.update({i:'main'})
-           if interface.get("ns_user_db"):
-               user_db.update({i:interface.get('ns_user_db')})
-    ## iterate over all wireguard interfaces from wg
-    ## find the number of peers from wireguard_wg1
-    for w in wg:
-        peers = utils.get_all_by_type(uci, "network", 'wireguard_'+w)
-        ret['statistics'].append({'server': w, "peers": len(peers), "ns_user_db": user_db[w]})
-    return ret
+        if interfaces[i].get("proto", "") != "wireguard":
+            continue
+        peers = utils.get_all_by_type(uci, 'network', f'wireguard_{i}')
+        routing_all_traffic = 0
+        for peer in peers:
+            if uci.get('network', peer, 'ns_route_all_traffic', dtype=bool, default=False):
+                routing_all_traffic += 1
+        servers[i] = {
+            "peers": len(peers),
+            "routing_all_traffic": routing_all_traffic
+        }
+
+    return {
+        "enabled": len(servers) > 0,
+        "servers": servers
+    }
 
 
 def fact_snort(uci: EUci):
