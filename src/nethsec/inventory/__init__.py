@@ -538,7 +538,7 @@ def info_fqdn(uci: EUci):
     for section in system:
         for option in system[section]:
             if option == 'hostname':
-                return anonmyze(system[section][option], uci)
+                return anonymize(system[section][option], uci)
     return ''
 
 def info_kernel_version(uci: EUci):
@@ -565,7 +565,7 @@ def info_default_ipv4(uci: EUci):
         if res.returncode == 0 and res.stdout.strip():
             ip = res.stdout.strip().strip('"')
             if ip:
-                return anonmyze(ip, uci)
+                return anonymize(ip, uci)
     except:
         pass
 
@@ -574,7 +574,7 @@ def info_default_ipv4(uci: EUci):
         res = subprocess.run(['curl', '-4', '-s', 'ifconfig.co'],
                              capture_output=True, text=True, timeout=3)
         if res.returncode == 0 and res.stdout.strip():
-            return anonmyze(res.stdout.strip(), uci)
+            return anonymize(res.stdout.strip(), uci)
     except:
         pass
 
@@ -590,7 +590,7 @@ def info_default_ipv4(uci: EUci):
                 if addr_info and 'addr_info' in addr_info[0]:
                     for addr in addr_info[0]['addr_info']:
                         if addr.get('family') == 'inet':
-                            return anonmyze(addr.get('local'), uci)
+                            return anonymize(addr.get('local'), uci)
     except:
         pass
 
@@ -625,7 +625,7 @@ def info_default_ipv6(uci: EUci):
         if res.returncode == 0 and res.stdout.strip():
             ip = res.stdout.strip().strip('"')
             if ip:
-                return anonmyze(ip, uci)
+                return anonymize(ip, uci)
     except:
         pass
 
@@ -634,17 +634,17 @@ def info_default_ipv6(uci: EUci):
         res = subprocess.run(['curl', '-6', '-s', 'ifconfig.co'],
                              capture_output=True, text=True, timeout=3)
         if res.returncode == 0 and res.stdout.strip():
-            return anonmyze(res.stdout.strip(), uci)
+            return anonymize(res.stdout.strip(), uci)
     except:
         pass
 
 
-    return anonmyze(ipv6, uci)
+    return anonymize(ipv6, uci)
 
-def anonmyze(input, uci: EUci):
+def anonymize(value, uci: EUci):
     if fact_subscription_status(uci).get('status', 'no') != "no":
-        return input
-    h = hashlib.sha1(input.encode()).hexdigest()
+        return value
+    h = hashlib.sha1(value.encode()).hexdigest()
     return f"anon-{h[:16]}"
 
 def info_package_updates_available(uci: EUci):
