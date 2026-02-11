@@ -690,6 +690,8 @@ def info_image_updates_available(uci: EUci):
                 last = parse_version(last_version)
                 if current and last and last > current:
                     return True
-    except:
+    except (subprocess.SubprocessError, json.JSONDecodeError, OSError):
+        # Return False if the update check fails due to subprocess errors,
+        # invalid JSON response, or file system issues (e.g., missing command)
         pass
     return False
