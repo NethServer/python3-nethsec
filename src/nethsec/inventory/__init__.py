@@ -641,11 +641,60 @@ def info_default_ipv6(uci: EUci):
 
     return anonmyze(ipv6, uci)
 
-def anonmyze(input, uci: EUci):
+def _get_device_salt():
+    """
+    Get a device-specific salt for anonymization.
+    Uses /etc/machine-id if available, otherwise falls back to a generated UUID stored in /tmp.
+    This provides a per-install salt that prevents external precomputation of hashes.
+    """
+    # Try to read machine-id (standard on most Linux systems including OpenWrt)
+    try:
+        with open('/etc/machine-id', 'r') as f:
+            machine_id = f.read().strip()
+            if machine_id:
+                return machine_id.encode()
+    except (FileNotFoundError, IOError):
+        pass
+    
+    # Fallback: use a generated salt stored in /tmp (will persist during device uptime)
+    salt_file = '/tmp/nethsec-anon-salt'
+    try:
+        with open(salt_file, 'r') as f:
+            salt = f.read().strip()
+            if salt:
+                return salt.encode()
+    except (FileNotFoundError, IOError):
+        pass
+    
+    # Generate new salt and store it
+    try:
+        import uuid
+        salt = str(uuid.uuid4())
+        with open(salt_file, 'w') as f:
+            f.write(salt)
+        return salt.encode()
+    except:
+        # Last resort: use a hardcoded value (not ideal but better than nothing)
+        return b'nethsec-default-salt'
+
+def anonmyze(value, uci: EUci):
+    """
+    Anonymize sensitive data using HMAC with a device-specific salt.
+    
+    Args:
+        value: The value to anonymize (e.g., IP address, hostname)
+        uci: EUci instance for checking subscription status
+    
+    Returns:
+        The original value if subscribed, otherwise an anonymized version
+    """
     if fact_subscription_status(uci).get('status', 'no') != "no":
-        return input
-    h = hashlib.sha1(input.encode()).hexdigest()
-    return f"anon-{h[:16]}"
+        return value
+    
+    # Use HMAC with device-specific salt for secure anonymization
+    salt = _get_device_salt()
+    h = hashlib.pbkdf2_hmac('sha256', value.encode(), salt, 100000, dklen=16)
+    return f"anon-{h.hex()}"
 
 def info_package_updates_available(uci: EUci):
     """Check if package updates are available"""
