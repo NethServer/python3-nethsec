@@ -15,6 +15,10 @@ import subprocess
 import configparser
 import json
 import hashlib
+import uuid
+
+# Constants for anonymization
+PBKDF2_ITERATIONS = 100000  # Number of iterations for PBKDF2-HMAC
 
 # run a bash command and return the error code
 def _run_status(cmd):
@@ -668,12 +672,11 @@ def _get_device_salt():
     
     # Generate new salt and store it
     try:
-        import uuid
         salt = str(uuid.uuid4())
         with open(salt_file, 'w') as f:
             f.write(salt)
         return salt.encode()
-    except:
+    except (OSError, IOError):
         # Last resort: use a hardcoded value (not ideal but better than nothing)
         return b'nethsec-default-salt'
 
@@ -693,7 +696,7 @@ def anonmyze(value, uci: EUci):
     
     # Use HMAC with device-specific salt for secure anonymization
     salt = _get_device_salt()
-    h = hashlib.pbkdf2_hmac('sha256', value.encode(), salt, 100000, dklen=16)
+    h = hashlib.pbkdf2_hmac('sha256', value.encode(), salt, PBKDF2_ITERATIONS, dklen=16)
     return f"anon-{h.hex()}"
 
 def info_package_updates_available(uci: EUci):
