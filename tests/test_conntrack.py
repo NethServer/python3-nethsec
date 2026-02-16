@@ -261,47 +261,21 @@ conntrack_response = """<?xml version="1.0" encoding="utf-8"?>
 """
 
 
-def test_parse_meta_tag():
-    # get first meta tag in first flow
-    meta_tag = ElementTree.fromstring(conntrack_response).find('flow/meta')
-    result = conntrack.__parse_meta_connection_tag(meta_tag)
-    assert result['src'] == '192.168.122.234'
-    assert result['dest'] == '31.14.133.122'
-    assert result['protocol'] == 'udp'
-    assert result['start_port'] == '41692'
-    assert result['end_port'] == '123'
-    assert result['packets'] == '1'
-    assert result['bytes'] == '76'
-
-
-def test_parse_meta_tag_without_ports():
-    # get the meta tag with the ICMP protocol
-    meta_tag = ElementTree.fromstring(conntrack_response).findall('flow')[1][1]
-    result = conntrack.__parse_meta_connection_tag(meta_tag)
-    assert result['src'] == '192.168.122.155'
-    assert result['dest'] == '192.168.122.1'
-    assert result['protocol'] == 'icmp'
-    assert 'start_port' not in result
-    assert 'end_port' not in result
-    assert result['packets'] == '2'
-    assert result['bytes'] == '168'
-
-
 def test_connection_info():
     # get the first flow
     flow = ElementTree.fromstring(conntrack_response).findall('flow')[0]
     result = conntrack.__parse_connection_info(flow)
     original = flow[0]
     reply = flow[1]
-    assert result['source'] == conntrack.__parse_meta_connection_tag(original)['src']
-    assert result['destination'] == conntrack.__parse_meta_connection_tag(original)['dest']
-    assert result['protocol'] == conntrack.__parse_meta_connection_tag(original)['protocol']
-    assert result['source_port'] == conntrack.__parse_meta_connection_tag(original)['start_port']
-    assert result['destination_port'] == conntrack.__parse_meta_connection_tag(original)['end_port']
-    assert result['source_stats']['packets'] == conntrack.__parse_meta_connection_tag(original)['packets']
-    assert result['source_stats']['bytes'] == conntrack.__parse_meta_connection_tag(original)['bytes']
-    assert result['destination_stats']['packets'] == conntrack.__parse_meta_connection_tag(reply)['packets']
-    assert result['destination_stats']['bytes'] == conntrack.__parse_meta_connection_tag(reply)['bytes']
+    assert result['source'] == '192.168.122.234'
+    assert result['destination'] == '31.14.133.122'
+    assert result['protocol'] == 'udp'
+    assert result['source_port'] == '41692'
+    assert result['destination_port'] == '123'
+    assert result['source_stats']['packets'] == 1
+    assert result['source_stats']['bytes'] == 76
+    assert result['destination_stats']['packets'] == 1
+    assert result['destination_stats']['bytes'] == 76
     assert result['timeout'] == '47'
     assert result['id'] == '1905826093'
     flow = ElementTree.fromstring(conntrack_response).findall('flow')[1]
