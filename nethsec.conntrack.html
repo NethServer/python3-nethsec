@@ -165,16 +165,6 @@
             </div>
         
 
-    </li><li class="private">
-        
-        
-        
-
-        
-            <div class="itemName"><code><a href="#__parse_meta_connection_tag" class="internal-link" title="nethsec.conntrack.__parse_meta_connection_tag">__parse<wbr></wbr>_meta<wbr></wbr>_connection<wbr></wbr>_tag</a></code>
-            </div>
-        
-
     </li>
 </ul> 
 
@@ -379,7 +369,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/NethServer/python3-nethsec/tree/b2e374b756883ca8e4058235d90d7c776b8c0943/src/nethsec/conntrack/__init__.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/NethServer/python3-nethsec/tree/45ec9c0737d959a27b3002a91009272d8e926e67/src/nethsec/conntrack/__init__.py" class="sourceLink">(source)</a>
         </div>
 
         <div class="moduleDocstring">
@@ -413,11 +403,6 @@
     <td>Function</td>
     <td><code><a href="#__parse_connection_info" class="internal-link" title="nethsec.conntrack.__parse_connection_info">__parse<wbr></wbr>_connection<wbr></wbr>_info</a></code></td>
     <td>Parse the connection information from a flow tag.</td>
-  </tr><tr class="function private">
-    
-    <td>Function</td>
-    <td><code><a href="#__parse_meta_connection_tag" class="internal-link" title="nethsec.conntrack.__parse_meta_connection_tag">__parse<wbr></wbr>_meta<wbr></wbr>_connection<wbr></wbr>_tag</a></code></td>
-    <td>From a meta tag, extract the connection information.</td>
   </tr>
 </table>
         </div>
@@ -436,7 +421,7 @@
     
     
     <span class="py-keyword">def</span>&#160;<span class="py-defname">drop_all_connections</span><span class="function-signature">():</span>
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b2e374b756883ca8e4058235d90d7c776b8c0943/src/nethsec/conntrack/__init__.py#L144">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/45ec9c0737d959a27b3002a91009272d8e926e67/src/nethsec/conntrack/__init__.py#L119">
       
       (source)
     </a>
@@ -471,7 +456,7 @@
     
     
     <span class="py-keyword">def</span>&#160;<span class="py-defname">drop_connection</span><span class="function-signature">(<span class="rst-sig-param">connection_id: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></span>):</span>
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b2e374b756883ca8e4058235d90d7c776b8c0943/src/nethsec/conntrack/__init__.py#L109">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/45ec9c0737d959a27b3002a91009272d8e926e67/src/nethsec/conntrack/__init__.py#L84">
       
       (source)
     </a>
@@ -512,7 +497,7 @@
     
     
     <span class="py-keyword">def</span>&#160;<span class="py-defname">list_connections</span><span class="function-signature">():</span>
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b2e374b756883ca8e4058235d90d7c776b8c0943/src/nethsec/conntrack/__init__.py#L90">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/45ec9c0737d959a27b3002a91009272d8e926e67/src/nethsec/conntrack/__init__.py#L68">
       
       (source)
     </a>
@@ -544,7 +529,7 @@
     
     
     <span class="py-keyword">def</span>&#160;<span class="py-defname">__parse_connection_info</span><span class="function-signature">(<span class="rst-sig-param">flow: <code><a href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" class="intersphinx-link">Element</a></code></span>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code>:</span>
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b2e374b756883ca8e4058235d90d7c776b8c0943/src/nethsec/conntrack/__init__.py#L44">
+    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/45ec9c0737d959a27b3002a91009272d8e926e67/src/nethsec/conntrack/__init__.py#L17">
       
       (source)
     </a>
@@ -568,43 +553,6 @@
 </dl>
 </div>
   </div>
-</div><div class="basefunction private">
-  
-  
-  <a name="nethsec.conntrack.__parse_meta_connection_tag">
-    
-  </a>
-  <a name="__parse_meta_connection_tag">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span>&#160;<span class="py-defname">__parse_meta_connection_tag</span><span class="function-signature">(<span class="rst-sig-param">meta: <code><a href="https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element" class="intersphinx-link">Element</a></code></span>) -&gt; <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code>:</span>
-    <a class="sourceLink" href="https://github.com/NethServer/python3-nethsec/tree/b2e374b756883ca8e4058235d90d7c776b8c0943/src/nethsec/conntrack/__init__.py#L16">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#__parse_meta_connection_tag" title="nethsec.conntrack.__parse_meta_connection_tag">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p>From a meta tag, extract the connection information.</p>
-<dl class="rst-docutils">
-<dt>Args:</dt>
-<dd><ul class="rst-simple rst-first rst-last">
-<li>meta: ElementTree.Element with the meta tag.</li>
-</ul>
-</dd>
-<dt>Returns:</dt>
-<dd>dictionary with the connection information.</dd>
-</dl>
-</div>
-  </div>
 </div>
         </div>
       
@@ -617,7 +565,7 @@
   <div class="container-fluid">
     <a href="index.html">API Documentation</a> for <a href="https://github.com/NethServer/python3-nethsec" class="projecthome">python3-nethsec</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    25.10.1 at 2026-02-13 13:00:27.
+    25.10.1 at 2026-02-17 07:36:38.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
