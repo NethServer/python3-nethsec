@@ -1544,15 +1544,35 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
     """
     uci.set('firewall', id, 'name', name)
     uci.set('firewall', id, 'src', src)
-    uci.set('firewall', id, 'src_ip', src_ip)
+    if ns_src:
+        uci.set('firewall', id, 'ns_src', ns_src)
+    else:
+        db_src_ips = set(uci.get('firewall', id, 'src_ip', default=[], list=True, dtype=str))
+        if set(src_ip) != db_src_ips:
+            uci.set('firewall', id, 'src_ip', src_ip)
+        try:
+            uci.delete('firewall', id, 'ns_src')
+        except:
+            pass
     uci.set('firewall', id, 'dest', dest)
-    uci.set('firewall', id, 'dest_ip', dest_ip)
+    if ns_dst:
+        uci.set('firewall', id, 'ns_dst', ns_dst)
+    else:
+        db_dest_ips = set(uci.get('firewall', id, 'dest_ip', default=[], list=True, dtype=str))
+        if set(dest_ip) != db_dest_ips:
+            uci.set('firewall', id, 'dest_ip', dest_ip)
+        try:
+            uci.delete('firewall', id, 'ns_dst')
+        except:
+            pass
     
     uci.set('firewall', id, 'target', target)
     if service and service != '*':
         if service == 'custom':
             uci.set('firewall', id, 'ns_service', 'custom')
-            uci.set('firewall', id, 'proto', proto)
+            protos = set(uci.get('firewall', id, 'proto', default=[], list=True, dtype=str))
+            if set(proto) != protos:
+                uci.set('firewall', id, 'proto', proto)
             uci.set('firewall', id, 'dest_port', " ".join(dest_port))
         else:
             uci.set('firewall', id, 'ns_service', service)
@@ -1580,21 +1600,9 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
             uci.delete('firewall', id, 'log_limit')
         except:
             pass
-    uci.set('firewall', id, 'ns_tag', tag)
-    if ns_src:
-        uci.set('firewall', id, 'ns_src', ns_src)
-    else:
-        try:
-            uci.delete('firewall', id, 'ns_src')
-        except:
-            pass
-    if ns_dst:
-        uci.set('firewall', id, 'ns_dst', ns_dst)
-    else:
-        try:
-            uci.delete('firewall', id, 'ns_dst')
-        except:
-            pass
+    tags = set(uci.get('firewall', id, 'ns_tag', default=[], list=True, dtype=str))
+    if set(tag) != tags:
+        uci.set('firewall', id, 'ns_tag', tag)
     if ns_link:
         uci.set('firewall', id, 'ns_link', ns_link)
     else:
@@ -2047,7 +2055,6 @@ def update_firewall_rules(uci):
         keep_ipset = False
         ns_src = uci.get('firewall', section, 'ns_src', default=None)
         ns_dst = uci.get('firewall', section, 'ns_dst', default=None)
-        name = uci.get('firewall', section, 'name', default=None)
         if ns_src:
             if objects.is_domain_set(uci, ns_src):
                 keep_ipset = True
@@ -2060,8 +2067,10 @@ def update_firewall_rules(uci):
                     pass
             else:
                 ipaddr = objects.get_object_ips(uci, ns_src)
-                if ipaddr:
-                    uci.set('firewall', section, 'src_ip', ipaddr)
+                if ipaddr is not None:
+                    src_ips = set(uci.get('firewall', section, 'src_ip', default=[], list=True, dtype=str))
+                    if set(ipaddr) != src_ips:
+                        uci.set('firewall', section, 'src_ip', ipaddr)
 
         if ns_dst:
             if objects.is_domain_set(uci, ns_dst):
@@ -2075,8 +2084,10 @@ def update_firewall_rules(uci):
                     pass
             else:
                 ipaddr = objects.get_object_ips(uci, ns_dst)
-                if ipaddr:
-                    uci.set('firewall', section, 'dest_ip', ipaddr)
+                if ipaddr is not None:
+                    dest_ips = set(uci.get('firewall', section, 'dest_ip', default=[], list=True, dtype=str))
+                    if set(ipaddr) != dest_ips:
+                        uci.set('firewall', section, 'dest_ip', ipaddr)
 
         # delete ipset field if no domains are set
         if not keep_ipset:
