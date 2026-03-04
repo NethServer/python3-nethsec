@@ -541,6 +541,14 @@ def info_fqdn(uci: EUci):
                 return anonymize(system[section][option], uci)
     return ''
 
+def info_timezone(uci: EUci):
+    system = uci.get_all('system')
+    for section in system:
+        for option in system[section]:
+            if option == 'zonename':
+                return system[section][option]
+    return ''
+
 def info_kernel_version(uci: EUci):
     try:
         with open('/proc/version', 'r') as f:
