@@ -11,18 +11,247 @@ from euci import EUci
 from nethsec import utils, mwan, users, firewall, objects
 import os
 import re
+import csv
 import subprocess
 import configparser
 import json
 import hashlib
+from socket import inet_ntoa
+from struct import pack
 
-# run a bash command and return the error code
+## Utilities
+
+def _run(cmd):
+    try:
+        proc = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True)
+        return proc.stdout.rstrip().lstrip()
+    except:
+        return ''
+
 def _run_status(cmd):
     try:
         proc = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True)
         return proc.returncode
     except:
         return 1
+
+def _run_json(cmd):
+    try:
+        return json.loads(_run(cmd))
+    except:
+        return {}
+
+def _get_role(uci: EUci, interface):
+    for zone in utils.get_all_by_type(uci, 'firewall', 'zone'):
+        name = uci.get('firewall', zone, 'name')
+        networks = uci.get('firewall', zone, 'network', list=True, default=[])
+        if interface in networks:
+            if name == "lan":
+                return "green"
+            elif name == "wan":
+                return "red"
+            else:
+                return name
+
+def _get_ip(interface, uci: EUci):
+    info = _run_json(f"ifstatus {interface}")
+    try:
+        return anonymize(info['ipv4-address'][0]['address'], uci)
+    except:
+        return ''
+
+def _get_mask(interface):
+    info = _run_json(f"ifstatus {interface}")
+    try:
+        m =  info['ipv4-address'][0]['mask']
+        bits = 0xffffffff ^ (1 << 32 - int(m)) - 1
+        mask = inet_ntoa(pack(">I", bits))
+        return mask
+    except:
+        return ''
+
+def _get_gateway(interface, uci: EUci):
+    info = _run_json(f"ifstatus {interface}")
+    try:
+        for r in info['route']:
+            if r['target'] == '0.0.0.0':
+                return anonymize(r['nexthop'], uci)
+    except:
+        return ''
+
+def _get_cpu_field(field, cpu_info):
+    for f in cpu_info:
+        if f['field'].startswith(field):
+            return f['data']
+
+    return ''
+
+def anonymize(value, uci: EUci):
+    if fact_subscription_status(uci).get('status', 'no') != "no":
+        return value
+    h = hashlib.sha256(value.encode()).hexdigest()
+    return f"anon-{h[:16]}"
+
+def parse_version(version_str):
+    # Remove "NethSecurity " prefix if present
+    if version_str.startswith('NethSecurity '):
+        version_str = version_str[13:]  # len('NethSecurity ') = 13
+    # Take only the part before "-"
+    version_str = version_str.split('-')[0]
+    # Convert to tuple of integers for comparison
+    try:
+        return tuple(int(x) for x in version_str.split('.'))
+    except (ValueError, AttributeError):
+        return ()
+
+def get_networks(uci: EUci):
+    networks = {}
+    devices = utils.get_all_by_type(uci, 'network', 'device')
+    for section in utils.get_all_by_type(uci, 'network', 'interface'):
+        if section == "lan6" or section == "wan6": # skip IPv6 for now
+            continue
+        interface = uci.get_all('network', section)
+        device = interface.get("device")
+        if not device or device == "lo" or device.startswith("ipsec") or device.startswith("tun"):
+            continue
+        network = {"type": "ethernet", "name": device, "props": { "role": _get_role(uci, section), "ipaddr": _get_ip(section, uci), "netmask": _get_mask(section), "gateway": _get_gateway(section, uci)}}
+        # get bridge ports, exclude vlans over bridges
+        is_vlan = bool(re.search(r'\.\d+$', interface['device'])) # check if the device name ends with .<number>
+        if interface['device'].startswith('br') and not is_vlan:
+            network["type"] = "bridge"
+            for d in devices:
+                if uci.get('network', d, 'name') == device:
+                    network['props']["bridge"] = uci.get('network', d, 'ports', default=[])
+        networks[device] = network
+    return networks
+
+def get_version():
+    version = ""
+    with open('/etc/os-release', 'r') as file:
+        for line in file:
+            if line.startswith("VERSION_ID="):
+                version = line.split('=')[1].replace('"','').rstrip()
+                break
+    return version
+
+def get_product():
+    product = ""
+    try:
+        with open('/sys/devices/virtual/dmi/id/product_name', 'r') as f:
+            product = f.read().strip()
+    except:
+        pass
+    if not product:
+        try:
+            with open('/etc/board.json', 'r') as f:
+                binfo = json.load(f)
+            product = binfo['model']['name']
+        except:
+            product = ""
+    return product
+
+def is_virtual():
+    cpu_info = _run_json('lscpu -J')['lscpu']
+    return _get_cpu_field("Hypervisor vendor", cpu_info) if _get_cpu_field("Hypervisor vendor", cpu_info) else 'physical'
+
+def get_cpu_info():
+    cpu_info = _run_json('lscpu -J')['lscpu']
+    return {
+        "model": _get_cpu_field("Model name", cpu_info),
+        "architecture": _get_cpu_field("Architecture", cpu_info)
+    }
+
+def get_pci_info():
+    # map kernel driver to device id
+    drivers = {}
+    for line in _run("find /sys | grep '.*/drivers/.*/0000:.*$' | cut -d'/' -f6,7").split('\n'):
+        try:
+            (driver,bus) = line.split("/0000:")
+            drivers[bus] = driver
+        except:
+            continue
+
+    # lspci -n: 00:1b.0 0403: 8086:293e (rev 03)
+    # fields:   bus class vendor:device revision
+    pci = {}
+    if os.path.isdir('/proc/bus/pci'):
+        for line in _run("lspci -n").split("\n"):
+            revision = ''
+            fields = line.split(" ", maxsplit=4)
+            (vendor, device) = fields[2].split(":")
+            if len(fields) > 3:
+                revision = fields[4]
+            pci[fields[0]] = {"class_id": fields[1].rstrip(":"), "vendor_id": vendor, "device_id": device, "revision": revision.strip(')')}
+
+        # lspci -mm: 00:00.0 "Host bridge" "Intel Corporation" "82G33/G31/P35/P31 Express DRAM Controller" -p00 "Red Hat, Inc." "QEMU Virtual Machine"
+        for fields in csv.reader(_run("lspci -mm").split("\n"), delimiter=' ', quotechar='"'):
+            pci[fields[0]]['class_name'] = fields[1].strip('"')
+            pci[fields[0]]['vendor_name'] = fields[2]
+            pci[fields[0]]['device_name'] = fields[3]
+            pci[fields[0]]['driver'] =  drivers.get(fields[0], '')
+    return pci
+
+def get_memory():
+    result = {}
+    try:
+        with open('/proc/meminfo', 'r') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                parts = line.split(':')
+                if len(parts) == 2:
+                    key = parts[0].strip()
+                    value = parts[1].strip().split()[0]  # Get the number, skip the unit (kB)
+                    result[key] = int(value) * 1024  # Convert from kB to bytes
+    except:
+        pass
+    if result:
+        result["MemUsed"] = result.get('MemTotal', 0) - result.get('MemFree', 0) - result.get('Buffers', 0) - result.get('Cached', 0)
+        result["SwapUsed"] = result.get('SwapTotal', 0) - result.get('SwapFree', 0)
+    return result
+
+def get_mount_points():
+    result = {}
+    exclude_mounts = {'/rom', '/overlay', '/dev'}
+    seen_mounts = set()
+
+    try:
+        output = _run("df -P")
+        lines = output.strip().split('\n')
+        # Skip header line
+        for line in lines[1:]:
+            if not line.strip():
+                continue
+            parts = line.split()
+            if len(parts) >= 6:
+                mount_point = parts[5]
+                # Skip excluded mount points
+                if mount_point in exclude_mounts:
+                    continue
+                # Skip duplicates (keep first occurrence)
+                if mount_point in seen_mounts:
+                    continue
+                try:
+                    total = int(parts[1]) * 1024  # Convert from 1K blocks to bytes
+                    used = int(parts[2]) * 1024
+                    available = int(parts[3]) * 1024
+                    result[mount_point] = {
+                        'total_bytes': total,
+                        'used_bytes': used,
+                        'available_bytes': available
+                    }
+                    seen_mounts.add(mount_point)
+                except (ValueError, IndexError):
+                    continue
+    except:
+        pass
+
+    return result
+
+## Facts
+## These functions are used to send info about system to legacy my.nethesis.it
+## The format should not be changed until legacy my.nethesis.it is alive
 
 def fact_hotspot(uci: EUci):
     enabled = uci.get('dedalo', 'config', 'disabled', default='1') == '0'
@@ -169,7 +398,7 @@ def fact_ui(uci: EUci):
     return ret
 
 def fact_network(uci: EUci):
-    result = {
+    result: dict = {
         "zones": []
     }
     vlan_count = 0
@@ -246,6 +475,8 @@ def fact_network(uci: EUci):
 
     # Add route information to the result
     result['route_info'] = route_info
+
+    result['configuration'] = get_networks(uci)
 
     return result
 
@@ -533,6 +764,9 @@ def fact_default_password(uci: EUci):
 
     return { 'default_password': result.returncode == 0 }
 
+## Info
+## These functions are used to send info about system to new my.nethesis.it and phonehome.nethserver.org
+
 def info_fqdn(uci: EUci):
     system = uci.get_all('system')
     for section in system:
@@ -649,12 +883,6 @@ def info_default_ipv6(uci: EUci):
 
     return anonymize(ipv6, uci)
 
-def anonymize(value, uci: EUci):
-    if fact_subscription_status(uci).get('status', 'no') != "no":
-        return value
-    h = hashlib.sha256(value.encode()).hexdigest()
-    return f"anon-{h[:16]}"
-
 def info_package_updates_available(uci: EUci):
     """Check if package updates are available"""
     try:
@@ -670,17 +898,6 @@ def info_package_updates_available(uci: EUci):
         pass
     return False
 
-def parse_version(version_str):
-    # Remove "NethSecurity " prefix if present
-    if version_str.startswith('NethSecurity '):
-        version_str = version_str[13:]  # len('NethSecurity ') = 13
-    # Take only the part before "-"
-    version_str = version_str.split('-')[0]
-    # Convert to tuple of integers for comparison
-    try:
-        return tuple(int(x) for x in version_str.split('.'))
-    except (ValueError, AttributeError):
-        return ()
 def info_image_updates_available(uci: EUci):
     """Check if system image updates are available"""
     try:
@@ -699,3 +916,23 @@ def info_image_updates_available(uci: EUci):
     except:
         pass
     return False
+
+def info_dns_servers(uci: EUci):
+    dns_list = []
+    try:
+        for server in uci.get('dhcp', '@dnsmasq[0]', 'server', list=True, default=[]):
+            dns_list.append(server)
+    except:
+        pass
+    if not dns_list:
+        try:
+            with open('/tmp/resolv.conf.d/resolv.conf.auto', 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith('nameserver'):
+                        parts = line.split()
+                        if len(parts) > 1:
+                            dns_list.append(parts[1])
+        except:
+            pass
+    return dns_list
