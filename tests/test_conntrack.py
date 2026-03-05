@@ -257,6 +257,86 @@ conntrack_response = """<?xml version="1.0" encoding="utf-8"?>
             <id>1915971940</id>
         </meta>
     </flow>
+    <flow>
+        <meta direction="original">
+            <layer3 protonum="2" protoname="ipv4">
+                <src>10.0.0.1</src>
+                <dst>10.0.0.2</dst>
+            </layer3>
+            <layer4 protonum="6" protoname="tcp">
+                <sport>12345</sport>
+                <dport>80</dport>
+            </layer4>
+            <counters>
+                <packets>5</packets>
+                <bytes>500</bytes>
+            </counters>
+        </meta>
+        <meta direction="reply">
+            <layer3 protonum="2" protoname="ipv4">
+                <src>10.0.0.2</src>
+                <dst>10.0.0.1</dst>
+            </layer3>
+            <layer4 protonum="6" protoname="tcp">
+                <sport>80</sport>
+                <dport>12345</dport>
+            </layer4>
+            <counters>
+                <packets>3</packets>
+                <bytes>300</bytes>
+            </counters>
+        </meta>
+        <meta direction="independent">
+            <state>ESTABLISHED</state>
+            <timeout>120</timeout>
+            <mark>0</mark>
+            <use>1</use>
+            <id>1111111111</id>
+            <labels>
+                <label>web</label>
+                <label>trusted</label>
+            </labels>
+        </meta>
+    </flow>
+    <flow>
+        <meta direction="original">
+            <layer3 protonum="2" protoname="ipv4">
+                <src>10.0.0.3</src>
+                <dst>10.0.0.4</dst>
+            </layer3>
+            <layer4 protonum="17" protoname="udp">
+                <sport>5353</sport>
+                <dport>53</dport>
+            </layer4>
+            <counters>
+                <packets>1</packets>
+                <bytes>60</bytes>
+            </counters>
+        </meta>
+        <meta direction="reply">
+            <layer3 protonum="2" protoname="ipv4">
+                <src>10.0.0.4</src>
+                <dst>10.0.0.3</dst>
+            </layer3>
+            <layer4 protonum="17" protoname="udp">
+                <sport>53</sport>
+                <dport>5353</dport>
+            </layer4>
+            <counters>
+                <packets>1</packets>
+                <bytes>60</bytes>
+            </counters>
+        </meta>
+        <meta direction="independent">
+            <timeout>30</timeout>
+            <mark>0</mark>
+            <use>1</use>
+            <id>2222222222</id>
+            <labels>
+                <label>dns</label>
+            </labels>
+        </meta>
+    </flow>
 </conntrack>
 """
 
@@ -289,7 +369,41 @@ def test_fetch_connection_list(mocker: MockFixture):
     process_result.stdout = conntrack_response
     mocker.patch('subprocess.run', return_value=process_result)
     result = conntrack.list_connections()
-    assert len(result) == 7
+    assert len(result) == 9
+
+
+def test_list_connections_label_filter(mocker: MockFixture):
+    process_result = mocker.stub('subprocess_return')
+    process_result.stdout = conntrack_response
+    subprocess_mock = mocker.patch('subprocess.run', return_value=process_result)
+
+    # single label – '-l' flag appended with the label value
+    conntrack.list_connections(labels=['web'])
+    subprocess_mock.assert_called_with(
+        ['conntrack', '-L', '-o', 'labels,xml', '-l', 'web'],
+        capture_output=True, text=True
+    )
+
+    # multiple labels joined by comma
+    conntrack.list_connections(labels=['web', 'trusted'])
+    subprocess_mock.assert_called_with(
+        ['conntrack', '-L', '-o', 'labels,xml', '-l', 'web,trusted'],
+        capture_output=True, text=True
+    )
+
+    # no labels – no '-l' flag
+    conntrack.list_connections()
+    subprocess_mock.assert_called_with(
+        ['conntrack', '-L', '-o', 'labels,xml'],
+        capture_output=True, text=True
+    )
+
+    # empty list – no '-l' flag
+    conntrack.list_connections(labels=[])
+    subprocess_mock.assert_called_with(
+        ['conntrack', '-L', '-o', 'labels,xml'],
+        capture_output=True, text=True
+    )
 
 
 def test_drop_connection(mocker: MockFixture):
