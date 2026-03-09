@@ -802,7 +802,7 @@ def info_uptime_seconds(uci: EUci):
 def info_default_ipv4(uci: EUci):
     # first method: dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com
     try:
-        res = subprocess.run(['dig', '-4', 'TXT', '+short', 'o-o.myaddr.l.google.com', '@ns1.google.com'],
+        res = subprocess.run(['dig', '-4', '+short', 'myip.opendns.com', '@resolver1.opendns.com'],
                              capture_output=True, text=True, timeout=3)
         if res.returncode == 0 and res.stdout.strip():
             ip = res.stdout.strip().strip('"')
