@@ -562,6 +562,9 @@ def fact_firewall_stats(uci: EUci):
 def fact_storage(uci: EUci):
     return {"enabled": uci.get("fstab", "ns_data", "enabled", default="0") == "1"}
 
+def fact_clm(uci: EUci):
+    return {"enabled": uci.get("ns-clm", "config", "enabled", default="0") == "1"}
+
 def fact_proxy_pass(uci: EUci):
     ret = { "count": 0}
     try:
