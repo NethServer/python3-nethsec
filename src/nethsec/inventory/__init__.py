@@ -920,7 +920,7 @@ def info_image_updates_available(uci: EUci):
 def info_dns_servers(uci: EUci):
     dns_list = []
     try:
-        for server in uci.get('dhcp', '@dnsmasq[0]', 'server', list=True, default=[]):
+        for server in uci.get('dhcp', 'ns_dnsmasq', 'server', list=True, default=[]):
             dns_list.append(server)
     except:
         pass
