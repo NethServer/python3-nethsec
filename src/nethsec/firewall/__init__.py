@@ -1463,7 +1463,7 @@ def validate_rule(uci, src: str, src_ip: list[str], dest: str, dest_ip: list[str
         dest: destination zone, must be zone name, not config name
         dest_ip: a list of destination ip
         proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
-        dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
+        dest_port: a list of destination ports, each element can be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
         target: target, must be one of 'ACCEPT', 'REJECT', 'DROP', 'NOTRACK'
         service: service name
         ns_src: an object in the form `<database>/<id>`
@@ -1679,7 +1679,7 @@ def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: li
         dest: destination zone, must be zone name, not config name
         dest_ip: a list of destination ip
         proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
-        dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
+        dest_port: a list of destination ports, each element can be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
         target: target, must be one of 'ACCEPT', 'REJECT', 'DROP', 'NOTRACK'
         service: service name
         enabled: if True, rule is enabled, if False, rule is disabled
@@ -1727,7 +1727,7 @@ def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, d
         dest: destination zone, must be zone name, not config name
         dest_ip: a list of destination ip
         proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
-        dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
+        dest_port: a list of destination ports, each element can be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
         target: target, must be one of 'ACCEPT', 'REJECT', 'DROP', 'NOTRACK'
         service: service name
         enabled: if True, rule is enabled, if False, rule is disabled
