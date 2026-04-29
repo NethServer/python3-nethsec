@@ -1239,3 +1239,9 @@ def test_ns_link_rules(u):
     assert u.get('firewall', rid, 'ns_link', default=None) is None
     rid = firewall.add_rule(u, 'ns_link_rule_no_link', 'lan', [], 'wan', [], [], [], 'ACCEPT', '')
     assert u.get('firewall', rid, 'ns_link', default=None) is None
+
+def test_notrack_rule(u):
+    rid = firewall.add_rule(u, 'notrack_rule', 'lan', ['192.168.1.0/24'], 'wan', [], [], [], 'NOTRACK', '')
+    assert u.get("firewall", rid, "target") == "NOTRACK"
+    rid2 = firewall.edit_rule(u, rid, 'notrack_rule', 'lan', ['192.168.1.0/24'], 'wan', [], [], [], 'NOTRACK', '')
+    assert u.get("firewall", rid2, "target") == "NOTRACK"
