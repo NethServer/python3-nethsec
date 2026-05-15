@@ -1,25 +1,22 @@
-FROM python:3.11.7
+FROM python:3.13.9
 RUN apt-get update \
     && apt-get install -y \
-      cmake \
-      liblua5.1-0-dev \
-      lua5.1 \
-      libjson-c-dev
+    cmake \
+    liblua5.1-0-dev \
+    lua5.1 \
+    libjson-c-dev
 
-RUN mkdir /tmp/requirements \
-    && git clone https://github.com/openwrt/libubox.git /tmp/requirements/libubox \
-    && cd /tmp/requirements/libubox \
-    && git checkout 49056d178f42da98048a5d4c23f83a6f6bc6dd80 \
+ADD https://github.com/openwrt/libubox.git#815633847cd32ffe6da28943cbeb37edc88265c8 /tmp/requirements/libubox
+ADD https://github.com/openwrt/ubus.git#3cc98db1a422dcf560f2d6347fd410f17565a89d /tmp/requirements/ubus
+ADD https://github.com/openwrt/uci.git#66127cd76c5d0bd46d5a90302cc6110f53a4e2f8 /tmp/requirements/uci
+
+RUN cd /tmp/requirements/libubox \
     && cmake CMakeLists.txt \
     && make install \
-    && git clone https://github.com/openwrt/ubus.git /tmp/requirements/ubus \
     && cd /tmp/requirements/ubus \
-    && git checkout 60e04048a0e2f3e33651c19e62861b41be4c290f \
     && cmake CMakeLists.txt \
     && make install \
-    && git clone https://github.com/openwrt/uci.git /tmp/requirements/uci \
     && cd /tmp/requirements/uci \
-    && git checkout 16ff0badbde7e17ec3bd1f827ffe45922956cf86 \
     && cmake CMakeLists.txt \
     && make install \
     && rm -rf /tmp/requirements \
