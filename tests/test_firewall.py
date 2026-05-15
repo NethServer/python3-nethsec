@@ -960,6 +960,27 @@ def test_edit_rule(u, mocker):
     assert u.get_all("firewall", rid, "proto") == ('tcp',)
     assert u.get("firewall", rid, "dest_port") == "80"
 
+def test_add_rule_with_notrack(u, mocker):
+    mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
+    mock_isfile = mocker.patch('os.path.isfile')
+    mock_isfile.return_value = True
+    rid = firewall.add_rule(u, 'notrack_rule', 'lan', ['192.168.1.0/24'], 'wan', [], [], '', 'NOTRACK', "*", True, False, [], False)
+    assert u.get("firewall", rid, "name") == "notrack_rule"
+    assert u.get("firewall", rid, "target") == "NOTRACK"
+    assert u.get("firewall", rid, "src") == "lan"
+    assert u.get("firewall", rid, "dest") == "wan"
+    assert u.get_all("firewall", rid, "src_ip") == ("192.168.1.0/24",)
+    assert u.get("firewall", rid, "enabled") == "1"
+
+def test_edit_rule_to_notrack(u, mocker):
+    mocker.patch('builtins.open', mocker.mock_open(read_data=services_file))
+    mock_isfile = mocker.patch('os.path.isfile')
+    mock_isfile.return_value = True
+    rid = firewall.add_rule(u, 'rule_to_change', 'lan', [], 'wan', [], [], '', 'ACCEPT', "*", True, False, [], False)
+    assert u.get("firewall", rid, "target") == "ACCEPT"
+    firewall.edit_rule(u, rid, 'rule_to_change', 'lan', [], 'wan', [], [], '', 'NOTRACK', "*", True, False, [])
+    assert u.get("firewall", rid, "target") == "NOTRACK"
+
 def test_delete_rule(u):
     ids =  firewall.list_rule_ids(u)
     id_to_delete = ids.pop()
