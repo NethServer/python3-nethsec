@@ -18,7 +18,7 @@ from euci import EUci
 from nethsec import utils, objects
 
 PROTOCOLS = ['tcp', 'udp', 'udplite', 'icmp', 'esp', 'ah', 'sctp']
-TARGETS = ['ACCEPT', 'DROP', 'REJECT']
+TARGETS = ['ACCEPT', 'DROP', 'REJECT', 'NOTRACK']
 
 def add_device_to_zone(uci, device, zone):
     '''
@@ -1464,7 +1464,7 @@ def validate_rule(uci, src: str, src_ip: list[str], dest: str, dest_ip: list[str
         dest_ip: a list of destination ip
         proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
         dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
-        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP', 'NOTRACK'
         service: service name
         ns_src: an object in the form `<database>/<id>`
         ns_dst: an object in the form `<database>/<id>`
@@ -1533,7 +1533,7 @@ def setup_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, 
             dest_ip: a list of destination IP addresses
             proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
             dest_port: a list of destination ports, each element can be a port number, a comma-separated list of port numbers, or a range with `-` (e.g., 80-90)
-            target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+            target: target, must be one of 'ACCEPT', 'REJECT', 'DROP', 'NOTRACK'
             service: service name
             enabled: if True, rule is enabled; if False, rule is disabled
             log: if True, log traffic
@@ -1680,7 +1680,7 @@ def add_rule(uci, name: str, src: str, src_ip: list[str], dest: str, dest_ip: li
         dest_ip: a list of destination ip
         proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
         dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
-        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP', 'NOTRACK'
         service: service name
         enabled: if True, rule is enabled, if False, rule is disabled
         log: if True, log traffic
@@ -1728,7 +1728,7 @@ def edit_rule(uci, id: str, name: str, src: str, src_ip: list[str], dest: str, d
         dest_ip: a list of destination ip
         proto: protocol, must be a list of protocols in "tcp", "udp", "udplite", "icmp", "esp", "ah", "sctp"
         dest_port: a list of destination ports, each element cna be be a port number, a comma-separated list of port numbers or a range with `-` (eg. 80-90)
-        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP'
+        target: target, must be one of 'ACCEPT', 'REJECT', 'DROP', 'NOTRACK'
         service: service name
         enabled: if True, rule is enabled, if False, rule is disabled
         log: if True, log traffic
