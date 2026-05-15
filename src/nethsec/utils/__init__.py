@@ -435,7 +435,7 @@ def get_user_by_username(uci, username):
       - The user object id (UCI section) if the user has been found, None otherwise
     '''
     users = get_all_by_type(uci, 'objects', 'user')
-    for user in get_all_by_type("users", "user"):
+    for user in get_all_by_type(uci, "users", "user"):
         if users[user].get("username", "") == username:
             users[user]["id"] = user
             return users[user]

@@ -35,8 +35,6 @@ keyed by ID as its not the job of this module to detect or deal with
 duplicate signature IDs.
 """
 
-from __future__ import print_function
-
 import sys
 import re
 import logging
