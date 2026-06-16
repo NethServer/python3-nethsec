@@ -363,6 +363,15 @@ def fact_controller(uci: EUci):
     else:
         return { "enabled": False}
 
+def fact_rpcd_users(uci: EUci):
+    count = 0
+    for section, options in (utils.get_all_by_type(uci, 'rpcd', 'login') or {}).items():
+        # skip root and the controller user (controller has a random username)
+        if options.get('username') == 'root' or section == 'controller':
+            continue
+        count += 1
+    return { 'count': count }
+
 def fact_threat_shield(uci: EUci):
     ret = { 'enabled': False, 'community': 0, 'enterprise': 0 }
     ret['enabled'] = uci.get('banip', 'global', 'ban_enabled', default='0') == '1'

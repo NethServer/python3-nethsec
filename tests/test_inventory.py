@@ -758,6 +758,20 @@ config adblock 'global'
 	list adb_sources 'yoroi_malware_level1'
 """
 
+rpcd_db = """
+config rpcd
+	option dummy 'to get ignored'
+
+config login
+	option username 'root'
+
+config login 'controller'
+	option username 'gibblerish'
+
+config login 'ns_7fe3e016'
+	option username 'example'
+"""
+
 def _setup_db(tmp_path):
      # setup fake db
     with tmp_path.joinpath('network').open('w') as fp:
@@ -796,6 +810,8 @@ def _setup_db(tmp_path):
         fp.write(objects_db)
     with tmp_path.joinpath('adblock').open('w') as fp:
         fp.write(adblock_db)
+    with tmp_path.joinpath('rpcd').open('w') as fp:
+        fp.write(rpcd_db)
     return EUci(confdir=tmp_path.as_posix())
 
 def test_fact_hotspot(tmp_path):
@@ -842,6 +858,10 @@ def test_fact_subscription_status(tmp_path):
 def test_fact_controller(tmp_path):
 	u = _setup_db(tmp_path)
 	assert inventory.fact_controller(u) == {"enabled": False}
+
+def test_fact_rpcd_users(tmp_path):
+	u = _setup_db(tmp_path)
+	assert inventory.fact_rpcd_users(u) == {"count": 1}
      
 def test_fact_threat_shield(tmp_path):
 	u = _setup_db(tmp_path)
